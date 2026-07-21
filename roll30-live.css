@@ -204,6 +204,11 @@ audio { width: 100%; margin-top: 12px; }
 .gm-override-panel { margin:16px 0;padding:14px 16px;border:1px solid var(--border-strong);border-radius:14px;background:var(--panel-raised); }
 .gm-override-panel summary { cursor:pointer;font-weight:800;color:var(--accent-strong); }
 .token-control-group { display:flex;flex-wrap:wrap;align-items:center;gap:7px;padding:8px;border:1px solid var(--border);border-radius:11px;background:var(--panel-raised); }
+.world-flags,.history-summary { display:grid;gap:8px;margin:12px 0 22px; }
+.world-flags article,.history-summary article { display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 13px;border:1px solid var(--border);border-radius:11px;background:var(--panel); }
+.world-flags article.active { border-color:color-mix(in srgb,var(--success) 52%,var(--border)); }
+.world-flags article > div { display:flex;flex-wrap:wrap;gap:6px; }
+.history-summary article { align-items:flex-start;flex-direction:column;gap:2px; }
 
 dialog { width: min(480px, calc(100% - 28px)); max-height: calc(100vh - 40px); overflow: auto; padding: 24px; border: 1px solid var(--border-strong); border-radius: var(--radius-lg); background: var(--panel); color: var(--text); box-shadow: var(--shadow); }
 dialog::backdrop { background: rgb(3 4 7 / 72%); backdrop-filter: blur(3px); }

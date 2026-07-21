@@ -694,6 +694,22 @@ select pg_temp.roll30_assert(
   and exists(select 1 from public.messages where campaign_id=(select id from roll30_test_context where key='gm_campaign') and body->>'custom_outcome'='true'),
   'GM custom outcome was not announced and recorded'
 );
+select public.set_roll30_world_flag((select id from roll30_test_context where key='gm_campaign'),'Moon gate unlocked',true,false);
+select pg_temp.roll30_assert(
+  (select settings->'world_flags' @> '[{"name":"Moon gate unlocked","enabled":true}]'::jsonb from public.campaigns where id=(select id from roll30_test_context where key='gm_campaign'))
+  and exists(select 1 from public.session_events where session_id=(select id from roll30_test_context where key='session') and event_type='world_flag_changed'),
+  'saved-world story flag did not persist or enter history'
+);
+select public.set_roll30_world_flag((select id from roll30_test_context where key='gm_campaign'),'Moon gate unlocked',false,false);
+select pg_temp.roll30_assert(
+  (select settings->'world_flags' @> '[{"name":"Moon gate unlocked","enabled":false}]'::jsonb from public.campaigns where id=(select id from roll30_test_context where key='gm_campaign')),
+  'saved-world story flag could not be toggled'
+);
+select public.set_roll30_world_flag((select id from roll30_test_context where key='gm_campaign'),'Moon gate unlocked',false,true);
+select pg_temp.roll30_assert(
+  (select jsonb_array_length(settings->'world_flags')=0 from public.campaigns where id=(select id from roll30_test_context where key='gm_campaign')),
+  'saved-world story flag could not be deleted'
+);
 select public.set_roll30_session_presentation(
   (select id from roll30_test_context where key='session'),'dusk','rain',
   (select id from roll30_test_context where key='ambient_asset'),true
