@@ -45,7 +45,7 @@
     }
     if (view === 'prompts') {
       const { data = [] } = await query('prompts');
-      return `<section><div class="live-title"><h2>Player prompts</h2><button data-dialog="prompt">New prompt</button></div>${cards(data, p => `<b>${esc(p.title)}</b><small>${esc(p.body || '')} · ${esc(p.status)}</small>`)}</section>`;
+      return `<section><div class="live-title"><h2>Player prompts</h2><button data-dialog="prompt">New prompt</button></div>${cards(data, p => `<b>${esc(p.title)}</b><small>${esc(p.body || '')} · ${esc(p.status)}</small><form class="prompt-response" data-prompt="${p.id}"><input placeholder="Your response" required><button>Respond</button></form>`)}</section>`;
     }
     if (view === 'shops') {
       const { data = [] } = await query('shops');
@@ -85,6 +85,7 @@
     if (messageForm) messageForm.onsubmit = async e => { e.preventDefault(); const text = document.getElementById('message-text').value.trim(); if (!text) return; const { error } = await db.client.from('messages').insert({ campaign_id:campaignId, sender_id:session.user.id, kind:'message', body:{ text } }); if (error) return notice(error.message, true); render('messages'); };
     const mediaForm = document.getElementById('upload-media');
     if (mediaForm) mediaForm.onsubmit = async e => { e.preventDefault(); const file = document.getElementById('media-file').files[0]; if (!file) return; const path = `${campaignId}/${crypto.randomUUID()}-${file.name.replace(/[^a-zA-Z0-9._-]/g,'_')}`; notice('Uploading media…'); const { error: uploadError } = await db.client.storage.from('campaign-media').upload(path, file); if (uploadError) return notice(uploadError.message, true); const kind = file.type.startsWith('audio/') ? 'audio' : file.type === 'application/pdf' ? 'handout' : 'image'; const { error } = await db.client.from('campaign_assets').insert({ campaign_id:campaignId, uploaded_by:session.user.id, kind, storage_path:path, label:file.name }); if (error) return notice(error.message, true); render('media'); };
+    app.querySelectorAll('.prompt-response').forEach(form => form.onsubmit = async e => { e.preventDefault(); const text = form.querySelector('input').value.trim(); const { error } = await db.client.from('prompt_responses').upsert({ prompt_id:form.dataset.prompt, user_id:session.user.id, response:{ text } }); if (error) notice(error.message, true); else notice('Response sent to the GM.'); });
     const start = document.getElementById('start-session');
     if (start) start.onclick = async () => { const { data: sessions } = await query('sessions'); let active = sessions.find(s => s.status === 'active'); if (!active) { const result = await db.client.from('sessions').insert({ campaign_id:campaignId }).select().single(); if (result.error) return notice(result.error.message, true); active = result.data; } localStorage.setItem('roll30.sessionId', active.id); render('session'); };
     const advance = document.getElementById('advance-turn');
