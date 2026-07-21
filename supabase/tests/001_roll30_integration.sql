@@ -597,6 +597,11 @@ select pg_temp.roll30_assert(
   'anonymous role still has an onboarding RPC grant'
 );
 select pg_temp.roll30_assert(
+  (select count(*)=21 from pg_publication_tables where pubname='supabase_realtime' and schemaname='public'
+    and tablename=any(array['sessions','messages','prompts','prompt_responses','purchase_requests','session_events','characters','scene_objects','campaign_assets','campaign_members','campaign_notes','character_inventory','items','scene_templates','scenes','session_exploration','session_reveals','session_snapshots','shop_stock','shops','automation_executions'])),
+  'the complete authorized realtime table set is not published'
+);
+select pg_temp.roll30_assert(
   not has_table_privilege('authenticated', 'public.session_reveals', 'INSERT,UPDATE,DELETE'),
   'clients can bypass the checked manual-reveal RPC'
 );

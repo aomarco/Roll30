@@ -523,7 +523,21 @@ import { bindCompendium, compendiumView } from './roll30/compendium.js';
       .on('postgres_changes',{event:'*',schema:'public',table:'prompts',filter:`campaign_id=eq.${campaignId}`},() => currentView === 'prompts' ? render('prompts') : notice('Player prompts updated.'))
       .on('postgres_changes',{event:'*',schema:'public',table:'prompt_responses'},() => { if (currentView === 'prompts') render('prompts'); })
       .on('postgres_changes',{event:'*',schema:'public',table:'scene_objects'},() => { if (currentView === 'session') render('session'); })
-      .on('postgres_changes',{event:'*',schema:'public',table:'purchase_requests'},() => { if (['shops','purchases','inventory'].includes(currentView)) render(currentView); });
+      .on('postgres_changes',{event:'*',schema:'public',table:'purchase_requests'},() => { if (['shops','purchases','inventory'].includes(currentView)) render(currentView); })
+      .on('postgres_changes',{event:'*',schema:'public',table:'campaign_notes',filter:`campaign_id=eq.${campaignId}`},() => { if(currentView==='notes')render('notes');else notice('Campaign notes or handouts changed.'); })
+      .on('postgres_changes',{event:'*',schema:'public',table:'campaign_assets',filter:`campaign_id=eq.${campaignId}`},() => { if(['media','scenes','characters'].includes(currentView))render(currentView); })
+      .on('postgres_changes',{event:'*',schema:'public',table:'items',filter:`campaign_id=eq.${campaignId}`},() => { if(['items','shops','inventory'].includes(currentView))render(currentView); })
+      .on('postgres_changes',{event:'*',schema:'public',table:'shops',filter:`campaign_id=eq.${campaignId}`},() => { if(currentView==='shops')render('shops'); })
+      .on('postgres_changes',{event:'*',schema:'public',table:'shop_stock'},() => { if(currentView==='shops')render('shops'); })
+      .on('postgres_changes',{event:'*',schema:'public',table:'character_inventory'},() => { if(currentView==='inventory')render('inventory'); })
+      .on('postgres_changes',{event:'*',schema:'public',table:'scenes',filter:`campaign_id=eq.${campaignId}`},() => { if(['scenes','templates'].includes(currentView))render(currentView); })
+      .on('postgres_changes',{event:'*',schema:'public',table:'scene_templates',filter:`campaign_id=eq.${campaignId}`},() => { if(currentView==='templates')render('templates'); })
+      .on('postgres_changes',{event:'*',schema:'public',table:'session_snapshots'},() => { if(currentView==='session')render('session'); })
+      .on('postgres_changes',{event:'*',schema:'public',table:'session_reveals'},() => { if(currentView==='session')render('session'); })
+      .on('postgres_changes',{event:'*',schema:'public',table:'session_exploration'},() => { if(currentView==='session')render('session'); })
+      .on('postgres_changes',{event:'*',schema:'public',table:'automation_executions'},() => { if(currentView==='automation')render('automation'); })
+      .on('postgres_changes',{event:'INSERT',schema:'public',table:'session_events'},() => { if(currentView==='history')render('history'); })
+      .on('postgres_changes',{event:'*',schema:'public',table:'campaign_members',filter:`campaign_id=eq.${campaignId}`},() => { if(currentView==='settings')load(); });
     channel.subscribe(status => { if (status === 'SUBSCRIBED') { channel.track({user_id:session.user.id}); if(realtimeSubscribedOnce && currentView==='session')render('session'); realtimeSubscribedOnce=true; } });
   }
   document.addEventListener('DOMContentLoaded', () => { ensurePrivateAccess().then(load).catch(error => { app.innerHTML = `<main class="startup-state"><section class="error-panel" role="alert"><h2>Roll30 could not load</h2><p>${esc(error.message)}</p><a class="button primary" href="./index.html">Return to campaigns</a></section></main>`; }); });
