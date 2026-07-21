@@ -108,6 +108,13 @@ with created as (
 insert into roll30_test_context(key, id) select 'target', id from created;
 
 with created as (
+  insert into public.characters(campaign_id, kind, name, sheet, hp_current, hp_max)
+  values ((select id from roll30_test_context where key = 'gm_campaign'), 'monster', 'Test Reinforcement', '{"armor_class":12,"speed":30}', 8, 8)
+  returning id
+)
+insert into roll30_test_context(key, id) select 'reinforcement', id from created;
+
+with created as (
   insert into public.items(campaign_id, name, item_data)
   values ((select id from roll30_test_context where key = 'gm_campaign'), 'Test Potion', '{"type":"consumable","effect":{"healing":3}}')
   returning id
@@ -128,8 +135,12 @@ with created as (
   returning id
 )
 insert into roll30_test_context(key,id) select 'secret_object',id from created;
-insert into public.scene_objects(scene_id,name,object_type,x,y,config,state,visible_to_players)
-values ((select id from roll30_test_context where key='scene'),'Visible door','door',70,0,'{"x2":70,"y2":100}','{"active":true}',true);
+with created as (
+  insert into public.scene_objects(scene_id,name,object_type,x,y,config,state,visible_to_players)
+  values ((select id from roll30_test_context where key='scene'),'Visible door','door',70,0,'{"x2":70,"y2":100}','{"active":true}',true)
+  returning id
+)
+insert into roll30_test_context(key,id) select 'door',id from created;
 insert into public.scene_objects(scene_id,name,object_type,x,y,config,visible_to_players)
 values ((select id from roll30_test_context where key='scene'),'Vision wall','wall',80,0,'{"x2":80,"y2":100}',false);
 insert into public.scene_objects(scene_id,name,object_type,x,y,config,state,visible_to_players)
@@ -140,6 +151,22 @@ with created as (
   values ((select id from roll30_test_context where key='scene'),'Test Fog','{"delay_seconds":0}','[{"type":"show_fog"}]',true) returning id
 )
 insert into roll30_test_context(key,id) select 'trigger',id from created;
+
+with created as (
+  insert into public.scene_triggers(scene_id,name,trigger,effects,run_once)
+  values (
+    (select id from roll30_test_context where key='scene'),
+    'Lever opens door and calls reinforcements',
+    jsonb_build_object('event','object_activated','object_id',(select id from roll30_test_context where key='secret_object'),'delay_seconds',0),
+    jsonb_build_array(
+      jsonb_build_object('type','toggle_object','object_id',(select id from roll30_test_context where key='door')),
+      jsonb_build_object('type','spawn_character','character_id',(select id from roll30_test_context where key='reinforcement'),'x',60,'y',60),
+      jsonb_build_object('type','message','text','Reinforcements arrive!')
+    ),
+    true
+  ) returning id
+)
+insert into roll30_test_context(key,id) select 'chain_trigger',id from created;
 
 update public.campaign_members
 set character_id = (select id from roll30_test_context where key = 'hero')
@@ -214,6 +241,24 @@ select pg_temp.roll30_assert((select x=25 and layer='gm' from public.scene_objec
 select public.execute_roll30_trigger((select id from roll30_test_context where key='trigger'),(select id from roll30_test_context where key='session'),'test-key');
 select pg_temp.roll30_assert((select (state->>'fog')::boolean from public.sessions where id=(select id from roll30_test_context where key='session')),'automation effect did not update session state');
 select pg_temp.roll30_expect_error(format('select public.execute_roll30_trigger(%L::uuid,%L::uuid,%L)',(select id from roll30_test_context where key='trigger'),(select id from roll30_test_context where key='session'),'test-key'),'Execution key already exists');
+select public.activate_roll30_scene_object((select id from roll30_test_context where key='session'),(select id from roll30_test_context where key='secret_object'));
+select pg_temp.roll30_assert(
+  exists(select 1 from public.session_tokens where session_id=(select id from roll30_test_context where key='session') and character_id=(select id from roll30_test_context where key='reinforcement'))
+  and (select not coalesce((state->>'active')::boolean,false) from public.scene_objects where id=(select id from roll30_test_context where key='door'))
+  and (select count(*)=1 from public.automation_executions where trigger_id=(select id from roll30_test_context where key='chain_trigger') and status='completed'),
+  'automatic object trigger chain did not toggle the door, spawn reinforcement, and log once'
+);
+select pg_temp.roll30_assert(
+  (public.preview_roll30_last_undo((select id from roll30_test_context where key='session'))->>'event_type')='automation_chain_completed',
+  'automation chain was not available for recovery preview'
+);
+select public.undo_roll30_last_action((select id from roll30_test_context where key='session'));
+select pg_temp.roll30_assert(
+  not exists(select 1 from public.session_tokens where session_id=(select id from roll30_test_context where key='session') and character_id=(select id from roll30_test_context where key='reinforcement'))
+  and (select coalesce((state->>'active')::boolean,false) from public.scene_objects where id=(select id from roll30_test_context where key='door'))
+  and (select not coalesce((state->>'active')::boolean,false) from public.scene_objects where id=(select id from roll30_test_context where key='secret_object')),
+  'automation chain undo did not restore tokens and scene object states'
+);
 select public.set_roll30_manual_reveal((select id from roll30_test_context where key='session'),array['30000000-0000-4000-a000-000000000102'::uuid],'[[10,40],[20,40],[20,60],[10,60]]');
 select pg_temp.roll30_assert(
   (select jsonb_array_length(state -> 'initiative') from public.sessions where id = (select id from roll30_test_context where key = 'session')) = 1,
