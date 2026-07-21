@@ -102,7 +102,7 @@ insert into roll30_test_context(key, id) select 'hero', id from created;
 
 with created as (
   insert into public.characters(campaign_id, kind, name, sheet, hp_current, hp_max)
-  values ((select id from roll30_test_context where key = 'gm_campaign'), 'monster', 'Test Target', '{"armor_class":10}', 12, 12)
+  values ((select id from roll30_test_context where key = 'gm_campaign'), 'monster', 'Test Target', '{"armor_class":10,"abilities":{"con":10},"concentration":"Web"}', 12, 12)
   returning id
 )
 insert into roll30_test_context(key, id) select 'target', id from created;
@@ -116,7 +116,7 @@ insert into roll30_test_context(key, id) select 'reinforcement', id from created
 
 with created as (
   insert into public.items(campaign_id, name, item_data)
-  values ((select id from roll30_test_context where key = 'gm_campaign'), 'Test Potion', '{"type":"consumable","effect":{"healing":3}}')
+  values ((select id from roll30_test_context where key = 'gm_campaign'), 'Test Potion', '{"type":"consumable","charges":2,"effect":{"healing":3}}')
   returning id
 )
 insert into roll30_test_context(key, id) select 'potion', id from created;
@@ -364,6 +364,15 @@ select public.use_roll30_spell_slot((select id from roll30_test_context where ke
 select pg_temp.roll30_assert((select sheet->'spellcasting'->'slots'->0->>'current'='1' from public.characters where id=(select id from roll30_test_context where key='hero')),'spell slot did not decrement');
 select public.rest_roll30_character((select id from roll30_test_context where key='hero'),'long');
 select pg_temp.roll30_assert((select sheet->'spellcasting'->'slots'->0->>'current'='2' from public.characters where id=(select id from roll30_test_context where key='hero')),'long rest did not restore spell slots');
+select public.use_roll30_item_charge((select id from roll30_test_context where key='hero'),(select id from roll30_test_context where key='potion'),1);
+select pg_temp.roll30_assert(
+  (select metadata->'charges'->>'current'='1' and metadata->'charges'->>'max'='2' from public.character_inventory where character_id=(select id from roll30_test_context where key='hero') and item_id=(select id from roll30_test_context where key='potion')),
+  'server-validated charged-item use did not decrement the inventory counter'
+);
+select pg_temp.roll30_expect_error(
+  format('select public.use_roll30_item_charge(%L::uuid,%L::uuid,2)',(select id from roll30_test_context where key='hero'),(select id from roll30_test_context where key='potion')),
+  'Not enough item charges remain'
+);
 select pg_temp.roll30_expect_error(
   format('select public.update_roll30_character_sheet(%L::uuid,0,%L::jsonb,10,10,null)',
     (select id from roll30_test_context where key = 'hero'), '{"abilities":{"str":12}}'),
@@ -433,8 +442,9 @@ select public.resolve_roll30_combat_attack(
   (select id from roll30_test_context where key = 'target'),0,1
 );
 select pg_temp.roll30_assert(
-  (select count(*) from public.messages where campaign_id = (select id from roll30_test_context where key = 'gm_campaign') and kind = 'attack') = 1,
-  'server-resolved combat did not record an attack message'
+  (select count(*) from public.messages where campaign_id = (select id from roll30_test_context where key = 'gm_campaign') and kind = 'attack') = 1
+  and (select body->>'target_id'=(select id::text from roll30_test_context where key='target') and body->>'from_hp'='12' and body->>'concentration_dc'='10' from public.messages where campaign_id=(select id from roll30_test_context where key='gm_campaign') and kind='attack' limit 1),
+  'server-resolved combat did not record reversible damage and a concentration check'
 );
 select public.change_roll30_hp((select id from roll30_test_context where key='hero'),-100);
 select pg_temp.roll30_assert(((public.roll_roll30_death_save((select id from roll30_test_context where key='hero')))->>'roll')::integer between 1 and 20,'death save did not produce a server roll');
@@ -474,6 +484,15 @@ select public.undo_roll30_last_action((select id from roll30_test_context where 
 select pg_temp.roll30_assert(
   (select hp_current=10 from public.characters where id=(select id from roll30_test_context where key='hero')),
   'HP undo did not restore the previous hit points'
+);
+select pg_temp.roll30_assert(
+  (public.preview_roll30_last_undo((select id from roll30_test_context where key='session'))->>'event_type')='combat_attack',
+  'combat damage was not offered as the next reversible action'
+);
+select public.undo_roll30_last_action((select id from roll30_test_context where key='session'));
+select pg_temp.roll30_assert(
+  (select hp_current=12 and sheet->>'concentration'='Web' from public.characters where id=(select id from roll30_test_context where key='target')),
+  'combat undo did not restore target HP and concentration state'
 );
 select public.restore_roll30_snapshot((select id from roll30_test_context where key = 'snapshot'));
 select pg_temp.roll30_assert(
