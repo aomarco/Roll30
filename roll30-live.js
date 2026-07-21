@@ -7,6 +7,8 @@
   let campaign;
   let currentRole;
   let currentView = 'overview';
+  let onlineCount = 0;
+  let realtimeStarted = false;
 
   const esc = (value) => String(value ?? '').replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
   const query = (table) => db.client.from(table).select('*').eq('campaign_id', campaignId).order('created_at', { ascending:false });
@@ -20,6 +22,7 @@
     campaign = data;
     const { data: membership } = await db.client.from('campaign_members').select('role').eq('campaign_id', campaignId).eq('user_id', session.user.id).single();
     currentRole = membership?.role;
+    startRealtime();
     render();
   }
 
@@ -121,7 +124,7 @@
       return `<section><div class="live-title"><h2>Campaign media</h2></div><form id="upload-media" class="live-form"><input id="media-file" type="file" accept="image/*,audio/*,.pdf" required><button>Upload</button></form>${cards(playable, a => `<b>${esc(a.label || a.storage_path.split('/').pop())}</b><small>${esc(a.kind)} · uploaded ${new Date(a.created_at).toLocaleDateString()}</small>${a.kind === 'image' && a.signedUrl ? `<img class="media-preview" src="${esc(a.signedUrl)}" alt="${esc(a.label || 'Campaign image')}">` : ''}${a.kind === 'audio' && a.signedUrl ? `<audio controls preload="none" src="${esc(a.signedUrl)}"></audio>` : ''}${a.kind === 'handout' && a.signedUrl ? `<a href="${esc(a.signedUrl)}" target="_blank" rel="noopener">Open handout</a>` : ''}`)}</section>`;
     }
     const [sceneRes, charRes, sessionRes] = await Promise.all([query('scenes'), query('characters'), query('sessions')]);
-    return `<section><h2>${esc(campaign.name)}</h2><p class="muted">${esc(campaign.system)} · Join code <strong>${esc(campaign.join_code)}</strong></p><div class="live-stats"><div><b>${sceneRes.data?.length || 0}</b><small>scenes</small></div><div><b>${charRes.data?.length || 0}</b><small>characters</small></div><div><b>${sessionRes.data?.filter(s => s.status === 'active').length || 0}</b><small>live sessions</small></div></div><p>Start by creating a scene or a character. Everything here belongs to this campaign and is shared with its members.</p></section>`;
+    return `<section><h2>${esc(campaign.name)}</h2><p class="muted">${esc(campaign.system)} · Join code <strong>${esc(campaign.join_code)}</strong></p><div class="live-stats"><div><b>${sceneRes.data?.length || 0}</b><small>scenes</small></div><div><b>${charRes.data?.length || 0}</b><small>characters</small></div><div><b>${sessionRes.data?.filter(s => s.status === 'active').length || 0}</b><small>live sessions</small></div><div><b>${onlineCount}</b><small>connected now</small></div></div><p>Start by creating a scene or a character. Everything here belongs to this campaign and is shared with its members.</p></section>`;
   }
   function cards(rows, renderCard) { return rows.length ? `<div class="live-cards">${rows.map(r => `<article>${renderCard(r)}</article>`).join('')}</div>` : '<p class="muted">Nothing here yet.</p>'; }
   async function render(view = 'overview') {
@@ -266,6 +269,13 @@
     dialog.showModal();
     dialog.querySelector('#object-form').onsubmit = async e => { e.preventDefault(); const { error } = await db.client.from('scene_objects').insert({scene_id:sceneId,name:dialog.querySelector('#object-name').value.trim(),object_type:dialog.querySelector('#object-type').value,x:Number(dialog.querySelector('#object-x').value),y:Number(dialog.querySelector('#object-y').value)}); if(error) return notice(error.message,true); dialog.close(); render('session'); };
   }
-  db.client.channel('roll30-live').on('postgres_changes',{event:'*',schema:'public',table:'sessions',filter:`campaign_id=eq.${campaignId}`},() => currentView === 'session' ? render('session') : notice('Live session updated.')).on('postgres_changes',{event:'INSERT',schema:'public',table:'messages',filter:`campaign_id=eq.${campaignId}`},() => currentView === 'messages' ? render('messages') : notice('New table message.')).subscribe();
+  function startRealtime() {
+    if (realtimeStarted) return; realtimeStarted = true;
+    const channel = db.client.channel(`roll30-live-${campaignId}`, {config:{presence:{key:session.user.id}}})
+      .on('presence',{event:'sync'},() => { onlineCount = Object.keys(channel.presenceState()).length; if (currentView === 'overview') render('overview'); })
+      .on('postgres_changes',{event:'*',schema:'public',table:'sessions',filter:`campaign_id=eq.${campaignId}`},() => currentView === 'session' ? render('session') : notice('Live session updated.'))
+      .on('postgres_changes',{event:'INSERT',schema:'public',table:'messages',filter:`campaign_id=eq.${campaignId}`},() => currentView === 'messages' ? render('messages') : notice('New table message.'));
+    channel.subscribe(status => { if (status === 'SUBSCRIBED') channel.track({user_id:session.user.id}); });
+  }
   document.addEventListener('DOMContentLoaded', () => { document.querySelector('x-dc')?.remove(); app.style.display = 'block'; load().catch(error => { app.innerHTML = `<main><h2>Roll30 could not load</h2><p>${esc(error.message)}</p></main>`; }); });
 })();
