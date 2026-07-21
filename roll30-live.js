@@ -30,7 +30,7 @@
     if (view === 'scenes') {
       const { data = [] } = await query('scenes');
       const controls = currentRole === 'gm';
-      return `<section><div class="live-title"><h2>Scenes</h2>${controls ? '<button data-dialog="scene">New scene</button>' : ''}</div>${cards(data, s => `<b>${esc(s.name)}</b><small>${esc(s.scene_type)}${s.folder ? ` · ${esc(s.folder)}` : ''}</small>${controls ? `<div class="hp-actions"><button data-run-scene="${s.id}">Run scene</button><button data-scene-config="${s.id}">Configure</button><button data-duplicate-scene="${s.id}">Duplicate</button><button data-delete-scene="${s.id}">Delete</button></div>` : ''}`)}</section>`;
+      return `<section><div class="live-title"><h2>Scenes</h2>${controls ? '<button data-dialog="scene">New scene</button>' : ''}</div>${cards(data, s => `<b>${esc(s.name)}</b><small>${esc(s.scene_type)}${s.folder ? ` · ${esc(s.folder)}` : ''}</small>${controls ? `<div class="hp-actions"><button data-run-scene="${s.id}">Run scene</button><button data-scene-config="${s.id}">Configure</button><button data-duplicate-scene="${s.id}">Duplicate</button><button data-save-template="${s.id}" data-scene-name="${esc(s.name)}">Save template</button><button data-delete-scene="${s.id}">Delete</button></div>` : ''}`)}</section>`;
     }
     if (view === 'characters') {
       const { data = [] } = await query('characters');
@@ -93,6 +93,11 @@
       const { data = [] } = await db.client.from('session_events').select('*, sessions!inner(campaign_id)').eq('sessions.campaign_id',campaignId).order('created_at',{ascending:false}).limit(100);
       return `<section><div class="live-title"><h2>Session history</h2></div><p class="muted">A persisted timeline of table actions and automation.</p>${cards(data,e=>`<b>${esc(e.event_type.replaceAll('_',' '))}</b><small>${new Date(e.created_at).toLocaleString()}</small>${e.payload?.name ? `<p>${esc(e.payload.name)}</p>` : ''}`)}</section>`;
     }
+    if (view === 'templates') {
+      const { data = [] } = await db.client.from('scene_templates').select('*').eq('campaign_id',campaignId).order('created_at',{ascending:false});
+      const isGm = currentRole === 'gm';
+      return `<section><div class="live-title"><h2>Scene templates</h2></div>${cards(data,t=>`<b>${esc(t.name)}</b><small>${esc(t.scene_type)} · ${(t.objects || []).length} objects</small>${isGm ? `<button data-use-template="${t.id}" data-template-name="${esc(t.name)}">Create scene</button>` : ''}`)}</section>`;
+    }
     if (view === 'purchases') {
       const { data = [] } = await db.client.from('purchase_requests').select('*, items(name), characters(name), shops!inner(campaign_id)').eq('shops.campaign_id', campaignId).order('created_at',{ascending:false});
       return `<section><h2>Purchase requests</h2>${cards(data, p => `<b>${esc(p.characters?.name)} · ${esc(p.items?.name)}</b><small>${esc(p.status)} · quantity ${p.quantity}</small>${p.status === 'pending' ? `<button data-resolve-purchase="${p.id}" data-approve="true">Approve</button><button data-resolve-purchase="${p.id}" data-approve="false">Decline</button>` : ''}`)}</section>`;
@@ -134,6 +139,7 @@
     app.querySelector('nav').insertAdjacentHTML('beforeend', `<button data-view="inventory" class="${view === 'inventory' ? 'active' : ''}">inventory</button>`);
     app.querySelector('nav').insertAdjacentHTML('beforeend', `<button data-view="notes" class="${view === 'notes' ? 'active' : ''}">notes</button>`);
     app.querySelector('nav').insertAdjacentHTML('beforeend', `<button data-view="history" class="${view === 'history' ? 'active' : ''}">history</button>`);
+    app.querySelector('nav').insertAdjacentHTML('beforeend', `<button data-view="templates" class="${view === 'templates' ? 'active' : ''}">templates</button>`);
     document.getElementById('live-content').innerHTML = await content(view);
     bind(view);
   }
@@ -153,6 +159,8 @@
     });
     app.querySelectorAll('[data-scene-config]').forEach(b => b.onclick = () => openSceneConfig(b.dataset.sceneConfig));
     app.querySelectorAll('[data-duplicate-scene]').forEach(b => b.onclick = async () => { const { error } = await db.client.rpc('duplicate_roll30_scene',{source_scene:b.dataset.duplicateScene}); if(error)notice(error.message,true);else { notice('Scene duplicated.'); render('scenes'); } });
+    app.querySelectorAll('[data-save-template]').forEach(b => b.onclick = async () => { const name = window.prompt('Template name',`${b.dataset.sceneName} template`); if(!name?.trim()) return; const { error } = await db.client.rpc('save_roll30_scene_template',{source_scene:b.dataset.saveTemplate,template_name:name.trim()}); if(error)notice(error.message,true);else notice('Scene template saved.'); });
+    app.querySelectorAll('[data-use-template]').forEach(b => b.onclick = async () => { const name = window.prompt('New scene name',b.dataset.templateName); if(!name?.trim()) return; const { error } = await db.client.rpc('create_roll30_scene_from_template',{template_id:b.dataset.useTemplate,scene_name:name.trim()}); if(error)notice(error.message,true);else { notice('Scene created from template.'); render('scenes'); } });
     app.querySelectorAll('[data-delete-scene]').forEach(b => b.onclick = async () => {
       if (!window.confirm('Delete this scene? This cannot be undone.')) return;
       const { error } = await db.client.from('scenes').delete().eq('id', b.dataset.deleteScene);
