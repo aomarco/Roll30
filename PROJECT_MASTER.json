@@ -82,8 +82,13 @@
     }
   },
 
-  "change_log_next_id": 2,
+  "change_log_next_id": 3,
   "change_log": [
+    {
+      "id": 2,
+      "date": "2026-07-21",
+      "summary": "Added a Supabase-backed password gate to the web app. Supabase project uilqxmsllyugxuzsxwkx now has a table public.authorized_ips (RLS on, no direct anon/authenticated access) plus two SECURITY DEFINER RPC functions: authorize_ip(pw, client_ip) which checks the password SERVER-SIDE (password 'MarceloIsFranklyAmazing' exists only in the DB function, never in the shipped bundle — verified absent from dist) and records the IP on success, and is_ip_authorized(check_ip) which returns only a boolean. Front-end additions: src/gate.ts (RPC client + public IP lookup via api.ipify.org, uses the public publishable key) and src/components/Gate.tsx (a neon lock screen); main.tsx now wraps <App/> in <Gate/>. On load the app fetches the visitor's public IP and auto-admits if that IP is already authorized; otherwise it shows the password prompt, and a correct password authorizes and remembers the IP. Caveat: this is a soft gate — IPs are shared behind NAT and change over time, and it is not suitable for truly sensitive data. Built, pushed, and deployed live (HTTP 200) at https://aomarco.github.io/Roll30/."
+    },
     {
       "id": 1,
       "date": "2026-07-21",
