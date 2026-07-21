@@ -35,7 +35,7 @@
     }
     if (view === 'messages') {
       const { data = [] } = await query('messages');
-      return `<section><div class="live-title"><h2>Table messages</h2></div><form id="message-form" class="live-form"><input id="message-text" placeholder="Say something to the table" required><button>Send</button></form>${cards(data, m => `<b>${esc(m.kind)}</b><small>${esc(m.body && m.body.text || '')}</small>`)}</section>`;
+      return `<section><div class="live-title"><h2>Table messages</h2><button id="roll-d20">Roll d20</button></div><form id="message-form" class="live-form"><input id="message-text" placeholder="Say something to the table" required><button>Send</button></form>${cards(data, m => `<b>${esc(m.kind === 'roll' ? `d20 · ${m.body?.total}` : m.kind)}</b><small>${esc(m.body && m.body.text || '')}</small>`)}</section>`;
     }
     if (view === 'session') {
       const { data = [] } = await query('sessions');
@@ -143,6 +143,8 @@
     app.querySelectorAll('[data-import-monster]').forEach(b => b.onclick = async () => { const response = await fetch('./DND%205E%20Data/5e-SRD-Monsters.json'); const monsters = await response.json(); const monster = monsters.find(m => m.name === b.dataset.importMonster); if (!monster) return; const { error } = await db.client.from('characters').insert({ campaign_id:campaignId,name:monster.name,kind:'monster',hp_current:monster.hit_points,hp_max:monster.hit_points,sheet:monster }); if (error) notice(error.message, true); else { notice(monster.name + ' added to this campaign.'); render('characters'); } });
     const messageForm = document.getElementById('message-form');
     if (messageForm) messageForm.onsubmit = async e => { e.preventDefault(); const text = document.getElementById('message-text').value.trim(); if (!text) return; const { error } = await db.client.from('messages').insert({ campaign_id:campaignId, sender_id:session.user.id, kind:'message', body:{ text } }); if (error) return notice(error.message, true); render('messages'); };
+    const rollD20 = document.getElementById('roll-d20');
+    if (rollD20) rollD20.onclick = async () => { const roll = crypto.getRandomValues(new Uint32Array(1))[0] % 20 + 1; const roller = session.user.email?.split('@')[0] || 'A player'; const text = `${roller} rolled a ${roll}${roll === 20 ? ' — natural 20!' : roll === 1 ? ' — natural 1!' : ''}`; const { error } = await db.client.from('messages').insert({campaign_id:campaignId,sender_id:session.user.id,kind:'roll',body:{dice:'d20',total:roll,text}}); if(error) notice(error.message,true); else render('messages'); };
     const mediaForm = document.getElementById('upload-media');
     if (mediaForm) mediaForm.onsubmit = async e => { e.preventDefault(); const file = document.getElementById('media-file').files[0]; if (!file) return; const path = `${campaignId}/${crypto.randomUUID()}-${file.name.replace(/[^a-zA-Z0-9._-]/g,'_')}`; notice('Uploading media…'); const { error: uploadError } = await db.client.storage.from('campaign-media').upload(path, file); if (uploadError) return notice(uploadError.message, true); const kind = file.type.startsWith('audio/') ? 'audio' : file.type === 'application/pdf' ? 'handout' : 'image'; const { error } = await db.client.from('campaign_assets').insert({ campaign_id:campaignId, uploaded_by:session.user.id, kind, storage_path:path, label:file.name }); if (error) return notice(error.message, true); render('media'); };
     const settingsForm = document.getElementById('campaign-settings');
