@@ -259,6 +259,11 @@ select pg_temp.roll30_assert(
   and (select not coalesce((state->>'active')::boolean,false) from public.scene_objects where id=(select id from roll30_test_context where key='secret_object')),
   'automation chain undo did not restore tokens and scene object states'
 );
+insert into roll30_test_context(key,id)
+select 'check_request',id from public.send_roll30_message(
+  (select id from roll30_test_context where key='gm_campaign'),'check_request','Make a Perception check',
+  '30000000-0000-4000-a000-000000000102','1d20'
+);
 select public.set_roll30_manual_reveal((select id from roll30_test_context where key='session'),array['30000000-0000-4000-a000-000000000102'::uuid],'[[10,40],[20,40],[20,60],[10,60]]');
 select pg_temp.roll30_assert(
   (select jsonb_array_length(state -> 'initiative') from public.sessions where id = (select id from roll30_test_context where key = 'session')) = 1,
@@ -378,6 +383,12 @@ select pg_temp.roll30_expect_error(
   'You can only move your own token'
 );
 select public.change_roll30_hp((select id from roll30_test_context where key = 'hero'), -2);
+select public.resolve_roll30_hp_change((select id from roll30_test_context where key='hero'),'healing','1');
+select pg_temp.roll30_assert(
+  (select hp_current=9 from public.characters where id=(select id from roll30_test_context where key='hero'))
+  and exists(select 1 from public.session_events where session_id=(select id from roll30_test_context where key='session') and event_type='hp_changed' and payload->>'source'='dice'),
+  'server-rolled healing or HP history did not persist'
+);
 select public.mutate_roll30_inventory((select id from roll30_test_context where key='hero'),(select id from roll30_test_context where key='potion'),'equip',1,null);
 select public.mutate_roll30_inventory((select id from roll30_test_context where key='hero'),(select id from roll30_test_context where key='potion'),'transfer',1,(select id from roll30_test_context where key='target'));
 select public.mutate_roll30_inventory((select id from roll30_test_context where key='hero'),(select id from roll30_test_context where key='potion'),'consume',1,null);
@@ -399,6 +410,15 @@ select pg_temp.roll30_expect_error(
 );
 select public.submit_roll30_prompt_response((select id from roll30_test_context where key='prompt'),'{"text":"Ready"}');
 select public.send_roll30_message((select id from roll30_test_context where key='gm_campaign'),'roll','Perception',null,'1d20+3');
+select public.respond_roll30_check_request((select id from roll30_test_context where key='check_request'),'1d20+5');
+select pg_temp.roll30_assert(
+  exists(select 1 from public.messages where sender_id=auth.uid() and recipient_id='30000000-0000-4000-a000-000000000101' and body->>'reply_to'=(select id::text from roll30_test_context where key='check_request')),
+  'player check-request response was not rolled and returned privately to the GM'
+);
+select pg_temp.roll30_expect_error(
+  format('select public.respond_roll30_check_request(%L::uuid,%L)',(select id from roll30_test_context where key='check_request'),'1d20'),
+  'already answered'
+);
 select pg_temp.roll30_expect_error(
   format('select public.send_roll30_message(%L::uuid,%L,%L,%L::uuid,null)',(select id from roll30_test_context where key='gm_campaign'),'whisper','Nope','30000000-0000-4000-a000-000000000103'),
   'Recipient is not in this campaign'
@@ -427,6 +447,15 @@ select pg_temp.roll30_assert(
 select public.set_roll30_prompt_status((select id from roll30_test_context where key='prompt'),'closed');
 select pg_temp.roll30_assert((select status='closed' from public.prompts where id=(select id from roll30_test_context where key='prompt')),'GM could not close a prompt');
 select public.mark_roll30_messages_read((select id from roll30_test_context where key='gm_campaign'));
+select pg_temp.roll30_assert(
+  (public.preview_roll30_last_undo((select id from roll30_test_context where key='session'))->>'event_type')='hp_changed',
+  'HP change was not offered as the latest reversible action'
+);
+select public.undo_roll30_last_action((select id from roll30_test_context where key='session'));
+select pg_temp.roll30_assert(
+  (select hp_current=10 from public.characters where id=(select id from roll30_test_context where key='hero')),
+  'HP undo did not restore the previous hit points'
+);
 select public.restore_roll30_snapshot((select id from roll30_test_context where key = 'snapshot'));
 select pg_temp.roll30_assert(
   (select x = 50 from public.session_tokens where id = (select id from roll30_test_context where key = 'hero_token')),
