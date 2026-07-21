@@ -57,6 +57,10 @@
       const { data = [] } = await query('items');
       return `<section><div class="live-title"><h2>Items</h2><button data-dialog="item">New item</button></div>${cards(data, i => `<b>${esc(i.name)}</b><small>${esc(i.item_data?.type || 'Custom item')}</small>`)}</section>`;
     }
+    if (view === 'purchases') {
+      const { data = [] } = await db.client.from('purchase_requests').select('*, items(name), characters(name), shops!inner(campaign_id)').eq('shops.campaign_id', campaignId).order('created_at',{ascending:false});
+      return `<section><h2>Purchase requests</h2>${cards(data, p => `<b>${esc(p.characters?.name)} · ${esc(p.items?.name)}</b><small>${esc(p.status)} · quantity ${p.quantity}</small>${p.status === 'pending' ? `<button data-resolve-purchase="${p.id}" data-approve="true">Approve</button><button data-resolve-purchase="${p.id}" data-approve="false">Decline</button>` : ''}`)}</section>`;
+    }
     if (view === 'compendium') {
       const [monsters, spells] = await Promise.all([
         fetch('./DND%205E%20Data/5e-SRD-Monsters.json').then(r => r.json()),
@@ -73,7 +77,7 @@
   }
   function cards(rows, renderCard) { return rows.length ? `<div class="live-cards">${rows.map(r => `<article>${renderCard(r)}</article>`).join('')}</div>` : '<p class="muted">Nothing here yet.</p>'; }
   async function render(view = 'overview') {
-    app.innerHTML = `<header><div><strong>Roll30</strong><span>${esc(campaign.name)}</span></div><button id="leave-campaign">Campaigns</button></header><nav>${['overview','scenes','characters','items','compendium','media','shops','prompts','session','messages'].map(v => `<button data-view="${v}" class="${v === view ? 'active' : ''}">${v}</button>`).join('')}</nav><main><p id="live-notice"></p><div id="live-content">Loading…</div></main><dialog id="live-dialog"></dialog>`;
+    app.innerHTML = `<header><div><strong>Roll30</strong><span>${esc(campaign.name)}</span></div><button id="leave-campaign">Campaigns</button></header><nav>${['overview','scenes','characters','items','compendium','media','shops','purchases','prompts','session','messages'].map(v => `<button data-view="${v}" class="${v === view ? 'active' : ''}">${v}</button>`).join('')}</nav><main><p id="live-notice"></p><div id="live-content">Loading…</div></main><dialog id="live-dialog"></dialog>`;
     document.getElementById('live-content').innerHTML = await content(view);
     bind(view);
   }
@@ -90,6 +94,7 @@
     app.querySelectorAll('.prompt-response').forEach(form => form.onsubmit = async e => { e.preventDefault(); const text = form.querySelector('input').value.trim(); const { error } = await db.client.from('prompt_responses').upsert({ prompt_id:form.dataset.prompt, user_id:session.user.id, response:{ text } }); if (error) notice(error.message, true); else notice('Response sent to the GM.'); });
     app.querySelectorAll('.stock-form').forEach(form => form.onsubmit = async e => { e.preventDefault(); const item_id = form.querySelector('select').value; const price = Number(form.querySelector('input').value); const { error } = await db.client.from('shop_stock').upsert({ shop_id:form.dataset.shop,item_id,price,quantity:null }); if (error) notice(error.message,true); else render('shops'); });
     app.querySelectorAll('.buy-form').forEach(form => form.onsubmit = async e => { e.preventDefault(); const character_id=form.querySelector('select').value; const { error } = await db.client.from('purchase_requests').insert({shop_id:form.dataset.shop,item_id:form.dataset.item,character_id,quantity:1,requested_by:session.user.id}); if(error)notice(error.message,true);else notice('Purchase request sent to the GM.'); });
+    app.querySelectorAll('[data-resolve-purchase]').forEach(b => b.onclick = async () => { const { error } = await db.client.rpc('resolve_roll30_purchase',{target_request:b.dataset.resolvePurchase,approve:b.dataset.approve === 'true'}); if(error) notice(error.message,true); else render('purchases'); });
     const start = document.getElementById('start-session');
     if (start) start.onclick = async () => { const { data: sessions } = await query('sessions'); let active = sessions.find(s => s.status === 'active'); if (!active) { const result = await db.client.from('sessions').insert({ campaign_id:campaignId }).select().single(); if (result.error) return notice(result.error.message, true); active = result.data; } localStorage.setItem('roll30.sessionId', active.id); render('session'); };
     const advance = document.getElementById('advance-turn');
