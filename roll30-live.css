@@ -126,6 +126,8 @@ textarea { resize: vertical; }
 .ability-strip { display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px; margin-top: 13px; }
 .ability-strip span { padding: 6px 3px; border: 1px solid var(--border); border-radius: 6px; color: var(--muted); font-size: 9px; text-align: center; }
 .ability-strip b { color: var(--text); font-size: 12px; }
+.resource-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+.resource-list button { min-height: 30px; margin: 0; padding: 5px 8px; font-size: 11px; }
 .compendium-controls { display: grid; grid-template-columns: 1fr 2fr 1fr; gap: 12px; margin-bottom: 14px; }
 .compendium-description { max-height: 52vh; overflow-y: auto; padding: 14px; border: 1px solid var(--border); border-radius: 8px; background: #111217; line-height: 1.6; white-space: normal; }
 .attribution { margin-top: 30px; color: var(--quiet); font-size: 12px; }
