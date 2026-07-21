@@ -115,6 +115,7 @@ article button + button { margin-left: 6px; }
 .live-stats small { color: var(--muted); }
 
 .live-form { display: flex; align-items: stretch; gap: 9px; margin-bottom: 22px; }
+.message-compose { display:grid;grid-template-columns:1fr 2fr 1.4fr 1fr auto;align-items:end;gap:9px;margin-bottom:22px; }
 input, textarea, select { min-width: 0; width: 100%; padding: 10px 11px; border: 1px solid var(--border-strong); border-radius: var(--radius-sm); outline: 0; background: #111217; color: var(--text); }
 input:hover, textarea:hover, select:hover { border-color: #626674; }
 input:focus, textarea:focus, select:focus { border-color: var(--focus); box-shadow: 0 0 0 3px rgb(138 180 255 / 14%); }
@@ -186,6 +187,7 @@ dialog h3 { margin: 0 0 4px; font-size: 1.25rem; }
   .compendium-controls { grid-template-columns: 1fr 1fr; }
   .compendium-controls label:nth-child(2) { grid-column: 1 / -1; grid-row: 1; }
   .ability-editor { grid-template-columns: repeat(3, 1fr); }
+  .message-compose { grid-template-columns:1fr 1fr; }
 }
 
 @media (max-width: 560px) {
@@ -201,5 +203,6 @@ dialog h3 { margin: 0 0 4px; font-size: 1.25rem; }
   .live-stats > div { padding: 14px; }
   .session-board { min-height: 430px; }
   .sheet-grid, .compendium-controls { grid-template-columns: 1fr; }
+  .message-compose { grid-template-columns:1fr; }
   .compendium-controls label:nth-child(2) { grid-column: auto; grid-row: auto; }
 }

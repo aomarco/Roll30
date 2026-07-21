@@ -276,8 +276,12 @@ select pg_temp.roll30_expect_error(
   format('select public.change_roll30_hp(%L::uuid,-2)', (select id from roll30_test_context where key = 'target')),
   'Not permitted'
 );
-insert into public.prompt_responses(prompt_id, user_id, response)
-values ((select id from roll30_test_context where key = 'prompt'), auth.uid(), '{"text":"Ready"}');
+select public.submit_roll30_prompt_response((select id from roll30_test_context where key='prompt'),'{"text":"Ready"}');
+select public.send_roll30_message((select id from roll30_test_context where key='gm_campaign'),'roll','Perception',null,'1d20+3');
+select pg_temp.roll30_expect_error(
+  format('select public.send_roll30_message(%L::uuid,%L,%L,%L::uuid,null)',(select id from roll30_test_context where key='gm_campaign'),'whisper','Nope','30000000-0000-4000-a000-000000000103'),
+  'Recipient is not in this campaign'
+);
 select public.set_roll30_condition((select id from roll30_test_context where key='hero'),'Prone',true,'Hold Person');
 select pg_temp.roll30_assert((select sheet->'conditions' ? 'Prone' and sheet->>'concentration'='Hold Person' from public.characters where id=(select id from roll30_test_context where key='hero')),'condition or concentration state did not persist');
 select public.set_roll30_condition((select id from roll30_test_context where key='hero'),'Prone',false,null);
@@ -299,6 +303,9 @@ select pg_temp.roll30_assert(
   (select count(*) from public.prompt_responses where prompt_id = (select id from roll30_test_context where key = 'prompt')) = 1,
   'GM could not read the player prompt response'
 );
+select public.set_roll30_prompt_status((select id from roll30_test_context where key='prompt'),'closed');
+select pg_temp.roll30_assert((select status='closed' from public.prompts where id=(select id from roll30_test_context where key='prompt')),'GM could not close a prompt');
+select public.mark_roll30_messages_read((select id from roll30_test_context where key='gm_campaign'));
 select public.restore_roll30_snapshot((select id from roll30_test_context where key = 'snapshot'));
 select pg_temp.roll30_assert(
   (select x = 50 from public.session_tokens where id = (select id from roll30_test_context where key = 'hero_token')),
