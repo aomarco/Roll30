@@ -470,6 +470,10 @@ select pg_temp.roll30_expect_error(
     (select id::text from roll30_test_context where key = 'target_token')),
   'You can only move your own token'
 );
+select pg_temp.roll30_expect_error(
+  format('select public.retreat_roll30_turn(%L::uuid)',(select id from roll30_test_context where key='session')),
+  'Only the GM can move to the previous turn'
+);
 select public.change_roll30_hp((select id from roll30_test_context where key = 'hero'), -2);
 select public.resolve_roll30_hp_change((select id from roll30_test_context where key='hero'),'healing','1');
 select pg_temp.roll30_assert(
@@ -768,6 +772,13 @@ select pg_temp.roll30_assert(
 );
 select public.advance_roll30_turn((select id from roll30_test_context where key='session'));
 select pg_temp.roll30_assert((select round=2 from public.sessions where id=(select id from roll30_test_context where key='session')),'round did not advance or checkpoint');
+select public.retreat_roll30_turn((select id from roll30_test_context where key='session'));
+select pg_temp.roll30_assert(
+  (select round=1 and active_turn=0 from public.sessions where id=(select id from roll30_test_context where key='session'))
+  and exists(select 1 from public.session_events where session_id=(select id from roll30_test_context where key='session') and event_type='turn_retreated'),
+  'previous turn did not wrap safely to the prior round or create an audit event'
+);
+select public.advance_roll30_turn((select id from roll30_test_context where key='session'));
 select public.rewind_roll30_round((select id from roll30_test_context where key='session'));
 select pg_temp.roll30_assert((select round=1 from public.sessions where id=(select id from roll30_test_context where key='session')),'round rewind did not restore session metadata');
 insert into roll30_test_context(key,id)

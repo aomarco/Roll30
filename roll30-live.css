@@ -180,6 +180,7 @@ textarea { resize: vertical; }
 .map-token.highlighted { border-color:#fff3bd!important;box-shadow:0 0 0 4px rgb(230 169 77 / 42%),0 8px 28px rgb(230 169 77 / 48%); }
 .map-token img { width:100%;height:100%;border-radius:50%;object-fit:cover; }
 .token-caption { position:absolute;left:50%;top:calc(100% + 7px);transform:translateX(-50%);width:max-content;max-width:150px;padding:3px 7px;border:1px solid rgb(255 255 255 / 18%);border-radius:999px;background:rgb(10 11 15 / 88%);color:#fff;font-size:9px;font-weight:750;line-height:1.2;pointer-events:none; }
+.movement-reach { position:absolute;z-index:9;transform:translate(-50%,-50%);border:2px dashed rgb(138 180 255 / 86%);border-radius:50%;background:rgb(75 118 190 / 12%);box-shadow:inset 0 0 0 1px rgb(255 255 255 / 10%);pointer-events:none; }
 .map-object { position: absolute; z-index: 2; transform: translate(-50%, -50%); width: 32px; height: 32px; padding: 0 !important; border-radius: 7px !important; background: #626672 !important; }
 .map-object.active { background: var(--success) !important; color: #101411 !important; }
 .map-wall { position: absolute; z-index: 2; height: 5px; border-radius: 99px; background: #d5d8df; transform-origin: 0 50%; pointer-events: none; }
@@ -197,6 +198,8 @@ audio { width: 100%; margin-top: 12px; }
 .scene-state-controls span { display:inline-flex;gap:4px; }
 .player-action-bar { position:sticky;z-index:10;bottom:10px;display:flex;align-items:center;justify-content:space-between;gap:14px;margin:12px 0;padding:12px 14px;border:1px solid rgb(230 169 77 / 42%);border-radius:var(--radius);background:rgb(24 24 29 / 94%);box-shadow:0 14px 34px rgb(0 0 0 / 38%);backdrop-filter:blur(12px); }
 .player-action-bar > div { display:flex;flex-wrap:wrap;justify-content:flex-end;gap:7px; }
+.player-action-bar > div:first-child { display:grid;justify-items:start;gap:2px; }
+.movement-readout { color:var(--muted);font-variant-numeric:tabular-nums; }
 .player-action-bar button { margin:0; }
 .dialogue-portrait { position:fixed;right:24px;bottom:24px;z-index:40;display:grid;grid-template-columns:minmax(150px,240px) minmax(180px,320px) auto;align-items:end;gap:16px;max-width:calc(100vw - 48px);padding:14px;border:1px solid color-mix(in srgb,var(--accent) 62%,var(--border));border-radius:18px;background:rgb(17 18 22 / 96%);box-shadow:var(--shadow);backdrop-filter:blur(14px); }
 .dialogue-portrait img { width:100%;max-height:42vh;object-fit:cover;border-radius:12px; }
