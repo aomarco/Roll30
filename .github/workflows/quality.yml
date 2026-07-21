@@ -29,6 +29,8 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      - name: Clear any stale local Supabase containers
+        run: npx supabase stop --no-backup
       - name: Start clean local Supabase and apply every migration
         run: npx supabase start
       - name: Run transactional GM/player/outsider database tests
