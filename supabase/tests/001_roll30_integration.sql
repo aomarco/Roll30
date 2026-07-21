@@ -297,7 +297,14 @@ select pg_temp.roll30_expect_error(
   format('select public.trash_roll30_scene(%L::uuid)', (select id from roll30_test_context where key = 'scene')),
   'End the live session before moving this scene to trash'
 );
-update public.sessions set status = 'ended' where id = (select id from roll30_test_context where key = 'session');
+select pg_temp.roll30_expect_error(
+  format('select public.start_roll30_session(%L::uuid,%L::uuid)',(select id from roll30_test_context where key='gm_campaign'),(select id from roll30_test_context where key='scene')),
+  'already has an active session'
+);
+select public.end_roll30_session((select id from roll30_test_context where key='session'));
+select public.resume_roll30_session((select id from roll30_test_context where key='session'));
+select pg_temp.roll30_assert((select status='active' and session_code is not null from public.sessions where id=(select id from roll30_test_context where key='session')),'session resume or code failed');
+select public.end_roll30_session((select id from roll30_test_context where key='session'));
 select public.trash_roll30_scene((select id from roll30_test_context where key = 'scene'));
 select pg_temp.roll30_assert(
   (select count(*) from public.list_roll30_trashed_scenes((select id from roll30_test_context where key = 'gm_campaign'))) = 1,
