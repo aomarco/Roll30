@@ -8,6 +8,7 @@ const labels = {
   messages: 'Messages & dice',
   prompts: 'Player prompts',
   scenes: 'Scenes',
+  builder: 'Scene builder',
   templates: 'Scene templates',
   characters: 'Characters',
   compendium: '5e compendium',

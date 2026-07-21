@@ -114,6 +114,15 @@ with created as (
 )
 insert into roll30_test_context(key, id) select 'potion', id from created;
 
+with created as (
+  insert into public.scene_objects(scene_id,name,object_type,x,y,visible_to_players)
+  values ((select id from roll30_test_context where key='scene'),'Secret trap','trap',20,20,false)
+  returning id
+)
+insert into roll30_test_context(key,id) select 'secret_object',id from created;
+insert into public.scene_objects(scene_id,name,object_type,x,y,visible_to_players)
+values ((select id from roll30_test_context where key='scene'),'Visible door','door',40,40,true);
+
 update public.campaign_members
 set character_id = (select id from roll30_test_context where key = 'hero')
 where campaign_id = (select id from roll30_test_context where key = 'gm_campaign')
@@ -163,6 +172,8 @@ select public.add_roll30_initiative_entry(
   18
 );
 select public.grant_roll30_item((select id from roll30_test_context where key='hero'),(select id from roll30_test_context where key='potion'),3);
+select public.move_roll30_scene_object((select id from roll30_test_context where key='secret_object'),25,25,'gm',2);
+select pg_temp.roll30_assert((select x=25 and layer='gm' from public.scene_objects where id=(select id from roll30_test_context where key='secret_object')),'GM scene-builder movement did not persist');
 select pg_temp.roll30_assert(
   (select jsonb_array_length(state -> 'initiative') from public.sessions where id = (select id from roll30_test_context where key = 'session')) = 1,
   'normalized token could not be added to initiative'
@@ -196,6 +207,7 @@ select pg_temp.roll30_assert(
   (select count(*) from public.campaign_notes where campaign_id = (select id from roll30_test_context where key = 'gm_campaign')) = 1,
   'note audience policy did not return exactly the addressed revealed note'
 );
+select pg_temp.roll30_assert((select count(*) from public.scene_objects where scene_id=(select id from roll30_test_context where key='scene'))=1,'player could read unrevealed scene-builder objects');
 select public.update_roll30_character_sheet(
   (select id from roll30_test_context where key = 'hero'),
   0,
