@@ -1,0 +1,87 @@
+{
+  "$schema_note": "This is a human- and AI-readable master record for the Roll30 project. It is NOT source code and is not consumed by the app at runtime. It exists to give any person or AI instant context on what this project is, how it works, and its full change history.",
+
+  "disclaimer_and_usage_rules": {
+    "read_this_first": true,
+    "what_this_file_is": "A single source of truth describing the Roll30 project: its purpose, structure, how it works, and a running log of every change made to it.",
+    "how_the_two_sections_relate": [
+      "'project_state' is the DOCUMENT: a fuller description of how the app currently works.",
+      "'change_log' is the LIST: a running, append-only history where a new entry is added EVERY time any change is made."
+    ],
+    "priority_rule": "THE LIST WINS. If anything in 'change_log' conflicts with anything in 'project_state', the 'change_log' is correct and 'project_state' is simply not yet fully updated. Always trust the most recent relevant 'change_log' entries over 'project_state'.",
+    "instructions_for_any_ai": [
+      "1. Read 'disclaimer_and_usage_rules' and the FULL 'change_log' before acting on this project.",
+      "2. Treat the newest 'change_log' entries as the current truth. Where they contradict 'project_state', follow the log.",
+      "3. Every single time you make ANY change to the project (code, data, structure, config, GitHub, anything), APPEND a new entry to 'change_log' with a medium-sized summary. Never silently skip this.",
+      "4. Do NOT rewrite or delete 'project_state' or prune old 'change_log' entries on your own. Only do a full rewrite / cleanup when the user EXPLICITLY tells you to update the whole file.",
+      "5. When the user says to update the whole file: rebuild 'project_state' so it fully matches reality, remove/fix outdated info, then CLEAR the 'change_log' back to an empty list and reset 'change_log_next_id' to 1. Bump 'meta.master_version'.",
+      "6. Keep entries factual and concise. Use absolute dates (YYYY-MM-DD), not 'today' or 'yesterday'."
+    ]
+  },
+
+  "meta": {
+    "project_name": "Roll30",
+    "master_version": 2,
+    "created": "2026-07-21",
+    "last_updated": "2026-07-21",
+    "last_full_update": "2026-07-21",
+    "maintained_by": "user (aomarco) with AI assistance"
+  },
+
+  "project_state": {
+    "purpose": "An offline, local collection of the complete Dungeons & Dragons 5th Edition SRD reference data, owned by the user as plain JSON. Intended to grow into a usable lookup tool (e.g. search spells/monsters).",
+    "current_status": "Data-only project. The full 5e SRD (2014, English) is downloaded locally and mirrored to a private GitHub repo. No application code or scripts exist yet; the next natural step is a lookup/search tool over the data/ files.",
+    "owner_github_user": "aomarco",
+    "github_repo_url": "https://github.com/aomarco/Roll30",
+    "repo_visibility": "private",
+    "local_path": "C:\\Users\\Marcelo\\Documents\\Roll30",
+    "default_branch": "main",
+    "how_it_works": "There is no running application yet. The project currently stores static JSON data files. Any future app/scripts would read the files in the 'data/' folder locally (no internet or API key needed).",
+    "history_summary": "Started 2026-07-21 as 'my-first-project' (local git repo + starter README/.gitignore, first commit). GitHub CLI 2.96.0 was installed and authenticated as 'aomarco', and the repo was pushed to GitHub (private). The D&D 5e API was investigated (~2,027 records, a few MB) and the official bulk data dump was chosen over hitting ~2,000 live endpoints. All 25 English 2014-SRD JSON files (~3.8 MB) were downloaded into data/ and validated. The project was then renamed everywhere from 'my-first-project' to 'Roll30' (README, GitHub repo, git credentials via 'gh auth setup-git', and the local folder — done via copy+delete because the original folder was briefly locked). Finally, this PROJECT_MASTER.json was created to track the project and its changes.",
+    "data_source": {
+      "origin": "5e-bits/5e-database (the same data behind https://www.dnd5eapi.co)",
+      "srd_edition": "D&D 5e SRD, 2014 ruleset, English",
+      "downloaded_from": "https://raw.githubusercontent.com/5e-bits/5e-database/main/src/2014/en"
+    },
+    "structure": {
+      "README.md": "Human-facing description of the project.",
+      ".gitignore": "Lists junk/temp files that should not be uploaded to GitHub.",
+      "PROJECT_MASTER.json": "This file — master record and change log.",
+      "data/": "25 JSON files containing the full 5e SRD content (~3.8 MB total)."
+    },
+    "data_inventory_counts": {
+      "features": 407,
+      "magic-items": 362,
+      "monsters": 334,
+      "spells": 319,
+      "equipment": 237,
+      "proficiencies": 117,
+      "equipment-categories": 39,
+      "traits": 38,
+      "rule-sections": 33,
+      "skills": 18,
+      "languages": 16,
+      "conditions": 15,
+      "damage-types": 13,
+      "classes": 12,
+      "subclasses": 12,
+      "weapon-properties": 11,
+      "alignments": 9,
+      "races": 9,
+      "magic-schools": 8,
+      "ability-scores": 6,
+      "rules": 6,
+      "subraces": 4,
+      "feats": 1,
+      "backgrounds": 1,
+      "note": "A 'levels' data file is also present. Counts reflect API category totals gathered on 2026-07-21."
+    },
+    "tooling": {
+      "git": "installed",
+      "github_cli": "installed (GitHub CLI 2.96.0), authenticated as aomarco, wired into git via 'gh auth setup-git'"
+    }
+  },
+
+  "change_log_next_id": 1,
+  "change_log": []
+}

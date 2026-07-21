@@ -1,5 +1,9 @@
 # Files that should NOT be uploaded to GitHub
 
+# Dependencies & build output
+node_modules/
+dist/
+
 # OS junk
 Thumbs.db
 desktop.ini

@@ -1,0 +1,177 @@
+[
+  {
+    "file": "5e-SRD-Features.json",
+    "name": "Features",
+    "slug": "features",
+    "icon": "✨",
+    "count": 407
+  },
+  {
+    "file": "5e-SRD-Magic-Items.json",
+    "name": "Magic Items",
+    "slug": "magic-items",
+    "icon": "💍",
+    "count": 362
+  },
+  {
+    "file": "5e-SRD-Monsters.json",
+    "name": "Monsters",
+    "slug": "monsters",
+    "icon": "🐉",
+    "count": 334
+  },
+  {
+    "file": "5e-SRD-Spells.json",
+    "name": "Spells",
+    "slug": "spells",
+    "icon": "🔥",
+    "count": 319
+  },
+  {
+    "file": "5e-SRD-Levels.json",
+    "name": "Levels",
+    "slug": "levels",
+    "icon": "📈",
+    "count": 290
+  },
+  {
+    "file": "5e-SRD-Equipment.json",
+    "name": "Equipment",
+    "slug": "equipment",
+    "icon": "🎒",
+    "count": 237
+  },
+  {
+    "file": "5e-SRD-Proficiencies.json",
+    "name": "Proficiencies",
+    "slug": "proficiencies",
+    "icon": "📜",
+    "count": 117
+  },
+  {
+    "file": "5e-SRD-Equipment-Categories.json",
+    "name": "Equipment Categories",
+    "slug": "equipment-categories",
+    "icon": "📦",
+    "count": 39
+  },
+  {
+    "file": "5e-SRD-Traits.json",
+    "name": "Traits",
+    "slug": "traits",
+    "icon": "🧬",
+    "count": 38
+  },
+  {
+    "file": "5e-SRD-Rule-Sections.json",
+    "name": "Rule Sections",
+    "slug": "rule-sections",
+    "icon": "📑",
+    "count": 33
+  },
+  {
+    "file": "5e-SRD-Skills.json",
+    "name": "Skills",
+    "slug": "skills",
+    "icon": "🎯",
+    "count": 18
+  },
+  {
+    "file": "5e-SRD-Languages.json",
+    "name": "Languages",
+    "slug": "languages",
+    "icon": "🗣️",
+    "count": 16
+  },
+  {
+    "file": "5e-SRD-Conditions.json",
+    "name": "Conditions",
+    "slug": "conditions",
+    "icon": "☠️",
+    "count": 15
+  },
+  {
+    "file": "5e-SRD-Damage-Types.json",
+    "name": "Damage Types",
+    "slug": "damage-types",
+    "icon": "💥",
+    "count": 13
+  },
+  {
+    "file": "5e-SRD-Classes.json",
+    "name": "Classes",
+    "slug": "classes",
+    "icon": "🛡️",
+    "count": 12
+  },
+  {
+    "file": "5e-SRD-Subclasses.json",
+    "name": "Subclasses",
+    "slug": "subclasses",
+    "icon": "⚔️",
+    "count": 12
+  },
+  {
+    "file": "5e-SRD-Weapon-Properties.json",
+    "name": "Weapon Properties",
+    "slug": "weapon-properties",
+    "icon": "🗡️",
+    "count": 11
+  },
+  {
+    "file": "5e-SRD-Alignments.json",
+    "name": "Alignments",
+    "slug": "alignments",
+    "icon": "🧭",
+    "count": 9
+  },
+  {
+    "file": "5e-SRD-Races.json",
+    "name": "Races",
+    "slug": "races",
+    "icon": "🧝",
+    "count": 9
+  },
+  {
+    "file": "5e-SRD-Magic-Schools.json",
+    "name": "Magic Schools",
+    "slug": "magic-schools",
+    "icon": "🔮",
+    "count": 8
+  },
+  {
+    "file": "5e-SRD-Ability-Scores.json",
+    "name": "Ability Scores",
+    "slug": "ability-scores",
+    "icon": "💪",
+    "count": 6
+  },
+  {
+    "file": "5e-SRD-Rules.json",
+    "name": "Rules",
+    "slug": "rules",
+    "icon": "📕",
+    "count": 6
+  },
+  {
+    "file": "5e-SRD-Subraces.json",
+    "name": "Subraces",
+    "slug": "subraces",
+    "icon": "🧝",
+    "count": 4
+  },
+  {
+    "file": "5e-SRD-Backgrounds.json",
+    "name": "Backgrounds",
+    "slug": "backgrounds",
+    "icon": "📖",
+    "count": 1
+  },
+  {
+    "file": "5e-SRD-Feats.json",
+    "name": "Feats",
+    "slug": "feats",
+    "icon": "🏅",
+    "count": 1
+  }
+]
