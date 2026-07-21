@@ -82,8 +82,13 @@
     }
   },
 
-  "change_log_next_id": 3,
+  "change_log_next_id": 4,
   "change_log": [
+    {
+      "id": 3,
+      "date": "2026-07-21",
+      "summary": "Separated the gate onto its own Supabase project. Previously (entry 2) the gate was added to the pre-existing shared project 'chara' (ref uilqxmsllyugxuzsxwkx), which also holds unrelated chara_* tables. Created a NEW dedicated free-tier project named 'Roll30' (ref eujhtcnnjtwsthscdfqk, region ap-northeast-2), rebuilt the same authorized_ips table + is_ip_authorized/authorize_ip functions there, and pointed src/gate.ts at the new URL and publishable key. Verified the new endpoints work. Then cleaned up the chara project: dropped authorized_ips and both functions; confirmed only the 8 chara_* tables remain and were never modified. Rebuilt (verified the chara project ref is absent from the bundle), pushed, and redeployed live. IMPORTANT for any future work: the Roll30 gate lives in project eujhtcnnjtwsthscdfqk ONLY — do not touch the chara project uilqxmsllyugxuzsxwkx."
+    },
     {
       "id": 2,
       "date": "2026-07-21",
