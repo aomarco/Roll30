@@ -115,6 +115,14 @@ with created as (
 insert into roll30_test_context(key, id) select 'potion', id from created;
 
 with created as (
+  insert into public.shops(campaign_id,name,settings)
+  values ((select id from roll30_test_context where key='gm_campaign'),'Test Shop','{"mode":"automatic","discount":50}') returning id
+)
+insert into roll30_test_context(key,id) select 'shop',id from created;
+insert into public.shop_stock(shop_id,item_id,price,quantity,hidden)
+values ((select id from roll30_test_context where key='shop'),(select id from roll30_test_context where key='potion'),4,3,false);
+
+with created as (
   insert into public.scene_objects(scene_id,name,object_type,x,y,visible_to_players)
   values ((select id from roll30_test_context where key='scene'),'Secret trap','trap',20,20,false)
   returning id
@@ -257,6 +265,12 @@ select pg_temp.roll30_assert(
   and (select quantity=1 from public.character_inventory where character_id=(select id from roll30_test_context where key='target') and item_id=(select id from roll30_test_context where key='potion'))
   and (select hp_current=10 from public.characters where id=(select id from roll30_test_context where key='hero')),
   'equip, transfer, consume, or healing inventory behavior failed'
+);
+select public.request_roll30_purchase((select id from roll30_test_context where key='shop'),(select id from roll30_test_context where key='potion'),(select id from roll30_test_context where key='hero'),1);
+select pg_temp.roll30_assert(
+  (select sheet->'currency'->>'gp'='18' from public.characters where id=(select id from roll30_test_context where key='hero'))
+  and (select quantity=2 from public.shop_stock where shop_id=(select id from roll30_test_context where key='shop') and item_id=(select id from roll30_test_context where key='potion')),
+  'discounted automatic purchase did not charge or deplete stock atomically'
 );
 select pg_temp.roll30_expect_error(
   format('select public.change_roll30_hp(%L::uuid,-2)', (select id from roll30_test_context where key = 'target')),
