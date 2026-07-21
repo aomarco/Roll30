@@ -220,6 +220,13 @@ with created as (
 )
 insert into roll30_test_context(key, id) select 'private_asset', id from created;
 
+with created as (
+  insert into public.campaign_assets(campaign_id, uploaded_by, kind, storage_path, label, visible_to_players)
+  values ((select id from roll30_test_context where key = 'gm_campaign'), '30000000-0000-4000-a000-000000000101', 'audio', (select id::text from roll30_test_context where key = 'gm_campaign') || '/private-ambience.mp3', 'Private ambience', false)
+  returning id
+)
+insert into roll30_test_context(key, id) select 'ambient_asset', id from created;
+
 update public.scenes
 set background_asset_id = (select id from roll30_test_context where key='private_asset')
 where id = (select id from roll30_test_context where key='scene');
@@ -487,6 +494,10 @@ select pg_temp.roll30_assert(
   'server-resolved combat did not record reversible damage and a concentration check'
 );
 select public.change_roll30_hp((select id from roll30_test_context where key='hero'),-100);
+select pg_temp.roll30_assert(
+  (select kind='pc' and hp_current=0 and coalesce((sheet->>'temp_hp')::integer,0)=0 from public.characters where id=(select id from roll30_test_context where key='hero')),
+  'lethal damage did not reduce the player character and temporary HP to zero'
+);
 select pg_temp.roll30_assert(((public.roll_roll30_death_save((select id from roll30_test_context where key='hero')))->>'roll')::integer between 1 and 20,'death save did not produce a server roll');
 
 reset role;
@@ -520,6 +531,20 @@ select pg_temp.roll30_assert(
   (select enabled from public.session_reveals where id=(select id from roll30_test_context where key='manual_reveal')),
   'manual reveal enable/disable lifecycle did not persist'
 );
+select public.set_roll30_asset_audience(
+  (select id from roll30_test_context where key='private_asset'),true,
+  array['30000000-0000-4000-a000-000000000102'::uuid]
+);
+reset role;
+set local role authenticated;
+select set_config('request.jwt.claims', '{"sub":"30000000-0000-4000-a000-000000000104","role":"authenticated","email":"roll30-removable-test@example.invalid"}', true);
+select pg_temp.roll30_assert(
+  (select count(*) from public.campaign_assets where id=(select id from roll30_test_context where key='private_asset'))=0,
+  'media addressed to a different player leaked through campaign asset RLS'
+);
+reset role;
+set local role authenticated;
+select set_config('request.jwt.claims', '{"sub":"30000000-0000-4000-a000-000000000101","role":"authenticated","email":"roll30-gm-test@example.invalid"}', true);
 select public.remove_roll30_campaign_member((select id from roll30_test_context where key='gm_campaign'),'30000000-0000-4000-a000-000000000104');
 select pg_temp.roll30_assert(
   not exists(select 1 from public.campaign_members where campaign_id=(select id from roll30_test_context where key='gm_campaign') and user_id='30000000-0000-4000-a000-000000000104'),
@@ -569,6 +594,46 @@ select pg_temp.roll30_assert(
   (select x = 50 from public.session_tokens where id = (select id from roll30_test_context where key = 'hero_token')),
   'snapshot restore did not restore normalized token position'
 );
+select public.configure_roll30_token_presentation(
+  (select id from roll30_test_context where key='hero_token'),
+  (select id from roll30_test_context where key='private_asset'),
+  'Determined','Guarding',true
+);
+select pg_temp.roll30_assert(
+  (select presentation->>'expression'='Determined' and presentation->>'pose'='Guarding' and (presentation->>'highlighted')::boolean from public.session_tokens where id=(select id from roll30_test_context where key='hero_token'))
+  and (select visible_to_players from public.campaign_assets where id=(select id from roll30_test_context where key='private_asset')),
+  'shared token art, expression, pose, or spotlight did not persist safely'
+);
+select public.set_roll30_session_presentation(
+  (select id from roll30_test_context where key='session'),'dusk','rain',
+  (select id from roll30_test_context where key='ambient_asset'),true
+);
+select pg_temp.roll30_assert(
+  (select state->'presentation'->>'time_of_day'='dusk' and state->'presentation'->>'weather'='rain' and (state->'presentation'->>'ambient_playing')::boolean from public.sessions where id=(select id from roll30_test_context where key='session')),
+  'shared time, weather, or ambience did not persist'
+);
+insert into roll30_test_context(key,id)
+select 'scene_state',id from public.save_roll30_scene_state((select id from roll30_test_context where key='scene'),'Before the change');
+update public.scene_objects set x=88,layer='objects' where id=(select id from roll30_test_context where key='secret_object');
+insert into public.scene_objects(scene_id,name,object_type,x,y,visible_to_players)
+values((select id from roll30_test_context where key='scene'),'Transient prop','object',90,90,true);
+select public.apply_roll30_scene_state((select id from roll30_test_context where key='session'),(select id from roll30_test_context where key='scene_state'));
+select pg_temp.roll30_assert(
+  (select x=25 and layer='gm' from public.scene_objects where id=(select id from roll30_test_context where key='secret_object'))
+  and not exists(select 1 from public.scene_objects where scene_id=(select id from roll30_test_context where key='scene') and name='Transient prop'),
+  'saved scene state did not restore the exact object arrangement'
+);
+select pg_temp.roll30_assert(
+  public.preview_roll30_last_undo((select id from roll30_test_context where key='session'))->>'event_type'='scene_state_applied',
+  'scene-state application was not exposed through safe undo preview'
+);
+select public.undo_roll30_last_action((select id from roll30_test_context where key='session'));
+select pg_temp.roll30_assert(
+  (select x=88 and layer='objects' from public.scene_objects where id=(select id from roll30_test_context where key='secret_object'))
+  and exists(select 1 from public.scene_objects where scene_id=(select id from roll30_test_context where key='scene') and name='Transient prop'),
+  'scene-state undo did not restore the complete previous arrangement'
+);
+select public.apply_roll30_scene_state((select id from roll30_test_context where key='session'),(select id from roll30_test_context where key='scene_state'));
 select public.advance_roll30_turn((select id from roll30_test_context where key='session'));
 select pg_temp.roll30_assert((select round=2 from public.sessions where id=(select id from roll30_test_context where key='session')),'round did not advance or checkpoint');
 select public.rewind_roll30_round((select id from roll30_test_context where key='session'));
@@ -633,8 +698,10 @@ select 'duplicate_scene',id from public.duplicate_roll30_scene((select id from r
 select pg_temp.roll30_assert(
   (select count(*) from public.scene_objects where scene_id=(select id from roll30_test_context where key='templated_scene'))=(select count(*) from public.scene_objects where scene_id=(select id from roll30_test_context where key='scene'))
   and (select count(*) from public.scene_objects where scene_id=(select id from roll30_test_context where key='duplicate_scene'))=(select count(*) from public.scene_objects where scene_id=(select id from roll30_test_context where key='scene'))
+  and (select count(*) from public.scene_states where scene_id=(select id from roll30_test_context where key='templated_scene'))=(select count(*) from public.scene_states where scene_id=(select id from roll30_test_context where key='scene'))
+  and (select count(*) from public.scene_states where scene_id=(select id from roll30_test_context where key='duplicate_scene'))=(select count(*) from public.scene_states where scene_id=(select id from roll30_test_context where key='scene'))
   and exists(select 1 from public.scene_objects where scene_id=(select id from roll30_test_context where key='templated_scene') and name='Secret trap' and layer='gm' and visible_to_players=false),
-  'scene templates or duplication lost object coordinates, layers, visibility, or state'
+  'scene templates or duplication lost objects, layers, visibility, or named scene states'
 );
 select public.trash_roll30_scene((select id from roll30_test_context where key='templated_scene'));
 select public.delete_roll30_scene_permanently((select id from roll30_test_context where key='templated_scene'));
@@ -731,8 +798,8 @@ select pg_temp.roll30_assert(
   'anonymous role still has an onboarding RPC grant'
 );
 select pg_temp.roll30_assert(
-  (select count(*)=21 from pg_publication_tables where pubname='supabase_realtime' and schemaname='public'
-    and tablename=any(array['sessions','messages','prompts','prompt_responses','purchase_requests','session_events','characters','scene_objects','campaign_assets','campaign_members','campaign_notes','character_inventory','items','scene_templates','scenes','session_exploration','session_reveals','session_snapshots','shop_stock','shops','automation_executions'])),
+  (select count(*)=22 from pg_publication_tables where pubname='supabase_realtime' and schemaname='public'
+    and tablename=any(array['sessions','messages','prompts','prompt_responses','purchase_requests','session_events','characters','scene_objects','campaign_assets','campaign_members','campaign_notes','character_inventory','items','scene_templates','scene_states','scenes','session_exploration','session_reveals','session_snapshots','shop_stock','shops','automation_executions'])),
   'the complete authorized realtime table set is not published'
 );
 select pg_temp.roll30_assert(
