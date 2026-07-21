@@ -211,7 +211,7 @@ select pg_temp.roll30_assert((select count(*) from public.scene_objects where sc
 select public.update_roll30_character_sheet(
   (select id from roll30_test_context where key = 'hero'),
   0,
-  '{"abilities":{"str":16,"dex":12,"con":14,"int":10,"wis":11,"cha":8},"armor_class":15,"speed":30,"vision":30,"conditions":[],"features":["Second Wind"],"resources":[{"name":"Second Wind","current":1,"max":1,"reset":"short"}],"equipment":["Training Sword"],"attacks":[{"name":"Training Sword","bonus":50,"damage_dice":"1d2+1","damage_type":"slashing"}],"attack":{"name":"Training Sword","bonus":50,"damage":3},"currency":{"gp":20}}',
+  '{"abilities":{"str":16,"dex":12,"con":14,"int":10,"wis":11,"cha":8},"armor_class":15,"speed":30,"vision":30,"conditions":[],"features":["Second Wind"],"resources":[{"name":"Second Wind","current":1,"max":1,"reset":"short"}],"spellcasting":{"ability":"wis","slots":[{"level":1,"current":2,"max":2}]},"equipment":["Training Sword"],"attacks":[{"name":"Training Sword","bonus":50,"damage_dice":"1d2+1","damage_type":"slashing"}],"attack":{"name":"Training Sword","bonus":50,"damage":3},"currency":{"gp":20}}',
   10,
   10,
   null
@@ -224,6 +224,10 @@ select public.use_roll30_character_resource((select id from roll30_test_context 
 select pg_temp.roll30_assert((select sheet->'resources'->0->>'current'='0' from public.characters where id=(select id from roll30_test_context where key='hero')),'resource use did not decrement atomically');
 select public.rest_roll30_character((select id from roll30_test_context where key='hero'),'short');
 select pg_temp.roll30_assert((select sheet->'resources'->0->>'current'='1' from public.characters where id=(select id from roll30_test_context where key='hero')),'short rest did not restore its resource');
+select public.use_roll30_spell_slot((select id from roll30_test_context where key='hero'),1);
+select pg_temp.roll30_assert((select sheet->'spellcasting'->'slots'->0->>'current'='1' from public.characters where id=(select id from roll30_test_context where key='hero')),'spell slot did not decrement');
+select public.rest_roll30_character((select id from roll30_test_context where key='hero'),'long');
+select pg_temp.roll30_assert((select sheet->'spellcasting'->'slots'->0->>'current'='2' from public.characters where id=(select id from roll30_test_context where key='hero')),'long rest did not restore spell slots');
 select pg_temp.roll30_expect_error(
   format('select public.update_roll30_character_sheet(%L::uuid,0,%L::jsonb,10,10,null)',
     (select id from roll30_test_context where key = 'hero'), '{"abilities":{"str":12}}'),
