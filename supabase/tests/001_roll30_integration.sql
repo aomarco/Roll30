@@ -744,11 +744,24 @@ select public.advance_roll30_turn((select id from roll30_test_context where key=
 select pg_temp.roll30_assert((select round=2 from public.sessions where id=(select id from roll30_test_context where key='session')),'round did not advance or checkpoint');
 select public.rewind_roll30_round((select id from roll30_test_context where key='session'));
 select pg_temp.roll30_assert((select round=1 from public.sessions where id=(select id from roll30_test_context where key='session')),'round rewind did not restore session metadata');
+insert into roll30_test_context(key,id)
+select 'prepared_reinforcement',id from public.save_roll30_scene_token(
+  (select id from roll30_test_context where key='second_scene'),
+  (select id from roll30_test_context where key='reinforcement'),33,44,10,true,null
+);
 select public.change_roll30_session_scene((select id from roll30_test_context where key='session'),(select id from roll30_test_context where key='second_scene'));
+select pg_temp.roll30_assert(
+  exists(select 1 from public.session_tokens where session_id=(select id from roll30_test_context where key='session') and character_id=(select id from roll30_test_context where key='reinforcement') and x=33 and y=44 and hidden)
+  and exists(select 1 from public.session_tokens where session_id=(select id from roll30_test_context where key='session') and character_id=(select id from roll30_test_context where key='hero'))
+  and not exists(select 1 from public.session_tokens where session_id=(select id from roll30_test_context where key='session') and character_id=(select id from roll30_test_context where key='target')),
+  'scene transition did not preserve PCs and replace the cast with prepared tokens'
+);
 select public.change_roll30_session_scene((select id from roll30_test_context where key='session'),(select id from roll30_test_context where key='scene'));
 select pg_temp.roll30_assert(
-  (select scene_id=(select id from roll30_test_context where key='scene') from public.sessions where id=(select id from roll30_test_context where key='session')),
-  'live scene transitions did not converge on the selected scene'
+  (select scene_id=(select id from roll30_test_context where key='scene') from public.sessions where id=(select id from roll30_test_context where key='session'))
+  and exists(select 1 from public.session_tokens where session_id=(select id from roll30_test_context where key='session') and character_id=(select id from roll30_test_context where key='hero'))
+  and not exists(select 1 from public.session_tokens where session_id=(select id from roll30_test_context where key='session') and character_id=(select id from roll30_test_context where key='reinforcement')),
+  'live scene transitions did not converge or clean the previous prepared cast'
 );
 insert into roll30_test_context(key,id)
 select 'delayed_rule',id from public.create_roll30_automation_rule(
