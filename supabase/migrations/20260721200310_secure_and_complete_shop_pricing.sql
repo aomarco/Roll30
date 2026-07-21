@@ -16,7 +16,12 @@ begin
   gp:=coalesce((character.sheet->'currency'->>'gp')::integer,0);total:=private.roll30_purchase_total(shop,stock,requested_quantity);if gp<total then raise exception 'Character cannot afford this purchase';end if;update public.characters set sheet=jsonb_set(character.sheet,'{currency,gp}',to_jsonb(gp-total),true),sheet_revision=sheet_revision+1,updated_at=now() where id=character.id;insert into public.character_inventory(character_id,item_id,quantity) values(character.id,target_item,requested_quantity) on conflict(character_id,item_id) do update set quantity=public.character_inventory.quantity+excluded.quantity;if stock.quantity is not null then update public.shop_stock set quantity=quantity-requested_quantity where shop_id=stock.shop_id and item_id=stock.item_id;end if;update public.purchase_requests set resolved_at=now() where id=result.id returning * into result;return result;
 end; $$;
 
-create or replace function public.resolve_roll30_purchase(target_request uuid,approve boolean)
+-- The original function used `request_id` for its first parameter. PostgreSQL
+-- does not allow CREATE OR REPLACE to rename input parameters, so remove the
+-- previous signature before installing this hardened implementation.
+drop function public.resolve_roll30_purchase(uuid,boolean);
+
+create function public.resolve_roll30_purchase(target_request uuid,approve boolean)
 returns public.purchase_requests language plpgsql security definer set search_path=public as $$
 declare request_row public.purchase_requests;shop_row public.shops;stock_row public.shop_stock;character_row public.characters;gp integer;total integer;
 begin
