@@ -182,10 +182,11 @@ select 'target_token', id from public.add_roll30_session_token(
   (select id from roll30_test_context where key = 'session'),
   (select id from roll30_test_context where key = 'target')
 );
-select public.move_roll30_token(
-  (select id from roll30_test_context where key = 'session'),
-  (select id::text from roll30_test_context where key = 'target_token'), 90, 50
-);
+-- Place the target behind the private test wall as GM setup. This is fixture
+-- positioning, not a gameplay movement, so it intentionally bypasses the
+-- movement RPC's wall-crossing rule.
+update public.session_tokens set x = 90, y = 50
+where id = (select id from roll30_test_context where key = 'target_token');
 select public.add_roll30_initiative_entry(
   (select id from roll30_test_context where key = 'session'),
   (select id from roll30_test_context where key = 'hero_token'),
