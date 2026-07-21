@@ -18,7 +18,7 @@
   <div class="gate-card">
     <div class="gate-mark" aria-hidden="true">A</div>
     <p class="gate-kicker">Private campaign table</p>
-    <h1>Aethertable</h1>
+    <h1>Roll30</h1>
     <p class="gate-copy" id="gate-copy">Checking whether this table already knows you…</p>
     <form id="gate-form" class="gate-hidden">
       <label for="gate-password">Table password</label>
@@ -32,12 +32,11 @@
 <helmet>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Hanken+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <script src="./image-slot.js"></script>
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
   html,body{height:100%}
-  body{background:#0d0d0f;color:#ececee;font-family:'Hanken Grotesk',system-ui,sans-serif;-webkit-font-smoothing:antialiased;font-size:14px;line-height:1.45}
+  body{background:#0d0d0f;color:#ececee;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased;font-size:14px;line-height:1.5}
   a{color:#e6a94d;text-decoration:none}
   a:hover{color:#f0be6e}
   ::selection{background:rgba(230,169,77,.28)}
@@ -47,8 +46,7 @@
   ::-webkit-scrollbar-track{background:transparent}
   button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
   input,textarea,select{font-family:inherit}
-  .disp{font-family:'Spectral',Georgia,serif}
-  .mono{font-family:'JetBrains Mono',monospace}
+  .disp,.mono{font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
   image-slot{--is-bg:#141418}
   @keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
   @keyframes toastIn{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:none}}
@@ -723,7 +721,7 @@
           <div style="background:#111114;border:1px solid #22222a;border-radius:14px;padding:18px 20px;margin-bottom:16px">
             <h3 style="font-size:13px;font-weight:700;margin-bottom:14px">General</h3>
             <label style="display:block;font-size:11px;color:#66666e;margin-bottom:6px">CAMPAIGN NAME</label>
-            <input value="The Ember Road" style="width:100%;background:#0d0d0f;border:1px solid #2b2b32;border-radius:8px;padding:10px 12px;color:#ececee;outline:none;margin-bottom:14px"/>
+            <input placeholder="Campaign name" style="width:100%;background:#0d0d0f;border:1px solid #2b2b32;border-radius:8px;padding:10px 12px;color:#ececee;outline:none;margin-bottom:14px"/>
             <label style="display:block;font-size:11px;color:#66666e;margin-bottom:6px">JOIN CODE</label>
             <div style="display:flex;gap:8px"><input value="EMBER-7429" class="mono" style="flex:1;background:#0d0d0f;border:1px solid #2b2b32;border-radius:8px;padding:10px 12px;color:#e6a94d;letter-spacing:1px;outline:none"/><button onClick="{{ toastRegen }}" style="background:#1c1c22;border:1px solid #2b2b32;border-radius:8px;padding:0 14px;font-size:12px;font-weight:600">Regenerate</button></div>
           </div>
@@ -876,7 +874,7 @@
               <button onClick="{{ editThisScene }}" style="background:#1c1c22;border:1px solid #2b2b32;border-radius:9px;padding:7px 13px;font-size:12px;font-weight:600">Edit scene</button>
               <button onClick="{{ togglePlayGod }}" style="background:rgba(177,138,214,.16);border:1px solid rgba(177,138,214,.35);color:#b18ad6;border-radius:9px;padding:7px 13px;font-size:12px;font-weight:700">⚡ Play God</button>
             </sc-if>
-            <sc-if value="{{ isPlayer }}" hint-placeholder-val=""><span class="mono" style="font-size:10px;color:#9a9aa2">Playing as <span style="color:#e6a94d">Thorne</span></span></sc-if>
+            <sc-if value="{{ isPlayer }}" hint-placeholder-val=""><span class="mono" style="font-size:10px;color:#9a9aa2">No character selected</span></sc-if>
           </div>
 
           <div style="display:flex;flex:1;min-height:0">
@@ -984,7 +982,7 @@
               <div style="display:flex;gap:14px;align-items:stretch">
                 <div style="display:flex;align-items:center;gap:11px;padding-right:14px;border-right:1px solid #22222a">
                   <div style="width:46px;height:46px;border-radius:11px;overflow:hidden;background:#17171b;flex:0 0 auto"><image-slot id="pbar-portrait" shape="rect" placeholder="portrait"></image-slot></div>
-                  <div><div style="font-weight:600;font-size:13px">Thorne Ironhide</div><button onClick="{{ openMySheet }}" class="mono" style="font-size:10px;color:#e6a94d">CHARACTER SHEET ▸</button></div>
+                  <div><div style="font-weight:600;font-size:13px">No character selected</div><button onClick="{{ openMySheet }}" class="mono" style="font-size:10px;color:#e6a94d">CHARACTER SHEET ▸</button></div>
                 </div>
                 <div style="flex:1;display:flex;flex-direction:column;gap:8px;min-width:0">
                   <div style="display:flex;gap:8px;flex-wrap:wrap"><sc-for list="{{ roleplayActions }}" as="a" hint-placeholder-count="4"><button onClick="{{ a.do }}" style="background:#1c1c22;border:1px solid #2b2b32;border-radius:9px;padding:9px 13px;font-size:12px;font-weight:600">{{ a.label }}</button></sc-for><button onClick="{{ openShop }}" style="background:rgba(230,169,77,.14);border:1px solid rgba(230,169,77,.3);color:#e6a94d;border-radius:9px;padding:9px 13px;font-size:12px;font-weight:700">🛍 Shop</button></div>
@@ -1090,7 +1088,7 @@
     <div onClick="{{ closeShopManage }}" style="position:fixed;inset:0;background:rgba(6,6,8,.6);z-index:60;display:flex;justify-content:flex-end">
       <div onClick="{{ stop }}" style="width:460px;height:100%;overflow-y:auto;background:#121215;border-left:1px solid #2b2b32;box-shadow:-30px 0 80px rgba(0,0,0,.5);animation:fadeUp .2s ease">
         <div style="display:flex;align-items:center;gap:12px;padding:18px 20px;border-bottom:1px solid #22222a;position:sticky;top:0;background:#121215;z-index:2">
-          <div><div class="disp" style="font-size:18px;font-weight:600">The Prancing Stag Supplies</div><div style="font-size:11px;color:#9a9aa2">Kept by Mira Coppervale</div></div>
+          <div><div class="disp" style="font-size:18px;font-weight:600">No storefront selected</div><div style="font-size:11px;color:#9a9aa2">Create a shop to add stock and a keeper.</div></div>
           <div style="flex:1"></div>
           <button onClick="{{ closeShopManage }}" style="width:32px;height:32px;border-radius:8px;background:#1c1c22;border:1px solid #2b2b32;font-size:15px;color:#9a9aa2">✕</button>
         </div>
@@ -1167,7 +1165,7 @@
       <div onClick="{{ stop }}" style="width:560px;max-width:94vw;max-height:86vh;overflow-y:auto;background:#121215;border:1px solid #2b2b32;border-radius:16px;box-shadow:0 30px 80px rgba(0,0,0,.6);animation:fadeUp .2s ease">
         <div style="display:flex;align-items:center;gap:12px;padding:18px 22px;border-bottom:1px solid #22222a;position:sticky;top:0;background:#121215">
           <div style="width:44px;height:44px;border-radius:10px;background:#c0a15a;display:flex;align-items:center;justify-content:center;font-weight:800;color:#0d0d0f">PS</div>
-          <div style="flex:1"><div class="disp" style="font-size:19px;font-weight:600">The Prancing Stag Supplies</div><div style="font-size:12px;color:#9a9aa2">Mira Coppervale · everything a road-weary party needs</div></div>
+          <div style="flex:1"><div class="disp" style="font-size:19px;font-weight:600">No storefront selected</div><div style="font-size:12px;color:#9a9aa2">Create a shop to manage its stock and rules.</div></div>
           <div style="text-align:right"><div class="disp" style="font-size:20px;font-weight:600;color:#e6a94d">{{ goldDisplay }} gp</div><div class="mono" style="font-size:9px;color:#66666e">YOUR PURSE</div></div>
           <button onClick="{{ closeShop }}" style="width:32px;height:32px;border-radius:8px;background:#1c1c22;border:1px solid #2b2b32;font-size:15px;color:#9a9aa2">✕</button>
         </div>
@@ -1510,7 +1508,7 @@ class Component extends DCLogic {
 
   getSheetVals(s){
     const PB=2; const modN=n=>Math.floor((n-10)/2); const mod=n=>{const m=modN(n);return (m>=0?'+':'')+m;};
-    const raw=this.PCS[s.activeCharId]||this.PCS['pc-thorne'];
+    const raw=this.PCS[s.activeCharId]||this.PCS.empty;
     const tid=raw.tokenId; const h=s.hp[tid]||[10,10];
     const scoreOf=k=>{const f=raw.scores.find(a=>a[0]===k);return f?f[1]:10;};
     const abilities=raw.scores.map(a=>({key:a[0],score:a[1],mod:mod(a[1])}));
@@ -1601,6 +1599,39 @@ class Component extends DCLogic {
     {name:'Dire Wolf',count:'×1',hidden:false},
   ];
 
+  // A new Roll30 workspace starts empty. Content is added by the GM or players,
+  // never invented by the interface.
+  blankWorkspace = Object.assign(this.state, {
+    route:'campaigns', mode:'build', sceneType:'playing', activeSceneId:null,
+    activeCharId:'empty', selectedTokenId:null, turnIndex:0, currentTrack:'',
+    gold:0, hp:{}, tokensP:[], tokensB:[], shapes:[], markersP:[], initiative:[],
+    inventory:[], cart:[], shopStock:[], round:1, actionMenu:null, pendingAttack:null,
+  });
+  campaign = { name:'No campaign selected', code:'—' };
+  campaigns = [];
+  party = [];
+  history = [];
+  scenes = [];
+  PCS = {
+    empty:{id:'empty',tokenId:'empty',name:'No character selected',cls:'Create a character to see its sheet',bg:'',
+      scores:[['STR',10],['DEX',10],['CON',10],['INT',10],['WIS',10],['CHA',10]],saveProf:[],skills:[],
+      ac:'—',speed:'—',temp:0,carry:'—',attacks:[],resources:[],conditions:[],spells:null,features:[],personality:[]}
+  };
+  bestiary = [];
+  npcs = [];
+  itemsCatalog = [];
+  tracks = [];
+  mediaImgs = [];
+  notesData = { notes:[], handouts:[], lore:[], rules:[] };
+  templatesData = [];
+  players = [];
+  interactiveObjects = [];
+  sceneStates = [];
+  promptsList = [];
+  reinforcements = [];
+  encounterEnemies = [];
+  enemyAC = {};
+
   toolIcon(name){
     const el=(t,p)=>React.createElement(t,p);
     const svg=(...ch)=>el('svg',{width:17,height:17,viewBox:'0 0 24 24',fill:'none',stroke:'currentColor',strokeWidth:1.7,strokeLinecap:'round',strokeLinejoin:'round'},ch);
@@ -1634,8 +1665,8 @@ class Component extends DCLogic {
     if(t==='prompt'){this.toast('Prompt marker placed','#e6a94d');return;}
     if(t==='shop'){this.toast('Shop marker placed — assign an NPC','#e6a94d');return;} }
   mapClick=(e)=>{ const rect=e.currentTarget.getBoundingClientRect(); const x=Math.round(((e.clientX-rect.left)/rect.width)*100); const y=Math.round(((e.clientY-rect.top)/rect.height)*100); this.addAtPoint(x,y); };
-  nextTurn=()=>{ const len=this.state.initiative.length; const nt=(this.state.turnIndex+1)%len; const wrapped=nt===0; const nextRound=this.state.round+(wrapped?1:0); this.setState({turnIndex:nt,round:nextRound,movePreview:false,actionMenu:null,pendingAttack:null}); const cur=this.state.initiative[nt]; this.toast((wrapped?'Round '+nextRound+' — ':'')+cur.name+"'s turn",'#e6a94d'); };
-  prevTurn=()=>{ const len=this.state.initiative.length; this.setState({turnIndex:(this.state.turnIndex-1+len)%len}); };
+  nextTurn=()=>{ const len=this.state.initiative.length; if(!len){this.toast('Add combatants before starting initiative','#9a9aa2');return;} const nt=(this.state.turnIndex+1)%len; const wrapped=nt===0; const nextRound=this.state.round+(wrapped?1:0); this.setState({turnIndex:nt,round:nextRound,movePreview:false,actionMenu:null,pendingAttack:null}); const cur=this.state.initiative[nt]; this.toast((wrapped?'Round '+nextRound+' — ':'')+cur.name+"'s turn",'#e6a94d'); };
+  prevTurn=()=>{ const len=this.state.initiative.length; if(!len)return; this.setState({turnIndex:(this.state.turnIndex-1+len)%len}); };
   addInitEntry=()=>{ const nid='e-add'+Date.now(); this.setState({initiative:[...this.state.initiative,{id:nid,name:'Reinforcement',initials:'R',tint:'#8f4a4a',kind:'enemy',init:10}]}); this.toast('Initiative entry added','#7bc47f'); };
   togglePanel(k){ return ()=>this.setState({[k]:!this.state[k]}); }
   toggleMove=()=>this.setState({movePreview:!this.state.movePreview,actionMenu:null,pendingAttack:null});
@@ -1653,8 +1684,8 @@ class Component extends DCLogic {
     const navDefs=[
       {title:'CAMPAIGN', items:[
         {id:'overview',label:'Overview',route:'overview'},
-        {id:'scenes',label:'Scenes',route:'scenes',badge:'12'},
-        {id:'party',label:isGM?'Characters':'My character',route:'characters',badge:isGM?'4':''},
+        {id:'scenes',label:'Scenes',route:'scenes',badge:this.scenes.length?String(this.scenes.length):''},
+        {id:'party',label:isGM?'Characters':'My character',route:'characters',badge:isGM&&this.party.length?String(this.party.length):''},
       ]},
       {title:'LIBRARY', items:[
         {id:'bestiary',label:'Bestiary',route:'bestiary'},
@@ -1692,13 +1723,13 @@ class Component extends DCLogic {
       playersLabel:c.players+' players', scenesLabel:c.scenes+' scenes', sessionsLabel:c.sessions+' sessions',
       open:()=>this.setState({route:'overview'}) }));
 
-    const stateStats=[
+    const demoStateStats=[
       {value:'Prancing Stag',label:'Party location',color:'#e6a94d'},
       {value:'3 / 9',label:'Enemies alive',color:'#e5675f'},
       {value:'7',label:'Doors open',color:'#7bc47f'},
       {value:'184 gp',label:'Party purse',color:'#c9c9d0'},
     ];
-    const worldFlags=[
+    const demoWorldFlags=[
       {color:'#7bc47f',text:'The Ember Shard is recovered and held by Lyra.'},
       {color:'#e6a94d',text:'Grishnak the Goblin Boss is captured, awaiting interrogation.'},
       {color:'#6aa3e0',text:'Millhaven west gate — open (repaired last session).'},
@@ -1706,6 +1737,8 @@ class Component extends DCLogic {
       {color:'#9a9aa2',text:'Purchased: 3× Potion of Healing, 50ft silk rope, lantern oil.'},
     ];
 
+    const stateStats=[];
+    const worldFlags=[];
     const sv=this.getSheetVals(s);
     const sheetTabs=[['full','Full'],['combat','Combat'],['social','Social'],['shopping','Shopping']].map(t=>({label:t[1],set:()=>this.setState({sheetMode:t[0]}),style:(s.sheetMode===t[0]?tabOn:tabOff)}));
     const folderDefs=[['all','All'],['locations','Locations'],['chapters','Chapters'],['encounters','Encounters'],['completed','Completed'],['unused','Unused ideas']];
@@ -1725,7 +1758,7 @@ class Component extends DCLogic {
     if(sb){statBlock={...sb,abilities:sb.abilities.map(a=>({key:a[0],mod:a[1]+' ('+modAbb(a[1])+')'})),actions:sb.actions.map(a=>({name:a.name,detail:a.detail,roll:()=>{const dr=this.rollDie(20);if(a.c>0){const r=this.rollSum(a.c,a.s);this.toast(a.name+': to hit '+(dr+a.b)+' · dmg '+(r.t+a.m),'#e5675f');}else{this.toast(a.name+' → '+a.detail,'#e6a94d');}}})),add:()=>{this.toast(sb.name+' added to current scene','#7bc47f');this.setState({statBlockId:null});}};}
     const npcs=this.npcs.map(n=>({...n,slotId:'npc-'+n.id,dispStyle:'font-size:9px;color:'+dispCol[n.disposition]+';border:1px solid '+dispCol[n.disposition]+'55;border-radius:5px;padding:2px 6px',whisper:()=>this.toast('Whisper channel opened with '+n.name,'#6aa3e0'),shop:n.isShop?this.openShopManage:()=>this.toast(n.name+' is now a shopkeeper','#7bc47f'),shopLabel:n.isShop?'Open shop':'Mark as shop',shopBtnStyle:n.isShop?'flex:1;background:rgba(230,169,77,.14);border:1px solid rgba(230,169,77,.3);color:#e6a94d;border-radius:8px;padding:7px;font-size:12px;font-weight:700':'flex:1;background:#1c1c22;border:1px solid #2b2b32;color:#9a9aa2;border-radius:8px;padding:7px;font-size:12px;font-weight:600'}));
     const itemsCatalog=this.itemsCatalog.map(i=>({...i,rarityStyle:'font-size:9px;letter-spacing:.5px;white-space:nowrap;color:'+(rarCol[i.rarity]||'#9a9aa2')+';border:1px solid '+(rarCol[i.rarity]||'#9a9aa2')+'55;border-radius:5px;padding:2px 6px'}));
-    const shops=[{id:'shop1',name:'The Prancing Stag Supplies',keeper:'Mira Coppervale',count:s.shopStock.length,initials:'PS',tint:'#c0a15a',preview:()=>this.setState({shopOpen:true})}];
+    const shops=[];
     const mediaTabs=[['images','Images'],['audio','Music & SFX']].map(t=>({label:t[1],set:()=>this.setState({mediaTab:t[0]}),style:(s.mediaTab===t[0]?tabOn:tabOff)}));
     const imageSlots=this.mediaImgs.map((l,i)=>({id:'media-img-'+i,label:l}));
     const tracks=this.tracks.map(tr=>{const playing=s.musicPlaying&&s.currentTrack===tr.name;return{...tr,playing,toggle:this.toggleTrack(tr.name),icon:playing?'⏸':'▶',btnStyle:'width:38px;height:38px;border-radius:50%;flex:0 0 auto;display:flex;align-items:center;justify-content:center;font-size:13px;'+(playing?'background:#7bc47f;color:#0d0d0f':'background:#1c1c22;border:1px solid #2b2b32;color:#e6a94d')};});
@@ -1742,7 +1775,7 @@ class Component extends DCLogic {
     const shopModes=[['automatic','Automatic'],['approval','Approval'],['manual','Manual']].map(m=>({label:m[1],set:()=>this.setState({shopMode:m[0]}),style:(s.shopMode===m[0]?'flex:1;padding:9px;border-radius:8px;font-size:12px;font-weight:700;background:#e6a94d;color:#1a1206':'flex:1;padding:9px;border-radius:8px;font-size:12px;font-weight:600;background:#1c1c22;border:1px solid #2b2b32;color:#9a9aa2')}));
     const shopTogDefs=[['shopSell','Players can sell items'],['shopBargain','Allow bargaining'],['shopPersuasion','Require a persuasion check'],['shopLimited','Limited stock (depletes on purchase)']];
     const shopToggles=shopTogDefs.map(d=>{const on=s[d[0]];const sx=sw(on);return{label:d[1],toggle:this.toggleFlag(d[0]),track:sx.track,knob:sx.knob};});
-    const shopAudiences=[['all','Whole party'],['thorne','Thorne only'],['lyra','Lyra only']].map(a=>({label:a[1],set:()=>this.setState({shopAudience:a[0]}),style:(s.shopAudience===a[0]?'padding:7px 11px;border-radius:8px;font-size:12px;font-weight:600;background:rgba(230,169,77,.14);border:1px solid rgba(230,169,77,.3);color:#e6a94d':'padding:7px 11px;border-radius:8px;font-size:12px;font-weight:600;background:#1c1c22;border:1px solid #2b2b32;color:#9a9aa2')}));
+    const shopAudiences=[['all','Whole party']].map(a=>({label:a[1],set:()=>this.setState({shopAudience:a[0]}),style:(s.shopAudience===a[0]?'padding:7px 11px;border-radius:8px;font-size:12px;font-weight:600;background:rgba(230,169,77,.14);border:1px solid rgba(230,169,77,.3);color:#e6a94d':'padding:7px 11px;border-radius:8px;font-size:12px;font-weight:600;background:#1c1c22;border:1px solid #2b2b32;color:#9a9aa2')}));
     const shopStock=s.shopStock.map(i=>{const p=Math.round(i.price*(1+s.shopDiscount/100));return{...i,priceLabel:p+' gp',stockLabel:s.shopLimited?i.qty+' in stock':'unlimited',opacity:i.hidden?'.5':'1',hideLabel:i.hidden?'HIDDEN':'VISIBLE',hideStyle:'font-size:9px;letter-spacing:.5px;border-radius:6px;padding:5px 8px;'+(i.hidden?'color:#e5675f;background:rgba(229,103,95,.12);border:1px solid rgba(229,103,95,.3)':'color:#7bc47f;background:rgba(123,196,127,.1);border:1px solid rgba(123,196,127,.25)'),toggleHidden:this.toggleStockHidden(i.id)};});
     // ---- shared stage ----
     const isPlaying=s.sceneType==='playing', isBattle=s.sceneType==='battle';
@@ -1799,19 +1832,19 @@ class Component extends DCLogic {
       {label:s.fogEnabled?'Reveal the whole map':'Conceal the map',color:'#e6a94d',do:this.toggleFlag('fogEnabled')},
     ];
     const targets=s.tokensB.filter(t=>t.kind==='enemy'&&(!(s.hp[t.id])||s.hp[t.id][0]>0)).map(t=>({name:t.name,initials:t.initials,tint:t.tint,ac:this.enemyAC[t.id]||13,resolve:()=>this.resolveAttack(t.id,t.name)}));
-    const playerAttacks=this.PCS['pc-thorne'].attacks.map(a=>({name:a.n,detail:a.d,bonus:(a.b>=0?'+':'')+a.b,use:this.selectAttack(a)}));
+    const playerAttacks=(this.PCS[s.activeCharId]||this.PCS.empty).attacks.map(a=>({name:a.n,detail:a.d,bonus:(a.b>=0?'+':'')+a.b,use:this.selectAttack(a)}));
     let actionMenuItems=[],actionMenuTitle='',actionMenuEmpty='';
     if(s.actionMenu==='attack'){actionMenuTitle='Attacks';actionMenuItems=playerAttacks.map(a=>({name:a.name,detail:a.detail,tag:a.bonus,use:a.use}));}
-    else if(s.actionMenu==='spell'){actionMenuTitle='Spells';actionMenuEmpty='Thorne has no spellcasting. (A caster would see spell slots and a spell list here.)';}
+    else if(s.actionMenu==='spell'){actionMenuTitle='Spells';actionMenuEmpty='No spellcasting options are available.';}
     else if(s.actionMenu==='item'){actionMenuTitle='Items';actionMenuItems=[{name:'Potion of Healing',detail:'Regain 2d4+2 HP',tag:'×3',use:()=>{const r=this.rollSum(2,4).t+2;this.adjustHp('tk-thorne',r);this.setState({actionMenu:null});}},{name:'Torch',detail:'Light a 20 ft radius',tag:'×5',use:()=>{this.toast('Torch lit — 20 ft of light','#e6a94d');this.setState({actionMenu:null});}},{name:'Handaxe (thrown)',detail:'Ranged attack, 20/60 ft',tag:'×2',use:this.selectAttack({n:'Handaxe',b:5,c:1,s:6,m:3})}];}
     else if(s.actionMenu==='ability'){actionMenuTitle='Abilities';actionMenuItems=[{name:'Second Wind',detail:'Bonus action · regain 1d10+4 HP',tag:'1/1',use:()=>{const r=this.rollDie(10)+4;this.adjustHp('tk-thorne',r);this.setState({actionMenu:null});}},{name:'Action Surge',detail:'Take one extra action',tag:'1/1',use:()=>{this.toast('Action Surge! An extra action this turn','#e6a94d');this.setState({actionMenu:null});}},{name:'Shield Bash',detail:'Knock a target prone',tag:'—',use:this.selectAttack({n:'Shield Bash',b:5,c:1,s:4,m:3})}];}
     const ptB=s.tokensB.find(t=>t.id==='tk-thorne');
     const movePreviewStyle=(s.movePreview&&ptB)?'position:absolute;left:'+ptB.x+'%;top:'+ptB.y+'%;width:26%;height:26%;transform:translate(-50%,-50%);border-radius:50%;border:2px dashed #6aa3e0;background:rgba(106,163,224,.1);z-index:3;pointer-events:none':'display:none';
-    const roleplayActions=['Talk to the innkeeper','Look around the room','Approach the hooded stranger','Buy a round for the table'].map(x=>({label:x,do:()=>this.toast('Thorne: “'+x+'”','#6aa3e0')}));
+    const roleplayActions=[];
     const shopVisible=s.shopStock.filter(i=>!i.hidden).map(i=>{const price=Math.round(i.price*(1+s.shopDiscount/100));const afford=s.gold>=price;return{name:i.name,price:price+' gp',stock:s.shopLimited?i.qty+' left':'in stock',meets:afford,metLabel:afford?'':'need more gold',buy:this.buyItem(i),btnStyle:afford?'background:#e6a94d;color:#1a1206;border-radius:8px;padding:7px 12px;font-size:12px;font-weight:700':'background:#1c1c22;border:1px solid #2b2b32;color:#66666e;border-radius:8px;padding:7px 12px;font-size:12px;font-weight:600'};});
     const handoutsReveal=this.notesData.handouts.map(h=>({title:h.title,reveal:()=>this.toast('“'+h.title+'” revealed to players','#7bc47f')}));
-    const recentWhispers=[{from:'GM → Bram',text:'You spot a trip-wire across the doorway. DC 13 Dex to disarm.',mine:true},{from:'Lyra → GM',text:'Can I use Arcana to identify the shard?',mine:false},{from:'GM → Party',text:'The temperature drops. Roll me a CON save.',mine:true}].map(w=>({from:w.from,text:w.text,align:w.mine?'flex-end':'flex-start',bubble:'font-size:12px;line-height:1.45;border-radius:11px;padding:9px 12px;'+(w.mine?'background:rgba(230,169,77,.14);border:1px solid rgba(230,169,77,.28);color:#f0e0c0':'background:#16161a;border:1px solid #22222a;color:#c9c9d0')}));
-    const triggerFlow=[{kind:'WHEN',label:'Lever A is pulled',color:'#6aa3e0'},{kind:'THEN',label:'Iron Gate opens',color:'#7bc47f'},{kind:'THEN',label:'Alarm activates',color:'#e6a94d'},{kind:'AFTER 2 ROUNDS',label:'Guards enter from the north',color:'#e5675f'}].map(n=>({...n,badge:'font-size:9px;letter-spacing:.5px;color:'+n.color+';border:1px solid '+n.color+'66;border-radius:5px;padding:2px 7px'}));
+    const recentWhispers=[];
+    const triggerFlow=[];
     const triggerPalette=[['TRIGGERS',['Lever pulled','Plate stepped on','Object damaged','Door opened','Round starts','HP threshold']],['EFFECTS',['Open / close door','Spawn enemies','Deal damage','Toggle light','Play sound','Reveal area','Move token','Collapse terrain']]].map(g=>({title:g[0],chips:g[1].map(c=>({label:c,add:()=>this.toast('“'+c+'” added to the chain','#b18ad6')}))}));
     const sessTop=isBattle?'#e5675f':'#6aa3e0';
 
@@ -1874,7 +1907,7 @@ class Component extends DCLogic {
       openAttack:this.setActionMenu('attack'), openSpell:this.setActionMenu('spell'), openItem:this.setActionMenu('item'), openAbility:this.setActionMenu('ability'), clearAction:()=>this.setState({actionMenu:null,pendingAttack:null}),
       endTurn:this.nextTurn, askGm:()=>this.toast('Question sent to the GM','#6aa3e0'),
       roleplayActions,
-      openMySheet:()=>this.setState({activeCharId:'pc-thorne',route:'sheet',sheetMode:isBattle?'combat':'full'}),
+      openMySheet:()=>this.setState({activeCharId:'empty',route:'sheet',sheetMode:isBattle?'combat':'full'}),
       diceRequestRoll:()=>{const r=this.rollDie(20)+3;this.setState({lastRoll:r});this.toast('Perception (DC 14) → '+r+(r+0>=14?'  success':'  fail'),r>=14?'#7bc47f':'#e5675f');},
       exitSession:()=>this.setState({route:isGM?'scenes':'overview'}),
       editThisScene:()=>this.setState({mode:'build',route:'scene-editor'}),
@@ -1887,7 +1920,7 @@ class Component extends DCLogic {
       toastAddStep:()=>this.toast('New step added to the chain','#b18ad6'),
       toastSaveTrigger:()=>{this.toast('Rule saved','#7bc47f');this.setState({triggerEditorOpen:false});},
       isGM, isPlayer:!isGM, role:s.role,
-      roleName:isGM?'Game Master':'Player · Thorne',
+      roleName:isGM?'Game Master':'Player',
       roleSub:isGM?'Full control':'Play Mode only',
       roleDotStyle:`width:34px;height:34px;border-radius:9px;flex:0 0 auto;background:${isGM?'linear-gradient(135deg,#e6a94d,#a9722a)':'linear-gradient(135deg,#7d6bd0,#4f3f96)'}`,
       buildTabStyle:s.mode==='build'?tabOn:tabOff, sessionTabStyle:s.mode==='session'?tabOn:tabOff,
