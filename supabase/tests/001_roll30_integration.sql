@@ -126,6 +126,18 @@ with created as (
 )
 insert into roll30_test_context(key, id) select 'prompt', id from created;
 
+with created as (
+  insert into public.campaign_assets(campaign_id, uploaded_by, kind, storage_path, label, visible_to_players)
+  values ((select id from roll30_test_context where key = 'gm_campaign'), '30000000-0000-4000-a000-000000000101', 'image', (select id::text from roll30_test_context where key = 'gm_campaign') || '/private-test.png', 'Private map', false)
+  returning id
+)
+insert into roll30_test_context(key, id) select 'private_asset', id from created;
+
+insert into public.campaign_notes(campaign_id, created_by, kind, title, body, hidden, audience, tags)
+values
+  ((select id from roll30_test_context where key = 'gm_campaign'), '30000000-0000-4000-a000-000000000101', 'note', 'GM secret', 'Hidden', true, '{}', '{secret}'),
+  ((select id from roll30_test_context where key = 'gm_campaign'), '30000000-0000-4000-a000-000000000101', 'handout', 'Player clue', 'Visible', false, array['30000000-0000-4000-a000-000000000102'::uuid], '{clue}');
+
 set local role authenticated;
 select set_config('request.jwt.claims', '{"sub":"30000000-0000-4000-a000-000000000101","role":"authenticated","email":"roll30-gm-test@example.invalid"}', true);
 insert into roll30_test_context(key, id)
@@ -167,6 +179,14 @@ select public.move_roll30_token(
 select pg_temp.roll30_assert(
   (select x = 60 from public.session_tokens where id = (select id from roll30_test_context where key = 'hero_token')),
   'player could not move their owned token'
+);
+select pg_temp.roll30_assert(
+  (select count(*) from public.campaign_assets where campaign_id = (select id from roll30_test_context where key = 'gm_campaign')) = 0,
+  'player could read unrevealed campaign media'
+);
+select pg_temp.roll30_assert(
+  (select count(*) from public.campaign_notes where campaign_id = (select id from roll30_test_context where key = 'gm_campaign')) = 1,
+  'note audience policy did not return exactly the addressed revealed note'
 );
 select pg_temp.roll30_expect_error(
   format('select public.move_roll30_token(%L::uuid,%L,55,55)',
@@ -214,6 +234,17 @@ select pg_temp.roll30_assert(
   (select jsonb_array_length(state -> 'initiative') from public.sessions where id = (select id from roll30_test_context where key = 'session')) = 0,
   'token removal did not clean initiative state'
 );
+select pg_temp.roll30_expect_error(
+  format('select public.trash_roll30_scene(%L::uuid)', (select id from roll30_test_context where key = 'scene')),
+  'End the live session before moving this scene to trash'
+);
+update public.sessions set status = 'ended' where id = (select id from roll30_test_context where key = 'session');
+select public.trash_roll30_scene((select id from roll30_test_context where key = 'scene'));
+select pg_temp.roll30_assert(
+  (select count(*) from public.list_roll30_trashed_scenes((select id from roll30_test_context where key = 'gm_campaign'))) = 1,
+  'trashed scene was not listed for the GM'
+);
+select public.restore_roll30_scene((select id from roll30_test_context where key = 'scene'));
 select public.regenerate_roll30_join_code((select id from roll30_test_context where key = 'gm_campaign'));
 select pg_temp.roll30_assert(
   (select join_code from public.campaigns where id = (select id from roll30_test_context where key = 'gm_campaign')) <> (select value from roll30_test_context where key = 'gm_campaign'),
@@ -239,10 +270,15 @@ select pg_temp.roll30_assert(
   'trashed campaign still authorized child-data access'
 );
 select public.restore_roll30_campaign((select id from roll30_test_context where key = 'gm_campaign'));
+update public.campaign_assets set visible_to_players = true where id = (select id from roll30_test_context where key = 'private_asset');
 
 reset role;
 set local role authenticated;
 select set_config('request.jwt.claims', '{"sub":"30000000-0000-4000-a000-000000000102","role":"authenticated","email":"roll30-player-test@example.invalid"}', true);
+select pg_temp.roll30_assert(
+  (select count(*) from public.campaign_assets where id = (select id from roll30_test_context where key = 'private_asset')) = 1,
+  'revealed campaign media was not visible to the player'
+);
 select public.leave_roll30_campaign((select id from roll30_test_context where key = 'gm_campaign'));
 select pg_temp.roll30_assert(
   not public.is_campaign_member((select id from roll30_test_context where key = 'gm_campaign')),
