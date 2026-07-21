@@ -66,6 +66,10 @@
       const { data = [] } = await query('items');
       return `<section><div class="live-title"><h2>Items</h2><button data-dialog="item">New item</button></div>${cards(data, i => `<b>${esc(i.name)}</b><small>${esc(i.item_data?.type || 'Custom item')}</small>`)}</section>`;
     }
+    if (view === 'inventory') {
+      const { data = [] } = await db.client.from('character_inventory').select('quantity, items(name), characters!inner(name,campaign_id)').eq('characters.campaign_id', campaignId);
+      return `<section><div class="live-title"><h2>Character inventory</h2></div><p class="muted">Items appear here after a GM approves a shop request.</p>${cards(data, i => `<b>${esc(i.items?.name || 'Item')}</b><small>${esc(i.characters?.name || 'Character')} · quantity ${esc(i.quantity)}</small>`)}</section>`;
+    }
     if (view === 'purchases') {
       const { data = [] } = await db.client.from('purchase_requests').select('*, items(name), characters(name), shops!inner(campaign_id)').eq('shops.campaign_id', campaignId).order('created_at',{ascending:false});
       return `<section><h2>Purchase requests</h2>${cards(data, p => `<b>${esc(p.characters?.name)} · ${esc(p.items?.name)}</b><small>${esc(p.status)} · quantity ${p.quantity}</small>${p.status === 'pending' ? `<button data-resolve-purchase="${p.id}" data-approve="true">Approve</button><button data-resolve-purchase="${p.id}" data-approve="false">Decline</button>` : ''}`)}</section>`;
@@ -102,6 +106,7 @@
   function cards(rows, renderCard) { return rows.length ? `<div class="live-cards">${rows.map(r => `<article>${renderCard(r)}</article>`).join('')}</div>` : '<p class="muted">Nothing here yet.</p>'; }
   async function render(view = 'overview') {
     app.innerHTML = `<header><div><strong>Roll30</strong><span>${esc(campaign.name)}</span></div><button id="leave-campaign">Campaigns</button></header><nav>${['overview','scenes','characters','items','compendium','media','shops','purchases','prompts','automation','session','messages','settings'].map(v => `<button data-view="${v}" class="${v === view ? 'active' : ''}">${v}</button>`).join('')}</nav><main><p id="live-notice"></p><div id="live-content">Loading…</div></main><dialog id="live-dialog"></dialog>`;
+    app.querySelector('nav').insertAdjacentHTML('beforeend', `<button data-view="inventory" class="${view === 'inventory' ? 'active' : ''}">inventory</button>`);
     document.getElementById('live-content').innerHTML = await content(view);
     bind(view);
   }
