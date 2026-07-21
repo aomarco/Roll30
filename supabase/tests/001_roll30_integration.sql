@@ -211,7 +211,7 @@ select pg_temp.roll30_assert((select count(*) from public.scene_objects where sc
 select public.update_roll30_character_sheet(
   (select id from roll30_test_context where key = 'hero'),
   0,
-  '{"abilities":{"str":16,"dex":12,"con":14,"int":10,"wis":11,"cha":8},"armor_class":15,"speed":30,"vision":30,"conditions":[],"features":["Second Wind"],"resources":[{"name":"Second Wind","current":1,"max":1,"reset":"short"}],"equipment":["Training Sword"],"attacks":[{"name":"Training Sword","bonus":50,"damage_dice":"3"}],"attack":{"name":"Training Sword","bonus":50,"damage":3},"currency":{"gp":20}}',
+  '{"abilities":{"str":16,"dex":12,"con":14,"int":10,"wis":11,"cha":8},"armor_class":15,"speed":30,"vision":30,"conditions":[],"features":["Second Wind"],"resources":[{"name":"Second Wind","current":1,"max":1,"reset":"short"}],"equipment":["Training Sword"],"attacks":[{"name":"Training Sword","bonus":50,"damage_dice":"1d2+1","damage_type":"slashing"}],"attack":{"name":"Training Sword","bonus":50,"damage":3},"currency":{"gp":20}}',
   10,
   10,
   null
@@ -260,14 +260,19 @@ select pg_temp.roll30_expect_error(
 );
 insert into public.prompt_responses(prompt_id, user_id, response)
 values ((select id from roll30_test_context where key = 'prompt'), auth.uid(), '{"text":"Ready"}');
-select public.resolve_roll30_attack(
+select public.set_roll30_condition((select id from roll30_test_context where key='hero'),'Prone',true,'Hold Person');
+select pg_temp.roll30_assert((select sheet->'conditions' ? 'Prone' and sheet->>'concentration'='Hold Person' from public.characters where id=(select id from roll30_test_context where key='hero')),'condition or concentration state did not persist');
+select public.set_roll30_condition((select id from roll30_test_context where key='hero'),'Prone',false,null);
+select public.resolve_roll30_combat_attack(
   (select id from roll30_test_context where key = 'hero'),
-  (select id from roll30_test_context where key = 'target')
+  (select id from roll30_test_context where key = 'target'),0,1
 );
 select pg_temp.roll30_assert(
   (select count(*) from public.messages where campaign_id = (select id from roll30_test_context where key = 'gm_campaign') and kind = 'attack') = 1,
   'server-resolved combat did not record an attack message'
 );
+select public.change_roll30_hp((select id from roll30_test_context where key='hero'),-100);
+select pg_temp.roll30_assert(((public.roll_roll30_death_save((select id from roll30_test_context where key='hero')))->>'roll')::integer between 1 and 20,'death save did not produce a server roll');
 
 reset role;
 set local role authenticated;
