@@ -29,7 +29,8 @@
     }
     if (view === 'characters') {
       const { data = [] } = await query('characters');
-      return `<section><div class="live-title"><h2>Characters</h2><button data-dialog="character">New character</button></div>${cards(data, c => `<b>${esc(c.name)}</b><small>${esc(c.kind)} · ${c.hp_current ?? '—'} / ${c.hp_max ?? '—'} HP</small><div class="hp-actions"><button data-hp="-1" data-character="${c.id}">− HP</button><button data-hp="1" data-character="${c.id}">+ HP</button></div>`)}</section>`;
+      const canEdit = c => currentRole === 'gm' || c.owner_id === session.user.id;
+      return `<section><div class="live-title"><h2>Characters</h2><button data-dialog="character">New character</button></div>${cards(data, c => `<b>${esc(c.name)}</b><small>${esc(c.kind)} · ${c.hp_current ?? '—'} / ${c.hp_max ?? '—'} HP${c.sheet?.currency?.gp != null ? ` · ${esc(c.sheet.currency.gp)} GP` : ''}</small><div class="hp-actions"><button data-hp="-1" data-character="${c.id}">− HP</button><button data-hp="1" data-character="${c.id}">+ HP</button>${canEdit(c) ? `<button data-edit-sheet="${c.id}">Edit sheet</button>` : ''}</div>`)}</section>`;
     }
     if (view === 'messages') {
       const { data = [] } = await query('messages');
@@ -109,6 +110,7 @@
     document.getElementById('leave-campaign').onclick = () => { localStorage.removeItem('roll30.campaignId'); window.location.replace('./index.html'); };
     app.querySelectorAll('[data-dialog]').forEach(b => b.onclick = () => openDialog(b.dataset.dialog));
     app.querySelectorAll('[data-hp]').forEach(b => b.onclick = async () => { const { error } = await db.client.rpc('change_roll30_hp', { target_character:b.dataset.character, delta:Number(b.dataset.hp) }); if (error) notice(error.message, true); else render('characters'); });
+    app.querySelectorAll('[data-edit-sheet]').forEach(b => b.onclick = () => openCharacterSheet(b.dataset.editSheet));
     app.querySelectorAll('[data-import-monster]').forEach(b => b.onclick = async () => { const response = await fetch('./DND%205E%20Data/5e-SRD-Monsters.json'); const monsters = await response.json(); const monster = monsters.find(m => m.name === b.dataset.importMonster); if (!monster) return; const { error } = await db.client.from('characters').insert({ campaign_id:campaignId,name:monster.name,kind:'monster',hp_current:monster.hit_points,hp_max:monster.hit_points,sheet:monster }); if (error) notice(error.message, true); else { notice(monster.name + ' added to this campaign.'); render('characters'); } });
     const messageForm = document.getElementById('message-form');
     if (messageForm) messageForm.onsubmit = async e => { e.preventDefault(); const text = document.getElementById('message-text').value.trim(); if (!text) return; const { error } = await db.client.from('messages').insert({ campaign_id:campaignId, sender_id:session.user.id, kind:'message', body:{ text } }); if (error) return notice(error.message, true); render('messages'); };
@@ -166,6 +168,21 @@
           : `<form method="dialog" id="create-record"><h3>New character</h3><input id="record-name" placeholder="Character name" required><select id="record-type"><option value="pc">Player character</option><option value="npc">NPC</option><option value="monster">Monster</option></select><button>Create character</button></form>`;
     dialog.showModal();
     dialog.querySelector('#create-record').onsubmit = async e => { e.preventDefault(); const name = dialog.querySelector('#record-name').value.trim(); const type = dialog.querySelector('#record-type')?.value; const body = dialog.querySelector('#record-body')?.value; const effect = dialog.querySelector('#record-effect')?.value; const table = kind === 'scene' ? 'scenes' : kind === 'prompt' ? 'prompts' : kind === 'shop' ? 'shops' : kind === 'item' ? 'items' : kind === 'trigger' ? 'scene_triggers' : 'characters'; const row = kind === 'scene' ? {campaign_id:campaignId,name,scene_type:type,created_by:session.user.id} : kind === 'prompt' ? {campaign_id:campaignId,created_by:session.user.id,title:name,body} : kind === 'shop' ? {campaign_id:campaignId,name} : kind === 'item' ? {campaign_id:campaignId,name,item_data:{type:body || 'Custom item'}} : kind === 'trigger' ? {scene_id:type,name,trigger:{description:body||'Manual trigger'},effects:[{type:effect}]} : {campaign_id:campaignId,name,kind:type,owner_id:type === 'pc' ? session.user.id : null,hp_current:10,hp_max:10}; const { error } = await db.client.from(table).insert(row); if (error) notice(error.message, true); dialog.close(); render(kind === 'scene' ? 'scenes' : kind === 'prompt' ? 'prompts' : kind === 'shop' ? 'shops' : kind === 'item' ? 'items' : kind === 'trigger' ? 'automation' : 'characters'); };
+  }
+  async function openCharacterSheet(characterId) {
+    const { data: character, error } = await db.client.from('characters').select('*').eq('id', characterId).single();
+    if (error) return notice(error.message, true);
+    const sheet = character.sheet || {}; const currency = sheet.currency || {};
+    const dialog = document.getElementById('live-dialog');
+    dialog.innerHTML = `<form method="dialog" id="character-sheet-form"><h3>${esc(character.name)} sheet</h3><label>Armour class<input id="sheet-ac" type="number" min="0" value="${esc(sheet.armor_class ?? '')}"></label><label>Gold pieces<input id="sheet-gp" type="number" min="0" step="0.01" value="${esc(currency.gp ?? 0)}"></label><label>Notes<textarea id="sheet-notes" rows="4" placeholder="Appearance, traits, reminders…">${esc(sheet.notes ?? '')}</textarea></label><button>Save sheet</button></form>`;
+    dialog.showModal();
+    dialog.querySelector('#character-sheet-form').onsubmit = async e => {
+      e.preventDefault();
+      const nextSheet = { ...sheet, armor_class:Number(dialog.querySelector('#sheet-ac').value) || null, currency:{ ...currency, gp:Number(dialog.querySelector('#sheet-gp').value) || 0 }, notes:dialog.querySelector('#sheet-notes').value.trim() };
+      const { error: updateError } = await db.client.from('characters').update({ sheet:nextSheet }).eq('id', character.id);
+      if (updateError) return notice(updateError.message, true);
+      dialog.close(); notice('Character sheet saved.'); render('characters');
+    };
   }
   db.client.channel('roll30-live').on('postgres_changes',{event:'*',schema:'public',table:'sessions',filter:`campaign_id=eq.${campaignId}`},() => notice('Live session updated.')).on('postgres_changes',{event:'INSERT',schema:'public',table:'messages',filter:`campaign_id=eq.${campaignId}`},() => notice('New table message.')).subscribe();
   document.addEventListener('DOMContentLoaded', () => { document.querySelector('x-dc')?.remove(); app.style.display = 'block'; load().catch(error => { app.innerHTML = `<main><h2>Roll30 could not load</h2><p>${esc(error.message)}</p></main>`; }); });
