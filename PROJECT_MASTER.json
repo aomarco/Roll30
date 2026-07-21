@@ -98,6 +98,12 @@
     }
   },
 
-  "change_log_next_id": 1,
-  "change_log": []
+  "change_log_next_id": 2,
+  "change_log": [
+    {
+      "id": 1,
+      "date": "2026-07-21",
+      "summary": "Stripped the frontend down to a blank canvas at the user's request. Removed the D&D file-explorer UI: App.tsx is now an empty placeholder page, and src/components/JsonView.tsx was deleted. The password gate was reduced to the simplest possible screen (one password field + Enter button + wrong-password note), dropping all neon/Framer Motion styling. index.css trimmed to essentials. The IP auto-admit system (src/gate.ts, Gate.tsx logic) is UNCHANGED and still works: same Roll30 Supabase project, same password, same auto-admit-on-known-IP behavior. Frameworks/tools (Vite, React, TS, Tailwind, Framer Motion) left installed, not removed. NOTE: the 'how_the_app_works', 'structure', and 'data_inventory' parts of project_state above still describe the OLD explorer app and are now outdated — per the priority rule, this log entry wins."
+    }
+  ]
 }
