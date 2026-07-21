@@ -49,11 +49,12 @@ insert into auth.users (
 values
   ('30000000-0000-4000-a000-000000000101', '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated', 'roll30-gm-test@example.invalid', '', now(), '{"provider":"email","providers":["email"]}', '{"display_name":"Test GM"}', now(), now()),
   ('30000000-0000-4000-a000-000000000102', '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated', 'roll30-player-test@example.invalid', '', now(), '{"provider":"email","providers":["email"]}', '{"display_name":"Test Player"}', now(), now()),
-  ('30000000-0000-4000-a000-000000000103', '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated', 'roll30-outsider-test@example.invalid', '', now(), '{"provider":"email","providers":["email"]}', '{"display_name":"Test Outsider"}', now(), now());
+  ('30000000-0000-4000-a000-000000000103', '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated', 'roll30-outsider-test@example.invalid', '', now(), '{"provider":"email","providers":["email"]}', '{"display_name":"Test Outsider"}', now(), now()),
+  ('30000000-0000-4000-a000-000000000104', '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated', 'roll30-removable-test@example.invalid', '', now(), '{"provider":"email","providers":["email"]}', '{"display_name":"Test Removable Member"}', now(), now());
 
 select pg_temp.roll30_assert(
-  (select count(*) from public.profiles where id::text like '30000000-0000-4000-a000-00000000010%') = 3,
-  'the auth trigger did not create all three profiles'
+  (select count(*) from public.profiles where id::text like '30000000-0000-4000-a000-00000000010%') = 4,
+  'the auth trigger did not create all four profiles'
 );
 
 set local role authenticated;
@@ -94,6 +95,13 @@ with created as (
 insert into roll30_test_context(key, id) select 'scene', id from created;
 
 with created as (
+  insert into public.scenes(campaign_id, name, scene_type, created_by, config)
+  values ((select id from roll30_test_context where key = 'gm_campaign'), 'Test Second Scene', 'playing', '30000000-0000-4000-a000-000000000101', '{"ambient_light":"dim"}')
+  returning id
+)
+insert into roll30_test_context(key, id) select 'second_scene', id from created;
+
+with created as (
   insert into public.characters(campaign_id, owner_id, kind, name, sheet, hp_current, hp_max)
   values ((select id from roll30_test_context where key = 'gm_campaign'), '30000000-0000-4000-a000-000000000102', 'pc', 'Test Hero', '{"speed":30,"vision":30,"armor_class":14,"attack":{"name":"Training Sword","bonus":50,"damage":3},"currency":{"gp":20}}', 10, 10)
   returning id
@@ -128,6 +136,17 @@ with created as (
 insert into roll30_test_context(key,id) select 'shop',id from created;
 insert into public.shop_stock(shop_id,item_id,price,quantity,hidden)
 values ((select id from roll30_test_context where key='shop'),(select id from roll30_test_context where key='potion'),4,3,false);
+
+with created as (
+  insert into public.shops(campaign_id,name,settings)
+  values ((select id from roll30_test_context where key='gm_campaign'),'Approval Test Shop','{"mode":"approval"}') returning id
+)
+insert into roll30_test_context(key,id) select 'approval_shop',id from created;
+insert into public.shop_stock(shop_id,item_id,price,quantity,hidden)
+values ((select id from roll30_test_context where key='approval_shop'),(select id from roll30_test_context where key='potion'),2,2,false);
+
+insert into public.campaign_members(campaign_id,user_id,role)
+values((select id from roll30_test_context where key='gm_campaign'),'30000000-0000-4000-a000-000000000104','player');
 
 with created as (
   insert into public.scene_objects(scene_id,name,object_type,x,y,visible_to_players)
@@ -266,7 +285,8 @@ select 'check_request',id from public.send_roll30_message(
   (select id from roll30_test_context where key='gm_campaign'),'check_request','Make a Perception check',
   '30000000-0000-4000-a000-000000000102','1d20'
 );
-select public.set_roll30_manual_reveal((select id from roll30_test_context where key='session'),array['30000000-0000-4000-a000-000000000102'::uuid],'[[10,40],[20,40],[20,60],[10,60]]');
+insert into roll30_test_context(key,id)
+select 'manual_reveal',id from public.set_roll30_manual_reveal((select id from roll30_test_context where key='session'),array['30000000-0000-4000-a000-000000000102'::uuid],'[[10,40],[20,40],[20,60],[10,60]]');
 select pg_temp.roll30_assert(
   (select jsonb_array_length(state -> 'initiative') from public.sessions where id = (select id from roll30_test_context where key = 'session')) = 1,
   'normalized token could not be added to initiative'
@@ -415,6 +435,12 @@ select pg_temp.roll30_assert(
   and (select quantity=2 from public.shop_stock where shop_id=(select id from roll30_test_context where key='shop') and item_id=(select id from roll30_test_context where key='potion')),
   'discounted automatic purchase did not charge or deplete stock atomically'
 );
+insert into roll30_test_context(key,id)
+select 'approval_request',id from public.request_roll30_purchase((select id from roll30_test_context where key='approval_shop'),(select id from roll30_test_context where key='potion'),(select id from roll30_test_context where key='hero'),1);
+select pg_temp.roll30_assert(
+  (select status='pending' from public.purchase_requests where id=(select id from roll30_test_context where key='approval_request')),
+  'approval-mode purchase did not enter the GM review queue'
+);
 select pg_temp.roll30_expect_error(
   format('select public.change_roll30_hp(%L::uuid,-2)', (select id from roll30_test_context where key = 'target')),
   'Not permitted'
@@ -459,6 +485,32 @@ select pg_temp.roll30_assert(
 select public.set_roll30_prompt_status((select id from roll30_test_context where key='prompt'),'closed');
 select pg_temp.roll30_assert((select status='closed' from public.prompts where id=(select id from roll30_test_context where key='prompt')),'GM could not close a prompt');
 select public.mark_roll30_messages_read((select id from roll30_test_context where key='gm_campaign'));
+select public.resolve_roll30_purchase((select id from roll30_test_context where key='approval_request'),true);
+select pg_temp.roll30_assert(
+  (select status='completed' from public.purchase_requests where id=(select id from roll30_test_context where key='approval_request'))
+  and (select quantity=1 from public.shop_stock where shop_id=(select id from roll30_test_context where key='approval_shop') and item_id=(select id from roll30_test_context where key='potion'))
+  and (select sheet->'currency'->>'gp'='16' from public.characters where id=(select id from roll30_test_context where key='hero')),
+  'GM-approved purchase did not atomically update request, stock, inventory, and currency'
+);
+insert into roll30_test_context(key,id)
+select 'rpc_prompt',id from public.create_roll30_prompt(
+  (select id from roll30_test_context where key='gm_campaign'),'RPC-created prompt','Choose a route',array['30000000-0000-4000-a000-000000000102'::uuid],'["North","South"]'
+);
+select pg_temp.roll30_assert(
+  exists(select 1 from public.prompts where id=(select id from roll30_test_context where key='rpc_prompt') and title='RPC-created prompt'),
+  'validated prompt creation did not persist'
+);
+select public.set_roll30_manual_reveal_enabled((select id from roll30_test_context where key='manual_reveal'),false);
+select public.set_roll30_manual_reveal_enabled((select id from roll30_test_context where key='manual_reveal'),true);
+select pg_temp.roll30_assert(
+  (select enabled from public.session_reveals where id=(select id from roll30_test_context where key='manual_reveal')),
+  'manual reveal enable/disable lifecycle did not persist'
+);
+select public.remove_roll30_campaign_member((select id from roll30_test_context where key='gm_campaign'),'30000000-0000-4000-a000-000000000104');
+select pg_temp.roll30_assert(
+  not exists(select 1 from public.campaign_members where campaign_id=(select id from roll30_test_context where key='gm_campaign') and user_id='30000000-0000-4000-a000-000000000104'),
+  'GM member removal did not persist'
+);
 select public.set_roll30_member_character(
   (select id from roll30_test_context where key='gm_campaign'),'30000000-0000-4000-a000-000000000102',null
 );
@@ -494,6 +546,10 @@ select pg_temp.roll30_assert(
   (select hp_current=12 and sheet->>'concentration'='Web' from public.characters where id=(select id from roll30_test_context where key='target')),
   'combat undo did not restore target HP and concentration state'
 );
+select pg_temp.roll30_assert(
+  (public.preview_roll30_snapshot((select id from roll30_test_context where key='snapshot'))->'snapshot'->>'tokens')::integer=2,
+  'snapshot recovery preview did not describe normalized token state'
+);
 select public.restore_roll30_snapshot((select id from roll30_test_context where key = 'snapshot'));
 select pg_temp.roll30_assert(
   (select x = 50 from public.session_tokens where id = (select id from roll30_test_context where key = 'hero_token')),
@@ -503,6 +559,33 @@ select public.advance_roll30_turn((select id from roll30_test_context where key=
 select pg_temp.roll30_assert((select round=2 from public.sessions where id=(select id from roll30_test_context where key='session')),'round did not advance or checkpoint');
 select public.rewind_roll30_round((select id from roll30_test_context where key='session'));
 select pg_temp.roll30_assert((select round=1 from public.sessions where id=(select id from roll30_test_context where key='session')),'round rewind did not restore session metadata');
+select public.change_roll30_session_scene((select id from roll30_test_context where key='session'),(select id from roll30_test_context where key='second_scene'));
+select public.change_roll30_session_scene((select id from roll30_test_context where key='session'),(select id from roll30_test_context where key='scene'));
+select pg_temp.roll30_assert(
+  (select scene_id=(select id from roll30_test_context where key='scene') from public.sessions where id=(select id from roll30_test_context where key='session')),
+  'live scene transitions did not converge on the selected scene'
+);
+insert into roll30_test_context(key,id)
+select 'delayed_rule',id from public.create_roll30_automation_rule(
+  (select id from roll30_test_context where key='scene'),'Delayed audit message','manual',null,1,false,'[{"type":"message","text":"Delayed automation proof"}]'
+);
+select public.execute_roll30_trigger((select id from roll30_test_context where key='delayed_rule'),(select id from roll30_test_context where key='session'),'delayed-audit-key');
+reset role;
+update public.automation_executions set run_at=clock_timestamp()-interval '1 second'
+where trigger_id=(select id from roll30_test_context where key='delayed_rule') and idempotency_key='delayed-audit-key';
+set local role authenticated;
+select set_config('request.jwt.claims', '{"sub":"30000000-0000-4000-a000-000000000101","role":"authenticated","email":"roll30-gm-test@example.invalid"}', true);
+select public.run_due_roll30_automations((select id from roll30_test_context where key='session'));
+select pg_temp.roll30_assert(
+  exists(select 1 from public.automation_executions where trigger_id=(select id from roll30_test_context where key='delayed_rule') and status='completed')
+  and exists(select 1 from public.messages where campaign_id=(select id from roll30_test_context where key='gm_campaign') and body->>'text'='Delayed automation proof'),
+  'delayed automation was not claimed, executed, and logged exactly once'
+);
+select public.remove_roll30_initiative_entry((select id from roll30_test_context where key='session'),(select id from roll30_test_context where key='hero_token'));
+select pg_temp.roll30_assert(
+  (select jsonb_array_length(state->'initiative')=0 from public.sessions where id=(select id from roll30_test_context where key='session')),
+  'initiative removal did not persist'
+);
 select public.remove_roll30_session_token(
   (select id from roll30_test_context where key = 'session'),
   (select id from roll30_test_context where key = 'hero_token')
@@ -527,6 +610,24 @@ select public.end_roll30_session((select id from roll30_test_context where key='
 select public.resume_roll30_session((select id from roll30_test_context where key='session'));
 select pg_temp.roll30_assert((select status='active' and session_code is not null from public.sessions where id=(select id from roll30_test_context where key='session')),'session resume or code failed');
 select public.end_roll30_session((select id from roll30_test_context where key='session'));
+insert into roll30_test_context(key,id)
+select 'scene_template',id from public.save_roll30_scene_template((select id from roll30_test_context where key='scene'),'Full-fidelity test template');
+insert into roll30_test_context(key,id)
+select 'templated_scene',id from public.create_roll30_scene_from_template((select id from roll30_test_context where key='scene_template'),'Template Result');
+insert into roll30_test_context(key,id)
+select 'duplicate_scene',id from public.duplicate_roll30_scene((select id from roll30_test_context where key='scene'));
+select pg_temp.roll30_assert(
+  (select count(*) from public.scene_objects where scene_id=(select id from roll30_test_context where key='templated_scene'))=(select count(*) from public.scene_objects where scene_id=(select id from roll30_test_context where key='scene'))
+  and (select count(*) from public.scene_objects where scene_id=(select id from roll30_test_context where key='duplicate_scene'))=(select count(*) from public.scene_objects where scene_id=(select id from roll30_test_context where key='scene'))
+  and exists(select 1 from public.scene_objects where scene_id=(select id from roll30_test_context where key='templated_scene') and name='Secret trap' and layer='gm' and visible_to_players=false),
+  'scene templates or duplication lost object coordinates, layers, visibility, or state'
+);
+select public.trash_roll30_scene((select id from roll30_test_context where key='templated_scene'));
+select public.delete_roll30_scene_permanently((select id from roll30_test_context where key='templated_scene'));
+select pg_temp.roll30_assert(
+  not exists(select 1 from public.scenes where id=(select id from roll30_test_context where key='templated_scene')),
+  'permanent scene deletion did not remove a trashed scene'
+);
 select public.trash_roll30_scene((select id from roll30_test_context where key = 'scene'));
 select pg_temp.roll30_assert(
   (select count(*) from public.list_roll30_trashed_scenes((select id from roll30_test_context where key = 'gm_campaign'))) = 1,
