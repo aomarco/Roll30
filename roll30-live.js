@@ -25,7 +25,8 @@
   async function content(view) {
     if (view === 'scenes') {
       const { data = [] } = await query('scenes');
-      return `<section><div class="live-title"><h2>Scenes</h2><button data-dialog="scene">New scene</button></div>${cards(data, s => `<b>${esc(s.name)}</b><small>${esc(s.scene_type)} · ${esc(s.folder)}</small>`)}</section>`;
+      const controls = currentRole === 'gm';
+      return `<section><div class="live-title"><h2>Scenes</h2>${controls ? '<button data-dialog="scene">New scene</button>' : ''}</div>${cards(data, s => `<b>${esc(s.name)}</b><small>${esc(s.scene_type)}${s.folder ? ` · ${esc(s.folder)}` : ''}</small>${controls ? `<div class="hp-actions"><button data-run-scene="${s.id}">Run scene</button><button data-delete-scene="${s.id}">Delete</button></div>` : ''}`)}</section>`;
     }
     if (view === 'characters') {
       const { data = [] } = await query('characters');
@@ -116,6 +117,19 @@
     app.querySelectorAll('[data-view]').forEach(b => b.onclick = () => render(b.dataset.view));
     document.getElementById('leave-campaign').onclick = () => { localStorage.removeItem('roll30.campaignId'); window.location.replace('./index.html'); };
     app.querySelectorAll('[data-dialog]').forEach(b => b.onclick = () => openDialog(b.dataset.dialog));
+    app.querySelectorAll('[data-run-scene]').forEach(b => b.onclick = async () => {
+      const { data: running = [] } = await query('sessions');
+      const active = running.find(s => s.status === 'active');
+      if (active) return notice('End the current live session before running another scene.', true);
+      const { data, error } = await db.client.from('sessions').insert({ campaign_id:campaignId, scene_id:b.dataset.runScene, state:{tokens:[],initiative:[],fog:false} }).select().single();
+      if (error) return notice(error.message, true);
+      localStorage.setItem('roll30.sessionId', data.id); render('session');
+    });
+    app.querySelectorAll('[data-delete-scene]').forEach(b => b.onclick = async () => {
+      if (!window.confirm('Delete this scene? This cannot be undone.')) return;
+      const { error } = await db.client.from('scenes').delete().eq('id', b.dataset.deleteScene);
+      if (error) notice(error.message, true); else { notice('Scene deleted.'); render('scenes'); }
+    });
     app.querySelectorAll('[data-hp]').forEach(b => b.onclick = async () => { const { error } = await db.client.rpc('change_roll30_hp', { target_character:b.dataset.character, delta:Number(b.dataset.hp) }); if (error) notice(error.message, true); else render('characters'); });
     app.querySelectorAll('[data-edit-sheet]').forEach(b => b.onclick = () => openCharacterSheet(b.dataset.editSheet));
     app.querySelectorAll('[data-import-monster]').forEach(b => b.onclick = async () => { const response = await fetch('./DND%205E%20Data/5e-SRD-Monsters.json'); const monsters = await response.json(); const monster = monsters.find(m => m.name === b.dataset.importMonster); if (!monster) return; const { error } = await db.client.from('characters').insert({ campaign_id:campaignId,name:monster.name,kind:'monster',hp_current:monster.hit_points,hp_max:monster.hit_points,sheet:monster }); if (error) notice(error.message, true); else { notice(monster.name + ' added to this campaign.'); render('characters'); } });
