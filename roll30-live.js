@@ -45,12 +45,16 @@
       const { data = [] } = await query('shops');
       return `<section><div class="live-title"><h2>Shops</h2><button data-dialog="shop">New shop</button></div>${cards(data, s => `<b>${esc(s.name)}</b><small>${esc(s.settings?.mode || 'approval')} purchases</small>`)}</section>`;
     }
+    if (view === 'items') {
+      const { data = [] } = await query('items');
+      return `<section><div class="live-title"><h2>Items</h2><button data-dialog="item">New item</button></div>${cards(data, i => `<b>${esc(i.name)}</b><small>${esc(i.item_data?.type || 'Custom item')}</small>`)}</section>`;
+    }
     const [sceneRes, charRes, sessionRes] = await Promise.all([query('scenes'), query('characters'), query('sessions')]);
     return `<section><h2>${esc(campaign.name)}</h2><p class="muted">${esc(campaign.system)} · Join code <strong>${esc(campaign.join_code)}</strong></p><div class="live-stats"><div><b>${sceneRes.data?.length || 0}</b><small>scenes</small></div><div><b>${charRes.data?.length || 0}</b><small>characters</small></div><div><b>${sessionRes.data?.filter(s => s.status === 'active').length || 0}</b><small>live sessions</small></div></div><p>Start by creating a scene or a character. Everything here belongs to this campaign and is shared with its members.</p></section>`;
   }
   function cards(rows, renderCard) { return rows.length ? `<div class="live-cards">${rows.map(r => `<article>${renderCard(r)}</article>`).join('')}</div>` : '<p class="muted">Nothing here yet.</p>'; }
   async function render(view = 'overview') {
-    app.innerHTML = `<header><div><strong>Roll30</strong><span>${esc(campaign.name)}</span></div><button id="leave-campaign">Campaigns</button></header><nav>${['overview','scenes','characters','session','messages','prompts','shops'].map(v => `<button data-view="${v}" class="${v === view ? 'active' : ''}">${v}</button>`).join('')}</nav><main><p id="live-notice"></p><div id="live-content">Loading…</div></main><dialog id="live-dialog"></dialog>`;
+    app.innerHTML = `<header><div><strong>Roll30</strong><span>${esc(campaign.name)}</span></div><button id="leave-campaign">Campaigns</button></header><nav>${['overview','scenes','characters','items','shops','prompts','session','messages'].map(v => `<button data-view="${v}" class="${v === view ? 'active' : ''}">${v}</button>`).join('')}</nav><main><p id="live-notice"></p><div id="live-content">Loading…</div></main><dialog id="live-dialog"></dialog>`;
     document.getElementById('live-content').innerHTML = await content(view);
     bind(view);
   }
@@ -70,13 +74,15 @@
     const dialog = document.getElementById('live-dialog');
     dialog.innerHTML = kind === 'scene'
       ? `<form method="dialog" id="create-record"><h3>New scene</h3><input id="record-name" placeholder="Scene name" required><select id="record-type"><option value="playing">Playing Field</option><option value="battle">Battle Field</option></select><button>Create scene</button></form>`
-      : kind === 'prompt'
+        : kind === 'prompt'
         ? `<form method="dialog" id="create-record"><h3>New prompt</h3><input id="record-name" placeholder="Prompt title" required><input id="record-body" placeholder="Question or instructions"><button>Send prompt</button></form>`
         : kind === 'shop'
           ? `<form method="dialog" id="create-record"><h3>New shop</h3><input id="record-name" placeholder="Shop name" required><button>Create shop</button></form>`
+          : kind === 'item'
+            ? `<form method="dialog" id="create-record"><h3>New item</h3><input id="record-name" placeholder="Item name" required><input id="record-body" placeholder="Item type or description"><button>Create item</button></form>`
           : `<form method="dialog" id="create-record"><h3>New character</h3><input id="record-name" placeholder="Character name" required><select id="record-type"><option value="pc">Player character</option><option value="npc">NPC</option><option value="monster">Monster</option></select><button>Create character</button></form>`;
     dialog.showModal();
-    dialog.querySelector('#create-record').onsubmit = async e => { e.preventDefault(); const name = dialog.querySelector('#record-name').value.trim(); const type = dialog.querySelector('#record-type')?.value; const body = dialog.querySelector('#record-body')?.value; const table = kind === 'scene' ? 'scenes' : kind === 'prompt' ? 'prompts' : kind === 'shop' ? 'shops' : 'characters'; const row = kind === 'scene' ? {campaign_id:campaignId,name,scene_type:type,created_by:session.user.id} : kind === 'prompt' ? {campaign_id:campaignId,created_by:session.user.id,title:name,body} : kind === 'shop' ? {campaign_id:campaignId,name} : {campaign_id:campaignId,name,kind:type,owner_id:type === 'pc' ? session.user.id : null,hp_current:10,hp_max:10}; const { error } = await db.client.from(table).insert(row); if (error) notice(error.message, true); dialog.close(); render(kind === 'scene' ? 'scenes' : kind === 'prompt' ? 'prompts' : kind === 'shop' ? 'shops' : 'characters'); };
+    dialog.querySelector('#create-record').onsubmit = async e => { e.preventDefault(); const name = dialog.querySelector('#record-name').value.trim(); const type = dialog.querySelector('#record-type')?.value; const body = dialog.querySelector('#record-body')?.value; const table = kind === 'scene' ? 'scenes' : kind === 'prompt' ? 'prompts' : kind === 'shop' ? 'shops' : kind === 'item' ? 'items' : 'characters'; const row = kind === 'scene' ? {campaign_id:campaignId,name,scene_type:type,created_by:session.user.id} : kind === 'prompt' ? {campaign_id:campaignId,created_by:session.user.id,title:name,body} : kind === 'shop' ? {campaign_id:campaignId,name} : kind === 'item' ? {campaign_id:campaignId,name,item_data:{type:body || 'Custom item'}} : {campaign_id:campaignId,name,kind:type,owner_id:type === 'pc' ? session.user.id : null,hp_current:10,hp_max:10}; const { error } = await db.client.from(table).insert(row); if (error) notice(error.message, true); dialog.close(); render(kind === 'scene' ? 'scenes' : kind === 'prompt' ? 'prompts' : kind === 'shop' ? 'shops' : kind === 'item' ? 'items' : 'characters'); };
   }
   db.client.channel('roll30-live').on('postgres_changes',{event:'*',schema:'public',table:'sessions',filter:`campaign_id=eq.${campaignId}`},() => notice('Live session updated.')).on('postgres_changes',{event:'INSERT',schema:'public',table:'messages',filter:`campaign_id=eq.${campaignId}`},() => notice('New table message.')).subscribe();
   document.addEventListener('DOMContentLoaded', () => { document.querySelector('x-dc')?.remove(); app.style.display = 'block'; load().catch(error => { app.innerHTML = `<main><h2>Roll30 could not load</h2><p>${esc(error.message)}</p></main>`; }); });
