@@ -1,0 +1,10 @@
+# Files that should NOT be uploaded to GitHub
+
+# OS junk
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Logs and temp files
+*.log
+*.tmp
