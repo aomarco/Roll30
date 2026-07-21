@@ -1,0 +1,250 @@
+D&D SESSION APP — EXPANDED CONCEPT
+==================================
+
+CORE PREMISE
+------------
+This app is a shared digital space for Game Masters and players to create
+campaigns, prepare scenes, and run Dungeons & Dragons sessions.
+
+Its defining principle is CONTROLLED SIMPLICITY:
+
+    Players should only see the information and controls that matter to them
+    at that exact moment.
+
+Many virtual tabletops place maps, character sheets, measurement tools,
+drawing controls, menus, combat trackers, journals, macros, and configuration
+panels on the screen simultaneously. This app takes the opposite approach.
+
+The Game Master prepares and controls the world through Build Mode and GM
+Tools, while players interact through a deliberately simplified Play Mode. The
+interface changes depending on the type of scene being played.
+
+The app contains two primary scene types:
+
+  - Playing Fields, designed for roleplay, exploration, shopping, and
+    storytelling.
+  - Battle Fields, designed for tactical combat, dungeons, hazards, and
+    interactive environments.
+
+Campaigns contain these scenes alongside characters, enemies, images, notes,
+items, and other reusable resources.
+
+
+VERSION ONE — GENERAL IMPROVEMENT
+=================================
+
+PRODUCT VISION
+--------------
+The app should feel less like complicated tabletop software and more like a
+purpose-built game that happens to be controlled by a Game Master.
+
+The GM receives powerful creation and moderation tools, but players are
+protected from unnecessary complexity. A player entering a tavern should not
+see initiative controls, wall-editing tools, lighting settings, monster
+statistics, or twenty buttons they cannot use. They should see the tavern, the
+characters present, their own character, and any actions currently available
+to them.
+
+Every screen should answer one question:
+
+    What does this person need to do right now?
+
+
+USER ROLES
+----------
+
+GAME MASTER
+The GM creates and controls the campaign world. They can:
+  - Create, edit, duplicate, organise, and delete scenes.
+  - Switch between Build Mode and Session Mode.
+  - Control NPCs, monsters, environmental objects, lighting, music, and events.
+  - Reveal information selectively.
+  - Move players when a scene is GM-controlled.
+  - Override rules and outcomes.
+  - Pause, rewind, or alter combat.
+  - Import or create custom enemies, items, spells, and images.
+  - Save scene templates for reuse.
+  - Prepare hidden content without exposing it to players.
+
+The GM is never limited by automation. The app can calculate and suggest
+outcomes, but the GM always has final authority.
+
+PLAYERS
+Players control their characters only when the current scene requires it.
+They can:
+  - View information their character would reasonably know.
+  - Access a simplified character sheet.
+  - Roll checks, saves, attacks, and damage.
+  - Use abilities, spells, items, and equipment.
+  - Control their token during tactical scenes.
+  - Interact with shops and other designated interfaces.
+  - Receive private messages, discoveries, or secret information from the GM.
+  - Make choices when the GM presents prompts or decisions.
+
+The player interface should avoid administrative controls and irrelevant
+information.
+
+
+SCENE TYPE ONE: PLAYING FIELD
+-----------------------------
+A Playing Field is a roleplay-focused scene. It acts as a visual
+representation of a location rather than a fully simulated tactical
+environment. Examples: a tavern, a marketplace, a royal court, a campsite, a
+village street, a ship at sea, a festival, a wizard's workshop.
+
+The purpose of a Playing Field is to make conversations and exploration easier
+to follow without turning every movement into tactical gameplay.
+
+GM CONTROL — the GM controls the physical presentation of the scene:
+  - Move player and NPC tokens.
+  - Change character expressions or poses.
+  - Trigger animations.
+  - Open doors or reveal new areas.
+  - Start music and ambient sound.
+  - Display dialogue portraits.
+  - Highlight important objects.
+  - Introduce or remove characters.
+  - Trigger weather or time-of-day changes.
+  - Transition between visual states of the location.
+  - Present choices or interactive prompts.
+
+Movement is intentionally GM-controlled because exact positioning is usually
+unimportant during roleplay.
+
+PLAYER EXPERIENCE — players primarily observe, roleplay, and make decisions.
+Their interface might contain:
+  - Their character portrait.
+  - A compact character sheet button.
+  - Available roleplay actions.
+  - Dice-roll requests.
+  - Private information from the GM.
+  - A shop button when a merchant is available.
+  - Temporary prompts such as "Inspect the statue" or "Choose a response."
+
+SHOPS — a built-in Playing Field feature. When the GM marks an NPC or object
+as a shop, players can open a simplified storefront containing only the items
+available to them.
+Players can: browse items, read descriptions, compare prices, purchase items,
+sell items when allowed, add items directly to inventory, see whether they
+meet an item's requirements.
+The GM can: set prices and stock, apply discounts or markups, create limited
+stock, hide special items, require persuasion checks, approve purchases
+manually, allow bargaining, create different inventories for different
+players, make items appear after certain events.
+
+A purchase does not need to be automatic. The GM can choose between automatic
+transactions, approval-based transactions, or entirely manual shopping.
+
+
+SCENE TYPE TWO: BATTLE FIELD
+----------------------------
+A Battle Field is a tactical environment designed for combat, dungeons, traps,
+and position-based gameplay. Unlike Playing Fields, players directly control
+their characters. The goal is to make combat feel like a turn-based tactical
+RPG while preserving the flexibility of tabletop roleplaying.
+
+PLAYER CONTROL — during their turn, a player can:
+  - Move their character.
+  - Preview movement distance.
+  - Select attacks, spells, items, and abilities.
+  - View valid targets.
+  - See estimated ranges and affected areas.
+  - Interact with doors, levers, switches, containers, and environmental
+    objects.
+  - End their turn.
+  - Ask the GM a question or request an unusual action.
+
+The app extracts relevant data from the player's character sheet. Selecting a
+sword attack could automatically display: valid targets, attack range, attack
+bonus, damage dice, advantage or disadvantage, relevant active effects.
+
+GAME MASTER CONTROL — the GM controls: enemies and allied NPCs, hidden
+creatures, traps and environmental hazards, initiative order, scripted events,
+reinforcements, dynamic terrain, doors, walls, switches, and mechanisms,
+lighting and visibility, rule overrides, secret rolls and information.
+
+The GM can also "play god": move any token, change health or conditions, force
+or cancel an effect, add or remove initiative entries, undo an action, rewind
+the battle to an earlier state, ignore an automated rule, declare a custom
+outcome, temporarily control a player character, reveal or conceal any part of
+the map.
+
+Automation exists to make play faster, not to challenge the authority of the
+GM.
+
+INTERACTIVE ENVIRONMENTS — Battle Fields should support objects with real
+gameplay effects: a lever that opens a gate, a pressure plate that activates a
+trap, a switch that turns off magical barriers, a bridge that collapses after
+taking damage, a torch that changes visibility, a crystal that powers nearby
+enemies, a door requiring a key/spell/skill check, a rotating statue that
+redirects a beam, a barrel that explodes when damaged, a platform that moves
+between floors.
+
+These interactions can be connected through a simple logic system, e.g.:
+
+    Lever pulled -> Gate opens -> Alarm activates -> Guards enter after two
+    rounds
+
+The GM should be able to create this without programming. A visual
+trigger-and-effect editor would allow them to connect objects, conditions,
+delays, and outcomes.
+
+WALLS, VISION, AND DYNAMIC LIGHTING — Battle Fields support real walls and
+line-of-sight calculations. The app can determine: what each character can
+see, whether an enemy is hidden, whether a target is behind cover, how far
+different light sources reach, which parts of the map remain unexplored,
+whether darkness/fog/magical effects block vision. Players should see the
+world from their own character's perspective rather than sharing one universal
+view. The GM can disable or simplify these systems.
+
+
+CHARACTER SHEETS
+----------------
+Character sheets are integrated into the app rather than treated as separate
+documents. The app uses sheet data to generate context-sensitive actions.
+
+A complete sheet may contain: ability scores; skills and saving throws; health
+and temporary health; armour class; movement types; attacks; spells; features
+and traits; conditions; equipment; inventory; currency; resources such as
+spell slots or class points; notes, personality traits, ideals, bonds, and
+flaws.
+
+Players do not need to view the entire sheet constantly. During combat, they
+see combat actions. During shopping, they see inventory and money. During a
+social check, they see relevant skills.
+
+
+CAMPAIGNS
+---------
+A campaign is the main organisational container. It includes: Playing Fields,
+Battle Fields, player characters, NPCs, enemies, items, shops, images, music
+and sound effects, notes, handouts, lore entries, custom rules, session
+history, saved templates.
+
+Campaign content can be arranged into folders such as: locations, chapters,
+encounters, characters, monsters, items, unused ideas, completed scenes.
+
+A campaign also remembers its current state. When the session ends, the app
+saves where characters are located, which enemies are alive, which doors are
+open, what items were purchased, and which events have occurred.
+
+
+SESSION FLOW
+------------
+A typical session:
+  1. The GM opens the campaign.
+  2. Players join through a campaign code or invitation.
+  3. The GM begins in a Playing Field representing a tavern.
+  4. Players roleplay while the GM controls movement and NPCs.
+  5. A player opens the shop interface and purchases supplies.
+  6. The GM transitions the group to a forest Playing Field.
+  7. An ambush begins.
+  8. The GM converts or transitions to a prepared Battle Field.
+  9. Players gain direct control of their tokens.
+ 10. Combat runs through the tactical interface.
+ 11. The GM triggers reinforcements and opens a hidden path.
+ 12. The battle ends.
+ 13. The GM returns control to a Playing Field.
+ 14. The campaign state is automatically saved.
+
+The transition between roleplay and combat should feel seamless.

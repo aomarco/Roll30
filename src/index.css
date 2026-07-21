@@ -1,18 +1,141 @@
 @import "tailwindcss";
 
+/* ---------------------------------------------------------------------------
+   Roll30 design system
+   A serious, accessible dark UI. One restrained accent (indigo), a neutral
+   slate scale, and semantic surface tokens. Every interactive element has a
+   visible focus ring. Motion is subtle and respects reduced-motion.
+--------------------------------------------------------------------------- */
+
+@theme {
+  --color-canvas: #0b0e14;
+  --color-surface: #12161f;
+  --color-surface-2: #171c27;
+  --color-surface-3: #1f2531;
+  --color-line: #262d3a;
+  --color-line-strong: #333c4d;
+  --color-ink: #e8ecf4;
+  --color-ink-muted: #9aa4b6;
+  --color-ink-faint: #64708a;
+  --color-accent: #6366f1;
+  --color-accent-soft: #818cf8;
+  --color-danger: #ef4444;
+  --color-success: #22c55e;
+  --color-warn: #f59e0b;
+}
+
 :root {
   color-scheme: dark;
 }
 
-html,
-body,
-#root {
-  height: 100%;
-  margin: 0;
-}
+html, body, #root { height: 100%; margin: 0; }
 
 body {
-  font-family: "Segoe UI", ui-sans-serif, system-ui, sans-serif;
-  background: #05060d;
-  color: #e7e9f5;
+  font-family: "Inter", "Segoe UI", ui-sans-serif, system-ui, sans-serif;
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.mono { font-family: ui-monospace, "Cascadia Code", "SF Mono", "Fira Code", monospace; }
+
+/* Focus: always visible, never removed. */
+:where(button, a, input, select, textarea, [tabindex]):focus-visible {
+  outline: 2px solid var(--color-accent-soft);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* Scrollbars */
+::-webkit-scrollbar { width: 11px; height: 11px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--color-line-strong); border-radius: 999px; border: 3px solid transparent; background-clip: content-box; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-ink-faint); background-clip: content-box; }
+
+/* --- Reusable component classes ----------------------------------------- */
+
+.surface { background: var(--color-surface); border: 1px solid var(--color-line); }
+.surface-2 { background: var(--color-surface-2); border: 1px solid var(--color-line); }
+
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-radius: 14px;
+}
+.card-hover { transition: border-color .15s ease, transform .15s ease, box-shadow .15s ease; }
+.card-hover:hover {
+  border-color: var(--color-line-strong);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px -18px rgba(0,0,0,.8);
+}
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+  font-weight: 600; font-size: .875rem; line-height: 1;
+  padding: .6rem .9rem; border-radius: 10px;
+  border: 1px solid transparent; cursor: pointer;
+  transition: background .15s ease, border-color .15s ease, color .15s ease, opacity .15s;
+  white-space: nowrap;
+}
+.btn:disabled { opacity: .45; cursor: not-allowed; }
+.btn-primary { background: var(--color-accent); color: white; }
+.btn-primary:hover:not(:disabled) { background: #5457e5; }
+.btn-ghost { background: transparent; color: var(--color-ink-muted); border-color: var(--color-line); }
+.btn-ghost:hover:not(:disabled) { color: var(--color-ink); border-color: var(--color-line-strong); background: var(--color-surface-2); }
+.btn-subtle { background: var(--color-surface-2); color: var(--color-ink); border-color: var(--color-line); }
+.btn-subtle:hover:not(:disabled) { border-color: var(--color-line-strong); background: var(--color-surface-3); }
+.btn-danger { background: transparent; color: var(--color-danger); border-color: color-mix(in srgb, var(--color-danger) 40%, transparent); }
+.btn-danger:hover:not(:disabled) { background: color-mix(in srgb, var(--color-danger) 14%, transparent); }
+.btn-sm { padding: .4rem .6rem; font-size: .8rem; border-radius: 8px; }
+.btn-icon { padding: .5rem; border-radius: 9px; }
+
+.input {
+  width: 100%; background: var(--color-canvas); color: var(--color-ink);
+  border: 1px solid var(--color-line); border-radius: 10px;
+  padding: .6rem .75rem; font-size: .875rem;
+  transition: border-color .15s ease;
+}
+.input::placeholder { color: var(--color-ink-faint); }
+.input:focus { border-color: var(--color-accent); outline: none; }
+
+.badge {
+  display: inline-flex; align-items: center; gap: .35rem;
+  font-size: .7rem; font-weight: 600; letter-spacing: .01em;
+  padding: .2rem .5rem; border-radius: 999px;
+  background: var(--color-surface-3); color: var(--color-ink-muted);
+  border: 1px solid var(--color-line);
+}
+
+.label { font-size: .7rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--color-ink-faint); }
+
+.divider { height: 1px; background: var(--color-line); border: 0; }
+
+/* Subtle top-of-page gradient wash, professional not flashy */
+.app-wash {
+  position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background:
+    radial-gradient(60% 40% at 100% 0%, color-mix(in srgb, var(--color-accent) 10%, transparent), transparent 70%),
+    radial-gradient(50% 40% at 0% 0%, rgba(34,197,94,.05), transparent 70%);
+}
+
+/* Tabletop grid for battle scenes */
+.tabletop-grid {
+  background-image:
+    linear-gradient(var(--color-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--color-line) 1px, transparent 1px);
+}
+
+@keyframes fadein { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.fadein { animation: fadein .22s ease both; }
+
+.skeleton {
+  background: linear-gradient(90deg, var(--color-surface-2) 25%, var(--color-surface-3) 50%, var(--color-surface-2) 75%);
+  background-size: 200% 100%; animation: shimmer 1.3s infinite;
+  border-radius: 8px;
+}
+@keyframes shimmer { to { background-position: -200% 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; }
 }

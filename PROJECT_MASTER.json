@@ -1,6 +1,5 @@
 {
   "$schema_note": "This is a human- and AI-readable master record for the Roll30 project. It is NOT source code and is not consumed by the app at runtime. It exists to give any person or AI instant context on what this project is, how it works, and its full change history.",
-
   "disclaimer_and_usage_rules": {
     "read_this_first": true,
     "what_this_file_is": "A single source of truth describing the Roll30 project: its purpose, structure, how it works, and a running log of every change made to it.",
@@ -9,46 +8,52 @@
       "'change_log' is the LIST: a running, append-only history where a new entry is added EVERY time any change is made."
     ],
     "priority_rule": "THE LIST WINS. If anything in 'change_log' conflicts with anything in 'project_state', the 'change_log' is correct and 'project_state' is simply not yet fully updated. Always trust the most recent relevant 'change_log' entries over 'project_state'.",
+    "ALWAYS_PUSH_TO_GITHUB": "MANDATORY, NON-NEGOTIABLE: every single time you make ANY change to this project (code, data, config, this master document — anything at all), you MUST commit and push it to GitHub before considering the task done. Never leave a change sitting only on the local machine. Always always always push.",
     "instructions_for_any_ai": [
       "1. Read 'disclaimer_and_usage_rules' and the FULL 'change_log' before acting on this project.",
       "2. Treat the newest 'change_log' entries as the current truth. Where they contradict 'project_state', follow the log.",
       "3. Every single time you make ANY change to the project (code, data, structure, config, GitHub, anything), APPEND a new entry to 'change_log' with a medium-sized summary. Never silently skip this.",
       "4. Do NOT rewrite or delete 'project_state' or prune old 'change_log' entries on your own. Only do a full rewrite / cleanup when the user EXPLICITLY tells you to update the whole file.",
       "5. When the user says to update the whole file: rebuild 'project_state' so it fully matches reality, remove/fix outdated info, then CLEAR the 'change_log' back to an empty list and reset 'change_log_next_id' to 1. Bump 'meta.master_version'.",
-      "6. Keep entries factual and concise. Use absolute dates (YYYY-MM-DD), not 'today' or 'yesterday'."
+      "6. Keep entries factual and concise. Use absolute dates (YYYY-MM-DD), not 'today' or 'yesterday'.",
+      "7. ALWAYS PUSH TO GITHUB after any change (see 'ALWAYS_PUSH_TO_GITHUB' above). This applies to every change without exception, including changes to this file."
     ]
   },
-
   "meta": {
     "project_name": "Roll30",
-    "master_version": 3,
+    "master_version": 4,
     "created": "2026-07-21",
     "last_updated": "2026-07-21",
     "last_full_update": "2026-07-21",
     "maintained_by": "user (aomarco) with AI assistance"
   },
-
   "project_state": {
-    "purpose": "A deployed web app that browses the complete Dungeons & Dragons 5th Edition SRD reference data as a file-directory explorer, behind a simple password gate.",
-    "current_status": "LIVE and deployed. Public GitHub repo, auto-deployed to GitHub Pages on every push to main. Site is protected by a Supabase-backed IP password gate.",
-    "live_url": "https://aomarco.github.io/Roll30/",
+    "purpose": "Roll30 is a 'D&D Session App' — a shared virtual tabletop where a Game Master prepares and runs Dungeons & Dragons sessions and players interact through a deliberately simplified interface. Its guiding principle is CONTROLLED SIMPLICITY: each person sees only what matters to them right now. The GM builds and controls the world (Build Mode + GM Tools); players get a stripped-down Play Mode. The full product concept is stored verbatim in the repo at CONCEPT.txt.",
+    "current_status": "FRONT-END MOCKUP STAGE. Every feature from the concept is built as a professional, accessible UI with realistic but entirely FAKE placeholder data. Nothing is wired to a real backend yet: all reads come from local mock data and all writes (create/save/delete) are intentional no-ops. The app is built so placeholders can be replaced with real functionality with minimal churn. NOTE: it is NOT the old SRD file-explorer and NOT a blank canvas — those were earlier states of this same repo.",
     "owner_github_user": "aomarco",
     "github_repo_url": "https://github.com/aomarco/Roll30",
     "repo_visibility": "public (required for free GitHub Pages)",
+    "live_url": "https://aomarco.github.io/Roll30/ (auto-deploys on push to main; may lag the local mockup until pushed)",
     "local_path": "C:\\Users\\Marcelo\\Documents\\Roll30",
     "default_branch": "main",
-
-    "how_the_app_works": "A single-page app. On load it fetches the visitor's public IP (via api.ipify.org) and asks the Supabase function is_ip_authorized(); if that IP has unlocked before, the user is admitted automatically. Otherwise a neon lock screen prompts for a password. The password is checked SERVER-SIDE by the Supabase function authorize_ip(pw, client_ip) and is NEVER included in the shipped browser bundle. On a correct password the IP is recorded so future visits from it skip the prompt. Once past the gate, the UI is a file explorer: the home screen shows one folder card per SRD category (emoji icon + item count); clicking a folder lists its entries; clicking an entry opens a collapsible, colour-coded JSON viewer. There is also a breadcrumb trail and a live search box.",
-
+    "how_the_app_works": "React single-page app wrapped by the existing password Gate. Once past the gate, App.tsx routes: with no campaign selected it shows the CampaignsView picker (shared by both roles, with create/join-by-code modals). Opening a campaign splits HARD by role: a Game Master gets CampaignShell (a full sidebar-nav workspace); a player gets PlayerApp (a minimal single-column experience). A GM/Player toggle (RoleSwitch) lets you preview either experience — in a real deployment the role would come from authentication, not a toggle. GM workspace sections: Overview (dashboard), Scenes, Characters, NPCs, Enemies, Items, Shops, Media, Notes & Lore, Templates, Session History. Scenes come in two types: Playing Fields (roleplay: GM-controlled token stage, ambience, prompts, shops) and Battle Fields (tactical: grid map, initiative tracker, context-sensitive action panel, interactive objects + a trigger/effect logic display). Each open scene has a Build/Session mode toggle and a GM Tools drawer for 'play god' overrides (move any token, set HP/conditions, force/cancel effects, edit initiative, undo, rewind, control a PC, reveal/conceal, secret rolls, save-as-template, transition/convert scene). The player experience shows only the current scene, their own character (persistent bottom bar), a compact character sheet, and whatever actions are currently available — including a simplified shop storefront that honours hidden/requirement flags and the shop's automatic/approval/manual checkout mode.",
+    "architecture_for_replacing_placeholders": {
+      "principle": "The UI NEVER imports mock data directly. It only ever calls the data layer. Making the app 'real' is therefore localized to two files.",
+      "src/types.ts": "Complete typed domain model and the contract between UI and data: Campaign, Folder, Scene (PlayingField | BattleField), Token, InitiativeEntry, Interactive, Trigger/TriggerEffect, Shop/ShopItem, Character (full sheet), NPC, Enemy, Item, Media, Note, SessionLog.",
+      "src/api.ts": "The ONLY data access layer. Promise-based functions (api.campaigns(), api.scene(id), api.characters(), api.shop(id), etc.) plus placeholder mutation stubs api.save()/api.remove(). Replace the bodies with real fetch/Supabase calls and the UI is unchanged.",
+      "src/mock/data.ts": "The ONLY file that fabricates content (campaign 'The Hollow Crown' + a 4-character party, scenes, enemies, shops, notes, media, session logs). Delete once api.ts talks to a real backend.",
+      "src/state.tsx": "App-wide UI context: role (gm|player), current campaignId, a small view router, scene mode (build|session), and the seated character for player preview.",
+      "placeholder_honesty": "Mockup surfaces render a <PlaceholderTag> (dashed 'Placeholder' chip) where it matters, so it is always clear what is not yet wired."
+    },
     "tech_stack": {
       "build_tool": "Vite 6",
-      "framework": "React 18 + TypeScript",
-      "styling": "Tailwind CSS v4 (via @tailwindcss/vite), neon/glassmorphism theme, animated aurora background",
-      "animation": "Framer Motion",
-      "backend": "Supabase (Postgres + PostgREST RPC) for the password gate",
-      "hosting": "GitHub Pages, deployed by GitHub Actions"
+      "framework": "React 18 + TypeScript (strict typecheck enforced in the build)",
+      "styling": "Tailwind CSS v4 (via @tailwindcss/vite). Custom SERIOUS accessible dark design system in src/index.css: single indigo accent, slate neutral scale, semantic surface tokens, always-visible focus rings, prefers-reduced-motion support. Deliberately NOT the old neon/'radical' theme.",
+      "icons": "src/ui/icons.tsx — self-contained inline SVG icon set (no icon library; CSP-safe).",
+      "animation": "Framer Motion is installed but the new UI largely uses CSS transitions.",
+      "backend": "Supabase (Postgres + PostgREST RPC) — used ONLY for the password gate today. No app/game data is persisted yet.",
+      "hosting": "GitHub Pages, deployed by GitHub Actions on push to main."
     },
-
     "supabase": {
       "gate_project_name": "Roll30",
       "gate_project_ref": "eujhtcnnjtwsthscdfqk",
@@ -59,51 +64,36 @@
       "gate_caveat": "Soft gate only: public IPs are shared behind NAT and change over time, so it can auto-admit others on the same network and occasionally re-prompt. Not suitable for truly sensitive data.",
       "IMPORTANT_do_not_touch": "There is a SEPARATE unrelated Supabase project named 'chara' (ref uilqxmsllyugxuzsxwkx) holding chara_* tables. The Roll30 gate lives ONLY in eujhtcnnjtwsthscdfqk. Never modify the chara project for Roll30 work."
     },
-
-    "data_source": {
-      "origin": "5e-bits/5e-database (the same data behind https://www.dnd5eapi.co)",
-      "srd_edition": "D&D 5e SRD, 2014 ruleset, English",
-      "downloaded_from": "https://raw.githubusercontent.com/5e-bits/5e-database/main/src/2014/en"
-    },
-
     "structure": {
-      "index.html": "Vite HTML entry point.",
-      "package.json / package-lock.json": "Dependencies and scripts (dev/build/preview).",
-      "vite.config.ts": "Vite config; base is '/Roll30/' to match the GitHub Pages path.",
-      "tsconfig.json / tsconfig.node.json": "TypeScript config.",
-      "src/main.tsx": "App entry; wraps <App/> in <Gate/>.",
-      "src/App.tsx": "The file-directory explorer UI.",
-      "src/components/JsonView.tsx": "Collapsible, colour-coded JSON tree viewer.",
-      "src/components/Gate.tsx": "The neon password lock screen.",
-      "src/gate.ts": "Supabase RPC client + public-IP lookup (uses the Roll30 project's public publishable key).",
-      "src/index.css": "Tailwind import + custom neon theme.",
-      "public/data/": "Copy of the 25 SRD JSON files served by the app, plus a generated manifest.json.",
-      "data/": "Original downloaded 25 SRD JSON files kept at repo root.",
-      ".github/workflows/deploy.yml": "GitHub Actions workflow: builds and deploys to GitHub Pages on push to main.",
-      ".gitignore": "Ignores node_modules/, dist/, and OS/temp junk.",
-      "README.md": "Human-facing description of the project.",
-      "PROJECT_MASTER.json": "This file — master record and change log."
+      "CONCEPT.txt": "The full product concept for the D&D Session App (source of truth for what to build).",
+      "index.html": "Vite HTML entry point; title 'Roll30 · D&D Session App'.",
+      "package.json": "Deps + scripts. build = 'tsc --noEmit && vite build' so type errors cannot slip past esbuild.",
+      "vite.config.ts": "Vite config; base '/Roll30/' for the GitHub Pages path.",
+      "src/main.tsx": "App entry; wraps <App/> in the existing <Gate/> (password + IP system still protects everything).",
+      "src/App.tsx": "Top-level router: campaign picker -> role-split (GM shell vs player app).",
+      "src/types.ts": "Typed domain model (the UI/data contract).",
+      "src/api.ts": "Promise-based data access layer (swap point for a real backend).",
+      "src/mock/data.ts": "All fake placeholder content (delete when backend is real).",
+      "src/state.tsx": "App context: role, current campaign, view router, scene mode.",
+      "src/hooks.ts": "useAsync data-loading helper.",
+      "src/index.css": "Design system (accessible dark theme + reusable component classes).",
+      "src/ui/": "icons.tsx (inline SVG set), primitives.tsx (Avatar, Badge, SectionHeading, EmptyState, Skeleton, Field, Modal, Meter, PlaceholderTag), RoleSwitch.tsx.",
+      "src/views/": "GM views: CampaignsView, CampaignShell, DashboardView, ScenesView, SceneView, PlayingField, BattleField, GMToolsPanel, CharactersView, ResourceView (NPCs/Enemies/Items/Media), ShopsView, NotesView, TemplatesView, HistoryView.",
+      "src/player/": "Player experience: PlayerApp, PlayerSheet, PlayerShop.",
+      "src/gate.ts": "Supabase RPC client + public-IP lookup for the password gate.",
+      "src/components/Gate.tsx": "The simple password lock screen (from the pre-mockup step).",
+      ".github/workflows/deploy.yml": "GitHub Actions: build and deploy to GitHub Pages on push to main.",
+      "PROJECT_MASTER.json": "This file — master record and change log.",
+      "legacy_note": "The repo still contains data/ and public/data/ (25 SRD JSON files) and possibly README.md from the old SRD-explorer version. They are not used by the current D&D Session App mockup."
     },
-
-    "data_inventory_counts": {
-      "note": "25 categories, ~2,317 total entries (per the generated public/data/manifest.json on 2026-07-21). Biggest: features (407), magic-items (362), monsters (334), spells (319), equipment (237)."
-    },
-
-    "how_to_run_locally": "From C:\\Users\\Marcelo\\Documents\\Roll30 run 'npm install' (first time) then 'npm run dev'. Pushing to main auto-builds and redeploys to GitHub Pages.",
-
+    "how_to_run_locally": "From C:\\Users\\Marcelo\\Documents\\Roll30 run 'npm install' (first time) then 'npm run dev'. 'npm run build' type-checks and builds; 'npm run preview' serves the build. Pushing to main auto-builds and redeploys to GitHub Pages.",
+    "verification_status": "As of 2026-07-21: 'tsc --noEmit' passes clean, production build succeeds, and 'vite preview' serves HTTP 200 with the app mounting at #root.",
     "tooling": {
       "node": "v24 with npm 11",
       "git": "installed",
       "github_cli": "GitHub CLI 2.96.0, authenticated as aomarco (with 'workflow' scope), wired into git via 'gh auth setup-git'"
     }
   },
-
-  "change_log_next_id": 2,
-  "change_log": [
-    {
-      "id": 1,
-      "date": "2026-07-21",
-      "summary": "Stripped the frontend down to a blank canvas at the user's request. Removed the D&D file-explorer UI: App.tsx is now an empty placeholder page, and src/components/JsonView.tsx was deleted. The password gate was reduced to the simplest possible screen (one password field + Enter button + wrong-password note), dropping all neon/Framer Motion styling. index.css trimmed to essentials. The IP auto-admit system (src/gate.ts, Gate.tsx logic) is UNCHANGED and still works: same Roll30 Supabase project, same password, same auto-admit-on-known-IP behavior. Frameworks/tools (Vite, React, TS, Tailwind, Framer Motion) left installed, not removed. NOTE: the 'how_the_app_works', 'structure', and 'data_inventory' parts of project_state above still describe the OLD explorer app and are now outdated — per the priority rule, this log entry wins."
-    }
-  ]
+  "change_log_next_id": 1,
+  "change_log": []
 }
