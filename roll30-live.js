@@ -32,7 +32,7 @@
     if (view === 'characters') {
       const { data = [] } = await query('characters');
       const canEdit = c => currentRole === 'gm' || c.owner_id === session.user.id;
-      return `<section><div class="live-title"><h2>Characters</h2><button data-dialog="character">New character</button></div>${cards(data, c => `<b>${esc(c.name)}</b><small>${esc(c.kind)} · ${c.hp_current ?? '—'} / ${c.hp_max ?? '—'} HP${c.sheet?.currency?.gp != null ? ` · ${esc(c.sheet.currency.gp)} GP` : ''}</small><div class="hp-actions"><button data-hp="-1" data-character="${c.id}">− HP</button><button data-hp="1" data-character="${c.id}">+ HP</button>${canEdit(c) ? `<button data-edit-sheet="${c.id}">Edit sheet</button>` : ''}</div>`)}</section>`;
+      return `<section><div class="live-title"><h2>Characters</h2><button data-dialog="character">New character</button></div>${cards(data, c => `<b>${esc(c.name)}</b><small>${esc(c.kind)} · ${c.hp_current ?? '—'} / ${c.hp_max ?? '—'} HP${c.sheet?.currency?.gp != null ? ` · ${esc(c.sheet.currency.gp)} GP` : ''}${c.sheet?.conditions?.length ? ` · ${esc(c.sheet.conditions.join(', '))}` : ''}</small><div class="hp-actions"><button data-hp="-1" data-character="${c.id}">− HP</button><button data-hp="1" data-character="${c.id}">+ HP</button>${canEdit(c) ? `<button data-edit-sheet="${c.id}">Edit sheet</button>` : ''}</div>`)}</section>`;
     }
     if (view === 'messages') {
       const { data = [] } = await query('messages');
@@ -215,11 +215,12 @@
     if (error) return notice(error.message, true);
     const sheet = character.sheet || {}; const currency = sheet.currency || {};
     const dialog = document.getElementById('live-dialog');
-    dialog.innerHTML = `<form method="dialog" id="character-sheet-form"><h3>${esc(character.name)} sheet</h3><label>Armour class<input id="sheet-ac" type="number" min="0" value="${esc(sheet.armor_class ?? '')}"></label><label>Gold pieces<input id="sheet-gp" type="number" min="0" step="0.01" value="${esc(currency.gp ?? 0)}"></label><label>Notes<textarea id="sheet-notes" rows="4" placeholder="Appearance, traits, reminders…">${esc(sheet.notes ?? '')}</textarea></label><button>Save sheet</button></form>`;
+    dialog.innerHTML = `<form method="dialog" id="character-sheet-form"><h3>${esc(character.name)} sheet</h3><label>Armour class<input id="sheet-ac" type="number" min="0" value="${esc(sheet.armor_class ?? '')}"></label><label>Gold pieces<input id="sheet-gp" type="number" min="0" step="0.01" value="${esc(currency.gp ?? 0)}"></label><label>Conditions<input id="sheet-conditions" value="${esc((sheet.conditions || []).join(', '))}" placeholder="Poisoned, Prone…"></label><label>Notes<textarea id="sheet-notes" rows="4" placeholder="Appearance, traits, reminders…">${esc(sheet.notes ?? '')}</textarea></label><button>Save sheet</button></form>`;
     dialog.showModal();
     dialog.querySelector('#character-sheet-form').onsubmit = async e => {
       e.preventDefault();
-      const nextSheet = { ...sheet, armor_class:Number(dialog.querySelector('#sheet-ac').value) || null, currency:{ ...currency, gp:Number(dialog.querySelector('#sheet-gp').value) || 0 }, notes:dialog.querySelector('#sheet-notes').value.trim() };
+      const conditions = dialog.querySelector('#sheet-conditions').value.split(',').map(value=>value.trim()).filter(Boolean);
+      const nextSheet = { ...sheet, armor_class:Number(dialog.querySelector('#sheet-ac').value) || null, currency:{ ...currency, gp:Number(dialog.querySelector('#sheet-gp').value) || 0 }, conditions, notes:dialog.querySelector('#sheet-notes').value.trim() };
       const { error: updateError } = await db.client.from('characters').update({ sheet:nextSheet }).eq('id', character.id);
       if (updateError) return notice(updateError.message, true);
       dialog.close(); notice('Character sheet saved.'); render('characters');
