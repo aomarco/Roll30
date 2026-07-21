@@ -9,7 +9,9 @@ permissions:
   contents: read
 
 concurrency:
-  group: roll30-quality-${{ github.ref }}
+  # v2 avoids a permanently stuck cancelled run in GitHub's old concurrency
+  # group while preserving one-current-run behavior from this point forward.
+  group: roll30-quality-v2-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
