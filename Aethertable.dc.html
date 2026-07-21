@@ -4,8 +4,30 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="./support.js"></script>
+<style>
+  #access-gate{position:fixed;inset:0;z-index:99999;display:grid;place-items:center;padding:20px;background:#0d0d0f;color:#ececee;font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
+  #access-gate::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 18% 15%,rgba(230,169,77,.14),transparent 30rem),radial-gradient(circle at 80% 88%,rgba(125,107,208,.13),transparent 25rem);pointer-events:none}
+  .gate-card{position:relative;width:min(100%,430px);padding:40px 36px 34px;border:1px solid #323039;border-radius:20px;background:linear-gradient(145deg,rgba(34,33,39,.98),rgba(20,20,24,.98));box-shadow:0 25px 80px rgba(0,0,0,.48)}
+  .gate-mark{display:grid;place-items:center;width:34px;height:34px;margin-bottom:23px;border:1px solid rgba(230,169,77,.5);border-radius:9px;color:#e6a94d;font-size:17px;font-weight:800}
+  .gate-kicker{margin:0 0 12px;color:#e6a94d;font-size:11px;font-weight:800;letter-spacing:.16em;text-transform:uppercase}.gate-card h1{margin:0;font-size:38px;letter-spacing:-.04em}.gate-copy{margin:12px 0 26px;color:#aaa7b0;line-height:1.6}
+  #access-gate form{display:grid;gap:12px}#access-gate label{font-size:13px;font-weight:700;color:#d3d0d7}#access-gate input{width:100%;padding:14px 15px;border:1px solid #45424c;border-radius:10px;outline:none;background:#131318;color:#fff;font:inherit}#access-gate input:focus{border-color:#e6a94d;box-shadow:0 0 0 3px rgba(230,169,77,.16)}#access-gate button{min-height:48px;border:0;border-radius:10px;background:#e6a94d;color:#17110a;font:inherit;font-weight:800;cursor:pointer}#access-gate button:disabled{opacity:.65;cursor:wait}.gate-status{min-height:20px;margin:17px 0 0;color:#aaa7b0;font-size:13px}.gate-status.error{color:#ee847e}.gate-status.ok{color:#8bcc8e}.gate-hidden{display:none!important}
+</style>
 </head>
 <body>
+<section id="access-gate" aria-live="polite">
+  <div class="gate-card">
+    <div class="gate-mark" aria-hidden="true">A</div>
+    <p class="gate-kicker">Private campaign table</p>
+    <h1>Aethertable</h1>
+    <p class="gate-copy" id="gate-copy">Checking whether this table already knows you…</p>
+    <form id="gate-form" class="gate-hidden">
+      <label for="gate-password">Table password</label>
+      <input id="gate-password" type="password" autocomplete="current-password" required autofocus>
+      <button id="gate-submit" type="submit">Enter the table</button>
+    </form>
+    <p id="gate-status" class="gate-status" role="status"></p>
+  </div>
+</section>
 <x-dc>
 <helmet>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1881,6 +1903,53 @@ class Component extends DCLogic {
     };
   }
 }
+</script>
+<script>
+  (function () {
+    const endpoint = 'https://eujhtcnnjtwsthscdfqk.supabase.co/functions/v1/access-gate';
+    const overlay = document.getElementById('access-gate');
+    const form = document.getElementById('gate-form');
+    const password = document.getElementById('gate-password');
+    const submit = document.getElementById('gate-submit');
+    const copy = document.getElementById('gate-copy');
+    const status = document.getElementById('gate-status');
+
+    const setStatus = (message, kind = '') => { status.textContent = message; status.className = 'gate-status ' + kind; };
+    const openTable = () => { setStatus('Welcome back. Opening your table…', 'ok'); overlay.classList.add('gate-hidden'); };
+    const request = async (body) => {
+      const response = await fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(data.error || 'The access gate could not be reached.');
+      return data;
+    };
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      submit.disabled = true;
+      setStatus('Checking the table password…');
+      try {
+        const result = await request({ action: 'unlock', password: password.value });
+        password.value = '';
+        if (result.allowed) return openTable();
+        if (result.blocked) return setStatus(`Too many attempts. Please try again in about ${Math.ceil((result.retry_after_seconds || 900) / 60)} minutes.`, 'error');
+        setStatus(`That password did not work. ${result.attempts_remaining ?? 0} attempts remaining before a short lockout.`, 'error');
+      } catch (error) { setStatus(error.message, 'error'); }
+      finally { submit.disabled = false; password.focus(); }
+    });
+
+    (async () => {
+      try {
+        const result = await request({ action: 'check' });
+        if (result.allowed) return openTable();
+        copy.textContent = 'This is a private table. Enter the shared password once and this network will be remembered.';
+        form.classList.remove('gate-hidden');
+        password.focus();
+      } catch (error) {
+        copy.textContent = 'The table access check is unavailable.';
+        setStatus(error.message, 'error');
+      }
+    })();
+  })();
 </script>
 </body>
 </html>
