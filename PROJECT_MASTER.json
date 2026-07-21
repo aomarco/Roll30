@@ -21,7 +21,7 @@
 
   "meta": {
     "project_name": "Roll30",
-    "master_version": 2,
+    "master_version": 3,
     "created": "2026-07-21",
     "last_updated": "2026-07-21",
     "last_full_update": "2026-07-21",
@@ -29,75 +29,75 @@
   },
 
   "project_state": {
-    "purpose": "An offline, local collection of the complete Dungeons & Dragons 5th Edition SRD reference data, owned by the user as plain JSON. Intended to grow into a usable lookup tool (e.g. search spells/monsters).",
-    "current_status": "Data-only project. The full 5e SRD (2014, English) is downloaded locally and mirrored to a private GitHub repo. No application code or scripts exist yet; the next natural step is a lookup/search tool over the data/ files.",
+    "purpose": "A deployed web app that browses the complete Dungeons & Dragons 5th Edition SRD reference data as a file-directory explorer, behind a simple password gate.",
+    "current_status": "LIVE and deployed. Public GitHub repo, auto-deployed to GitHub Pages on every push to main. Site is protected by a Supabase-backed IP password gate.",
+    "live_url": "https://aomarco.github.io/Roll30/",
     "owner_github_user": "aomarco",
     "github_repo_url": "https://github.com/aomarco/Roll30",
-    "repo_visibility": "private",
+    "repo_visibility": "public (required for free GitHub Pages)",
     "local_path": "C:\\Users\\Marcelo\\Documents\\Roll30",
     "default_branch": "main",
-    "how_it_works": "There is no running application yet. The project currently stores static JSON data files. Any future app/scripts would read the files in the 'data/' folder locally (no internet or API key needed).",
-    "history_summary": "Started 2026-07-21 as 'my-first-project' (local git repo + starter README/.gitignore, first commit). GitHub CLI 2.96.0 was installed and authenticated as 'aomarco', and the repo was pushed to GitHub (private). The D&D 5e API was investigated (~2,027 records, a few MB) and the official bulk data dump was chosen over hitting ~2,000 live endpoints. All 25 English 2014-SRD JSON files (~3.8 MB) were downloaded into data/ and validated. The project was then renamed everywhere from 'my-first-project' to 'Roll30' (README, GitHub repo, git credentials via 'gh auth setup-git', and the local folder — done via copy+delete because the original folder was briefly locked). Finally, this PROJECT_MASTER.json was created to track the project and its changes.",
+
+    "how_the_app_works": "A single-page app. On load it fetches the visitor's public IP (via api.ipify.org) and asks the Supabase function is_ip_authorized(); if that IP has unlocked before, the user is admitted automatically. Otherwise a neon lock screen prompts for a password. The password is checked SERVER-SIDE by the Supabase function authorize_ip(pw, client_ip) and is NEVER included in the shipped browser bundle. On a correct password the IP is recorded so future visits from it skip the prompt. Once past the gate, the UI is a file explorer: the home screen shows one folder card per SRD category (emoji icon + item count); clicking a folder lists its entries; clicking an entry opens a collapsible, colour-coded JSON viewer. There is also a breadcrumb trail and a live search box.",
+
+    "tech_stack": {
+      "build_tool": "Vite 6",
+      "framework": "React 18 + TypeScript",
+      "styling": "Tailwind CSS v4 (via @tailwindcss/vite), neon/glassmorphism theme, animated aurora background",
+      "animation": "Framer Motion",
+      "backend": "Supabase (Postgres + PostgREST RPC) for the password gate",
+      "hosting": "GitHub Pages, deployed by GitHub Actions"
+    },
+
+    "supabase": {
+      "gate_project_name": "Roll30",
+      "gate_project_ref": "eujhtcnnjtwsthscdfqk",
+      "gate_project_url": "https://eujhtcnnjtwsthscdfqk.supabase.co",
+      "region": "ap-northeast-2",
+      "schema": "Table public.authorized_ips (ip text PK, created_at). RLS enabled with NO direct anon/authenticated access. Two SECURITY DEFINER functions: is_ip_authorized(check_ip)->boolean and authorize_ip(pw, client_ip)->boolean (password lives only inside this function).",
+      "password_note": "The gate password is 'MarceloIsFranklyAmazing'. It exists ONLY in the authorize_ip DB function, never in the client bundle.",
+      "gate_caveat": "Soft gate only: public IPs are shared behind NAT and change over time, so it can auto-admit others on the same network and occasionally re-prompt. Not suitable for truly sensitive data.",
+      "IMPORTANT_do_not_touch": "There is a SEPARATE unrelated Supabase project named 'chara' (ref uilqxmsllyugxuzsxwkx) holding chara_* tables. The Roll30 gate lives ONLY in eujhtcnnjtwsthscdfqk. Never modify the chara project for Roll30 work."
+    },
+
     "data_source": {
       "origin": "5e-bits/5e-database (the same data behind https://www.dnd5eapi.co)",
       "srd_edition": "D&D 5e SRD, 2014 ruleset, English",
       "downloaded_from": "https://raw.githubusercontent.com/5e-bits/5e-database/main/src/2014/en"
     },
+
     "structure": {
+      "index.html": "Vite HTML entry point.",
+      "package.json / package-lock.json": "Dependencies and scripts (dev/build/preview).",
+      "vite.config.ts": "Vite config; base is '/Roll30/' to match the GitHub Pages path.",
+      "tsconfig.json / tsconfig.node.json": "TypeScript config.",
+      "src/main.tsx": "App entry; wraps <App/> in <Gate/>.",
+      "src/App.tsx": "The file-directory explorer UI.",
+      "src/components/JsonView.tsx": "Collapsible, colour-coded JSON tree viewer.",
+      "src/components/Gate.tsx": "The neon password lock screen.",
+      "src/gate.ts": "Supabase RPC client + public-IP lookup (uses the Roll30 project's public publishable key).",
+      "src/index.css": "Tailwind import + custom neon theme.",
+      "public/data/": "Copy of the 25 SRD JSON files served by the app, plus a generated manifest.json.",
+      "data/": "Original downloaded 25 SRD JSON files kept at repo root.",
+      ".github/workflows/deploy.yml": "GitHub Actions workflow: builds and deploys to GitHub Pages on push to main.",
+      ".gitignore": "Ignores node_modules/, dist/, and OS/temp junk.",
       "README.md": "Human-facing description of the project.",
-      ".gitignore": "Lists junk/temp files that should not be uploaded to GitHub.",
-      "PROJECT_MASTER.json": "This file — master record and change log.",
-      "data/": "25 JSON files containing the full 5e SRD content (~3.8 MB total)."
+      "PROJECT_MASTER.json": "This file — master record and change log."
     },
+
     "data_inventory_counts": {
-      "features": 407,
-      "magic-items": 362,
-      "monsters": 334,
-      "spells": 319,
-      "equipment": 237,
-      "proficiencies": 117,
-      "equipment-categories": 39,
-      "traits": 38,
-      "rule-sections": 33,
-      "skills": 18,
-      "languages": 16,
-      "conditions": 15,
-      "damage-types": 13,
-      "classes": 12,
-      "subclasses": 12,
-      "weapon-properties": 11,
-      "alignments": 9,
-      "races": 9,
-      "magic-schools": 8,
-      "ability-scores": 6,
-      "rules": 6,
-      "subraces": 4,
-      "feats": 1,
-      "backgrounds": 1,
-      "note": "A 'levels' data file is also present. Counts reflect API category totals gathered on 2026-07-21."
+      "note": "25 categories, ~2,317 total entries (per the generated public/data/manifest.json on 2026-07-21). Biggest: features (407), magic-items (362), monsters (334), spells (319), equipment (237)."
     },
+
+    "how_to_run_locally": "From C:\\Users\\Marcelo\\Documents\\Roll30 run 'npm install' (first time) then 'npm run dev'. Pushing to main auto-builds and redeploys to GitHub Pages.",
+
     "tooling": {
+      "node": "v24 with npm 11",
       "git": "installed",
-      "github_cli": "installed (GitHub CLI 2.96.0), authenticated as aomarco, wired into git via 'gh auth setup-git'"
+      "github_cli": "GitHub CLI 2.96.0, authenticated as aomarco (with 'workflow' scope), wired into git via 'gh auth setup-git'"
     }
   },
 
-  "change_log_next_id": 4,
-  "change_log": [
-    {
-      "id": 3,
-      "date": "2026-07-21",
-      "summary": "Separated the gate onto its own Supabase project. Previously (entry 2) the gate was added to the pre-existing shared project 'chara' (ref uilqxmsllyugxuzsxwkx), which also holds unrelated chara_* tables. Created a NEW dedicated free-tier project named 'Roll30' (ref eujhtcnnjtwsthscdfqk, region ap-northeast-2), rebuilt the same authorized_ips table + is_ip_authorized/authorize_ip functions there, and pointed src/gate.ts at the new URL and publishable key. Verified the new endpoints work. Then cleaned up the chara project: dropped authorized_ips and both functions; confirmed only the 8 chara_* tables remain and were never modified. Rebuilt (verified the chara project ref is absent from the bundle), pushed, and redeployed live. IMPORTANT for any future work: the Roll30 gate lives in project eujhtcnnjtwsthscdfqk ONLY — do not touch the chara project uilqxmsllyugxuzsxwkx."
-    },
-    {
-      "id": 2,
-      "date": "2026-07-21",
-      "summary": "Added a Supabase-backed password gate to the web app. Supabase project uilqxmsllyugxuzsxwkx now has a table public.authorized_ips (RLS on, no direct anon/authenticated access) plus two SECURITY DEFINER RPC functions: authorize_ip(pw, client_ip) which checks the password SERVER-SIDE (password 'MarceloIsFranklyAmazing' exists only in the DB function, never in the shipped bundle — verified absent from dist) and records the IP on success, and is_ip_authorized(check_ip) which returns only a boolean. Front-end additions: src/gate.ts (RPC client + public IP lookup via api.ipify.org, uses the public publishable key) and src/components/Gate.tsx (a neon lock screen); main.tsx now wraps <App/> in <Gate/>. On load the app fetches the visitor's public IP and auto-admits if that IP is already authorized; otherwise it shows the password prompt, and a correct password authorizes and remembers the IP. Caveat: this is a soft gate — IPs are shared behind NAT and change over time, and it is not suitable for truly sensitive data. Built, pushed, and deployed live (HTTP 200) at https://aomarco.github.io/Roll30/."
-    },
-    {
-      "id": 1,
-      "date": "2026-07-21",
-      "summary": "Turned Roll30 from a data-only repo into a deployed web app. Built a file-directory explorer using Vite + React + TypeScript + Tailwind CSS v4 + Framer Motion (neon/glassmorphism theme, animated background, collapsible JSON detail viewer). App source lives in src/ (App.tsx, components/JsonView.tsx, main.tsx, index.css); config in package.json, vite.config.ts (base '/Roll30/'), tsconfig*.json, index.html. Data was copied to public/data/ and a generated public/data/manifest.json lists the 25 folders with friendly names, emoji icons, and item counts (2,317 total). Added .github/workflows/deploy.yml (GitHub Actions) to build and deploy to GitHub Pages on every push to main; updated .gitignore for node_modules/ and dist/. The repo was switched from private to PUBLIC (required for free GitHub Pages) and Pages was enabled with build_type=workflow. A 'workflow' OAuth scope had to be granted to allow pushing the workflow file. Site is live and verified (HTTP 200) at https://aomarco.github.io/Roll30/. NOTE: this supersedes 'project_state', which still describes the project as data-only — the app now exists and is deployed."
-    }
-  ]
+  "change_log_next_id": 1,
+  "change_log": []
 }
