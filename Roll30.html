@@ -4,6 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="./support.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="./roll30-backend.js"></script>
 <style>
   #access-gate{position:fixed;inset:0;z-index:99999;display:grid;place-items:center;padding:20px;background:#0d0d0f;color:#ececee;font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
   #access-gate::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 18% 15%,rgba(230,169,77,.14),transparent 30rem),radial-gradient(circle at 80% 88%,rgba(125,107,208,.13),transparent 25rem);pointer-events:none}
@@ -1948,7 +1950,12 @@ class Component extends DCLogic {
     const status = document.getElementById('gate-status');
 
     const setStatus = (message, kind = '') => { status.textContent = message; status.className = 'gate-status ' + kind; };
-    const openTable = () => { setStatus('Welcome back. Opening your table…', 'ok'); overlay.classList.add('gate-hidden'); };
+    const openTable = async () => {
+      const session = await window.Roll30Backend.getSession();
+      if (!session) { window.location.replace('./index.html'); return; }
+      setStatus('Welcome back. Opening your table…', 'ok');
+      overlay.classList.add('gate-hidden');
+    };
     const request = async (body) => {
       const response = await fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
       const data = await response.json().catch(() => ({}));

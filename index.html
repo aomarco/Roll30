@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#0d0d0f">
     <title>Roll30 · Private Table</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="./roll30-backend.js"></script>
     <style>
       :root { color-scheme: dark; }
       * { box-sizing: border-box; }
@@ -38,6 +40,27 @@
         <input id="password" name="password" type="password" autocomplete="current-password" required autofocus>
         <button id="submit" type="submit">Enter the table</button>
       </form>
+      <form id="auth" class="hidden">
+        <label for="email">Email</label>
+        <input id="email" type="email" autocomplete="email" required>
+        <label for="account-password">Account password</label>
+        <input id="account-password" type="password" autocomplete="current-password" minlength="8" required>
+        <button id="auth-submit" type="submit">Sign in</button>
+        <button id="auth-toggle" type="button" style="margin-top:0;background:transparent;border:1px solid #45424c;color:#d3d0d7">Create an account instead</button>
+      </form>
+      <section id="campaign-home" class="hidden">
+        <form id="create-campaign">
+          <label for="campaign-name">New campaign</label>
+          <input id="campaign-name" maxlength="120" placeholder="Campaign name" required>
+          <button type="submit">Create campaign</button>
+        </form>
+        <form id="join-campaign" style="margin-top:18px">
+          <label for="join-code">Join a friend's campaign</label>
+          <input id="join-code" placeholder="Join code" required>
+          <button type="submit" style="background:transparent;border:1px solid #45424c;color:#d3d0d7">Join campaign</button>
+        </form>
+        <div id="campaign-list" style="display:grid;gap:8px;margin-top:22px"></div>
+      </section>
       <p id="status" role="status"></p>
     </main>
     <script>
@@ -47,9 +70,43 @@
       const submit = document.getElementById('submit');
       const status = document.getElementById('status');
       const intro = document.getElementById('intro');
+      const auth = document.getElementById('auth');
+      const email = document.getElementById('email');
+      const accountPassword = document.getElementById('account-password');
+      const authSubmit = document.getElementById('auth-submit');
+      const authToggle = document.getElementById('auth-toggle');
+      const campaignHome = document.getElementById('campaign-home');
+      const createCampaignForm = document.getElementById('create-campaign');
+      const joinCampaignForm = document.getElementById('join-campaign');
+      const campaignName = document.getElementById('campaign-name');
+      const joinCode = document.getElementById('join-code');
+      const campaignList = document.getElementById('campaign-list');
+      let signUpMode = false;
 
       function setStatus(message, kind = '') { status.textContent = message; status.className = kind; }
-      function enter() { setStatus('Welcome back. Opening your table…', 'ok'); window.location.replace('./Roll30.html'); }
+      function selectCampaign(campaign) { localStorage.setItem('roll30.campaignId', campaign.id); window.location.replace('./Roll30.html'); }
+      async function openTable() {
+        auth.classList.add('hidden'); gate.classList.add('hidden');
+        intro.textContent = 'Choose a campaign, or start a new one.';
+        campaignHome.classList.remove('hidden');
+        setStatus('');
+        const campaigns = await window.Roll30Backend.campaigns();
+        campaignList.replaceChildren();
+        for (const campaign of campaigns) {
+          const button = document.createElement('button');
+          button.type = 'button'; button.textContent = campaign.name + '  ·  ' + campaign.system;
+          button.style.cssText = 'text-align:left;background:#19191f;border:1px solid #34323a;color:#ececee';
+          button.addEventListener('click', () => selectCampaign(campaign));
+          campaignList.append(button);
+        }
+      }
+      async function enter() {
+        const session = await window.Roll30Backend.getSession();
+        if (session) return openTable();
+        intro.textContent = 'Sign in to create, join, and play in your private Roll30 campaigns.';
+        auth.classList.remove('hidden');
+        email.focus();
+      }
       async function request(body) {
         const response = await fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
         const data = await response.json().catch(() => ({}));
@@ -69,6 +126,53 @@
           setStatus(`That password did not work. ${result.attempts_remaining ?? 0} attempts remaining before a short lockout.`, 'error');
         } catch (error) { setStatus(error.message, 'error'); }
         finally { submit.disabled = false; password.focus(); }
+      });
+
+      authToggle.addEventListener('click', () => {
+        signUpMode = !signUpMode;
+        authSubmit.textContent = signUpMode ? 'Create account' : 'Sign in';
+        authToggle.textContent = signUpMode ? 'I already have an account' : 'Create an account instead';
+        intro.textContent = signUpMode ? 'Create your private Roll30 account.' : 'Sign in to your private Roll30 account.';
+        setStatus('');
+      });
+
+      auth.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        authSubmit.disabled = true;
+        setStatus(signUpMode ? 'Creating your account…' : 'Signing you in…');
+        try {
+          const client = window.Roll30Backend.client;
+          const result = signUpMode
+            ? await client.auth.signUp({ email: email.value, password: accountPassword.value })
+            : await client.auth.signInWithPassword({ email: email.value, password: accountPassword.value });
+          if (result.error) throw result.error;
+          if (!result.data.session) {
+            setStatus('Check your email to confirm the account, then sign in.', 'ok');
+            signUpMode = false; authSubmit.textContent = 'Sign in'; authToggle.textContent = 'Create an account instead';
+            return;
+          }
+          await window.Roll30Backend.ensureProfile(result.data.user);
+          openTable();
+        } catch (error) { setStatus(error.message || 'Account access failed.', 'error'); }
+        finally { authSubmit.disabled = false; }
+      });
+
+      createCampaignForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        setStatus('Creating campaign…');
+        try {
+          const campaign = await window.Roll30Backend.createCampaign(campaignName.value);
+          selectCampaign(campaign);
+        } catch (error) { setStatus(error.message || 'Campaign creation failed.', 'error'); }
+      });
+
+      joinCampaignForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        setStatus('Joining campaign…');
+        try {
+          const campaign = await window.Roll30Backend.joinCampaign(joinCode.value);
+          selectCampaign(campaign);
+        } catch (error) { setStatus(error.message || 'Could not join that campaign.', 'error'); }
       });
 
       (async () => {
