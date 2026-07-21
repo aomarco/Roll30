@@ -167,6 +167,17 @@ with created as (
 )
 insert into roll30_test_context(key, id) select 'private_asset', id from created;
 
+update public.scenes
+set background_asset_id = (select id from roll30_test_context where key='private_asset')
+where id = (select id from roll30_test_context where key='scene');
+insert into public.scene_map_tiles(scene_id,asset_id,tile_column,tile_row,grid_columns,grid_rows,storage_path)
+select
+  (select id from roll30_test_context where key='scene'),
+  (select id from roll30_test_context where key='private_asset'),
+  tile_column,0,4,1,
+  (select id::text from roll30_test_context where key='gm_campaign')||'/map-tiles/test/'||tile_column||'.webp'
+from generate_series(0,3) tile_column;
+
 insert into public.campaign_notes(campaign_id, created_by, kind, title, body, hidden, audience, tags)
 values
   ((select id from roll30_test_context where key = 'gm_campaign'), '30000000-0000-4000-a000-000000000101', 'note', 'GM secret', 'Hidden', true, '{}', '{secret}'),
@@ -262,6 +273,14 @@ select pg_temp.roll30_assert(
 select pg_temp.roll30_assert(
   (select jsonb_array_length(public.get_visible_roll30_tokens((select id from roll30_test_context where key='session')))) = 1,
   'a token behind a private wall leaked into the player visibility result'
+);
+select pg_temp.roll30_assert(
+  (select jsonb_array_length(public.get_roll30_visible_map_tiles((select id from roll30_test_context where key='session')))) = 3,
+  'secure map tiling did not grant exactly the current, explored, and manually revealed tiles'
+);
+select pg_temp.roll30_assert(
+  (select count(*) from public.session_map_tile_access where session_id=(select id from roll30_test_context where key='session') and user_id=auth.uid()) = 3,
+  'authorized map tile access was not persisted for private Storage enforcement'
 );
 select pg_temp.roll30_expect_error(
   format('select public.set_roll30_manual_reveal(%L::uuid,%L::uuid[],%L::jsonb)',
