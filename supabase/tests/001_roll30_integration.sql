@@ -107,6 +107,13 @@ with created as (
 )
 insert into roll30_test_context(key, id) select 'target', id from created;
 
+with created as (
+  insert into public.items(campaign_id, name, item_data)
+  values ((select id from roll30_test_context where key = 'gm_campaign'), 'Test Potion', '{"type":"consumable","effect":{"healing":3}}')
+  returning id
+)
+insert into roll30_test_context(key, id) select 'potion', id from created;
+
 update public.campaign_members
 set character_id = (select id from roll30_test_context where key = 'hero')
 where campaign_id = (select id from roll30_test_context where key = 'gm_campaign')
@@ -155,6 +162,7 @@ select public.add_roll30_initiative_entry(
   (select id from roll30_test_context where key = 'hero_token'),
   18
 );
+select public.grant_roll30_item((select id from roll30_test_context where key='hero'),(select id from roll30_test_context where key='potion'),3);
 select pg_temp.roll30_assert(
   (select jsonb_array_length(state -> 'initiative') from public.sessions where id = (select id from roll30_test_context where key = 'session')) = 1,
   'normalized token could not be added to initiative'
@@ -221,6 +229,15 @@ select pg_temp.roll30_expect_error(
   'You can only move your own token'
 );
 select public.change_roll30_hp((select id from roll30_test_context where key = 'hero'), -2);
+select public.mutate_roll30_inventory((select id from roll30_test_context where key='hero'),(select id from roll30_test_context where key='potion'),'equip',1,null);
+select public.mutate_roll30_inventory((select id from roll30_test_context where key='hero'),(select id from roll30_test_context where key='potion'),'transfer',1,(select id from roll30_test_context where key='target'));
+select public.mutate_roll30_inventory((select id from roll30_test_context where key='hero'),(select id from roll30_test_context where key='potion'),'consume',1,null);
+select pg_temp.roll30_assert(
+  (select quantity=1 from public.character_inventory where character_id=(select id from roll30_test_context where key='hero') and item_id=(select id from roll30_test_context where key='potion'))
+  and (select quantity=1 from public.character_inventory where character_id=(select id from roll30_test_context where key='target') and item_id=(select id from roll30_test_context where key='potion'))
+  and (select hp_current=10 from public.characters where id=(select id from roll30_test_context where key='hero')),
+  'equip, transfer, consume, or healing inventory behavior failed'
+);
 select pg_temp.roll30_expect_error(
   format('select public.change_roll30_hp(%L::uuid,-2)', (select id from roll30_test_context where key = 'target')),
   'Not permitted'
