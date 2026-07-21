@@ -5,6 +5,7 @@
   let campaignId = localStorage.getItem('roll30.campaignId');
   let session;
   let campaign;
+  let currentRole;
 
   const esc = (value) => String(value ?? '').replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
   const query = (table) => db.client.from(table).select('*').eq('campaign_id', campaignId).order('created_at', { ascending:false });
@@ -16,6 +17,8 @@
     const { data, error } = await db.client.from('campaigns').select('*').eq('id', campaignId).single();
     if (error) { localStorage.removeItem('roll30.campaignId'); window.location.replace('./index.html'); return; }
     campaign = data;
+    const { data: membership } = await db.client.from('campaign_members').select('role').eq('campaign_id', campaignId).eq('user_id', session.user.id).single();
+    currentRole = membership?.role;
     render();
   }
 
@@ -35,7 +38,9 @@
     if (view === 'session') {
       const { data = [] } = await query('sessions');
       const active = data.find(s => s.status === 'active');
-      if (!active) return `<section><div class="live-title"><h2>Live session</h2><button id="start-session">Start session</button></div><p>No session is running. Start one when the GM is ready.</p></section>`;
+      const isGm = currentRole === 'gm';
+      if (!active) return `<section><div class="live-title"><h2>Live session</h2>${isGm ? '<button id="start-session">Start session</button>' : ''}</div><p>No session is running. ${isGm ? 'Start one when you are ready.' : 'Your GM will start one when the table is ready.'}</p></section>`;
+      localStorage.setItem('roll30.sessionId', active.id);
       const [{ data: characters = [] }, { data: snapshots = [] }] = await Promise.all([
         query('characters'),
         db.client.from('session_snapshots').select('*').eq('session_id', active.id).order('created_at', { ascending:false })
@@ -44,7 +49,7 @@
       const tokenByCharacter = new Set((state.tokens || []).map(t => t.character_id));
       const board = (state.tokens || []).map(t => `<button class="map-token" data-token="${t.id}" style="left:${t.x}%;top:${t.y}%" title="${esc(t.name)}">${esc(t.name.slice(0,2).toUpperCase())}</button>`).join('');
       const available = characters.filter(c => !tokenByCharacter.has(c.id));
-      return `<section><div class="live-title"><h2>Live session</h2><button id="end-session">End session</button></div><p>Round ${active.round}. Select a token, then click the board to move it. Movement is synchronized to the table.</p><div class="session-board" id="session-board">${board || '<span class="board-empty">Add a character to begin.</span>'}</div><div class="token-tray">${available.map(c => `<button data-add-token="${c.id}" data-token-name="${esc(c.name)}">Add ${esc(c.name)}</button>`).join('')}</div><div class="session-controls"><button id="advance-turn">Advance turn</button><button id="save-snapshot">Save snapshot</button></div><h3>Recovery snapshots</h3>${snapshots.length ? `<div class="live-cards">${snapshots.map(s => `<article><b>${esc(s.label || 'Snapshot')}</b><small>${new Date(s.created_at).toLocaleString()}</small><button data-restore-snapshot="${s.id}">Restore this snapshot</button></article>`).join('')}</div>` : '<p class="muted">No snapshots saved yet.</p>'}</section>`;
+      return `<section><div class="live-title"><h2>Live session</h2>${isGm ? '<button id="end-session">End session</button>' : ''}</div><p>Round ${active.round}. Select your token, then click the board to move it. Movement is synchronized to the table.</p><div class="session-board" id="session-board">${board || '<span class="board-empty">Add a character to begin.</span>'}</div>${isGm ? `<div class="token-tray">${available.map(c => `<button data-add-token="${c.id}" data-token-name="${esc(c.name)}">Add ${esc(c.name)}</button>`).join('')}</div><div class="session-controls"><button id="advance-turn">Advance turn</button><button id="save-snapshot">Save snapshot</button></div>` : ''}<h3>Recovery snapshots</h3>${snapshots.length ? `<div class="live-cards">${snapshots.map(s => `<article><b>${esc(s.label || 'Snapshot')}</b><small>${new Date(s.created_at).toLocaleString()}</small>${isGm ? `<button data-restore-snapshot="${s.id}">Restore this snapshot</button>` : ''}</article>`).join('')}</div>` : '<p class="muted">No snapshots saved yet.</p>'}</section>`;
     }
     if (view === 'prompts') {
       const { data = [] } = await query('prompts');
