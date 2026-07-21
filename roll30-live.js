@@ -27,7 +27,7 @@
     if (view === 'scenes') {
       const { data = [] } = await query('scenes');
       const controls = currentRole === 'gm';
-      return `<section><div class="live-title"><h2>Scenes</h2>${controls ? '<button data-dialog="scene">New scene</button>' : ''}</div>${cards(data, s => `<b>${esc(s.name)}</b><small>${esc(s.scene_type)}${s.folder ? ` · ${esc(s.folder)}` : ''}</small>${controls ? `<div class="hp-actions"><button data-run-scene="${s.id}">Run scene</button><button data-delete-scene="${s.id}">Delete</button></div>` : ''}`)}</section>`;
+      return `<section><div class="live-title"><h2>Scenes</h2>${controls ? '<button data-dialog="scene">New scene</button>' : ''}</div>${cards(data, s => `<b>${esc(s.name)}</b><small>${esc(s.scene_type)}${s.folder ? ` · ${esc(s.folder)}` : ''}</small>${controls ? `<div class="hp-actions"><button data-run-scene="${s.id}">Run scene</button><button data-scene-config="${s.id}">Configure</button><button data-delete-scene="${s.id}">Delete</button></div>` : ''}`)}</section>`;
     }
     if (view === 'characters') {
       const { data = [] } = await query('characters');
@@ -44,6 +44,8 @@
       const isGm = currentRole === 'gm';
       if (!active) return `<section><div class="live-title"><h2>Live session</h2>${isGm ? '<button id="start-session">Start session</button>' : ''}</div><p>No session is running. ${isGm ? 'Start one when you are ready.' : 'Your GM will start one when the table is ready.'}</p></section>`;
       localStorage.setItem('roll30.sessionId', active.id);
+      const { data: activeScene } = active.scene_id ? await db.client.from('scenes').select('*').eq('id',active.scene_id).single() : { data:null };
+      let backgroundUrl = ''; if (activeScene?.background_asset_id) { const { data: asset } = await db.client.from('campaign_assets').select('storage_path').eq('id',activeScene.background_asset_id).single(); if (asset?.storage_path) { const { data: signed } = await db.client.storage.from('campaign-media').createSignedUrl(asset.storage_path, 3600); backgroundUrl = signed?.signedUrl || ''; } }
       const [{ data: characters = [] }, { data: snapshots = [] }] = await Promise.all([
         query('characters'),
         db.client.from('session_snapshots').select('*').eq('session_id', active.id).order('created_at', { ascending:false })
@@ -54,7 +56,8 @@
       const available = characters.filter(c => !tokenByCharacter.has(c.id));
       const initiative = state.initiative || [];
       const initiativePanel = `<h3>Initiative</h3>${initiative.length ? `<div class="live-cards">${initiative.map((entry,index) => `<article><b>${index === active.active_turn ? '▶ ' : ''}${esc(entry.name)}</b><small>${esc(entry.score)}</small>${isGm ? `<button data-remove-initiative="${index}">Remove</button>` : ''}</article>`).join('')}</div>` : '<p class="muted">No initiative order yet.</p>'}${isGm && state.tokens?.length ? `<form id="initiative-form" class="live-form"><select id="initiative-token">${state.tokens.map(t=>`<option value="${t.id}">${esc(t.name)}</option>`).join('')}</select><input id="initiative-score" type="number" placeholder="Roll"><button>Add to initiative</button></form>` : ''}`;
-      return `<section><div class="live-title"><h2>Live session</h2>${isGm ? '<button id="end-session">End session</button>' : ''}</div><p>Round ${active.round}. Select your token, then click the board to move it. Movement is synchronized to the table.</p><div class="session-board" id="session-board">${board || '<span class="board-empty">Add a character to begin.</span>'}${state.fog === true && !isGm ? '<div class="board-fog">Fog of war</div>' : ''}</div>${initiativePanel}${isGm ? `<div class="token-tray">${available.map(c => `<button data-add-token="${c.id}" data-token-name="${esc(c.name)}">Add ${esc(c.name)}</button>`).join('')}</div><div class="session-controls"><button id="advance-turn">Advance turn</button><button id="save-snapshot">Save snapshot</button></div>` : ''}<h3>Recovery snapshots</h3>${snapshots.length ? `<div class="live-cards">${snapshots.map(s => `<article><b>${esc(s.label || 'Snapshot')}</b><small>${new Date(s.created_at).toLocaleString()}</small>${isGm ? `<button data-restore-snapshot="${s.id}">Restore this snapshot</button>` : ''}</article>`).join('')}</div>` : '<p class="muted">No snapshots saved yet.</p>'}</section>`;
+      const boardStyle = backgroundUrl ? ` style="background-image:url('${esc(backgroundUrl)}');background-size:cover;background-position:center"` : '';
+      return `<section><div class="live-title"><h2>Live session</h2>${isGm ? '<button id="end-session">End session</button>' : ''}</div><p>${activeScene ? esc(activeScene.name) + ' · ' : ''}Round ${active.round}. Select your token, then click the board to move it. Movement is synchronized to the table.</p><div class="session-board${activeScene?.config?.show_grid === false ? ' no-grid' : ''}" id="session-board"${boardStyle}>${board || '<span class="board-empty">Add a character to begin.</span>'}${state.fog === true && !isGm ? '<div class="board-fog">Fog of war</div>' : ''}</div>${initiativePanel}${isGm ? `<div class="token-tray">${available.map(c => `<button data-add-token="${c.id}" data-token-name="${esc(c.name)}">Add ${esc(c.name)}</button>`).join('')}</div><div class="session-controls"><button id="advance-turn">Advance turn</button><button id="save-snapshot">Save snapshot</button></div>` : ''}<h3>Recovery snapshots</h3>${snapshots.length ? `<div class="live-cards">${snapshots.map(s => `<article><b>${esc(s.label || 'Snapshot')}</b><small>${new Date(s.created_at).toLocaleString()}</small>${isGm ? `<button data-restore-snapshot="${s.id}">Restore this snapshot</button>` : ''}</article>`).join('')}</div>` : '<p class="muted">No snapshots saved yet.</p>'}</section>`;
     }
     if (view === 'prompts') {
       const { data = [] } = await query('prompts');
@@ -136,6 +139,7 @@
       if (error) return notice(error.message, true);
       localStorage.setItem('roll30.sessionId', data.id); render('session');
     });
+    app.querySelectorAll('[data-scene-config]').forEach(b => b.onclick = () => openSceneConfig(b.dataset.sceneConfig));
     app.querySelectorAll('[data-delete-scene]').forEach(b => b.onclick = async () => {
       if (!window.confirm('Delete this scene? This cannot be undone.')) return;
       const { error } = await db.client.from('scenes').delete().eq('id', b.dataset.deleteScene);
@@ -231,6 +235,17 @@
       if (error) return notice(error.message,true);
       dialog.close(); render('notes');
     };
+  }
+  async function openSceneConfig(sceneId) {
+    const [{ data: scene, error }, { data: assets = [] }] = await Promise.all([
+      db.client.from('scenes').select('*').eq('id',sceneId).single(),
+      db.client.from('campaign_assets').select('id,label,kind').eq('campaign_id',campaignId).eq('kind','image').order('created_at',{ascending:false})
+    ]);
+    if (error) return notice(error.message,true);
+    const dialog = document.getElementById('live-dialog'); const config = scene.config || {};
+    dialog.innerHTML = `<form method="dialog" id="scene-config-form"><h3>Configure ${esc(scene.name)}</h3><label>Background image<select id="scene-background"><option value="">Grid only</option>${assets.map(a=>`<option value="${a.id}" ${a.id === scene.background_asset_id ? 'selected' : ''}>${esc(a.label || 'Image')}</option>`).join('')}</select></label><label><input id="scene-grid" type="checkbox" ${config.show_grid !== false ? 'checked' : ''}> Show grid</label><button>Save scene</button></form>`;
+    dialog.showModal();
+    dialog.querySelector('#scene-config-form').onsubmit = async e => { e.preventDefault(); const background = dialog.querySelector('#scene-background').value || null; const { error:updateError } = await db.client.from('scenes').update({background_asset_id:background,config:{...config,show_grid:dialog.querySelector('#scene-grid').checked}}).eq('id',scene.id); if(updateError) return notice(updateError.message,true); dialog.close(); render('scenes'); };
   }
   db.client.channel('roll30-live').on('postgres_changes',{event:'*',schema:'public',table:'sessions',filter:`campaign_id=eq.${campaignId}`},() => currentView === 'session' ? render('session') : notice('Live session updated.')).on('postgres_changes',{event:'INSERT',schema:'public',table:'messages',filter:`campaign_id=eq.${campaignId}`},() => currentView === 'messages' ? render('messages') : notice('New table message.')).subscribe();
   document.addEventListener('DOMContentLoaded', () => { document.querySelector('x-dc')?.remove(); app.style.display = 'block'; load().catch(error => { app.innerHTML = `<main><h2>Roll30 could not load</h2><p>${esc(error.message)}</p></main>`; }); });
