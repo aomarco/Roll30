@@ -67,6 +67,10 @@
       const triggers = triggerResult.data || []; const active = sessions.find(s=>s.status==='active');
       return `<section><div class="live-title"><h2>Automation rules</h2><button data-dialog="trigger">New rule</button></div>${cards(triggers, t => `<b>${esc(t.name)}</b><small>${esc(t.scenes?.name)} · ${t.enabled ? 'enabled' : 'disabled'}</small>${active ? `<button data-execute-trigger="${t.id}">Run now</button>` : ''}`)}${scenes.length ? '' : '<p class="muted">Create a scene before adding automation.</p>'}</section>`;
     }
+    if (view === 'settings') {
+      const { data: members = [] } = await db.client.from('campaign_members').select('*, profiles(display_name)').eq('campaign_id',campaignId);
+      return `<section><h2>Campaign settings</h2><form id="campaign-settings" class="live-form"><input id="campaign-title" value="${esc(campaign.name)}" required><button>Save name</button></form><p>Share this join code: <strong>${esc(campaign.join_code)}</strong> <button id="copy-code">Copy</button></p><h3>Table members</h3>${cards(members,m=>`<b>${esc(m.profiles?.display_name || 'Member')}</b><small>${esc(m.role)}</small>`)}</section>`;
+    }
     if (view === 'compendium') {
       const [monsters, spells] = await Promise.all([
         fetch('./DND%205E%20Data/5e-SRD-Monsters.json').then(r => r.json()),
@@ -83,7 +87,7 @@
   }
   function cards(rows, renderCard) { return rows.length ? `<div class="live-cards">${rows.map(r => `<article>${renderCard(r)}</article>`).join('')}</div>` : '<p class="muted">Nothing here yet.</p>'; }
   async function render(view = 'overview') {
-    app.innerHTML = `<header><div><strong>Roll30</strong><span>${esc(campaign.name)}</span></div><button id="leave-campaign">Campaigns</button></header><nav>${['overview','scenes','characters','items','compendium','media','shops','purchases','prompts','automation','session','messages'].map(v => `<button data-view="${v}" class="${v === view ? 'active' : ''}">${v}</button>`).join('')}</nav><main><p id="live-notice"></p><div id="live-content">Loading…</div></main><dialog id="live-dialog"></dialog>`;
+    app.innerHTML = `<header><div><strong>Roll30</strong><span>${esc(campaign.name)}</span></div><button id="leave-campaign">Campaigns</button></header><nav>${['overview','scenes','characters','items','compendium','media','shops','purchases','prompts','automation','session','messages','settings'].map(v => `<button data-view="${v}" class="${v === view ? 'active' : ''}">${v}</button>`).join('')}</nav><main><p id="live-notice"></p><div id="live-content">Loading…</div></main><dialog id="live-dialog"></dialog>`;
     document.getElementById('live-content').innerHTML = await content(view);
     bind(view);
   }
@@ -97,6 +101,9 @@
     if (messageForm) messageForm.onsubmit = async e => { e.preventDefault(); const text = document.getElementById('message-text').value.trim(); if (!text) return; const { error } = await db.client.from('messages').insert({ campaign_id:campaignId, sender_id:session.user.id, kind:'message', body:{ text } }); if (error) return notice(error.message, true); render('messages'); };
     const mediaForm = document.getElementById('upload-media');
     if (mediaForm) mediaForm.onsubmit = async e => { e.preventDefault(); const file = document.getElementById('media-file').files[0]; if (!file) return; const path = `${campaignId}/${crypto.randomUUID()}-${file.name.replace(/[^a-zA-Z0-9._-]/g,'_')}`; notice('Uploading media…'); const { error: uploadError } = await db.client.storage.from('campaign-media').upload(path, file); if (uploadError) return notice(uploadError.message, true); const kind = file.type.startsWith('audio/') ? 'audio' : file.type === 'application/pdf' ? 'handout' : 'image'; const { error } = await db.client.from('campaign_assets').insert({ campaign_id:campaignId, uploaded_by:session.user.id, kind, storage_path:path, label:file.name }); if (error) return notice(error.message, true); render('media'); };
+    const settingsForm = document.getElementById('campaign-settings');
+    if (settingsForm) settingsForm.onsubmit = async e => { e.preventDefault(); const { error } = await db.client.from('campaigns').update({name:document.getElementById('campaign-title').value.trim()}).eq('id',campaignId); if(error)notice(error.message,true);else load(); };
+    const copyCode = document.getElementById('copy-code'); if(copyCode) copyCode.onclick = async () => { await navigator.clipboard.writeText(campaign.join_code); notice('Join code copied.'); };
     app.querySelectorAll('.prompt-response').forEach(form => form.onsubmit = async e => { e.preventDefault(); const text = form.querySelector('input').value.trim(); const { error } = await db.client.from('prompt_responses').upsert({ prompt_id:form.dataset.prompt, user_id:session.user.id, response:{ text } }); if (error) notice(error.message, true); else notice('Response sent to the GM.'); });
     app.querySelectorAll('.stock-form').forEach(form => form.onsubmit = async e => { e.preventDefault(); const item_id = form.querySelector('select').value; const price = Number(form.querySelector('input').value); const { error } = await db.client.from('shop_stock').upsert({ shop_id:form.dataset.shop,item_id,price,quantity:null }); if (error) notice(error.message,true); else render('shops'); });
     app.querySelectorAll('.buy-form').forEach(form => form.onsubmit = async e => { e.preventDefault(); const character_id=form.querySelector('select').value; const { error } = await db.client.from('purchase_requests').insert({shop_id:form.dataset.shop,item_id:form.dataset.item,character_id,quantity:1,requested_by:session.user.id}); if(error)notice(error.message,true);else notice('Purchase request sent to the GM.'); });
