@@ -84,6 +84,10 @@
       const isGm = currentRole === 'gm';
       return `<section><div class="live-title"><h2>Notes & lore</h2>${isGm ? '<button id="new-note">New entry</button>' : ''}</div>${cards(data,n=>`<b>${esc(n.title)}</b><small>${esc(n.kind)}${n.hidden ? ' · GM only' : ' · shared with table'}</small><p>${esc(n.body)}</p>${isGm ? `<button data-toggle-note="${n.id}" data-hidden="${n.hidden}">${n.hidden ? 'Reveal to players' : 'Hide from players'}</button>` : ''}`)}</section>`;
     }
+    if (view === 'history') {
+      const { data = [] } = await db.client.from('session_events').select('*, sessions!inner(campaign_id)').eq('sessions.campaign_id',campaignId).order('created_at',{ascending:false}).limit(100);
+      return `<section><div class="live-title"><h2>Session history</h2></div><p class="muted">A persisted timeline of table actions and automation.</p>${cards(data,e=>`<b>${esc(e.event_type.replaceAll('_',' '))}</b><small>${new Date(e.created_at).toLocaleString()}</small>${e.payload?.name ? `<p>${esc(e.payload.name)}</p>` : ''}`)}</section>`;
+    }
     if (view === 'purchases') {
       const { data = [] } = await db.client.from('purchase_requests').select('*, items(name), characters(name), shops!inner(campaign_id)').eq('shops.campaign_id', campaignId).order('created_at',{ascending:false});
       return `<section><h2>Purchase requests</h2>${cards(data, p => `<b>${esc(p.characters?.name)} · ${esc(p.items?.name)}</b><small>${esc(p.status)} · quantity ${p.quantity}</small>${p.status === 'pending' ? `<button data-resolve-purchase="${p.id}" data-approve="true">Approve</button><button data-resolve-purchase="${p.id}" data-approve="false">Decline</button>` : ''}`)}</section>`;
@@ -124,6 +128,7 @@
     app.innerHTML = `<header><div><strong>Roll30</strong><span>${esc(campaign.name)}</span></div><button id="leave-campaign">Campaigns</button></header><nav>${['overview','scenes','characters','items','compendium','media','shops','purchases','prompts','automation','session','messages','settings'].map(v => `<button data-view="${v}" class="${v === view ? 'active' : ''}">${v}</button>`).join('')}</nav><main><p id="live-notice"></p><div id="live-content">Loading…</div></main><dialog id="live-dialog"></dialog>`;
     app.querySelector('nav').insertAdjacentHTML('beforeend', `<button data-view="inventory" class="${view === 'inventory' ? 'active' : ''}">inventory</button>`);
     app.querySelector('nav').insertAdjacentHTML('beforeend', `<button data-view="notes" class="${view === 'notes' ? 'active' : ''}">notes</button>`);
+    app.querySelector('nav').insertAdjacentHTML('beforeend', `<button data-view="history" class="${view === 'history' ? 'active' : ''}">history</button>`);
     document.getElementById('live-content').innerHTML = await content(view);
     bind(view);
   }
