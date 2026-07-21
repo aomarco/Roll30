@@ -82,6 +82,12 @@
     }
   },
 
-  "change_log_next_id": 1,
-  "change_log": []
+  "change_log_next_id": 2,
+  "change_log": [
+    {
+      "id": 1,
+      "date": "2026-07-21",
+      "summary": "Turned Roll30 from a data-only repo into a deployed web app. Built a file-directory explorer using Vite + React + TypeScript + Tailwind CSS v4 + Framer Motion (neon/glassmorphism theme, animated background, collapsible JSON detail viewer). App source lives in src/ (App.tsx, components/JsonView.tsx, main.tsx, index.css); config in package.json, vite.config.ts (base '/Roll30/'), tsconfig*.json, index.html. Data was copied to public/data/ and a generated public/data/manifest.json lists the 25 folders with friendly names, emoji icons, and item counts (2,317 total). Added .github/workflows/deploy.yml (GitHub Actions) to build and deploy to GitHub Pages on every push to main; updated .gitignore for node_modules/ and dist/. The repo was switched from private to PUBLIC (required for free GitHub Pages) and Pages was enabled with build_type=workflow. A 'workflow' OAuth scope had to be granted to allow pushing the workflow file. Site is live and verified (HTTP 200) at https://aomarco.github.io/Roll30/. NOTE: this supersedes 'project_state', which still describes the project as data-only — the app now exists and is deployed."
+    }
+  ]
 }
