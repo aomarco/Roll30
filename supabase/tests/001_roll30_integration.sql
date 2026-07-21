@@ -130,6 +130,8 @@ with created as (
 insert into roll30_test_context(key,id) select 'secret_object',id from created;
 insert into public.scene_objects(scene_id,name,object_type,x,y,visible_to_players)
 values ((select id from roll30_test_context where key='scene'),'Visible door','door',40,40,true);
+insert into public.scene_objects(scene_id,name,object_type,x,y,config,visible_to_players)
+values ((select id from roll30_test_context where key='scene'),'Vision wall','wall',80,0,'{"x2":80,"y2":100}',false);
 
 with created as (
   insert into public.scene_triggers(scene_id,name,trigger,effects,run_once)
@@ -180,6 +182,10 @@ select 'target_token', id from public.add_roll30_session_token(
   (select id from roll30_test_context where key = 'session'),
   (select id from roll30_test_context where key = 'target')
 );
+select public.move_roll30_token(
+  (select id from roll30_test_context where key = 'session'),
+  (select id::text from roll30_test_context where key = 'target_token'), 90, 50
+);
 select public.add_roll30_initiative_entry(
   (select id from roll30_test_context where key = 'session'),
   (select id from roll30_test_context where key = 'hero_token'),
@@ -191,6 +197,7 @@ select pg_temp.roll30_assert((select x=25 and layer='gm' from public.scene_objec
 select public.execute_roll30_trigger((select id from roll30_test_context where key='trigger'),(select id from roll30_test_context where key='session'),'test-key');
 select pg_temp.roll30_assert((select (state->>'fog')::boolean from public.sessions where id=(select id from roll30_test_context where key='session')),'automation effect did not update session state');
 select pg_temp.roll30_expect_error(format('select public.execute_roll30_trigger(%L::uuid,%L::uuid,%L)',(select id from roll30_test_context where key='trigger'),(select id from roll30_test_context where key='session'),'test-key'),'Execution key already exists');
+select public.set_roll30_manual_reveal((select id from roll30_test_context where key='session'),array['30000000-0000-4000-a000-000000000102'::uuid],'[[10,10],[20,10],[20,20],[10,20]]');
 select pg_temp.roll30_assert(
   (select jsonb_array_length(state -> 'initiative') from public.sessions where id = (select id from roll30_test_context where key = 'session')) = 1,
   'normalized token could not be added to initiative'
@@ -225,6 +232,26 @@ select pg_temp.roll30_assert(
   'note audience policy did not return exactly the addressed revealed note'
 );
 select pg_temp.roll30_assert((select count(*) from public.scene_objects where scene_id=(select id from roll30_test_context where key='scene'))=1,'player could read unrevealed scene-builder objects');
+select pg_temp.roll30_assert(
+  (select jsonb_array_length(result->'current'->0)=72 and jsonb_array_length(result->'reveals')=1 from (select public.get_roll30_player_vision((select id from roll30_test_context where key='session')) result) vision)
+  and (select max((point->>0)::numeric)<=80.001 from (select public.get_roll30_player_vision((select id from roll30_test_context where key='session')) result) vision cross join lateral jsonb_array_elements(vision.result->'current'->0) point)
+  and (select count(*)=1 from public.session_exploration where session_id=(select id from roll30_test_context where key='session') and user_id=auth.uid()),
+  'server visibility polygon, manual reveal, or explored fog failed'
+);
+select pg_temp.roll30_assert(
+  (select jsonb_array_length(public.get_visible_roll30_tokens((select id from roll30_test_context where key='session')))) = 1,
+  'a token behind a private wall leaked into the player visibility result'
+);
+select pg_temp.roll30_expect_error(
+  format('select public.set_roll30_manual_reveal(%L::uuid,%L::uuid[],%L::jsonb)',
+    (select id from roll30_test_context where key='session'), '{}', '[[0,0],[101,0],[0,1]]'),
+  'Only the GM can reveal map regions'
+);
+select pg_temp.roll30_expect_error(
+  format('select public.clear_roll30_exploration(%L::uuid,null)',
+    (select id from roll30_test_context where key='session')),
+  'Only the GM can clear explored fog'
+);
 select public.update_roll30_character_sheet(
   (select id from roll30_test_context where key = 'hero'),
   0,
@@ -402,6 +429,10 @@ select pg_temp.roll30_assert(
 select pg_temp.roll30_assert(
   not has_function_privilege('anon', 'public.create_roll30_campaign(text)', 'EXECUTE'),
   'anonymous role still has an onboarding RPC grant'
+);
+select pg_temp.roll30_assert(
+  not has_table_privilege('authenticated', 'public.session_reveals', 'INSERT,UPDATE,DELETE'),
+  'clients can bypass the checked manual-reveal RPC'
 );
 select pg_temp.roll30_assert(
   has_function_privilege('authenticated', 'public.create_roll30_campaign(text)', 'EXECUTE'),
