@@ -36,12 +36,15 @@
       const { data = [] } = await query('sessions');
       const active = data.find(s => s.status === 'active');
       if (!active) return `<section><div class="live-title"><h2>Live session</h2><button id="start-session">Start session</button></div><p>No session is running. Start one when the GM is ready.</p></section>`;
-      const { data: characters = [] } = await query('characters');
+      const [{ data: characters = [] }, { data: snapshots = [] }] = await Promise.all([
+        query('characters'),
+        db.client.from('session_snapshots').select('*').eq('session_id', active.id).order('created_at', { ascending:false })
+      ]);
       const state = active.state || { tokens:[] };
       const tokenByCharacter = new Set((state.tokens || []).map(t => t.character_id));
       const board = (state.tokens || []).map(t => `<button class="map-token" data-token="${t.id}" style="left:${t.x}%;top:${t.y}%" title="${esc(t.name)}">${esc(t.name.slice(0,2).toUpperCase())}</button>`).join('');
       const available = characters.filter(c => !tokenByCharacter.has(c.id));
-      return `<section><div class="live-title"><h2>Live session</h2><button id="end-session">End session</button></div><p>Round ${active.round}. Select a token, then click the board to move it. Movement is synchronized to the table.</p><div class="session-board" id="session-board">${board || '<span class="board-empty">Add a character to begin.</span>'}</div><div class="token-tray">${available.map(c => `<button data-add-token="${c.id}" data-token-name="${esc(c.name)}">Add ${esc(c.name)}</button>`).join('')}</div><div class="session-controls"><button id="advance-turn">Advance turn</button><button id="save-snapshot">Save snapshot</button></div></section>`;
+      return `<section><div class="live-title"><h2>Live session</h2><button id="end-session">End session</button></div><p>Round ${active.round}. Select a token, then click the board to move it. Movement is synchronized to the table.</p><div class="session-board" id="session-board">${board || '<span class="board-empty">Add a character to begin.</span>'}</div><div class="token-tray">${available.map(c => `<button data-add-token="${c.id}" data-token-name="${esc(c.name)}">Add ${esc(c.name)}</button>`).join('')}</div><div class="session-controls"><button id="advance-turn">Advance turn</button><button id="save-snapshot">Save snapshot</button></div><h3>Recovery snapshots</h3>${snapshots.length ? `<div class="live-cards">${snapshots.map(s => `<article><b>${esc(s.label || 'Snapshot')}</b><small>${new Date(s.created_at).toLocaleString()}</small><button data-restore-snapshot="${s.id}">Restore this snapshot</button></article>`).join('')}</div>` : '<p class="muted">No snapshots saved yet.</p>'}</section>`;
     }
     if (view === 'prompts') {
       const { data = [] } = await query('prompts');
@@ -117,6 +120,11 @@
     if (end) end.onclick = async () => { const id = localStorage.getItem('roll30.sessionId'); const { error } = await db.client.from('sessions').update({ status:'ended' }).eq('id', id); if (error) notice(error.message, true); else { localStorage.removeItem('roll30.sessionId'); render('session'); } };
     const snapshot = document.getElementById('save-snapshot');
     if (snapshot) snapshot.onclick = async () => { const id = localStorage.getItem('roll30.sessionId'); const { error } = await db.client.rpc('snapshot_roll30_session', { target_session:id, snapshot_label:'Manual snapshot' }); if (error) notice(error.message, true); else notice('Snapshot saved.'); };
+    app.querySelectorAll('[data-restore-snapshot]').forEach(b => b.onclick = async () => {
+      if (!window.confirm('Restore this snapshot? The current board state will be replaced.')) return;
+      const { error } = await db.client.rpc('restore_roll30_snapshot', { target_snapshot:b.dataset.restoreSnapshot });
+      if (error) notice(error.message, true); else { notice('Snapshot restored for everyone at the table.'); render('session'); }
+    });
     app.querySelectorAll('[data-add-token]').forEach(b => b.onclick = async () => {
       const id = localStorage.getItem('roll30.sessionId'); const { data: current, error: getError } = await db.client.from('sessions').select('*').eq('id', id).single();
       if (getError) return notice(getError.message, true);
