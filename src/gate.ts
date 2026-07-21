@@ -7,8 +7,9 @@
 //
 // The publishable key below is safe to ship in the browser (that's its purpose).
 
-const SUPABASE_URL = "https://uilqxmsllyugxuzsxwkx.supabase.co";
-const PUBLISHABLE_KEY = "sb_publishable_Em5G7510M0QbnSZx_n5a6g_6oZ_cL1R";
+// Dedicated Roll30 Supabase project (separate from the 'chara' project).
+const SUPABASE_URL = "https://eujhtcnnjtwsthscdfqk.supabase.co";
+const PUBLISHABLE_KEY = "sb_publishable_N0AviKRP_IyMGQMtKo0ZlQ_uuD-2dnq";
 
 async function rpc<T>(fn: string, body: Record<string, unknown>): Promise<T> {
   const res = await fetch(`${SUPABASE_URL}/rest/v1/rpc/${fn}`, {
