@@ -214,6 +214,40 @@ select pg_temp.roll30_assert(
   (select jsonb_array_length(state -> 'initiative') from public.sessions where id = (select id from roll30_test_context where key = 'session')) = 0,
   'token removal did not clean initiative state'
 );
+select public.regenerate_roll30_join_code((select id from roll30_test_context where key = 'gm_campaign'));
+select pg_temp.roll30_assert(
+  (select join_code from public.campaigns where id = (select id from roll30_test_context where key = 'gm_campaign')) <> (select value from roll30_test_context where key = 'gm_campaign'),
+  'join-code rotation did not replace the old code'
+);
+select public.set_roll30_campaign_archived((select id from roll30_test_context where key = 'gm_campaign'), true);
+select pg_temp.roll30_assert(
+  (select archived_at is not null from public.campaigns where id = (select id from roll30_test_context where key = 'gm_campaign')),
+  'campaign archive did not persist'
+);
+select public.set_roll30_campaign_archived((select id from roll30_test_context where key = 'gm_campaign'), false);
+select public.set_roll30_member_role(
+  (select id from roll30_test_context where key = 'gm_campaign'),
+  '30000000-0000-4000-a000-000000000102', 'gm'
+);
+select public.set_roll30_member_role(
+  (select id from roll30_test_context where key = 'gm_campaign'),
+  '30000000-0000-4000-a000-000000000102', 'player'
+);
+select public.trash_roll30_campaign((select id from roll30_test_context where key = 'gm_campaign'));
+select pg_temp.roll30_assert(
+  not public.is_campaign_member((select id from roll30_test_context where key = 'gm_campaign')),
+  'trashed campaign still authorized child-data access'
+);
+select public.restore_roll30_campaign((select id from roll30_test_context where key = 'gm_campaign'));
+
+reset role;
+set local role authenticated;
+select set_config('request.jwt.claims', '{"sub":"30000000-0000-4000-a000-000000000102","role":"authenticated","email":"roll30-player-test@example.invalid"}', true);
+select public.leave_roll30_campaign((select id from roll30_test_context where key = 'gm_campaign'));
+select pg_temp.roll30_assert(
+  not public.is_campaign_member((select id from roll30_test_context where key = 'gm_campaign')),
+  'leaving a campaign did not remove player membership'
+);
 
 reset role;
 select pg_temp.roll30_assert(

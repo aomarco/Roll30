@@ -41,5 +41,11 @@
     return data;
   }
 
-  window.Roll30Backend = { client, getSession, ensureProfile, createCampaign, joinCampaign, campaigns };
+  async function trashedCampaigns() {
+    const { data, error } = await client.rpc('list_roll30_trashed_campaigns');
+    if (error) throw error;
+    return data || [];
+  }
+
+  window.Roll30Backend = { client, getSession, ensureProfile, createCampaign, joinCampaign, campaigns, trashedCampaigns };
 })();

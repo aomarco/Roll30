@@ -27,6 +27,15 @@
       #status.error { color: #ee847e; } #status.ok { color: #8bcc8e; }
       .mark { display: inline-grid; place-items: center; width: 34px; height: 34px; margin-bottom: 25px; border: 1px solid rgba(230,169,77,.5); border-radius: 9px; color: #e6a94d; font: 800 17px Inter, ui-sans-serif, system-ui, sans-serif; }
       .hidden { display: none; }
+      main:has(#campaign-home:not(.hidden)) { width: min(100% - 32px, 660px); }
+      .home-heading { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:20px; }
+      .home-heading h2, .campaign-section h2 { margin:0; font-size:18px; }
+      .campaign-section { margin-top:26px; }
+      .campaign-list { display:grid; gap:9px; margin-top:10px; }
+      .campaign-row { display:flex; align-items:center; gap:8px; padding:8px; border:1px solid #34323a; border-radius:11px; background:#19191f; }
+      .campaign-row > button:first-child { flex:1; margin:0; border:0; background:transparent; color:#ececee; text-align:left; }
+      .campaign-row > button:last-child { flex:0 0 auto; min-height:40px; margin:0; padding:8px 11px; background:transparent; border:1px solid #45424c; color:#d3d0d7; }
+      .campaign-empty { margin:8px 0 0; color:#a7a5ae; }
     </style>
   </head>
   <body>
@@ -49,6 +58,7 @@
         <button id="auth-toggle" type="button" style="margin-top:0;background:transparent;border:1px solid #45424c;color:#d3d0d7">Create an account instead</button>
       </form>
       <section id="campaign-home" class="hidden">
+        <div class="home-heading"><h2>Your campaigns</h2><button id="sign-out" type="button" style="min-height:40px;margin:0;padding:8px 12px;background:transparent;border:1px solid #45424c;color:#d3d0d7">Sign out</button></div>
         <form id="create-campaign">
           <label for="campaign-name">New campaign</label>
           <input id="campaign-name" maxlength="120" placeholder="Campaign name" required>
@@ -59,7 +69,9 @@
           <input id="join-code" placeholder="Join code" required>
           <button type="submit" style="background:transparent;border:1px solid #45424c;color:#d3d0d7">Join campaign</button>
         </form>
-        <div id="campaign-list" style="display:grid;gap:8px;margin-top:22px"></div>
+        <section class="campaign-section"><h2>Ready to play</h2><div id="campaign-list" class="campaign-list"></div></section>
+        <section class="campaign-section hidden" id="archived-section"><h2>Archived</h2><div id="archived-list" class="campaign-list"></div></section>
+        <section class="campaign-section hidden" id="trashed-section"><h2>Trash</h2><div id="trashed-list" class="campaign-list"></div></section>
       </section>
       <p id="status" role="status"></p>
     </main>
@@ -81,6 +93,11 @@
       const campaignName = document.getElementById('campaign-name');
       const joinCode = document.getElementById('join-code');
       const campaignList = document.getElementById('campaign-list');
+      const archivedSection = document.getElementById('archived-section');
+      const archivedList = document.getElementById('archived-list');
+      const trashedSection = document.getElementById('trashed-section');
+      const trashedList = document.getElementById('trashed-list');
+      const signOut = document.getElementById('sign-out');
       let signUpMode = false;
 
       function setStatus(message, kind = '') { status.textContent = message; status.className = kind; }
@@ -90,15 +107,26 @@
         intro.textContent = 'Choose a campaign, or start a new one.';
         campaignHome.classList.remove('hidden');
         setStatus('');
-        const campaigns = await window.Roll30Backend.campaigns();
-        campaignList.replaceChildren();
-        for (const campaign of campaigns) {
-          const button = document.createElement('button');
-          button.type = 'button'; button.textContent = campaign.name + '  ·  ' + campaign.system;
-          button.style.cssText = 'text-align:left;background:#19191f;border:1px solid #34323a;color:#ececee';
-          button.addEventListener('click', () => selectCampaign(campaign));
-          campaignList.append(button);
-        }
+        const currentSession = await window.Roll30Backend.getSession();
+        const [campaigns, trashed] = await Promise.all([window.Roll30Backend.campaigns(), window.Roll30Backend.trashedCampaigns()]);
+        const active = campaigns.filter(campaign => !campaign.archived_at);
+        const archived = campaigns.filter(campaign => campaign.archived_at);
+        const empty = message => { const paragraph = document.createElement('p'); paragraph.className = 'campaign-empty'; paragraph.textContent = message; return paragraph; };
+        const row = (campaign, mode = 'active') => {
+          const wrapper = document.createElement('div'); wrapper.className = 'campaign-row';
+          const primary = document.createElement('button'); primary.type = 'button'; primary.textContent = campaign.name + '  ·  ' + campaign.system;
+          if (mode === 'active') primary.addEventListener('click', () => selectCampaign(campaign)); else primary.disabled = true;
+          wrapper.append(primary);
+          if (mode !== 'active' && campaign.owner_id === currentSession.user.id) {
+            const restore = document.createElement('button'); restore.type = 'button'; restore.textContent = 'Restore';
+            restore.addEventListener('click', async () => { restore.disabled = true; const rpc = mode === 'trash' ? 'restore_roll30_campaign' : 'set_roll30_campaign_archived'; const args = mode === 'trash' ? {target_campaign:campaign.id} : {target_campaign:campaign.id,should_archive:false}; const { error } = await window.Roll30Backend.client.rpc(rpc,args); if(error){setStatus(error.message,'error');restore.disabled=false;}else openTable(); });
+            wrapper.append(restore);
+          }
+          return wrapper;
+        };
+        campaignList.replaceChildren(...(active.length ? active.map(campaign => row(campaign)) : [empty('No active campaigns yet. Create one or join with a friend’s code.') ]));
+        archivedList.replaceChildren(...archived.map(campaign => row(campaign,'archive'))); archivedSection.classList.toggle('hidden', !archived.length);
+        trashedList.replaceChildren(...trashed.map(campaign => row(campaign,'trash'))); trashedSection.classList.toggle('hidden', !trashed.length);
       }
       async function enter() {
         const session = await window.Roll30Backend.getSession();
@@ -155,6 +183,13 @@
           openTable();
         } catch (error) { setStatus(error.message || 'Account access failed.', 'error'); }
         finally { authSubmit.disabled = false; }
+      });
+
+      signOut.addEventListener('click', async () => {
+        await window.Roll30Backend.client.auth.signOut();
+        localStorage.removeItem('roll30.campaignId');
+        campaignHome.classList.add('hidden');
+        enter();
       });
 
       createCampaignForm.addEventListener('submit', async (event) => {
