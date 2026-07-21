@@ -124,10 +124,17 @@ insert into roll30_test_context(key, id) select 'reinforcement', id from created
 
 with created as (
   insert into public.items(campaign_id, name, item_data)
-  values ((select id from roll30_test_context where key = 'gm_campaign'), 'Test Potion', '{"type":"consumable","charges":2,"effect":{"healing":3}}')
+  values ((select id from roll30_test_context where key = 'gm_campaign'), 'Test Potion', '{"type":"consumable","effect":{"healing":3}}')
   returning id
 )
 insert into roll30_test_context(key, id) select 'potion', id from created;
+
+with created as (
+  insert into public.items(campaign_id, name, item_data)
+  values ((select id from roll30_test_context where key = 'gm_campaign'), 'Test Wand', '{"type":"equipment","charges":2}')
+  returning id
+)
+insert into roll30_test_context(key, id) select 'wand', id from created;
 
 with created as (
   insert into public.shops(campaign_id,name,settings)
@@ -257,6 +264,11 @@ select public.add_roll30_initiative_entry(
   18
 );
 select public.grant_roll30_item((select id from roll30_test_context where key='hero'),(select id from roll30_test_context where key='potion'),3);
+select public.grant_roll30_item((select id from roll30_test_context where key='hero'),(select id from roll30_test_context where key='wand'),1);
+select pg_temp.roll30_expect_error(
+  format('select public.grant_roll30_item(%L::uuid,%L::uuid,2)',(select id from roll30_test_context where key='target'),(select id from roll30_test_context where key='wand')),
+  'cannot be stacked'
+);
 select public.move_roll30_scene_object((select id from roll30_test_context where key='secret_object'),25,25,'gm',2);
 select pg_temp.roll30_assert((select x=25 and layer='gm' from public.scene_objects where id=(select id from roll30_test_context where key='secret_object')),'GM scene-builder movement did not persist');
 select public.execute_roll30_trigger((select id from roll30_test_context where key='trigger'),(select id from roll30_test_context where key='session'),'test-key');
@@ -384,13 +396,13 @@ select public.use_roll30_spell_slot((select id from roll30_test_context where ke
 select pg_temp.roll30_assert((select sheet->'spellcasting'->'slots'->0->>'current'='1' from public.characters where id=(select id from roll30_test_context where key='hero')),'spell slot did not decrement');
 select public.rest_roll30_character((select id from roll30_test_context where key='hero'),'long');
 select pg_temp.roll30_assert((select sheet->'spellcasting'->'slots'->0->>'current'='2' from public.characters where id=(select id from roll30_test_context where key='hero')),'long rest did not restore spell slots');
-select public.use_roll30_item_charge((select id from roll30_test_context where key='hero'),(select id from roll30_test_context where key='potion'),1);
+select public.use_roll30_item_charge((select id from roll30_test_context where key='hero'),(select id from roll30_test_context where key='wand'),1);
 select pg_temp.roll30_assert(
-  (select metadata->'charges'->>'current'='1' and metadata->'charges'->>'max'='2' from public.character_inventory where character_id=(select id from roll30_test_context where key='hero') and item_id=(select id from roll30_test_context where key='potion')),
+  (select metadata->'charges'->>'current'='1' and metadata->'charges'->>'max'='2' from public.character_inventory where character_id=(select id from roll30_test_context where key='hero') and item_id=(select id from roll30_test_context where key='wand')),
   'server-validated charged-item use did not decrement the inventory counter'
 );
 select pg_temp.roll30_expect_error(
-  format('select public.use_roll30_item_charge(%L::uuid,%L::uuid,2)',(select id from roll30_test_context where key='hero'),(select id from roll30_test_context where key='potion')),
+  format('select public.use_roll30_item_charge(%L::uuid,%L::uuid,2)',(select id from roll30_test_context where key='hero'),(select id from roll30_test_context where key='wand')),
   'Not enough item charges remain'
 );
 select pg_temp.roll30_expect_error(
@@ -423,11 +435,13 @@ select pg_temp.roll30_assert(
 select public.mutate_roll30_inventory((select id from roll30_test_context where key='hero'),(select id from roll30_test_context where key='potion'),'equip',1,null);
 select public.mutate_roll30_inventory((select id from roll30_test_context where key='hero'),(select id from roll30_test_context where key='potion'),'transfer',1,(select id from roll30_test_context where key='target'));
 select public.mutate_roll30_inventory((select id from roll30_test_context where key='hero'),(select id from roll30_test_context where key='potion'),'consume',1,null);
+select public.mutate_roll30_inventory((select id from roll30_test_context where key='hero'),(select id from roll30_test_context where key='wand'),'transfer',1,(select id from roll30_test_context where key='target'));
 select pg_temp.roll30_assert(
   (select quantity=1 from public.character_inventory where character_id=(select id from roll30_test_context where key='hero') and item_id=(select id from roll30_test_context where key='potion'))
   and (select quantity=1 from public.character_inventory where character_id=(select id from roll30_test_context where key='target') and item_id=(select id from roll30_test_context where key='potion'))
-  and (select hp_current=10 from public.characters where id=(select id from roll30_test_context where key='hero')),
-  'equip, transfer, consume, or healing inventory behavior failed'
+  and (select hp_current=10 from public.characters where id=(select id from roll30_test_context where key='hero'))
+  and (select metadata->'charges'->>'current'='1' and metadata->'charges'->>'max'='2' from public.character_inventory where character_id=(select id from roll30_test_context where key='target') and item_id=(select id from roll30_test_context where key='wand')),
+  'equip, transfer, consume, healing, or charged-item state preservation failed'
 );
 select public.request_roll30_purchase((select id from roll30_test_context where key='shop'),(select id from roll30_test_context where key='potion'),(select id from roll30_test_context where key='hero'),1);
 select pg_temp.roll30_assert(
