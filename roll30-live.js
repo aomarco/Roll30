@@ -27,7 +27,7 @@
     if (view === 'scenes') {
       const { data = [] } = await query('scenes');
       const controls = currentRole === 'gm';
-      return `<section><div class="live-title"><h2>Scenes</h2>${controls ? '<button data-dialog="scene">New scene</button>' : ''}</div>${cards(data, s => `<b>${esc(s.name)}</b><small>${esc(s.scene_type)}${s.folder ? ` · ${esc(s.folder)}` : ''}</small>${controls ? `<div class="hp-actions"><button data-run-scene="${s.id}">Run scene</button><button data-scene-config="${s.id}">Configure</button><button data-delete-scene="${s.id}">Delete</button></div>` : ''}`)}</section>`;
+      return `<section><div class="live-title"><h2>Scenes</h2>${controls ? '<button data-dialog="scene">New scene</button>' : ''}</div>${cards(data, s => `<b>${esc(s.name)}</b><small>${esc(s.scene_type)}${s.folder ? ` · ${esc(s.folder)}` : ''}</small>${controls ? `<div class="hp-actions"><button data-run-scene="${s.id}">Run scene</button><button data-scene-config="${s.id}">Configure</button><button data-duplicate-scene="${s.id}">Duplicate</button><button data-delete-scene="${s.id}">Delete</button></div>` : ''}`)}</section>`;
     }
     if (view === 'characters') {
       const { data = [] } = await query('characters');
@@ -148,6 +148,7 @@
       localStorage.setItem('roll30.sessionId', data.id); render('session');
     });
     app.querySelectorAll('[data-scene-config]').forEach(b => b.onclick = () => openSceneConfig(b.dataset.sceneConfig));
+    app.querySelectorAll('[data-duplicate-scene]').forEach(b => b.onclick = async () => { const { error } = await db.client.rpc('duplicate_roll30_scene',{source_scene:b.dataset.duplicateScene}); if(error)notice(error.message,true);else { notice('Scene duplicated.'); render('scenes'); } });
     app.querySelectorAll('[data-delete-scene]').forEach(b => b.onclick = async () => {
       if (!window.confirm('Delete this scene? This cannot be undone.')) return;
       const { error } = await db.client.from('scenes').delete().eq('id', b.dataset.deleteScene);
