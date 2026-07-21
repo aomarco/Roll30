@@ -295,7 +295,12 @@
     const channel = db.client.channel(`roll30-live-${campaignId}`, {config:{presence:{key:session.user.id}}})
       .on('presence',{event:'sync'},() => { onlineCount = Object.keys(channel.presenceState()).length; if (currentView === 'overview') render('overview'); })
       .on('postgres_changes',{event:'*',schema:'public',table:'sessions',filter:`campaign_id=eq.${campaignId}`},() => currentView === 'session' ? render('session') : notice('Live session updated.'))
-      .on('postgres_changes',{event:'INSERT',schema:'public',table:'messages',filter:`campaign_id=eq.${campaignId}`},() => currentView === 'messages' ? render('messages') : notice('New table message.'));
+      .on('postgres_changes',{event:'INSERT',schema:'public',table:'messages',filter:`campaign_id=eq.${campaignId}`},() => currentView === 'messages' ? render('messages') : notice('New table message.'))
+      .on('postgres_changes',{event:'*',schema:'public',table:'characters',filter:`campaign_id=eq.${campaignId}`},() => ['characters','session','inventory'].includes(currentView) ? render(currentView) : notice('Character state updated.'))
+      .on('postgres_changes',{event:'*',schema:'public',table:'prompts',filter:`campaign_id=eq.${campaignId}`},() => currentView === 'prompts' ? render('prompts') : notice('Player prompts updated.'))
+      .on('postgres_changes',{event:'*',schema:'public',table:'prompt_responses'},() => { if (currentView === 'prompts') render('prompts'); })
+      .on('postgres_changes',{event:'*',schema:'public',table:'scene_objects'},() => { if (currentView === 'session') render('session'); })
+      .on('postgres_changes',{event:'*',schema:'public',table:'purchase_requests'},() => { if (['shops','purchases','inventory'].includes(currentView)) render(currentView); });
     channel.subscribe(status => { if (status === 'SUBSCRIBED') channel.track({user_id:session.user.id}); });
   }
   document.addEventListener('DOMContentLoaded', () => { document.querySelector('x-dc')?.remove(); app.style.display = 'block'; load().catch(error => { app.innerHTML = `<main><h2>Roll30 could not load</h2><p>${esc(error.message)}</p></main>`; }); });
