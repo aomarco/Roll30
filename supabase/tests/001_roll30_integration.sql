@@ -188,6 +188,32 @@ select pg_temp.roll30_assert(
   (select count(*) from public.campaign_notes where campaign_id = (select id from roll30_test_context where key = 'gm_campaign')) = 1,
   'note audience policy did not return exactly the addressed revealed note'
 );
+select public.update_roll30_character_sheet(
+  (select id from roll30_test_context where key = 'hero'),
+  0,
+  '{"abilities":{"str":16,"dex":12,"con":14,"int":10,"wis":11,"cha":8},"armor_class":15,"speed":30,"vision":30,"conditions":[],"features":["Second Wind"],"equipment":["Training Sword"],"attacks":[{"name":"Training Sword","bonus":50,"damage_dice":"3"}],"attack":{"name":"Training Sword","bonus":50,"damage":3},"currency":{"gp":20}}',
+  10,
+  10,
+  null
+);
+select pg_temp.roll30_assert(
+  (select sheet_revision = 1 and sheet -> 'abilities' ->> 'str' = '16' from public.characters where id = (select id from roll30_test_context where key = 'hero')),
+  'the player could not save their versioned character sheet'
+);
+select pg_temp.roll30_expect_error(
+  format('select public.update_roll30_character_sheet(%L::uuid,0,%L::jsonb,10,10,null)',
+    (select id from roll30_test_context where key = 'hero'), '{"abilities":{"str":12}}'),
+  'changed elsewhere'
+);
+select pg_temp.roll30_expect_error(
+  format('select public.update_roll30_character_sheet(%L::uuid,0,%L::jsonb,12,12,null)',
+    (select id from roll30_test_context where key = 'target'), '{}'),
+  'Not permitted'
+);
+select pg_temp.roll30_expect_error(
+  format('update public.characters set sheet = %L::jsonb where id = %L::uuid', '{}', (select id from roll30_test_context where key = 'hero')),
+  'permission denied'
+);
 select pg_temp.roll30_expect_error(
   format('select public.move_roll30_token(%L::uuid,%L,55,55)',
     (select id from roll30_test_context where key = 'session'),
