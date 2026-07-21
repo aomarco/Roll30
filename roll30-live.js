@@ -73,6 +73,11 @@
       const { data = [] } = await db.client.from('character_inventory').select('quantity, items(name), characters!inner(name,campaign_id)').eq('characters.campaign_id', campaignId);
       return `<section><div class="live-title"><h2>Character inventory</h2></div><p class="muted">Items appear here after a GM approves a shop request.</p>${cards(data, i => `<b>${esc(i.items?.name || 'Item')}</b><small>${esc(i.characters?.name || 'Character')} · quantity ${esc(i.quantity)}</small>`)}</section>`;
     }
+    if (view === 'notes') {
+      const { data = [] } = await db.client.from('campaign_notes').select('*').eq('campaign_id',campaignId).order('created_at',{ascending:false});
+      const isGm = currentRole === 'gm';
+      return `<section><div class="live-title"><h2>Notes & lore</h2>${isGm ? '<button id="new-note">New entry</button>' : ''}</div>${cards(data,n=>`<b>${esc(n.title)}</b><small>${esc(n.kind)}${n.hidden ? ' · GM only' : ' · shared with table'}</small><p>${esc(n.body)}</p>${isGm ? `<button data-toggle-note="${n.id}" data-hidden="${n.hidden}">${n.hidden ? 'Reveal to players' : 'Hide from players'}</button>` : ''}`)}</section>`;
+    }
     if (view === 'purchases') {
       const { data = [] } = await db.client.from('purchase_requests').select('*, items(name), characters(name), shops!inner(campaign_id)').eq('shops.campaign_id', campaignId).order('created_at',{ascending:false});
       return `<section><h2>Purchase requests</h2>${cards(data, p => `<b>${esc(p.characters?.name)} · ${esc(p.items?.name)}</b><small>${esc(p.status)} · quantity ${p.quantity}</small>${p.status === 'pending' ? `<button data-resolve-purchase="${p.id}" data-approve="true">Approve</button><button data-resolve-purchase="${p.id}" data-approve="false">Decline</button>` : ''}`)}</section>`;
@@ -110,6 +115,7 @@
   async function render(view = 'overview') {
     app.innerHTML = `<header><div><strong>Roll30</strong><span>${esc(campaign.name)}</span></div><button id="leave-campaign">Campaigns</button></header><nav>${['overview','scenes','characters','items','compendium','media','shops','purchases','prompts','automation','session','messages','settings'].map(v => `<button data-view="${v}" class="${v === view ? 'active' : ''}">${v}</button>`).join('')}</nav><main><p id="live-notice"></p><div id="live-content">Loading…</div></main><dialog id="live-dialog"></dialog>`;
     app.querySelector('nav').insertAdjacentHTML('beforeend', `<button data-view="inventory" class="${view === 'inventory' ? 'active' : ''}">inventory</button>`);
+    app.querySelector('nav').insertAdjacentHTML('beforeend', `<button data-view="notes" class="${view === 'notes' ? 'active' : ''}">notes</button>`);
     document.getElementById('live-content').innerHTML = await content(view);
     bind(view);
   }
@@ -117,6 +123,8 @@
     app.querySelectorAll('[data-view]').forEach(b => b.onclick = () => render(b.dataset.view));
     document.getElementById('leave-campaign').onclick = () => { localStorage.removeItem('roll30.campaignId'); window.location.replace('./index.html'); };
     app.querySelectorAll('[data-dialog]').forEach(b => b.onclick = () => openDialog(b.dataset.dialog));
+    const newNote = document.getElementById('new-note'); if (newNote) newNote.onclick = openNoteDialog;
+    app.querySelectorAll('[data-toggle-note]').forEach(b => b.onclick = async () => { const { error } = await db.client.from('campaign_notes').update({hidden:b.dataset.hidden !== 'true'}).eq('id',b.dataset.toggleNote); if(error) notice(error.message,true); else render('notes'); });
     app.querySelectorAll('[data-run-scene]').forEach(b => b.onclick = async () => {
       const { data: running = [] } = await query('sessions');
       const active = running.find(s => s.status === 'active');
@@ -206,6 +214,17 @@
       const { error: updateError } = await db.client.from('characters').update({ sheet:nextSheet }).eq('id', character.id);
       if (updateError) return notice(updateError.message, true);
       dialog.close(); notice('Character sheet saved.'); render('characters');
+    };
+  }
+  function openNoteDialog() {
+    const dialog = document.getElementById('live-dialog');
+    dialog.innerHTML = `<form method="dialog" id="note-form"><h3>New campaign entry</h3><input id="note-title" placeholder="Title" required><select id="note-kind"><option value="note">Note</option><option value="handout">Handout</option><option value="lore">Lore</option><option value="rule">Custom rule</option></select><textarea id="note-body" rows="6" placeholder="Write the entry…"></textarea><label><input id="note-hidden" type="checkbox" checked> GM only until revealed</label><button>Save entry</button></form>`;
+    dialog.showModal();
+    dialog.querySelector('#note-form').onsubmit = async e => {
+      e.preventDefault();
+      const { error } = await db.client.from('campaign_notes').insert({campaign_id:campaignId,created_by:session.user.id,title:dialog.querySelector('#note-title').value.trim(),kind:dialog.querySelector('#note-kind').value,body:dialog.querySelector('#note-body').value.trim(),hidden:dialog.querySelector('#note-hidden').checked});
+      if (error) return notice(error.message,true);
+      dialog.close(); render('notes');
     };
   }
   db.client.channel('roll30-live').on('postgres_changes',{event:'*',schema:'public',table:'sessions',filter:`campaign_id=eq.${campaignId}`},() => notice('Live session updated.')).on('postgres_changes',{event:'INSERT',schema:'public',table:'messages',filter:`campaign_id=eq.${campaignId}`},() => notice('New table message.')).subscribe();
