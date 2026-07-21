@@ -55,7 +55,7 @@ begin
   if token.id is null then raise exception 'Token not found'; end if;
   select owner_id into character_owner from public.characters where id=token.character_id;
   is_gm := public.is_campaign_gm(current_session.campaign_id);
-  if not (is_gm or character_owner = auth.uid()) then raise exception 'You can only move your own token'; end if;
+  if not (is_gm or character_owner is not distinct from auth.uid()) then raise exception 'You can only move your own token'; end if;
   origin_x := token.x; origin_y := token.y; distance := sqrt(power(destination_x-origin_x,2)+power(destination_y-origin_y,2));
   move_state := coalesce(current_session.state->'movement','{}'::jsonb);
   spent := case when coalesce((move_state->target_token->>'turn')::integer,-1)=current_session.active_turn then coalesce((move_state->target_token->>'spent')::numeric,0) else 0 end;

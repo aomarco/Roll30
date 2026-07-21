@@ -76,7 +76,7 @@
     if (view === 'prompts') {
       const { data = [] } = await query('prompts');
       const isGm = currentRole === 'gm';
-      const responseResult = isGm ? await db.client.from('prompt_responses').select('response, prompts!inner(campaign_id), profiles(display_name)').eq('prompts.campaign_id',campaignId) : {data:[]};
+      const responseResult = isGm ? await db.client.from('prompt_responses').select('prompt_id, response, prompts!inner(campaign_id), profiles(display_name)').eq('prompts.campaign_id',campaignId) : {data:[]};
       const responses = responseResult.data || [];
       return `<section><div class="live-title"><h2>Player prompts</h2>${isGm ? '<button data-dialog="prompt">New prompt</button>' : ''}</div>${cards(data, p => { const promptResponses = responses.filter(r=>r.prompt_id === p.id); return `<b>${esc(p.title)}</b><small>${esc(p.body || '')} · ${esc(p.status)}</small>${isGm ? (promptResponses.length ? `<p>${promptResponses.map(r=>`${esc(r.profiles?.display_name || 'Player')}: ${esc(r.response?.text || '')}`).join('<br>')}</p>` : '<p class="muted">No responses yet.</p>') : `<form class="prompt-response" data-prompt="${p.id}"><input placeholder="Your response" required><button>Respond</button></form>`}` })}</section>`;
     }

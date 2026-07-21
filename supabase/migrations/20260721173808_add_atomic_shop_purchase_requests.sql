@@ -18,7 +18,7 @@ begin
   if shop.id is null or not public.is_campaign_member(shop.campaign_id) then raise exception 'Shop not found'; end if;
   select * into character from public.characters where id = target_character for update;
   if character.id is null or character.campaign_id <> shop.campaign_id then raise exception 'Character is not in this campaign'; end if;
-  if character.owner_id <> auth.uid() and not public.is_campaign_gm(shop.campaign_id) then raise exception 'You can only purchase for your own character'; end if;
+  if character.owner_id is distinct from auth.uid() and not public.is_campaign_gm(shop.campaign_id) then raise exception 'You can only purchase for your own character'; end if;
   select * into stock from public.shop_stock where shop_id = target_shop and item_id = target_item for update;
   if stock.item_id is null then raise exception 'Item is no longer stocked'; end if;
   if stock.quantity is not null and stock.quantity < requested_quantity then raise exception 'Not enough stock'; end if;

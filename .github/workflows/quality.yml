@@ -1,0 +1,49 @@
+name: Roll30 quality
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm test
+
+  database:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Start clean local Supabase and apply every migration
+        run: npx supabase start
+      - name: Run transactional GM/player/outsider database tests
+        run: npx supabase test db
+      - name: Stop local Supabase
+        if: always()
+        run: npx supabase stop --no-backup
+
+  deployed-pages:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: [checks, database]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node scripts/check-deployment.mjs https://aomarco.github.io/Roll30/
