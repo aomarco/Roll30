@@ -655,6 +655,22 @@ select pg_temp.roll30_assert(
   (select hp_current=12 and sheet->>'temp_hp'='2' and sheet->>'concentration'='Web' from public.characters where id=(select id from roll30_test_context where key='target')),
   'combat undo did not restore target HP, temporary HP, and concentration state'
 );
+select public.cast_roll30_spell((select id from roll30_test_context where key='hero'),'Cure Wounds',1);
+select pg_temp.roll30_assert((public.preview_roll30_last_undo((select id from roll30_test_context where key='session'))->>'event_type')='spell_cast','spell use was not exposed to safe undo');
+select public.undo_roll30_last_action((select id from roll30_test_context where key='session'));
+select pg_temp.roll30_assert((select sheet->'spellcasting'->'slots'->0->>'current'='2' from public.characters where id=(select id from roll30_test_context where key='hero')),'spell undo did not restore the spent slot');
+select public.use_roll30_character_ability((select id from roll30_test_context where key='hero'),'Second Wind');
+select pg_temp.roll30_assert((public.preview_roll30_last_undo((select id from roll30_test_context where key='session'))->>'event_type')='ability_used','ability use was not exposed to safe undo');
+select public.undo_roll30_last_action((select id from roll30_test_context where key='session'));
+select pg_temp.roll30_assert((select sheet->'resources'->0->>'current'='1' and hp_current=10 from public.characters where id=(select id from roll30_test_context where key='hero')),'ability undo did not restore its resource and prior HP');
+select public.use_roll30_inventory_item((select id from roll30_test_context where key='hero'),(select id from roll30_test_context where key='potion'));
+select pg_temp.roll30_assert((public.preview_roll30_last_undo((select id from roll30_test_context where key='session'))->>'event_type')='item_used','consumed item was not exposed to safe undo');
+select public.undo_roll30_last_action((select id from roll30_test_context where key='session'));
+select pg_temp.roll30_assert((select quantity=2 from public.character_inventory where character_id=(select id from roll30_test_context where key='hero') and item_id=(select id from roll30_test_context where key='potion')),'item undo did not restore inventory quantity');
+select public.use_roll30_item_charge((select id from roll30_test_context where key='target'),(select id from roll30_test_context where key='wand'),1);
+select pg_temp.roll30_assert((public.preview_roll30_last_undo((select id from roll30_test_context where key='session'))->>'event_type')='item_charge_used','item charge was not exposed to safe undo');
+select public.undo_roll30_last_action((select id from roll30_test_context where key='session'));
+select pg_temp.roll30_assert((select metadata->'charges'->>'current'='1' from public.character_inventory where character_id=(select id from roll30_test_context where key='target') and item_id=(select id from roll30_test_context where key='wand')),'item-charge undo did not restore charges');
 select pg_temp.roll30_assert(
   (public.preview_roll30_snapshot((select id from roll30_test_context where key='snapshot'))->'snapshot'->>'tokens')::integer=2,
   'snapshot recovery preview did not describe normalized token state'
