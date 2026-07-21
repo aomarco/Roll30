@@ -6,6 +6,7 @@
   let session;
   let campaign;
   let currentRole;
+  let currentCharacterId;
   let currentView = 'overview';
   let onlineCount = 0;
   let realtimeStarted = false;
@@ -20,8 +21,9 @@
     const { data, error } = await db.client.from('campaigns').select('*').eq('id', campaignId).single();
     if (error) { localStorage.removeItem('roll30.campaignId'); window.location.replace('./index.html'); return; }
     campaign = data;
-    const { data: membership } = await db.client.from('campaign_members').select('role').eq('campaign_id', campaignId).eq('user_id', session.user.id).single();
+    const { data: membership } = await db.client.from('campaign_members').select('role,character_id').eq('campaign_id', campaignId).eq('user_id', session.user.id).single();
     currentRole = membership?.role;
+    currentCharacterId = membership?.character_id;
     startRealtime();
     render();
   }
@@ -57,14 +59,21 @@
       ]);
       const state = active.state || { tokens:[] };
       const tokenByCharacter = new Set((state.tokens || []).map(t => t.character_id));
-      const board = (state.tokens || []).map(t => `<button class="map-token" data-token="${t.id}" style="left:${t.x}%;top:${t.y}%" title="${esc(t.name)}">${esc(t.name.slice(0,2).toUpperCase())}</button>`).join('');
       const objects = sceneObjects.filter(o=>o.object_type !== 'wall').map(o => `<button class="map-object ${o.state?.active ? 'active' : ''}" data-object="${o.id}" style="left:${o.x}%;top:${o.y}%" title="${esc(o.name)}">${esc(o.object_type.slice(0,1).toUpperCase())}</button>`).join('');
       const walls = sceneObjects.filter(o=>o.object_type === 'wall' && o.config?.x2 != null && o.config?.y2 != null).map(o => { const dx=Number(o.config.x2)-o.x, dy=Number(o.config.y2)-o.y; const length=Math.hypot(dx,dy); const angle=Math.atan2(dy,dx)*180/Math.PI; return `<span class="map-wall" style="left:${o.x}%;top:${o.y}%;width:${length}%;transform:rotate(${angle}deg)"></span>`; }).join('');
+      const wallSegments = sceneObjects.filter(o=>o.object_type === 'wall' && o.config?.x2 != null && o.config?.y2 != null);
+      const playerToken = currentRole === 'player' ? (state.tokens || []).find(t=>t.character_id === currentCharacterId) : null;
+      const playerCharacter = characters.find(c=>c.id === currentCharacterId);
+      const vision = Number(playerCharacter?.sheet?.vision) || 30;
+      const cross = (a,b,c) => (b.x-a.x)*(c.y-a.y)-(b.y-a.y)*(c.x-a.x);
+      const blocked = (from,to) => wallSegments.some(w => { const a={x:Number(w.x),y:Number(w.y)},b={x:Number(w.config.x2),y:Number(w.config.y2)}; return cross(from,to,a)*cross(from,to,b)<0 && cross(a,b,from)*cross(a,b,to)<0; });
+      const visibleTokens = !playerToken || currentRole === 'gm' || state.fog !== true ? (state.tokens || []) : (state.tokens || []).filter(t => t.id === playerToken.id || (Math.hypot(t.x-playerToken.x,t.y-playerToken.y) <= vision && !blocked(playerToken,t)));
+      const board = visibleTokens.map(t => `<button class="map-token" data-token="${t.id}" style="left:${t.x}%;top:${t.y}%" title="${esc(t.name)}">${esc(t.name.slice(0,2).toUpperCase())}</button>`).join('');
       const available = characters.filter(c => !tokenByCharacter.has(c.id));
       const initiative = state.initiative || [];
       const initiativePanel = `<h3>Initiative</h3>${initiative.length ? `<div class="live-cards">${initiative.map((entry,index) => `<article><b>${index === active.active_turn ? '▶ ' : ''}${esc(entry.name)}</b><small>${esc(entry.score)}</small>${isGm ? `<button data-remove-initiative="${index}">Remove</button>` : ''}</article>`).join('')}</div>` : '<p class="muted">No initiative order yet.</p>'}${isGm && state.tokens?.length ? `<form id="initiative-form" class="live-form"><select id="initiative-token">${state.tokens.map(t=>`<option value="${t.id}">${esc(t.name)}</option>`).join('')}</select><input id="initiative-score" type="number" placeholder="Roll"><button>Add to initiative</button></form>` : ''}`;
       const boardStyle = backgroundUrl ? ` style="background-image:url('${esc(backgroundUrl)}');background-size:cover;background-position:center"` : '';
-      return `<section><div class="live-title"><h2>Live session</h2>${isGm ? '<button id="end-session">End session</button>' : ''}</div><p>${activeScene ? esc(activeScene.name) + ' · ' : ''}Round ${active.round}. Select your token, then click the board to move it. Movement is synchronized to the table and limited by speed.</p><div class="session-board${activeScene?.config?.show_grid === false ? ' no-grid' : ''}" id="session-board"${boardStyle}>${board || '<span class="board-empty">Add a character to begin.</span>'}${objects}${walls}${state.fog === true && !isGm ? '<div class="board-fog">Fog of war</div>' : ''}</div>${isGm && activeScene ? '<button data-add-object="' + activeScene.id + '">Add interactive object</button>' : ''}${initiativePanel}${isGm ? `<div class="token-tray">${available.map(c => `<button data-add-token="${c.id}" data-token-name="${esc(c.name)}" data-token-speed="${esc(c.sheet?.speed ?? 30)}">Add ${esc(c.name)}</button>`).join('')}</div><div class="session-controls"><button id="advance-turn">Advance turn</button><button id="save-snapshot">Save snapshot</button></div>` : ''}<h3>Recovery snapshots</h3>${snapshots.length ? `<div class="live-cards">${snapshots.map(s => `<article><b>${esc(s.label || 'Snapshot')}</b><small>${new Date(s.created_at).toLocaleString()}</small>${isGm ? `<button data-restore-snapshot="${s.id}">Restore this snapshot</button>` : ''}</article>`).join('')}</div>` : '<p class="muted">No snapshots saved yet.</p>'}</section>`;
+      return `<section><div class="live-title"><h2>Live session</h2>${isGm ? '<button id="end-session">End session</button>' : ''}</div><p>${activeScene ? esc(activeScene.name) + ' · ' : ''}Round ${active.round}. Select your token, then click the board to move it. Movement is synchronized to the table and limited by speed.</p><div class="session-board${activeScene?.config?.show_grid === false ? ' no-grid' : ''}" id="session-board"${boardStyle}>${board || '<span class="board-empty">Add a character to begin.</span>'}${objects}${walls}${state.fog === true && !isGm ? `<div class="board-fog">Vision ${vision} · blocked tokens are concealed</div>` : ''}</div>${isGm && activeScene ? '<button data-add-object="' + activeScene.id + '">Add interactive object</button>' : ''}${initiativePanel}${isGm ? `<div class="token-tray">${available.map(c => `<button data-add-token="${c.id}" data-token-name="${esc(c.name)}" data-token-speed="${esc(c.sheet?.speed ?? 30)}">Add ${esc(c.name)}</button>`).join('')}</div><div class="session-controls"><button id="advance-turn">Advance turn</button><button id="save-snapshot">Save snapshot</button></div>` : ''}<h3>Recovery snapshots</h3>${snapshots.length ? `<div class="live-cards">${snapshots.map(s => `<article><b>${esc(s.label || 'Snapshot')}</b><small>${new Date(s.created_at).toLocaleString()}</small>${isGm ? `<button data-restore-snapshot="${s.id}">Restore this snapshot</button>` : ''}</article>`).join('')}</div>` : '<p class="muted">No snapshots saved yet.</p>'}</section>`;
     }
     if (view === 'prompts') {
       const { data = [] } = await query('prompts');
@@ -243,12 +252,12 @@
     if (error) return notice(error.message, true);
     const sheet = character.sheet || {}; const currency = sheet.currency || {};
     const dialog = document.getElementById('live-dialog');
-    dialog.innerHTML = `<form method="dialog" id="character-sheet-form"><h3>${esc(character.name)} sheet</h3><label>Armour class<input id="sheet-ac" type="number" min="0" value="${esc(sheet.armor_class ?? '')}"></label><label>Speed<input id="sheet-speed" type="number" min="1" value="${esc(sheet.speed ?? 30)}"></label><label>Gold pieces<input id="sheet-gp" type="number" min="0" step="0.01" value="${esc(currency.gp ?? 0)}"></label><label>Attack name<input id="sheet-attack-name" value="${esc(sheet.attack?.name ?? '')}" placeholder="Longsword"></label><label>Attack bonus<input id="sheet-attack-bonus" type="number" value="${esc(sheet.attack?.bonus ?? 0)}"></label><label>Attack damage<input id="sheet-attack-damage" type="number" min="1" value="${esc(sheet.attack?.damage ?? 1)}"></label><label>Conditions<input id="sheet-conditions" value="${esc((sheet.conditions || []).join(', '))}" placeholder="Poisoned, Prone…"></label><label>Notes<textarea id="sheet-notes" rows="4" placeholder="Appearance, traits, reminders…">${esc(sheet.notes ?? '')}</textarea></label><button>Save sheet</button></form>`;
+    dialog.innerHTML = `<form method="dialog" id="character-sheet-form"><h3>${esc(character.name)} sheet</h3><label>Armour class<input id="sheet-ac" type="number" min="0" value="${esc(sheet.armor_class ?? '')}"></label><label>Speed<input id="sheet-speed" type="number" min="1" value="${esc(sheet.speed ?? 30)}"></label><label>Vision range<input id="sheet-vision" type="number" min="1" value="${esc(sheet.vision ?? 30)}"></label><label>Gold pieces<input id="sheet-gp" type="number" min="0" step="0.01" value="${esc(currency.gp ?? 0)}"></label><label>Attack name<input id="sheet-attack-name" value="${esc(sheet.attack?.name ?? '')}" placeholder="Longsword"></label><label>Attack bonus<input id="sheet-attack-bonus" type="number" value="${esc(sheet.attack?.bonus ?? 0)}"></label><label>Attack damage<input id="sheet-attack-damage" type="number" min="1" value="${esc(sheet.attack?.damage ?? 1)}"></label><label>Conditions<input id="sheet-conditions" value="${esc((sheet.conditions || []).join(', '))}" placeholder="Poisoned, Prone…"></label><label>Notes<textarea id="sheet-notes" rows="4" placeholder="Appearance, traits, reminders…">${esc(sheet.notes ?? '')}</textarea></label><button>Save sheet</button></form>`;
     dialog.showModal();
     dialog.querySelector('#character-sheet-form').onsubmit = async e => {
       e.preventDefault();
       const conditions = dialog.querySelector('#sheet-conditions').value.split(',').map(value=>value.trim()).filter(Boolean);
-      const nextSheet = { ...sheet, armor_class:Number(dialog.querySelector('#sheet-ac').value) || null, speed:Math.max(1,Number(dialog.querySelector('#sheet-speed').value) || 30), currency:{ ...currency, gp:Number(dialog.querySelector('#sheet-gp').value) || 0 }, conditions, notes:dialog.querySelector('#sheet-notes').value.trim() };
+      const nextSheet = { ...sheet, armor_class:Number(dialog.querySelector('#sheet-ac').value) || null, speed:Math.max(1,Number(dialog.querySelector('#sheet-speed').value) || 30), vision:Math.max(1,Number(dialog.querySelector('#sheet-vision').value) || 30), currency:{ ...currency, gp:Number(dialog.querySelector('#sheet-gp').value) || 0 }, conditions, notes:dialog.querySelector('#sheet-notes').value.trim() };
       const attackName = dialog.querySelector('#sheet-attack-name').value.trim(); if (attackName) nextSheet.attack = {name:attackName,bonus:Number(dialog.querySelector('#sheet-attack-bonus').value) || 0,damage:Math.max(1,Number(dialog.querySelector('#sheet-attack-damage').value) || 1)}; else delete nextSheet.attack;
       const { error: updateError } = await db.client.from('characters').update({ sheet:nextSheet }).eq('id', character.id);
       if (updateError) return notice(updateError.message, true);
