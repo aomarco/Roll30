@@ -110,7 +110,7 @@ insert into roll30_test_context(key, id) select 'hero', id from created;
 
 with created as (
   insert into public.characters(campaign_id, kind, name, sheet, hp_current, hp_max)
-  values ((select id from roll30_test_context where key = 'gm_campaign'), 'monster', 'Test Target', '{"armor_class":10,"abilities":{"con":10},"concentration":"Web"}', 12, 12)
+  values ((select id from roll30_test_context where key = 'gm_campaign'), 'monster', 'Test Target', '{"armor_class":10,"abilities":{"con":10},"concentration":"Web","temp_hp":2}', 12, 12)
   returning id
 )
 insert into roll30_test_context(key, id) select 'target', id from created;
@@ -379,7 +379,7 @@ select pg_temp.roll30_expect_error(
 select public.update_roll30_character_sheet(
   (select id from roll30_test_context where key = 'hero'),
   0,
-  '{"abilities":{"str":16,"dex":12,"con":14,"int":10,"wis":11,"cha":8},"armor_class":15,"speed":30,"vision":30,"conditions":[],"features":["Second Wind"],"resources":[{"name":"Second Wind","current":1,"max":1,"reset":"short"}],"spellcasting":{"ability":"wis","slots":[{"level":1,"current":2,"max":2}]},"equipment":["Training Sword"],"attacks":[{"name":"Training Sword","bonus":50,"damage_dice":"1d2+1","damage_type":"slashing"}],"attack":{"name":"Training Sword","bonus":50,"damage":3},"currency":{"gp":20}}',
+  '{"abilities":{"str":16,"dex":12,"con":14,"int":10,"wis":11,"cha":8},"armor_class":15,"temp_hp":2,"speed":30,"vision":30,"conditions":[],"features":["Second Wind"],"resources":[{"name":"Second Wind","current":1,"max":1,"reset":"short"}],"spellcasting":{"ability":"wis","slots":[{"level":1,"current":2,"max":2}]},"equipment":["Training Sword"],"attacks":[{"name":"Training Sword","bonus":50,"damage_dice":"1d2+1","damage_type":"slashing"}],"attack":{"name":"Training Sword","bonus":50,"damage":3},"currency":{"gp":20}}',
   10,
   10,
   null
@@ -428,9 +428,9 @@ select pg_temp.roll30_expect_error(
 select public.change_roll30_hp((select id from roll30_test_context where key = 'hero'), -2);
 select public.resolve_roll30_hp_change((select id from roll30_test_context where key='hero'),'healing','1');
 select pg_temp.roll30_assert(
-  (select hp_current=9 from public.characters where id=(select id from roll30_test_context where key='hero'))
-  and exists(select 1 from public.session_events where session_id=(select id from roll30_test_context where key='session') and event_type='hp_changed' and payload->>'source'='dice'),
-  'server-rolled healing or HP history did not persist'
+  (select hp_current=10 and sheet->>'temp_hp'='0' from public.characters where id=(select id from roll30_test_context where key='hero'))
+  and exists(select 1 from public.session_events where session_id=(select id from roll30_test_context where key='session') and event_type='hp_changed' and payload->>'source'='dice' and payload->>'from_temp_hp'='0'),
+  'temporary HP, server-rolled healing, or HP history did not persist'
 );
 select public.mutate_roll30_inventory((select id from roll30_test_context where key='hero'),(select id from roll30_test_context where key='potion'),'equip',1,null);
 select public.mutate_roll30_inventory((select id from roll30_test_context where key='hero'),(select id from roll30_test_context where key='potion'),'transfer',1,(select id from roll30_test_context where key='target'));
@@ -483,7 +483,7 @@ select public.resolve_roll30_combat_attack(
 );
 select pg_temp.roll30_assert(
   (select count(*) from public.messages where campaign_id = (select id from roll30_test_context where key = 'gm_campaign') and kind = 'attack') = 1
-  and (select body->>'target_id'=(select id::text from roll30_test_context where key='target') and body->>'from_hp'='12' and body->>'concentration_dc'='10' from public.messages where campaign_id=(select id from roll30_test_context where key='gm_campaign') and kind='attack' limit 1),
+  and (select body->>'target_id'=(select id::text from roll30_test_context where key='target') and body->>'from_hp'='12' and body->>'from_temp_hp'='2' and body->>'concentration_dc'='10' from public.messages where campaign_id=(select id from roll30_test_context where key='gm_campaign') and kind='attack' limit 1),
   'server-resolved combat did not record reversible damage and a concentration check'
 );
 select public.change_roll30_hp((select id from roll30_test_context where key='hero'),-100);
@@ -557,8 +557,8 @@ select pg_temp.roll30_assert(
 );
 select public.undo_roll30_last_action((select id from roll30_test_context where key='session'));
 select pg_temp.roll30_assert(
-  (select hp_current=12 and sheet->>'concentration'='Web' from public.characters where id=(select id from roll30_test_context where key='target')),
-  'combat undo did not restore target HP and concentration state'
+  (select hp_current=12 and sheet->>'temp_hp'='2' and sheet->>'concentration'='Web' from public.characters where id=(select id from roll30_test_context where key='target')),
+  'combat undo did not restore target HP, temporary HP, and concentration state'
 );
 select pg_temp.roll30_assert(
   (public.preview_roll30_snapshot((select id from roll30_test_context where key='snapshot'))->'snapshot'->>'tokens')::integer=2,
