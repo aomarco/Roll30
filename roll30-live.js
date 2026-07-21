@@ -1,0 +1,70 @@
+(function () {
+  const app = document.getElementById('live-roll30');
+  if (!app) return;
+  const db = window.Roll30Backend;
+  let campaignId = localStorage.getItem('roll30.campaignId');
+  let session;
+  let campaign;
+
+  const esc = (value) => String(value ?? '').replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+  const query = (table) => db.client.from(table).select('*').eq('campaign_id', campaignId).order('created_at', { ascending:false });
+  const notice = (message, error = false) => { const el = document.getElementById('live-notice'); if (el) { el.textContent = message; el.className = error ? 'error' : ''; } };
+
+  async function load() {
+    session = await db.getSession();
+    if (!session || !campaignId) { window.location.replace('./index.html'); return; }
+    const { data, error } = await db.client.from('campaigns').select('*').eq('id', campaignId).single();
+    if (error) { localStorage.removeItem('roll30.campaignId'); window.location.replace('./index.html'); return; }
+    campaign = data;
+    render();
+  }
+
+  async function content(view) {
+    if (view === 'scenes') {
+      const { data = [] } = await query('scenes');
+      return `<section><div class="live-title"><h2>Scenes</h2><button data-dialog="scene">New scene</button></div>${cards(data, s => `<b>${esc(s.name)}</b><small>${esc(s.scene_type)} · ${esc(s.folder)}</small>`)}</section>`;
+    }
+    if (view === 'characters') {
+      const { data = [] } = await query('characters');
+      return `<section><div class="live-title"><h2>Characters</h2><button data-dialog="character">New character</button></div>${cards(data, c => `<b>${esc(c.name)}</b><small>${esc(c.kind)} · ${c.hp_current ?? '—'} / ${c.hp_max ?? '—'} HP</small>`)}</section>`;
+    }
+    if (view === 'messages') {
+      const { data = [] } = await query('messages');
+      return `<section><div class="live-title"><h2>Table messages</h2></div><form id="message-form" class="live-form"><input id="message-text" placeholder="Say something to the table" required><button>Send</button></form>${cards(data, m => `<b>${esc(m.kind)}</b><small>${esc(m.body && m.body.text || '')}</small>`)}</section>`;
+    }
+    if (view === 'session') {
+      const { data = [] } = await query('sessions');
+      const active = data.find(s => s.status === 'active');
+      return `<section><div class="live-title"><h2>Live session</h2><button id="start-session">${active ? 'Open session' : 'Start session'}</button></div>${active ? `<p>Round ${active.round}. Shared state is saved and broadcast in real time.</p><button id="advance-turn">Advance turn</button>` : '<p>No session is running. Start one when the GM is ready.</p>'}<div id="session-state"></div></section>`;
+    }
+    const [sceneRes, charRes, sessionRes] = await Promise.all([query('scenes'), query('characters'), query('sessions')]);
+    return `<section><h2>${esc(campaign.name)}</h2><p class="muted">${esc(campaign.system)} · Join code <strong>${esc(campaign.join_code)}</strong></p><div class="live-stats"><div><b>${sceneRes.data?.length || 0}</b><small>scenes</small></div><div><b>${charRes.data?.length || 0}</b><small>characters</small></div><div><b>${sessionRes.data?.filter(s => s.status === 'active').length || 0}</b><small>live sessions</small></div></div><p>Start by creating a scene or a character. Everything here belongs to this campaign and is shared with its members.</p></section>`;
+  }
+  function cards(rows, renderCard) { return rows.length ? `<div class="live-cards">${rows.map(r => `<article>${renderCard(r)}</article>`).join('')}</div>` : '<p class="muted">Nothing here yet.</p>'; }
+  async function render(view = 'overview') {
+    app.innerHTML = `<header><div><strong>Roll30</strong><span>${esc(campaign.name)}</span></div><button id="leave-campaign">Campaigns</button></header><nav>${['overview','scenes','characters','session','messages'].map(v => `<button data-view="${v}" class="${v === view ? 'active' : ''}">${v}</button>`).join('')}</nav><main><p id="live-notice"></p><div id="live-content">Loading…</div></main><dialog id="live-dialog"></dialog>`;
+    document.getElementById('live-content').innerHTML = await content(view);
+    bind(view);
+  }
+  function bind(view) {
+    app.querySelectorAll('[data-view]').forEach(b => b.onclick = () => render(b.dataset.view));
+    document.getElementById('leave-campaign').onclick = () => { localStorage.removeItem('roll30.campaignId'); window.location.replace('./index.html'); };
+    app.querySelectorAll('[data-dialog]').forEach(b => b.onclick = () => openDialog(b.dataset.dialog));
+    const messageForm = document.getElementById('message-form');
+    if (messageForm) messageForm.onsubmit = async e => { e.preventDefault(); const text = document.getElementById('message-text').value.trim(); if (!text) return; const { error } = await db.client.from('messages').insert({ campaign_id:campaignId, sender_id:session.user.id, kind:'message', body:{ text } }); if (error) return notice(error.message, true); render('messages'); };
+    const start = document.getElementById('start-session');
+    if (start) start.onclick = async () => { const { data: sessions } = await query('sessions'); let active = sessions.find(s => s.status === 'active'); if (!active) { const result = await db.client.from('sessions').insert({ campaign_id:campaignId }).select().single(); if (result.error) return notice(result.error.message, true); active = result.data; } localStorage.setItem('roll30.sessionId', active.id); render('session'); };
+    const advance = document.getElementById('advance-turn');
+    if (advance) advance.onclick = async () => { const id = localStorage.getItem('roll30.sessionId'); if (!id) return; const { data: current } = await db.client.from('sessions').select('*').eq('id', id).single(); const { error } = await db.client.from('sessions').update({ active_turn:current.active_turn + 1, updated_at:new Date().toISOString() }).eq('id', id); if (error) notice(error.message, true); else notice('Turn advanced for everyone at the table.'); };
+  }
+  function openDialog(kind) {
+    const dialog = document.getElementById('live-dialog');
+    dialog.innerHTML = kind === 'scene'
+      ? `<form method="dialog" id="create-record"><h3>New scene</h3><input id="record-name" placeholder="Scene name" required><select id="record-type"><option value="playing">Playing Field</option><option value="battle">Battle Field</option></select><button>Create scene</button></form>`
+      : `<form method="dialog" id="create-record"><h3>New character</h3><input id="record-name" placeholder="Character name" required><select id="record-type"><option value="pc">Player character</option><option value="npc">NPC</option><option value="monster">Monster</option></select><button>Create character</button></form>`;
+    dialog.showModal();
+    dialog.querySelector('#create-record').onsubmit = async e => { e.preventDefault(); const name = dialog.querySelector('#record-name').value.trim(); const type = dialog.querySelector('#record-type').value; const table = kind === 'scene' ? 'scenes' : 'characters'; const row = kind === 'scene' ? {campaign_id:campaignId,name,scene_type:type,created_by:session.user.id} : {campaign_id:campaignId,name,kind:type,owner_id:type === 'pc' ? session.user.id : null}; const { error } = await db.client.from(table).insert(row); if (error) notice(error.message, true); dialog.close(); render(kind === 'scene' ? 'scenes' : 'characters'); };
+  }
+  db.client.channel('roll30-live').on('postgres_changes',{event:'*',schema:'public',table:'sessions',filter:`campaign_id=eq.${campaignId}`},() => notice('Live session updated.')).on('postgres_changes',{event:'INSERT',schema:'public',table:'messages',filter:`campaign_id=eq.${campaignId}`},() => notice('New table message.')).subscribe();
+  document.addEventListener('DOMContentLoaded', () => { document.querySelector('x-dc')?.remove(); app.style.display = 'block'; load().catch(error => { app.innerHTML = `<main><h2>Roll30 could not load</h2><p>${esc(error.message)}</p></main>`; }); });
+})();
