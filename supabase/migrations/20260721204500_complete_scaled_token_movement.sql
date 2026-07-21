@@ -1,3 +1,7 @@
+alter table public.scene_objects drop constraint scene_objects_object_type_check;
+alter table public.scene_objects add constraint scene_objects_object_type_check
+  check (object_type in ('object','door','lever','trap','light','wall','terrain'));
+
 alter table public.session_tokens
   add column size_ft numeric not null default 5 check (size_ft between 1 and 100),
   add column hidden boolean not null default false;
