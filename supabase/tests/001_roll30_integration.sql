@@ -131,6 +131,12 @@ insert into roll30_test_context(key,id) select 'secret_object',id from created;
 insert into public.scene_objects(scene_id,name,object_type,x,y,visible_to_players)
 values ((select id from roll30_test_context where key='scene'),'Visible door','door',40,40,true);
 
+with created as (
+  insert into public.scene_triggers(scene_id,name,trigger,effects,run_once)
+  values ((select id from roll30_test_context where key='scene'),'Test Fog','{"delay_seconds":0}','[{"type":"show_fog"}]',true) returning id
+)
+insert into roll30_test_context(key,id) select 'trigger',id from created;
+
 update public.campaign_members
 set character_id = (select id from roll30_test_context where key = 'hero')
 where campaign_id = (select id from roll30_test_context where key = 'gm_campaign')
@@ -182,6 +188,9 @@ select public.add_roll30_initiative_entry(
 select public.grant_roll30_item((select id from roll30_test_context where key='hero'),(select id from roll30_test_context where key='potion'),3);
 select public.move_roll30_scene_object((select id from roll30_test_context where key='secret_object'),25,25,'gm',2);
 select pg_temp.roll30_assert((select x=25 and layer='gm' from public.scene_objects where id=(select id from roll30_test_context where key='secret_object')),'GM scene-builder movement did not persist');
+select public.execute_roll30_trigger((select id from roll30_test_context where key='trigger'),(select id from roll30_test_context where key='session'),'test-key');
+select pg_temp.roll30_assert((select (state->>'fog')::boolean from public.sessions where id=(select id from roll30_test_context where key='session')),'automation effect did not update session state');
+select pg_temp.roll30_expect_error(format('select public.execute_roll30_trigger(%L::uuid,%L::uuid,%L)',(select id from roll30_test_context where key='trigger'),(select id from roll30_test_context where key='session'),'test-key'),'Execution key already exists');
 select pg_temp.roll30_assert(
   (select jsonb_array_length(state -> 'initiative') from public.sessions where id = (select id from roll30_test_context where key = 'session')) = 1,
   'normalized token could not be added to initiative'
@@ -311,6 +320,10 @@ select pg_temp.roll30_assert(
   (select x = 50 from public.session_tokens where id = (select id from roll30_test_context where key = 'hero_token')),
   'snapshot restore did not restore normalized token position'
 );
+select public.advance_roll30_turn((select id from roll30_test_context where key='session'));
+select pg_temp.roll30_assert((select round=2 from public.sessions where id=(select id from roll30_test_context where key='session')),'round did not advance or checkpoint');
+select public.rewind_roll30_round((select id from roll30_test_context where key='session'));
+select pg_temp.roll30_assert((select round=1 from public.sessions where id=(select id from roll30_test_context where key='session')),'round rewind did not restore session metadata');
 select public.remove_roll30_session_token(
   (select id from roll30_test_context where key = 'session'),
   (select id from roll30_test_context where key = 'hero_token')
