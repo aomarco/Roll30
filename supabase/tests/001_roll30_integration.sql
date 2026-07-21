@@ -128,10 +128,12 @@ with created as (
   returning id
 )
 insert into roll30_test_context(key,id) select 'secret_object',id from created;
-insert into public.scene_objects(scene_id,name,object_type,x,y,visible_to_players)
-values ((select id from roll30_test_context where key='scene'),'Visible door','door',40,40,true);
+insert into public.scene_objects(scene_id,name,object_type,x,y,config,state,visible_to_players)
+values ((select id from roll30_test_context where key='scene'),'Visible door','door',70,0,'{"x2":70,"y2":100}','{"active":true}',true);
 insert into public.scene_objects(scene_id,name,object_type,x,y,config,visible_to_players)
 values ((select id from roll30_test_context where key='scene'),'Vision wall','wall',80,0,'{"x2":80,"y2":100}',false);
+insert into public.scene_objects(scene_id,name,object_type,x,y,config,state,visible_to_players)
+values ((select id from roll30_test_context where key='scene'),'Difficult ground','terrain',50,40,'{"x2":65,"y2":60,"movement_multiplier":2}','{"active":true}',false);
 
 with created as (
   insert into public.scene_triggers(scene_id,name,trigger,effects,run_once)
@@ -185,8 +187,11 @@ select 'target_token', id from public.add_roll30_session_token(
 -- Place the target behind the private test wall as GM setup. This is fixture
 -- positioning, not a gameplay movement, so it intentionally bypasses the
 -- movement RPC's wall-crossing rule.
-update public.session_tokens set x = 90, y = 50
+update public.session_tokens set x = 75, y = 50
 where id = (select id from roll30_test_context where key = 'target_token');
+select public.configure_roll30_session_token(
+  (select id from roll30_test_context where key='target_token'), 10, false
+);
 select public.add_roll30_initiative_entry(
   (select id from roll30_test_context where key = 'session'),
   (select id from roll30_test_context where key = 'hero_token'),
@@ -225,6 +230,16 @@ select pg_temp.roll30_assert(
   'player could not move their owned token'
 );
 select pg_temp.roll30_assert(
+  (select (payload->>'movement_cost')::numeric=20 from public.session_events where event_type='token_moved' and payload->>'token_id'=(select id::text from roll30_test_context where key='hero_token') order by id desc limit 1),
+  'map scale or difficult-terrain movement cost was not applied in feet'
+);
+select pg_temp.roll30_expect_error(
+  format('select public.move_roll30_token(%L::uuid,%L,%L,%L)',
+    (select id from roll30_test_context where key='session'),
+    (select id::text from roll30_test_context where key='hero_token'), 68, 50),
+  'Another token occupies that space'
+);
+select pg_temp.roll30_assert(
   (select count(*) from public.campaign_assets where campaign_id = (select id from roll30_test_context where key = 'gm_campaign')) = 0,
   'player could read unrevealed campaign media'
 );
@@ -235,9 +250,14 @@ select pg_temp.roll30_assert(
 select pg_temp.roll30_assert((select count(*) from public.scene_objects where scene_id=(select id from roll30_test_context where key='scene'))=1,'player could read unrevealed scene-builder objects');
 select pg_temp.roll30_assert(
   (select jsonb_array_length(result->'current'->0)=72 and jsonb_array_length(result->'reveals')=1 from (select public.get_roll30_player_vision((select id from roll30_test_context where key='session')) result) vision)
-  and (select max((point->>0)::numeric)<=80.001 from (select public.get_roll30_player_vision((select id from roll30_test_context where key='session')) result) vision cross join lateral jsonb_array_elements(vision.result->'current'->0) point)
-  and (select count(*)=1 from public.session_exploration where session_id=(select id from roll30_test_context where key='session') and user_id=auth.uid()),
-  'server visibility polygon, manual reveal, or explored fog failed'
+  and (select max((point->>0)::numeric)<=70.001 from (select public.get_roll30_player_vision((select id from roll30_test_context where key='session')) result) vision cross join lateral jsonb_array_elements(vision.result->'current'->0) point),
+  'server visibility polygon, closed-door occlusion, or manual reveal failed'
+);
+-- The visibility RPC persists exploration. Check it in the next statement so
+-- PostgreSQL advances the command snapshot and exposes the completed upsert.
+select pg_temp.roll30_assert(
+  (select count(*)=1 from public.session_exploration where session_id=(select id from roll30_test_context where key='session') and user_id=auth.uid()),
+  'explored fog was not persisted for the player'
 );
 select pg_temp.roll30_assert(
   (select jsonb_array_length(public.get_visible_roll30_tokens((select id from roll30_test_context where key='session')))) = 1,
