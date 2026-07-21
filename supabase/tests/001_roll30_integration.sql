@@ -123,6 +123,13 @@ with created as (
 insert into roll30_test_context(key, id) select 'reinforcement', id from created;
 
 with created as (
+  insert into public.characters(campaign_id, kind, name, sheet, hp_current, hp_max)
+  values ((select id from roll30_test_context where key = 'gm_campaign'), 'npc', 'Test Shopkeeper', '{"abilities":{"cha":14}}', 6, 6)
+  returning id
+)
+insert into roll30_test_context(key, id) select 'shopkeeper', id from created;
+
+with created as (
   insert into public.items(campaign_id, name, item_data)
   values ((select id from roll30_test_context where key = 'gm_campaign'), 'Test Potion', '{"type":"consumable","effect":{"healing":3}}')
   returning id
@@ -247,6 +254,15 @@ values((select id from roll30_test_context where key='gm_campaign'),'30000000-00
 
 set local role authenticated;
 select set_config('request.jwt.claims', '{"sub":"30000000-0000-4000-a000-000000000101","role":"authenticated","email":"roll30-gm-test@example.invalid"}', true);
+select public.configure_roll30_shop(
+  (select id from roll30_test_context where key='shop'),'Test Shop',
+  (select id from roll30_test_context where key='shopkeeper'),'automatic',50,
+  array['30000000-0000-4000-a000-000000000102'::uuid],true,10,false,12
+);
+select pg_temp.roll30_assert(
+  (select npc_id=(select id from roll30_test_context where key='shopkeeper') and settings->'audience' ? '30000000-0000-4000-a000-000000000102' and (settings->>'bargaining')::boolean from public.shops where id=(select id from roll30_test_context where key='shop')),
+  'shopkeeper, audience, or bargaining settings did not persist'
+);
 insert into roll30_test_context(key, id)
 select 'hero_token', id from public.add_roll30_session_token(
   (select id from roll30_test_context where key = 'session'),
@@ -483,8 +499,9 @@ select pg_temp.roll30_assert(
 select public.request_roll30_purchase((select id from roll30_test_context where key='shop'),(select id from roll30_test_context where key='potion'),(select id from roll30_test_context where key='hero'),1);
 select pg_temp.roll30_assert(
   (select sheet->'currency'->>'gp'='18' from public.characters where id=(select id from roll30_test_context where key='hero'))
-  and (select quantity=2 from public.shop_stock where shop_id=(select id from roll30_test_context where key='shop') and item_id=(select id from roll30_test_context where key='potion')),
-  'discounted automatic purchase did not charge or deplete stock atomically'
+  and (select quantity=2 from public.shop_stock where shop_id=(select id from roll30_test_context where key='shop') and item_id=(select id from roll30_test_context where key='potion'))
+  and exists(select 1 from public.purchase_requests where shop_id=(select id from roll30_test_context where key='shop') and quote->>'total'='2' and quote->>'bargain_discount'='10'),
+  'discounted bargain purchase did not quote, charge, or deplete stock atomically'
 );
 insert into roll30_test_context(key,id)
 select 'approval_request',id from public.request_roll30_purchase((select id from roll30_test_context where key='approval_shop'),(select id from roll30_test_context where key='potion'),(select id from roll30_test_context where key='hero'),1);
@@ -549,7 +566,9 @@ select pg_temp.roll30_assert(
   (select kind='pc' and hp_current=0 and coalesce((sheet->>'temp_hp')::integer,0)=0 from public.characters where id=(select id from roll30_test_context where key='hero')),
   'lethal damage did not reduce the player character and temporary HP to zero'
 );
-select pg_temp.roll30_assert(((public.roll_roll30_death_save((select id from roll30_test_context where key='hero')))->>'roll')::integer between 1 and 20,'death save did not produce a server roll');
+insert into roll30_test_context(key,value)
+select 'death_save',public.roll_roll30_death_save((select id from roll30_test_context where key='hero'))::text;
+select pg_temp.roll30_assert(((select value::jsonb->>'roll' from roll30_test_context where key='death_save'))::integer between 1 and 20,'death save did not produce a server roll');
 
 reset role;
 set local role authenticated;
@@ -833,6 +852,23 @@ select pg_temp.roll30_expect_error(
     (select id from roll30_test_context where key='potion')),
   'Only a campaign GM'
 );
+reset role;
+set local role authenticated;
+select set_config('request.jwt.claims', '{"sub":"30000000-0000-4000-a000-000000000104","role":"authenticated","email":"roll30-removable-test@example.invalid"}', true);
+select pg_temp.roll30_assert(
+  (select count(*) from public.shops where id=(select id from roll30_test_context where key='shop'))=0,
+  'a shop leaked to a campaign player outside its selected audience'
+);
+select pg_temp.roll30_expect_error(
+  format('select public.request_roll30_purchase(%L::uuid,%L::uuid,%L::uuid,1)',
+    (select id from roll30_test_context where key='shop'),
+    (select id from roll30_test_context where key='potion'),
+    (select id from roll30_test_context where key='hero')),
+  'Shop not found'
+);
+reset role;
+set local role authenticated;
+select set_config('request.jwt.claims', '{"sub":"30000000-0000-4000-a000-000000000102","role":"authenticated","email":"roll30-player-test@example.invalid"}', true);
 select public.leave_roll30_campaign((select id from roll30_test_context where key = 'gm_campaign'));
 select pg_temp.roll30_assert(
   not public.is_campaign_member((select id from roll30_test_context where key = 'gm_campaign')),

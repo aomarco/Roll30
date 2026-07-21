@@ -124,6 +124,11 @@ textarea { resize: vertical; }
 .hp-actions, .token-tray, .session-controls, .assign-character { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 13px; }
 .hp-actions button, .token-tray button, .session-controls button { margin: 0; }
 .stock-row { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); }
+.filter-chips { display:flex; flex-wrap:wrap; gap:8px; margin:0 0 18px; }
+.filter-chips button { border-radius:999px; padding:8px 14px; }
+.filter-chips button.active { background:var(--accent); border-color:var(--accent); color:#fff; }
+.shop-mode { display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:12px; margin:16px 0; padding:16px; border:1px solid var(--border); border-radius:14px; background:var(--panel-raised); }
+.shop-mode > button { align-self:end; }
 .ability-strip { display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px; margin-top: 13px; }
 .ability-strip span { padding: 6px 3px; border: 1px solid var(--border); border-radius: 6px; color: var(--muted); font-size: 9px; text-align: center; }
 .ability-strip b { color: var(--text); font-size: 12px; }
