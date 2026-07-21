@@ -197,6 +197,13 @@ audio { width: 100%; margin-top: 12px; }
 .player-action-bar { position:sticky;z-index:10;bottom:10px;display:flex;align-items:center;justify-content:space-between;gap:14px;margin:12px 0;padding:12px 14px;border:1px solid rgb(230 169 77 / 42%);border-radius:var(--radius);background:rgb(24 24 29 / 94%);box-shadow:0 14px 34px rgb(0 0 0 / 38%);backdrop-filter:blur(12px); }
 .player-action-bar > div { display:flex;flex-wrap:wrap;justify-content:flex-end;gap:7px; }
 .player-action-bar button { margin:0; }
+.dialogue-portrait { position:fixed;right:24px;bottom:24px;z-index:40;display:grid;grid-template-columns:minmax(150px,240px) minmax(180px,320px) auto;align-items:end;gap:16px;max-width:calc(100vw - 48px);padding:14px;border:1px solid color-mix(in srgb,var(--accent) 62%,var(--border));border-radius:18px;background:rgb(17 18 22 / 96%);box-shadow:var(--shadow);backdrop-filter:blur(14px); }
+.dialogue-portrait img { width:100%;max-height:42vh;object-fit:cover;border-radius:12px; }
+.dialogue-portrait strong { color:var(--accent-strong);font-size:1.1rem; }
+.dialogue-portrait p { margin:7px 0 0;white-space:pre-wrap; }
+.gm-override-panel { margin:16px 0;padding:14px 16px;border:1px solid var(--border-strong);border-radius:14px;background:var(--panel-raised); }
+.gm-override-panel summary { cursor:pointer;font-weight:800;color:var(--accent-strong); }
+.token-control-group { display:flex;flex-wrap:wrap;align-items:center;gap:7px;padding:8px;border:1px solid var(--border);border-radius:11px;background:var(--panel-raised); }
 
 dialog { width: min(480px, calc(100% - 28px)); max-height: calc(100vh - 40px); overflow: auto; padding: 24px; border: 1px solid var(--border-strong); border-radius: var(--radius-lg); background: var(--panel); color: var(--text); box-shadow: var(--shadow); }
 dialog::backdrop { background: rgb(3 4 7 / 72%); backdrop-filter: blur(3px); }
@@ -236,6 +243,8 @@ dialog h3 { margin: 0 0 4px; font-size: 1.25rem; }
   .table-ambience { grid-template-columns:1fr; }
   .player-action-bar { align-items:stretch;flex-direction:column; }
   .player-action-bar > div { justify-content:flex-start; }
+  .dialogue-portrait { right:10px;bottom:10px;left:10px;grid-template-columns:96px 1fr auto;max-width:none; }
+  .dialogue-portrait img { max-height:180px; }
   .live-stats { gap: 8px; }
   .live-stats > div { padding: 14px; }
   .session-board { min-height: 430px; }

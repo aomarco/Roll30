@@ -674,6 +674,26 @@ select pg_temp.roll30_assert(
   and (select visible_to_players from public.campaign_assets where id=(select id from roll30_test_context where key='private_asset')),
   'shared token art, expression, pose, or spotlight did not persist safely'
 );
+select public.present_roll30_portrait(
+  (select id from roll30_test_context where key='session'),
+  (select id from roll30_test_context where key='hero_token'),'Stand your ground.',true
+);
+select pg_temp.roll30_assert(
+  (select state->'presentation_dialog'->>'caption'='Stand your ground.' from public.sessions where id=(select id from roll30_test_context where key='session'))
+  and exists(select 1 from public.session_events where session_id=(select id from roll30_test_context where key='session') and event_type='portrait_presented'),
+  'GM dialogue portrait presentation did not persist for the shared table'
+);
+select public.present_roll30_portrait((select id from roll30_test_context where key='session'),null,null,false);
+select pg_temp.roll30_assert(
+  (select not state ? 'presentation_dialog' from public.sessions where id=(select id from roll30_test_context where key='session')),
+  'GM could not dismiss the shared dialogue portrait'
+);
+select public.record_roll30_custom_outcome((select id from roll30_test_context where key='session'),'The eastern passage collapses.');
+select pg_temp.roll30_assert(
+  exists(select 1 from public.session_events where session_id=(select id from roll30_test_context where key='session') and event_type='custom_outcome' and payload->>'text'='The eastern passage collapses.')
+  and exists(select 1 from public.messages where campaign_id=(select id from roll30_test_context where key='gm_campaign') and body->>'custom_outcome'='true'),
+  'GM custom outcome was not announced and recorded'
+);
 select public.set_roll30_session_presentation(
   (select id from roll30_test_context where key='session'),'dusk','rain',
   (select id from roll30_test_context where key='ambient_asset'),true
