@@ -1,3 +1,6 @@
+import { addDialogActions, cards as renderCards, errorPanel, escapeHtml, shell } from './roll30/ui.js';
+import { ensurePrivateAccess } from './roll30/gate.js';
+
 (function () {
   const app = document.getElementById('live-roll30');
   if (!app) return;
@@ -11,9 +14,10 @@
   let onlineCount = 0;
   let realtimeStarted = false;
 
-  const esc = (value) => String(value ?? '').replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+  const esc = escapeHtml;
   const query = (table) => db.client.from(table).select('*').eq('campaign_id', campaignId).order('created_at', { ascending:false });
   const notice = (message, error = false) => { const el = document.getElementById('live-notice'); if (el) { el.textContent = message; el.className = error ? 'error' : ''; } };
+  const showModal = dialog => { addDialogActions(dialog); dialog.showModal(); };
 
   async function load() {
     session = await db.getSession();
@@ -141,21 +145,34 @@
       return `<section><div class="live-title"><h2>Campaign media</h2></div><form id="upload-media" class="live-form"><input id="media-file" type="file" accept="image/*,audio/*,.pdf" required><button>Upload</button></form>${cards(playable, a => `<b>${esc(a.label || a.storage_path.split('/').pop())}</b><small>${esc(a.kind)} · uploaded ${new Date(a.created_at).toLocaleDateString()}</small>${a.kind === 'image' && a.signedUrl ? `<img class="media-preview" src="${esc(a.signedUrl)}" alt="${esc(a.label || 'Campaign image')}">` : ''}${a.kind === 'audio' && a.signedUrl ? `<audio controls preload="none" src="${esc(a.signedUrl)}"></audio>` : ''}${a.kind === 'handout' && a.signedUrl ? `<a href="${esc(a.signedUrl)}" target="_blank" rel="noopener">Open handout</a>` : ''}`)}</section>`;
     }
     const [sceneRes, charRes, sessionRes] = await Promise.all([query('scenes'), query('characters'), query('sessions')]);
-    return `<section><h2>${esc(campaign.name)}</h2><p class="muted">${esc(campaign.system)} · Join code <strong>${esc(campaign.join_code)}</strong></p><div class="live-stats"><div><b>${sceneRes.data?.length || 0}</b><small>scenes</small></div><div><b>${charRes.data?.length || 0}</b><small>characters</small></div><div><b>${sessionRes.data?.filter(s => s.status === 'active').length || 0}</b><small>live sessions</small></div><div><b>${onlineCount}</b><small>connected now</small></div></div><p>Start by creating a scene or a character. Everything here belongs to this campaign and is shared with its members.</p></section>`;
+    const nextStep = currentRole === 'gm'
+      ? 'Prepare a scene or character, then open the live table when your group is ready.'
+      : currentCharacterId
+        ? 'Your character is assigned. Open the live table when the GM starts the session.'
+        : 'You have joined the campaign. Your GM can assign your character from campaign settings.';
+    return `<section><h2>${esc(campaign.name)}</h2><p class="muted">${esc(campaign.system)}${currentRole === 'gm' ? ` · Join code <strong>${esc(campaign.join_code)}</strong>` : ''}</p><div class="live-stats"><div><b>${sceneRes.data?.length || 0}</b><small>scenes</small></div><div><b>${charRes.data?.length || 0}</b><small>characters</small></div><div><b>${sessionRes.data?.filter(s => s.status === 'active').length || 0}</b><small>live sessions</small></div><div><b>${onlineCount}</b><small>connected now</small></div></div><p>${esc(nextStep)}</p></section>`;
   }
-  function cards(rows, renderCard) { return rows.length ? `<div class="live-cards">${rows.map(r => `<article>${renderCard(r)}</article>`).join('')}</div>` : '<p class="muted">Nothing here yet.</p>'; }
+  function cards(rows, renderCard) { return renderCards(rows, renderCard, currentView, currentRole); }
   async function render(view = 'overview') {
     currentView = view;
-    app.innerHTML = `<header><div><strong>Roll30</strong><span>${esc(campaign.name)}</span></div><button id="leave-campaign">Campaigns</button></header><nav>${['overview','scenes','characters','items','compendium','media','shops','purchases','prompts','automation','session','messages','settings'].map(v => `<button data-view="${v}" class="${v === view ? 'active' : ''}">${v}</button>`).join('')}</nav><main><p id="live-notice"></p><div id="live-content">Loading…</div></main><dialog id="live-dialog"></dialog>`;
-    app.querySelector('nav').insertAdjacentHTML('beforeend', `<button data-view="inventory" class="${view === 'inventory' ? 'active' : ''}">inventory</button>`);
-    app.querySelector('nav').insertAdjacentHTML('beforeend', `<button data-view="notes" class="${view === 'notes' ? 'active' : ''}">notes</button>`);
-    app.querySelector('nav').insertAdjacentHTML('beforeend', `<button data-view="history" class="${view === 'history' ? 'active' : ''}">history</button>`);
-    app.querySelector('nav').insertAdjacentHTML('beforeend', `<button data-view="templates" class="${view === 'templates' ? 'active' : ''}">templates</button>`);
-    document.getElementById('live-content').innerHTML = await content(view);
+    app.innerHTML = shell({ campaign, role:currentRole, currentView:view });
+    const contentElement = document.getElementById('live-content');
+    try {
+      contentElement.innerHTML = await content(view);
+      contentElement.setAttribute('aria-busy', 'false');
+    } catch (error) {
+      contentElement.innerHTML = errorPanel(error.message || 'The request failed.');
+      contentElement.setAttribute('aria-busy', 'false');
+    }
     bind(view);
+    document.querySelector('.workspace')?.focus({ preventScroll:true });
   }
   function bind(view) {
-    app.querySelectorAll('[data-view]').forEach(b => b.onclick = () => render(b.dataset.view));
+    const navigation = document.getElementById('app-navigation');
+    const navToggle = document.getElementById('nav-toggle');
+    if (navToggle) navToggle.onclick = () => { const open = navigation.classList.toggle('open'); navToggle.setAttribute('aria-expanded', String(open)); navToggle.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation'); };
+    app.querySelectorAll('[data-view]').forEach(b => b.onclick = () => { navigation?.classList.remove('open'); render(b.dataset.view); });
+    app.querySelector('[data-retry-view]')?.addEventListener('click', () => render(view));
     document.getElementById('leave-campaign').onclick = () => { localStorage.removeItem('roll30.campaignId'); window.location.replace('./index.html'); };
     app.querySelectorAll('[data-dialog]').forEach(b => b.onclick = () => openDialog(b.dataset.dialog));
     const newNote = document.getElementById('new-note'); if (newNote) newNote.onclick = openNoteDialog;
@@ -238,7 +255,7 @@
             : kind === 'trigger'
               ? `<form method="dialog" id="create-record"><h3>New automation rule</h3><input id="record-name" placeholder="Rule name" required><select id="record-type">${(await query('scenes')).data.map(s=>`<option value="${s.id}">${esc(s.name)}</option>`).join('')}</select><select id="record-effect"><option value="show_fog">Show fog</option><option value="clear_fog">Clear fog</option><option value="advance_round">Advance round</option></select><input id="record-body" placeholder="When should this run?"><button>Save rule</button></form>`
           : `<form method="dialog" id="create-record"><h3>New character</h3><input id="record-name" placeholder="Character name" required><select id="record-type"><option value="pc">Player character</option><option value="npc">NPC</option><option value="monster">Monster</option></select><button>Create character</button></form>`;
-    dialog.showModal();
+    showModal(dialog);
     dialog.querySelector('#create-record').onsubmit = async e => { e.preventDefault(); const name = dialog.querySelector('#record-name').value.trim(); const type = dialog.querySelector('#record-type')?.value; const body = dialog.querySelector('#record-body')?.value; const effect = dialog.querySelector('#record-effect')?.value; const table = kind === 'scene' ? 'scenes' : kind === 'prompt' ? 'prompts' : kind === 'shop' ? 'shops' : kind === 'item' ? 'items' : kind === 'trigger' ? 'scene_triggers' : 'characters'; const row = kind === 'scene' ? {campaign_id:campaignId,name,scene_type:type,created_by:session.user.id} : kind === 'prompt' ? {campaign_id:campaignId,created_by:session.user.id,title:name,body} : kind === 'shop' ? {campaign_id:campaignId,name} : kind === 'item' ? {campaign_id:campaignId,name,item_data:{type:body || 'Custom item'}} : kind === 'trigger' ? {scene_id:type,name,trigger:{description:body||'Manual trigger'},effects:[{type:effect}]} : {campaign_id:campaignId,name,kind:type,owner_id:type === 'pc' ? session.user.id : null,hp_current:10,hp_max:10}; const { error } = await db.client.from(table).insert(row); if (error) notice(error.message, true); dialog.close(); render(kind === 'scene' ? 'scenes' : kind === 'prompt' ? 'prompts' : kind === 'shop' ? 'shops' : kind === 'item' ? 'items' : kind === 'trigger' ? 'automation' : 'characters'); };
   }
   async function openCharacterSheet(characterId) {
@@ -247,7 +264,7 @@
     const sheet = character.sheet || {}; const currency = sheet.currency || {};
     const dialog = document.getElementById('live-dialog');
     dialog.innerHTML = `<form method="dialog" id="character-sheet-form"><h3>${esc(character.name)} sheet</h3><label>Armour class<input id="sheet-ac" type="number" min="0" value="${esc(sheet.armor_class ?? '')}"></label><label>Speed<input id="sheet-speed" type="number" min="1" value="${esc(sheet.speed ?? 30)}"></label><label>Vision range<input id="sheet-vision" type="number" min="1" value="${esc(sheet.vision ?? 30)}"></label><label>Gold pieces<input id="sheet-gp" type="number" min="0" step="0.01" value="${esc(currency.gp ?? 0)}"></label><label>Attack name<input id="sheet-attack-name" value="${esc(sheet.attack?.name ?? '')}" placeholder="Longsword"></label><label>Attack bonus<input id="sheet-attack-bonus" type="number" value="${esc(sheet.attack?.bonus ?? 0)}"></label><label>Attack damage<input id="sheet-attack-damage" type="number" min="1" value="${esc(sheet.attack?.damage ?? 1)}"></label><label>Conditions<input id="sheet-conditions" value="${esc((sheet.conditions || []).join(', '))}" placeholder="Poisoned, Prone…"></label><label>Notes<textarea id="sheet-notes" rows="4" placeholder="Appearance, traits, reminders…">${esc(sheet.notes ?? '')}</textarea></label><button>Save sheet</button></form>`;
-    dialog.showModal();
+    showModal(dialog);
     dialog.querySelector('#character-sheet-form').onsubmit = async e => {
       e.preventDefault();
       const conditions = dialog.querySelector('#sheet-conditions').value.split(',').map(value=>value.trim()).filter(Boolean);
@@ -261,7 +278,7 @@
   function openNoteDialog() {
     const dialog = document.getElementById('live-dialog');
     dialog.innerHTML = `<form method="dialog" id="note-form"><h3>New campaign entry</h3><input id="note-title" placeholder="Title" required><select id="note-kind"><option value="note">Note</option><option value="handout">Handout</option><option value="lore">Lore</option><option value="rule">Custom rule</option></select><textarea id="note-body" rows="6" placeholder="Write the entry…"></textarea><label><input id="note-hidden" type="checkbox" checked> GM only until revealed</label><button>Save entry</button></form>`;
-    dialog.showModal();
+    showModal(dialog);
     dialog.querySelector('#note-form').onsubmit = async e => {
       e.preventDefault();
       const { error } = await db.client.from('campaign_notes').insert({campaign_id:campaignId,created_by:session.user.id,title:dialog.querySelector('#note-title').value.trim(),kind:dialog.querySelector('#note-kind').value,body:dialog.querySelector('#note-body').value.trim(),hidden:dialog.querySelector('#note-hidden').checked});
@@ -277,13 +294,13 @@
     if (error) return notice(error.message,true);
     const dialog = document.getElementById('live-dialog'); const config = scene.config || {};
     dialog.innerHTML = `<form method="dialog" id="scene-config-form"><h3>Configure ${esc(scene.name)}</h3><label>Background image<select id="scene-background"><option value="">Grid only</option>${assets.map(a=>`<option value="${a.id}" ${a.id === scene.background_asset_id ? 'selected' : ''}>${esc(a.label || 'Image')}</option>`).join('')}</select></label><label><input id="scene-grid" type="checkbox" ${config.show_grid !== false ? 'checked' : ''}> Show grid</label><button>Save scene</button></form>`;
-    dialog.showModal();
+    showModal(dialog);
     dialog.querySelector('#scene-config-form').onsubmit = async e => { e.preventDefault(); const background = dialog.querySelector('#scene-background').value || null; const { error:updateError } = await db.client.from('scenes').update({background_asset_id:background,config:{...config,show_grid:dialog.querySelector('#scene-grid').checked}}).eq('id',scene.id); if(updateError) return notice(updateError.message,true); dialog.close(); render('scenes'); };
   }
   function openObjectDialog(sceneId) {
     const dialog = document.getElementById('live-dialog');
     dialog.innerHTML = `<form method="dialog" id="object-form"><h3>Interactive object</h3><input id="object-name" placeholder="Name" required><select id="object-type"><option value="object">Object</option><option value="door">Door</option><option value="lever">Lever</option><option value="trap">Trap</option><option value="light">Light</option><option value="wall">Wall</option></select><label>X position<input id="object-x" type="number" min="0" max="100" value="50"></label><label>Y position<input id="object-y" type="number" min="0" max="100" value="50"></label><label>Light radius<input id="object-radius" type="number" min="1" max="100" value="20"></label><label>Wall end X<input id="object-x2" type="number" min="0" max="100" value="60"></label><label>Wall end Y<input id="object-y2" type="number" min="0" max="100" value="50"></label><button>Add object</button></form>`;
-    dialog.showModal();
+    showModal(dialog);
     dialog.querySelector('#object-form').onsubmit = async e => { e.preventDefault(); const type=dialog.querySelector('#object-type').value; const config=type === 'wall' ? {x2:Number(dialog.querySelector('#object-x2').value),y2:Number(dialog.querySelector('#object-y2').value)} : type === 'light' ? {radius:Number(dialog.querySelector('#object-radius').value) || 20} : {}; const { error } = await db.client.from('scene_objects').insert({scene_id:sceneId,name:dialog.querySelector('#object-name').value.trim(),object_type:type,x:Number(dialog.querySelector('#object-x').value),y:Number(dialog.querySelector('#object-y').value),config}); if(error) return notice(error.message,true); dialog.close(); render('session'); };
   }
   async function openAttackDialog(attackerId) {
@@ -291,7 +308,7 @@
     if (error) return notice(error.message,true);
     const dialog = document.getElementById('live-dialog');
     dialog.innerHTML = `<form method="dialog" id="attack-form"><h3>Choose attack target</h3><select id="attack-target">${targets.map(t=>`<option value="${t.id}">${esc(t.name)} (${esc(t.hp_current)} HP)</option>`).join('')}</select><button ${targets.length ? '' : 'disabled'}>Roll attack</button></form>`;
-    dialog.showModal();
+    showModal(dialog);
     dialog.querySelector('#attack-form').onsubmit = async e => { e.preventDefault(); const { data, error:attackError } = await db.client.rpc('resolve_roll30_attack',{attacker_id:attackerId,target_id:dialog.querySelector('#attack-target').value}); if(attackError) return notice(attackError.message,true); dialog.close(); notice(data.hit ? `${data.attack} hit ${data.target} for ${data.damage} damage (${data.total}).` : `${data.attack} missed ${data.target} (${data.total}).`); render('characters'); };
   }
   function startRealtime() {
@@ -307,5 +324,5 @@
       .on('postgres_changes',{event:'*',schema:'public',table:'purchase_requests'},() => { if (['shops','purchases','inventory'].includes(currentView)) render(currentView); });
     channel.subscribe(status => { if (status === 'SUBSCRIBED') channel.track({user_id:session.user.id}); });
   }
-  document.addEventListener('DOMContentLoaded', () => { document.querySelector('x-dc')?.remove(); app.style.display = 'block'; load().catch(error => { app.innerHTML = `<main><h2>Roll30 could not load</h2><p>${esc(error.message)}</p></main>`; }); });
+  document.addEventListener('DOMContentLoaded', () => { ensurePrivateAccess().then(load).catch(error => { app.innerHTML = `<main class="startup-state"><section class="error-panel" role="alert"><h2>Roll30 could not load</h2><p>${esc(error.message)}</p><a class="button primary" href="./index.html">Return to campaigns</a></section></main>`; }); });
 })();

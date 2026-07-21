@@ -2,7 +2,7 @@ import { createHash } from 'node:crypto';
 import { readFile } from 'node:fs/promises';
 
 const baseUrl = (process.argv[2] || 'https://aomarco.github.io/Roll30/').replace(/\/?$/, '/');
-const files = ['index.html', 'Roll30.html', 'roll30-live.js', 'roll30-backend.js'];
+const files = ['index.html', 'Roll30.html', 'roll30-live.css', 'roll30-live.js', 'roll30-backend.js', 'roll30/ui.js', 'roll30/gate.js'];
 const hash = value => createHash('sha256').update(value).digest('hex');
 
 for (let attempt = 1; attempt <= 18; attempt += 1) {

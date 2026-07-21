@@ -1,16 +1,28 @@
 import { execFileSync } from 'node:child_process';
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
-import { join } from 'node:path';
+import { dirname, join, resolve } from 'node:path';
 
 const root = process.cwd();
 const failures = [];
 const fail = message => failures.push(message);
 
-for (const file of readdirSync(root).filter(name => name.endsWith('.js'))) {
+function javascriptFiles(directory) {
+  return readdirSync(directory, { withFileTypes:true }).flatMap(entry => {
+    if (entry.name === 'node_modules' || entry.name === '.git' || entry.name === 'DND 5E Data') return [];
+    const path = join(directory, entry.name);
+    return entry.isDirectory() ? javascriptFiles(path) : entry.name.endsWith('.js') ? [path] : [];
+  });
+}
+
+for (const file of javascriptFiles(root)) {
   try {
-    execFileSync(process.execPath, ['--check', join(root, file)], { stdio: 'pipe' });
+    execFileSync(process.execPath, ['--check', file], { stdio: 'pipe' });
   } catch (error) {
-    fail(`${file} has invalid JavaScript: ${error.stderr?.toString().trim() || error.message}`);
+    fail(`${file.slice(root.length + 1)} has invalid JavaScript: ${error.stderr?.toString().trim() || error.message}`);
+  }
+  const source = readFileSync(file, 'utf8');
+  for (const match of source.matchAll(/from\s+['"](\.[^'"]+)['"]/g)) {
+    if (!existsSync(resolve(dirname(file), match[1]))) fail(`${file.slice(root.length + 1)} imports missing module ${match[1]}`);
   }
 }
 
@@ -33,6 +45,9 @@ if (migrations.length < 36) fail(`Expected the reconciled migration history (36+
 
 const integrationTest = join(root, 'supabase', 'tests', '001_roll30_integration.sql');
 if (!existsSync(integrationTest)) fail('The transactional Supabase integration test is missing');
+for (const removedMockFile of ['support.js', 'image-slot.js', 'doc-page.js']) {
+  if (existsSync(join(root, removedMockFile))) fail(`Legacy mock runtime ${removedMockFile} must not return to production`);
+}
 
 if (failures.length) {
   console.error(`Roll30 checks failed (${failures.length}):\n- ${failures.join('\n- ')}`);
