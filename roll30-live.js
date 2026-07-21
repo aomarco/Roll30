@@ -46,7 +46,7 @@
       const { data = [] } = await query('sessions');
       const active = data.find(s => s.status === 'active');
       const isGm = currentRole === 'gm';
-      if (!active) return `<section><div class="live-title"><h2>Live session</h2>${isGm ? '<button id="start-session">Start session</button>' : ''}</div><p>No session is running. ${isGm ? 'Start one when you are ready.' : 'Your GM will start one when the table is ready.'}</p></section>`;
+      if (!active) return `<section><div class="live-title"><h2>Live session</h2>${isGm ? '<button id="choose-scene">Choose a scene</button>' : ''}</div><p>No session is running. ${isGm ? 'Choose a prepared scene to start one.' : 'Your GM will start one when the table is ready.'}</p></section>`;
       localStorage.setItem('roll30.sessionId', active.id);
       const { data: activeScene } = active.scene_id ? await db.client.from('scenes').select('*').eq('id',active.scene_id).single() : { data:null };
       let backgroundUrl = ''; if (activeScene?.background_asset_id) { const { data: asset } = await db.client.from('campaign_assets').select('storage_path').eq('id',activeScene.background_asset_id).single(); if (asset?.storage_path) { const { data: signed } = await db.client.storage.from('campaign-media').createSignedUrl(asset.storage_path, 3600); backgroundUrl = signed?.signedUrl || ''; } }
@@ -186,8 +186,7 @@
     app.querySelectorAll('.buy-form').forEach(form => form.onsubmit = async e => { e.preventDefault(); const character_id=form.querySelector('select').value; if(!character_id)return notice('Choose your character first.',true); const { data, error } = await db.client.rpc('request_roll30_purchase',{target_shop:form.dataset.shop,target_item:form.dataset.item,target_character:character_id,requested_quantity:1}); if(error)notice(error.message,true);else notice(data.status === 'completed' ? 'Purchase completed and added to inventory.' : 'Purchase request sent to the GM.'); });
     app.querySelectorAll('[data-resolve-purchase]').forEach(b => b.onclick = async () => { const { error } = await db.client.rpc('resolve_roll30_purchase',{target_request:b.dataset.resolvePurchase,approve:b.dataset.approve === 'true'}); if(error) notice(error.message,true); else render('purchases'); });
     app.querySelectorAll('[data-execute-trigger]').forEach(b => b.onclick = async () => { const id=localStorage.getItem('roll30.sessionId'); const { error } = await db.client.rpc('execute_roll30_trigger',{target_trigger:b.dataset.executeTrigger,target_session:id}); if(error) notice(error.message,true); else { notice('Automation rule applied to the live session.'); render('automation'); } });
-    const start = document.getElementById('start-session');
-    if (start) start.onclick = async () => { const { data: sessions } = await query('sessions'); let active = sessions.find(s => s.status === 'active'); if (!active) { const result = await db.client.from('sessions').insert({ campaign_id:campaignId }).select().single(); if (result.error) return notice(result.error.message, true); active = result.data; } localStorage.setItem('roll30.sessionId', active.id); render('session'); };
+    const chooseScene = document.getElementById('choose-scene'); if (chooseScene) chooseScene.onclick = () => render('scenes');
     const advance = document.getElementById('advance-turn');
     if (advance) advance.onclick = async () => { const id = localStorage.getItem('roll30.sessionId'); if (!id) return; const { error } = await db.client.rpc('advance_roll30_turn', { target_session:id }); if (error) notice(error.message, true); else notice('Turn advanced for everyone at the table.'); };
     const initiativeForm = document.getElementById('initiative-form');
