@@ -189,6 +189,9 @@ audio { width: 100%; margin-top: 12px; }
 .table-ambience audio { margin:0; }
 .scene-state-controls { display:flex;align-items:center;flex-wrap:wrap;gap:7px;margin-top:12px; }
 .scene-state-controls span { display:inline-flex;gap:4px; }
+.player-action-bar { position:sticky;z-index:10;bottom:10px;display:flex;align-items:center;justify-content:space-between;gap:14px;margin:12px 0;padding:12px 14px;border:1px solid rgb(230 169 77 / 42%);border-radius:var(--radius);background:rgb(24 24 29 / 94%);box-shadow:0 14px 34px rgb(0 0 0 / 38%);backdrop-filter:blur(12px); }
+.player-action-bar > div { display:flex;flex-wrap:wrap;justify-content:flex-end;gap:7px; }
+.player-action-bar button { margin:0; }
 
 dialog { width: min(480px, calc(100% - 28px)); max-height: calc(100vh - 40px); overflow: auto; padding: 24px; border: 1px solid var(--border-strong); border-radius: var(--radius-lg); background: var(--panel); color: var(--text); box-shadow: var(--shadow); }
 dialog::backdrop { background: rgb(3 4 7 / 72%); backdrop-filter: blur(3px); }
@@ -226,6 +229,8 @@ dialog h3 { margin: 0 0 4px; font-size: 1.25rem; }
   .live-form { flex-direction: column; }
   .presentation-controls { display:flex; }
   .table-ambience { grid-template-columns:1fr; }
+  .player-action-bar { align-items:stretch;flex-direction:column; }
+  .player-action-bar > div { justify-content:flex-start; }
   .live-stats { gap: 8px; }
   .live-stats > div { padding: 14px; }
   .session-board { min-height: 430px; }

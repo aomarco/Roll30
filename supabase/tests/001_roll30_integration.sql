@@ -319,6 +319,11 @@ select pg_temp.roll30_assert(
   (select jsonb_array_length(state -> 'tokens') from public.session_snapshots where id = (select id from roll30_test_context where key = 'snapshot')) = 2,
   'snapshot did not include normalized tokens'
 );
+select public.add_roll30_initiative_entry(
+  (select id from roll30_test_context where key = 'session'),
+  (select id from roll30_test_context where key = 'target_token'),
+  12
+);
 
 reset role;
 set local role authenticated;
@@ -365,6 +370,16 @@ select pg_temp.roll30_assert(
   (select jsonb_array_length(public.get_visible_roll30_tokens((select id from roll30_test_context where key='session')))) = 1,
   'a token behind a private wall leaked into the player visibility result'
 );
+select pg_temp.roll30_expect_error(
+  format('select public.resolve_roll30_combat_attack(%L::uuid,%L::uuid,0,0)',
+    (select id from roll30_test_context where key='hero'),
+    (select id from roll30_test_context where key='target')),
+  'That target is not visible on the live table'
+);
+reset role;
+update public.session_tokens set x=65,y=70 where id=(select id from roll30_test_context where key='target_token');
+set local role authenticated;
+select set_config('request.jwt.claims', '{"sub":"30000000-0000-4000-a000-000000000102","role":"authenticated","email":"roll30-player-test@example.invalid"}', true);
 select pg_temp.roll30_assert(
   (select jsonb_array_length(public.get_roll30_visible_map_tiles((select id from roll30_test_context where key='session')))) = 3,
   'secure map tiling did not grant exactly the current, explored, and manually revealed tiles'
@@ -386,7 +401,7 @@ select pg_temp.roll30_expect_error(
 select public.update_roll30_character_sheet(
   (select id from roll30_test_context where key = 'hero'),
   0,
-  '{"abilities":{"str":16,"dex":12,"con":14,"int":10,"wis":11,"cha":8},"armor_class":15,"temp_hp":2,"speed":30,"vision":30,"conditions":[],"features":["Second Wind"],"resources":[{"name":"Second Wind","current":1,"max":1,"reset":"short"}],"spellcasting":{"ability":"wis","slots":[{"level":1,"current":2,"max":2}]},"equipment":["Training Sword"],"attacks":[{"name":"Training Sword","bonus":50,"damage_dice":"1d2+1","damage_type":"slashing"}],"attack":{"name":"Training Sword","bonus":50,"damage":3},"currency":{"gp":20}}',
+  '{"abilities":{"str":16,"dex":12,"con":14,"int":10,"wis":11,"cha":8},"armor_class":15,"temp_hp":2,"speed":30,"vision":30,"conditions":[],"features":["Second Wind"],"resources":[{"name":"Second Wind","current":1,"max":1,"reset":"short"}],"spellcasting":{"ability":"wis","spells":["Guidance","Cure Wounds"],"slots":[{"level":1,"current":2,"max":2}]},"equipment":["Training Sword"],"attacks":[{"name":"Training Sword","bonus":50,"damage_dice":"1d2+1","damage_type":"slashing"}],"attack":{"name":"Training Sword","bonus":50,"damage":3},"currency":{"gp":20}}',
   10,
   10,
   null
@@ -403,6 +418,13 @@ select public.use_roll30_spell_slot((select id from roll30_test_context where ke
 select pg_temp.roll30_assert((select sheet->'spellcasting'->'slots'->0->>'current'='1' from public.characters where id=(select id from roll30_test_context where key='hero')),'spell slot did not decrement');
 select public.rest_roll30_character((select id from roll30_test_context where key='hero'),'long');
 select pg_temp.roll30_assert((select sheet->'spellcasting'->'slots'->0->>'current'='2' from public.characters where id=(select id from roll30_test_context where key='hero')),'long rest did not restore spell slots');
+select public.cast_roll30_spell((select id from roll30_test_context where key='hero'),'Cure Wounds',1);
+select pg_temp.roll30_assert(
+  (select sheet->'spellcasting'->'slots'->0->>'current'='1' from public.characters where id=(select id from roll30_test_context where key='hero'))
+  and exists(select 1 from public.messages where campaign_id=(select id from roll30_test_context where key='gm_campaign') and body->>'spell'='Cure Wounds'),
+  'turn-aware spell casting did not spend a slot and announce the action'
+);
+select public.rest_roll30_character((select id from roll30_test_context where key='hero'),'long');
 select public.use_roll30_item_charge((select id from roll30_test_context where key='hero'),(select id from roll30_test_context where key='wand'),1);
 select pg_temp.roll30_assert(
   (select metadata->'charges'->>'current'='1' and metadata->'charges'->>'max'='2' from public.character_inventory where character_id=(select id from roll30_test_context where key='hero') and item_id=(select id from roll30_test_context where key='wand')),
@@ -439,6 +461,14 @@ select pg_temp.roll30_assert(
   and exists(select 1 from public.session_events where session_id=(select id from roll30_test_context where key='session') and event_type='hp_changed' and payload->>'source'='dice' and payload->>'from_temp_hp'='0'),
   'temporary HP, server-rolled healing, or HP history did not persist'
 );
+select public.change_roll30_hp((select id from roll30_test_context where key='hero'),-5);
+select public.use_roll30_character_ability((select id from roll30_test_context where key='hero'),'Second Wind');
+select pg_temp.roll30_assert(
+  (select sheet->'resources'->0->>'current'='0' and hp_current>5 from public.characters where id=(select id from roll30_test_context where key='hero')),
+  'Second Wind did not spend its resource and apply server-rolled healing'
+);
+select public.rest_roll30_character((select id from roll30_test_context where key='hero'),'short');
+select public.change_roll30_hp((select id from roll30_test_context where key='hero'),100);
 select public.mutate_roll30_inventory((select id from roll30_test_context where key='hero'),(select id from roll30_test_context where key='potion'),'equip',1,null);
 select public.mutate_roll30_inventory((select id from roll30_test_context where key='hero'),(select id from roll30_test_context where key='potion'),'transfer',1,(select id from roll30_test_context where key='target'));
 select public.mutate_roll30_inventory((select id from roll30_test_context where key='hero'),(select id from roll30_test_context where key='potion'),'consume',1,null);
@@ -462,6 +492,27 @@ select pg_temp.roll30_assert(
   (select status='pending' from public.purchase_requests where id=(select id from roll30_test_context where key='approval_request')),
   'approval-mode purchase did not enter the GM review queue'
 );
+select public.use_roll30_inventory_item((select id from roll30_test_context where key='hero'),(select id from roll30_test_context where key='potion'));
+select pg_temp.roll30_assert(
+  (select quantity=1 from public.character_inventory where character_id=(select id from roll30_test_context where key='hero') and item_id=(select id from roll30_test_context where key='potion'))
+  and exists(select 1 from public.session_events where session_id=(select id from roll30_test_context where key='session') and event_type='item_used'),
+  'live-table item use did not consume atomically and enter session history'
+);
+select public.advance_roll30_turn((select id from roll30_test_context where key='session'));
+select pg_temp.roll30_assert(
+  (select active_turn=1 from public.sessions where id=(select id from roll30_test_context where key='session')),
+  'the active player could not end their own turn'
+);
+select pg_temp.roll30_expect_error(
+  format('select public.cast_roll30_spell(%L::uuid,%L,0)',(select id from roll30_test_context where key='hero'),'Guidance'),
+  'It is not this character''s turn'
+);
+reset role;
+update public.sessions
+set state=jsonb_set(state,'{initiative}',jsonb_build_array(state->'initiative'->0),true),active_turn=0,round=1
+where id=(select id from roll30_test_context where key='session');
+set local role authenticated;
+select set_config('request.jwt.claims', '{"sub":"30000000-0000-4000-a000-000000000102","role":"authenticated","email":"roll30-player-test@example.invalid"}', true);
 select pg_temp.roll30_expect_error(
   format('select public.change_roll30_hp(%L::uuid,-2)', (select id from roll30_test_context where key = 'target')),
   'Not permitted'
