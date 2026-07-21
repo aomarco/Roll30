@@ -446,14 +446,47 @@ select pg_temp.roll30_assert(
   'trashed campaign still authorized child-data access'
 );
 select public.restore_roll30_campaign((select id from roll30_test_context where key = 'gm_campaign'));
-update public.campaign_assets set visible_to_players = true where id = (select id from roll30_test_context where key = 'private_asset');
+select public.set_roll30_asset_audience(
+  (select id from roll30_test_context where key = 'private_asset'),
+  true,
+  array['30000000-0000-4000-a000-000000000102'::uuid]
+);
+select pg_temp.roll30_expect_error(
+  format('select public.set_roll30_asset_audience(%L::uuid,true,array[%L::uuid])',
+    (select id from roll30_test_context where key = 'private_asset'),
+    '30000000-0000-4000-a000-000000000103'),
+  'non-player'
+);
+select public.set_roll30_shop_stock(
+  (select id from roll30_test_context where key='shop'),
+  (select id from roll30_test_context where key='potion'),
+  9,7,true
+);
+select pg_temp.roll30_assert(
+  (select price=9 and quantity=7 and hidden from public.shop_stock where shop_id=(select id from roll30_test_context where key='shop') and item_id=(select id from roll30_test_context where key='potion')),
+  'GM shop stock editing did not persist'
+);
+select public.remove_roll30_shop_stock(
+  (select id from roll30_test_context where key='shop'),
+  (select id from roll30_test_context where key='potion')
+);
+select pg_temp.roll30_assert(
+  not exists(select 1 from public.shop_stock where shop_id=(select id from roll30_test_context where key='shop') and item_id=(select id from roll30_test_context where key='potion')),
+  'GM shop stock removal did not persist'
+);
 
 reset role;
 set local role authenticated;
 select set_config('request.jwt.claims', '{"sub":"30000000-0000-4000-a000-000000000102","role":"authenticated","email":"roll30-player-test@example.invalid"}', true);
 select pg_temp.roll30_assert(
   (select count(*) from public.campaign_assets where id = (select id from roll30_test_context where key = 'private_asset')) = 1,
-  'revealed campaign media was not visible to the player'
+  'addressed campaign media was not visible to the selected player'
+);
+select pg_temp.roll30_expect_error(
+  format('select public.set_roll30_shop_stock(%L::uuid,%L::uuid,1,1,false)',
+    (select id from roll30_test_context where key='shop'),
+    (select id from roll30_test_context where key='potion')),
+  'Only a campaign GM'
 );
 select public.leave_roll30_campaign((select id from roll30_test_context where key = 'gm_campaign'));
 select pg_temp.roll30_assert(

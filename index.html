@@ -121,6 +121,18 @@
             const restore = document.createElement('button'); restore.type = 'button'; restore.textContent = 'Restore';
             restore.addEventListener('click', async () => { restore.disabled = true; const rpc = mode === 'trash' ? 'restore_roll30_campaign' : 'set_roll30_campaign_archived'; const args = mode === 'trash' ? {target_campaign:campaign.id} : {target_campaign:campaign.id,should_archive:false}; const { error } = await window.Roll30Backend.client.rpc(rpc,args); if(error){setStatus(error.message,'error');restore.disabled=false;}else openTable(); });
             wrapper.append(restore);
+            if (mode === 'trash') {
+              const remove = document.createElement('button'); remove.type = 'button'; remove.textContent = 'Delete permanently';
+              remove.addEventListener('click', async () => {
+                const confirmation = window.prompt(`Permanently delete “${campaign.name}”, including every scene, character, message, and uploaded file? Type DELETE to confirm.`);
+                if (confirmation !== 'DELETE') return;
+                remove.disabled = true; restore.disabled = true; setStatus('Permanently deleting campaign and private files…');
+                const { data, error } = await window.Roll30Backend.client.functions.invoke('delete-campaign', { body:{ campaignId:campaign.id, confirmation } });
+                if (error || data?.error) { setStatus(data?.error || error?.message || 'Permanent deletion failed.', 'error'); remove.disabled = false; restore.disabled = false; }
+                else { setStatus(`Campaign deleted permanently. ${data.filesRemoved || 0} private files were removed.`); openTable(); }
+              });
+              wrapper.append(remove);
+            }
           }
           return wrapper;
         };
