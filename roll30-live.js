@@ -35,7 +35,13 @@
     if (view === 'session') {
       const { data = [] } = await query('sessions');
       const active = data.find(s => s.status === 'active');
-      return `<section><div class="live-title"><h2>Live session</h2><button id="start-session">${active ? 'Open session' : 'Start session'}</button></div>${active ? `<p>Round ${active.round}. Shared state is saved and broadcast in real time.</p><button id="advance-turn">Advance turn</button>` : '<p>No session is running. Start one when the GM is ready.</p>'}<div id="session-state"></div></section>`;
+      if (!active) return `<section><div class="live-title"><h2>Live session</h2><button id="start-session">Start session</button></div><p>No session is running. Start one when the GM is ready.</p></section>`;
+      const { data: characters = [] } = await query('characters');
+      const state = active.state || { tokens:[] };
+      const tokenByCharacter = new Set((state.tokens || []).map(t => t.character_id));
+      const board = (state.tokens || []).map(t => `<button class="map-token" data-token="${t.id}" style="left:${t.x}%;top:${t.y}%" title="${esc(t.name)}">${esc(t.name.slice(0,2).toUpperCase())}</button>`).join('');
+      const available = characters.filter(c => !tokenByCharacter.has(c.id));
+      return `<section><div class="live-title"><h2>Live session</h2><button id="end-session">End session</button></div><p>Round ${active.round}. Select a token, then click the board to move it. Movement is synchronized to the table.</p><div class="session-board" id="session-board">${board || '<span class="board-empty">Add a character to begin.</span>'}</div><div class="token-tray">${available.map(c => `<button data-add-token="${c.id}" data-token-name="${esc(c.name)}">Add ${esc(c.name)}</button>`).join('')}</div><div class="session-controls"><button id="advance-turn">Advance turn</button><button id="save-snapshot">Save snapshot</button></div></section>`;
     }
     if (view === 'prompts') {
       const { data = [] } = await query('prompts');
@@ -77,6 +83,24 @@
     if (start) start.onclick = async () => { const { data: sessions } = await query('sessions'); let active = sessions.find(s => s.status === 'active'); if (!active) { const result = await db.client.from('sessions').insert({ campaign_id:campaignId }).select().single(); if (result.error) return notice(result.error.message, true); active = result.data; } localStorage.setItem('roll30.sessionId', active.id); render('session'); };
     const advance = document.getElementById('advance-turn');
     if (advance) advance.onclick = async () => { const id = localStorage.getItem('roll30.sessionId'); if (!id) return; const { error } = await db.client.rpc('advance_roll30_turn', { target_session:id }); if (error) notice(error.message, true); else notice('Turn advanced for everyone at the table.'); };
+    const end = document.getElementById('end-session');
+    if (end) end.onclick = async () => { const id = localStorage.getItem('roll30.sessionId'); const { error } = await db.client.from('sessions').update({ status:'ended' }).eq('id', id); if (error) notice(error.message, true); else { localStorage.removeItem('roll30.sessionId'); render('session'); } };
+    const snapshot = document.getElementById('save-snapshot');
+    if (snapshot) snapshot.onclick = async () => { const id = localStorage.getItem('roll30.sessionId'); const { error } = await db.client.rpc('snapshot_roll30_session', { target_session:id, snapshot_label:'Manual snapshot' }); if (error) notice(error.message, true); else notice('Snapshot saved.'); };
+    app.querySelectorAll('[data-add-token]').forEach(b => b.onclick = async () => {
+      const id = localStorage.getItem('roll30.sessionId'); const { data: current, error: getError } = await db.client.from('sessions').select('*').eq('id', id).single();
+      if (getError) return notice(getError.message, true);
+      const state = current.state || {}; const tokens = [...(state.tokens || []), { id:crypto.randomUUID(), character_id:b.dataset.addToken, name:b.dataset.tokenName, x:50, y:50 }];
+      const { error } = await db.client.from('sessions').update({ state:{...state,tokens} }).eq('id', id); if (error) notice(error.message, true); else render('session');
+    });
+    let selectedToken = null;
+    app.querySelectorAll('[data-token]').forEach(b => b.onclick = () => { selectedToken = b.dataset.token; app.querySelectorAll('[data-token]').forEach(x => x.classList.toggle('selected', x.dataset.token === selectedToken)); });
+    const board = document.getElementById('session-board');
+    if (board) board.onclick = async event => {
+      if (!selectedToken || event.target !== board) return;
+      const id = localStorage.getItem('roll30.sessionId'); const rect = board.getBoundingClientRect(); const x = Math.max(2, Math.min(98, Math.round((event.clientX - rect.left) / rect.width * 100))); const y = Math.max(2, Math.min(98, Math.round((event.clientY - rect.top) / rect.height * 100)));
+      const { error } = await db.client.rpc('move_roll30_token', { target_session:id, target_token:selectedToken, target_x:x, target_y:y }); if (error) notice(error.message, true); else render('session');
+    };
   }
   function openDialog(kind) {
     const dialog = document.getElementById('live-dialog');
