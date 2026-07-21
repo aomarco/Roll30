@@ -209,6 +209,8 @@ insert into public.campaign_notes(campaign_id, created_by, kind, title, body, hi
 values
   ((select id from roll30_test_context where key = 'gm_campaign'), '30000000-0000-4000-a000-000000000101', 'note', 'GM secret', 'Hidden', true, '{}', '{secret}'),
   ((select id from roll30_test_context where key = 'gm_campaign'), '30000000-0000-4000-a000-000000000101', 'handout', 'Player clue', 'Visible', false, array['30000000-0000-4000-a000-000000000102'::uuid], '{clue}');
+insert into public.campaign_notes(campaign_id,created_by,kind,title,body,hidden,rule_status)
+values((select id from roll30_test_context where key='gm_campaign'),'30000000-0000-4000-a000-000000000101','rule','Flanking variant','Draft wording',true,'draft');
 
 set local role authenticated;
 select set_config('request.jwt.claims', '{"sub":"30000000-0000-4000-a000-000000000101","role":"authenticated","email":"roll30-gm-test@example.invalid"}', true);
@@ -447,6 +449,23 @@ select pg_temp.roll30_assert(
 select public.set_roll30_prompt_status((select id from roll30_test_context where key='prompt'),'closed');
 select pg_temp.roll30_assert((select status='closed' from public.prompts where id=(select id from roll30_test_context where key='prompt')),'GM could not close a prompt');
 select public.mark_roll30_messages_read((select id from roll30_test_context where key='gm_campaign'));
+select public.set_roll30_member_character(
+  (select id from roll30_test_context where key='gm_campaign'),'30000000-0000-4000-a000-000000000102',null
+);
+select pg_temp.roll30_assert(
+  (select character_id is null from public.campaign_members where campaign_id=(select id from roll30_test_context where key='gm_campaign') and user_id='30000000-0000-4000-a000-000000000102')
+  and (select owner_id is null from public.characters where id=(select id from roll30_test_context where key='hero')),
+  'clearing a player-character assignment did not clear ownership'
+);
+select public.set_roll30_member_character(
+  (select id from roll30_test_context where key='gm_campaign'),'30000000-0000-4000-a000-000000000102',(select id from roll30_test_context where key='hero')
+);
+select pg_temp.roll30_assert(
+  (select character_id=(select id from roll30_test_context where key='hero') from public.campaign_members where campaign_id=(select id from roll30_test_context where key='gm_campaign') and user_id='30000000-0000-4000-a000-000000000102')
+  and (select owner_id='30000000-0000-4000-a000-000000000102' from public.characters where id=(select id from roll30_test_context where key='hero'))
+  and exists(select 1 from public.campaign_notes where campaign_id=(select id from roll30_test_context where key='gm_campaign') and kind='rule' and rule_status='draft'),
+  'character assignment ownership or custom-rule lifecycle status did not persist'
+);
 select pg_temp.roll30_assert(
   (public.preview_roll30_last_undo((select id from roll30_test_context where key='session'))->>'event_type')='hp_changed',
   'HP change was not offered as the latest reversible action'
