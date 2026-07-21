@@ -14,6 +14,7 @@ import { bindCompendium, compendiumView } from './roll30/compendium.js';
   let currentView = 'overview';
   let onlineCount = 0;
   let realtimeStarted = false;
+  let realtimeSubscribedOnce = false;
   let builderSceneId = null;
 
   const esc = escapeHtml;
@@ -285,7 +286,14 @@ import { bindCompendium, compendiumView } from './roll30/compendium.js';
     app.querySelectorAll('[data-add-object]').forEach(b => b.onclick = () => openObjectDialog(b.dataset.addObject));
     app.querySelectorAll('[data-object]').forEach(b => b.onclick = async () => { if (currentRole !== 'gm') return; const { data: object, error:getError } = await db.client.from('scene_objects').select('*').eq('id',b.dataset.object).single(); if(getError) return notice(getError.message,true); const { error } = await db.client.from('scene_objects').update({state:{...object.state,active:!object.state?.active}}).eq('id',object.id); if(error)notice(error.message,true);else { notice(object.name + ' state changed.'); render('session'); } });
     let selectedToken = null;
-    app.querySelectorAll('[data-token]').forEach(b => b.onclick = () => { selectedToken = b.dataset.token; app.querySelectorAll('[data-token]').forEach(x => x.classList.toggle('selected', x.dataset.token === selectedToken)); });
+    app.querySelectorAll('[data-token]').forEach(token => {
+      token.onclick = () => { selectedToken=token.dataset.token;app.querySelectorAll('[data-token]').forEach(x=>x.classList.toggle('selected',x.dataset.token===selectedToken)); };
+      token.onpointerdown = event => {
+        event.preventDefault(); selectedToken=token.dataset.token; token.classList.add('selected'); token.setPointerCapture(event.pointerId); let moved=false;
+        token.onpointermove = moveEvent => { moved=true;const rect=board.getBoundingClientRect(),snap=2,x=Math.round(Math.max(2,Math.min(98,(moveEvent.clientX-rect.left)/rect.width*100))/snap)*snap,y=Math.round(Math.max(2,Math.min(98,(moveEvent.clientY-rect.top)/rect.height*100))/snap)*snap;token.style.left=`${x}%`;token.style.top=`${y}%`;token.dataset.pendingX=x;token.dataset.pendingY=y; };
+        token.onpointerup = async () => { token.onpointermove=null;if(!moved)return;const id=localStorage.getItem('roll30.sessionId');const{error}=await db.client.rpc('move_roll30_token',{target_session:id,target_token:token.dataset.token,target_x:Number(token.dataset.pendingX),target_y:Number(token.dataset.pendingY)});if(error){notice(error.message,true);render('session');}else notice('Token position saved.'); };
+      };
+    });
     const board = document.getElementById('session-board');
     if (board) board.onclick = async event => {
       if (!selectedToken || event.target !== board) return;
@@ -399,7 +407,7 @@ import { bindCompendium, compendiumView } from './roll30/compendium.js';
       .on('postgres_changes',{event:'*',schema:'public',table:'prompt_responses'},() => { if (currentView === 'prompts') render('prompts'); })
       .on('postgres_changes',{event:'*',schema:'public',table:'scene_objects'},() => { if (currentView === 'session') render('session'); })
       .on('postgres_changes',{event:'*',schema:'public',table:'purchase_requests'},() => { if (['shops','purchases','inventory'].includes(currentView)) render(currentView); });
-    channel.subscribe(status => { if (status === 'SUBSCRIBED') channel.track({user_id:session.user.id}); });
+    channel.subscribe(status => { if (status === 'SUBSCRIBED') { channel.track({user_id:session.user.id}); if(realtimeSubscribedOnce && currentView==='session')render('session'); realtimeSubscribedOnce=true; } });
   }
   document.addEventListener('DOMContentLoaded', () => { ensurePrivateAccess().then(load).catch(error => { app.innerHTML = `<main class="startup-state"><section class="error-panel" role="alert"><h2>Roll30 could not load</h2><p>${esc(error.message)}</p><a class="button primary" href="./index.html">Return to campaigns</a></section></main>`; }); });
 })();

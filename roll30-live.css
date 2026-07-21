@@ -147,6 +147,8 @@ textarea { resize: vertical; }
 .builder-piece { position:absolute;transform:translate(-50%,-50%);width:48px;height:48px;padding:0!important;border-radius:10px!important;background:var(--accent)!important;color:var(--accent-ink)!important;cursor:grab;user-select:none;touch-action:none; }
 .builder-piece:active { cursor:grabbing; }
 .map-token { position: absolute; z-index: 3; transform: translate(-50%, -50%); width: 46px; height: 46px; padding: 0 !important; border: 2px solid #111 !important; border-radius: 50% !important; background: var(--accent) !important; color: var(--accent-ink) !important; font-size: 11px !important; font-weight: 850 !important; box-shadow: 0 4px 15px rgb(0 0 0 / 42%); }
+.map-token { touch-action: none; user-select: none; cursor: grab; }
+.map-token:active { cursor: grabbing; }
 .map-token.selected { outline: 3px solid #fff; outline-offset: 2px; }
 .map-object { position: absolute; z-index: 2; transform: translate(-50%, -50%); width: 32px; height: 32px; padding: 0 !important; border-radius: 7px !important; background: #626672 !important; }
 .map-object.active { background: var(--success) !important; color: #101411 !important; }
