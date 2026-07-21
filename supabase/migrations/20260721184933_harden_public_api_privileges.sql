@@ -30,11 +30,26 @@ grant execute on function public.create_roll30_scene_from_template(uuid, text) t
 grant execute on function public.move_roll30_token(uuid, text, integer, integer) to authenticated;
 grant execute on function public.get_visible_roll30_tokens(uuid) to authenticated;
 grant execute on function public.add_roll30_session_token(uuid, uuid) to authenticated;
-grant execute on function public.snapshot_roll30_session(uuid, text) to authenticated;
-grant execute on function public.restore_roll30_snapshot(uuid) to authenticated;
-grant execute on function public.add_roll30_initiative_entry(uuid, uuid, numeric) to authenticated;
-grant execute on function public.remove_roll30_initiative_entry(uuid, uuid) to authenticated;
-grant execute on function public.remove_roll30_session_token(uuid, uuid) to authenticated;
+-- These five RPCs existed before this migration on the original remote
+-- project, but a clean reconstruction creates their final normalized-token
+-- versions in the following repair migration.
+do $$
+declare
+  signature text;
+begin
+  foreach signature in array array[
+    'public.snapshot_roll30_session(uuid,text)',
+    'public.restore_roll30_snapshot(uuid)',
+    'public.add_roll30_initiative_entry(uuid,uuid,numeric)',
+    'public.remove_roll30_initiative_entry(uuid,uuid)',
+    'public.remove_roll30_session_token(uuid,uuid)'
+  ] loop
+    if to_regprocedure(signature) is not null then
+      execute format('grant execute on function %s to authenticated', signature);
+    end if;
+  end loop;
+end;
+$$;
 
 -- The access-gate validator is server-only and update-trigger functions are
 -- invoked by Postgres triggers, never directly by browser clients.
