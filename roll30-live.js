@@ -61,6 +61,12 @@
       const { data = [] } = await db.client.from('purchase_requests').select('*, items(name), characters(name), shops!inner(campaign_id)').eq('shops.campaign_id', campaignId).order('created_at',{ascending:false});
       return `<section><h2>Purchase requests</h2>${cards(data, p => `<b>${esc(p.characters?.name)} · ${esc(p.items?.name)}</b><small>${esc(p.status)} · quantity ${p.quantity}</small>${p.status === 'pending' ? `<button data-resolve-purchase="${p.id}" data-approve="true">Approve</button><button data-resolve-purchase="${p.id}" data-approve="false">Decline</button>` : ''}`)}</section>`;
     }
+    if (view === 'automation') {
+      const [{ data: scenes = [] }, { data: sessions = [] }] = await Promise.all([query('scenes'),query('sessions')]);
+      const triggerResult = await db.client.from('scene_triggers').select('*, scenes!inner(campaign_id,name)').eq('scenes.campaign_id',campaignId);
+      const triggers = triggerResult.data || []; const active = sessions.find(s=>s.status==='active');
+      return `<section><div class="live-title"><h2>Automation rules</h2><button data-dialog="trigger">New rule</button></div>${cards(triggers, t => `<b>${esc(t.name)}</b><small>${esc(t.scenes?.name)} · ${t.enabled ? 'enabled' : 'disabled'}</small>${active ? `<button data-execute-trigger="${t.id}">Run now</button>` : ''}`)}${scenes.length ? '' : '<p class="muted">Create a scene before adding automation.</p>'}</section>`;
+    }
     if (view === 'compendium') {
       const [monsters, spells] = await Promise.all([
         fetch('./DND%205E%20Data/5e-SRD-Monsters.json').then(r => r.json()),
@@ -77,7 +83,7 @@
   }
   function cards(rows, renderCard) { return rows.length ? `<div class="live-cards">${rows.map(r => `<article>${renderCard(r)}</article>`).join('')}</div>` : '<p class="muted">Nothing here yet.</p>'; }
   async function render(view = 'overview') {
-    app.innerHTML = `<header><div><strong>Roll30</strong><span>${esc(campaign.name)}</span></div><button id="leave-campaign">Campaigns</button></header><nav>${['overview','scenes','characters','items','compendium','media','shops','purchases','prompts','session','messages'].map(v => `<button data-view="${v}" class="${v === view ? 'active' : ''}">${v}</button>`).join('')}</nav><main><p id="live-notice"></p><div id="live-content">Loading…</div></main><dialog id="live-dialog"></dialog>`;
+    app.innerHTML = `<header><div><strong>Roll30</strong><span>${esc(campaign.name)}</span></div><button id="leave-campaign">Campaigns</button></header><nav>${['overview','scenes','characters','items','compendium','media','shops','purchases','prompts','automation','session','messages'].map(v => `<button data-view="${v}" class="${v === view ? 'active' : ''}">${v}</button>`).join('')}</nav><main><p id="live-notice"></p><div id="live-content">Loading…</div></main><dialog id="live-dialog"></dialog>`;
     document.getElementById('live-content').innerHTML = await content(view);
     bind(view);
   }
@@ -95,6 +101,7 @@
     app.querySelectorAll('.stock-form').forEach(form => form.onsubmit = async e => { e.preventDefault(); const item_id = form.querySelector('select').value; const price = Number(form.querySelector('input').value); const { error } = await db.client.from('shop_stock').upsert({ shop_id:form.dataset.shop,item_id,price,quantity:null }); if (error) notice(error.message,true); else render('shops'); });
     app.querySelectorAll('.buy-form').forEach(form => form.onsubmit = async e => { e.preventDefault(); const character_id=form.querySelector('select').value; const { error } = await db.client.from('purchase_requests').insert({shop_id:form.dataset.shop,item_id:form.dataset.item,character_id,quantity:1,requested_by:session.user.id}); if(error)notice(error.message,true);else notice('Purchase request sent to the GM.'); });
     app.querySelectorAll('[data-resolve-purchase]').forEach(b => b.onclick = async () => { const { error } = await db.client.rpc('resolve_roll30_purchase',{target_request:b.dataset.resolvePurchase,approve:b.dataset.approve === 'true'}); if(error) notice(error.message,true); else render('purchases'); });
+    app.querySelectorAll('[data-execute-trigger]').forEach(b => b.onclick = async () => { const id=localStorage.getItem('roll30.sessionId'); const { error } = await db.client.rpc('execute_roll30_trigger',{target_trigger:b.dataset.executeTrigger,target_session:id}); if(error) notice(error.message,true); else notice('Automation rule executed and logged.'); });
     const start = document.getElementById('start-session');
     if (start) start.onclick = async () => { const { data: sessions } = await query('sessions'); let active = sessions.find(s => s.status === 'active'); if (!active) { const result = await db.client.from('sessions').insert({ campaign_id:campaignId }).select().single(); if (result.error) return notice(result.error.message, true); active = result.data; } localStorage.setItem('roll30.sessionId', active.id); render('session'); };
     const advance = document.getElementById('advance-turn');
@@ -118,7 +125,7 @@
       const { error } = await db.client.rpc('move_roll30_token', { target_session:id, target_token:selectedToken, target_x:x, target_y:y }); if (error) notice(error.message, true); else render('session');
     };
   }
-  function openDialog(kind) {
+  async function openDialog(kind) {
     const dialog = document.getElementById('live-dialog');
     dialog.innerHTML = kind === 'scene'
       ? `<form method="dialog" id="create-record"><h3>New scene</h3><input id="record-name" placeholder="Scene name" required><select id="record-type"><option value="playing">Playing Field</option><option value="battle">Battle Field</option></select><button>Create scene</button></form>`
@@ -128,9 +135,11 @@
           ? `<form method="dialog" id="create-record"><h3>New shop</h3><input id="record-name" placeholder="Shop name" required><button>Create shop</button></form>`
           : kind === 'item'
             ? `<form method="dialog" id="create-record"><h3>New item</h3><input id="record-name" placeholder="Item name" required><input id="record-body" placeholder="Item type or description"><button>Create item</button></form>`
+            : kind === 'trigger'
+              ? `<form method="dialog" id="create-record"><h3>New automation rule</h3><input id="record-name" placeholder="Rule name" required><select id="record-type">${(await query('scenes')).data.map(s=>`<option value="${s.id}">${esc(s.name)}</option>`).join('')}</select><input id="record-body" placeholder="Trigger description"><button>Save rule</button></form>`
           : `<form method="dialog" id="create-record"><h3>New character</h3><input id="record-name" placeholder="Character name" required><select id="record-type"><option value="pc">Player character</option><option value="npc">NPC</option><option value="monster">Monster</option></select><button>Create character</button></form>`;
     dialog.showModal();
-    dialog.querySelector('#create-record').onsubmit = async e => { e.preventDefault(); const name = dialog.querySelector('#record-name').value.trim(); const type = dialog.querySelector('#record-type')?.value; const body = dialog.querySelector('#record-body')?.value; const table = kind === 'scene' ? 'scenes' : kind === 'prompt' ? 'prompts' : kind === 'shop' ? 'shops' : kind === 'item' ? 'items' : 'characters'; const row = kind === 'scene' ? {campaign_id:campaignId,name,scene_type:type,created_by:session.user.id} : kind === 'prompt' ? {campaign_id:campaignId,created_by:session.user.id,title:name,body} : kind === 'shop' ? {campaign_id:campaignId,name} : kind === 'item' ? {campaign_id:campaignId,name,item_data:{type:body || 'Custom item'}} : {campaign_id:campaignId,name,kind:type,owner_id:type === 'pc' ? session.user.id : null,hp_current:10,hp_max:10}; const { error } = await db.client.from(table).insert(row); if (error) notice(error.message, true); dialog.close(); render(kind === 'scene' ? 'scenes' : kind === 'prompt' ? 'prompts' : kind === 'shop' ? 'shops' : kind === 'item' ? 'items' : 'characters'); };
+    dialog.querySelector('#create-record').onsubmit = async e => { e.preventDefault(); const name = dialog.querySelector('#record-name').value.trim(); const type = dialog.querySelector('#record-type')?.value; const body = dialog.querySelector('#record-body')?.value; const table = kind === 'scene' ? 'scenes' : kind === 'prompt' ? 'prompts' : kind === 'shop' ? 'shops' : kind === 'item' ? 'items' : kind === 'trigger' ? 'scene_triggers' : 'characters'; const row = kind === 'scene' ? {campaign_id:campaignId,name,scene_type:type,created_by:session.user.id} : kind === 'prompt' ? {campaign_id:campaignId,created_by:session.user.id,title:name,body} : kind === 'shop' ? {campaign_id:campaignId,name} : kind === 'item' ? {campaign_id:campaignId,name,item_data:{type:body || 'Custom item'}} : kind === 'trigger' ? {scene_id:type,name,trigger:{description:body||'Manual trigger'},effects:[]} : {campaign_id:campaignId,name,kind:type,owner_id:type === 'pc' ? session.user.id : null,hp_current:10,hp_max:10}; const { error } = await db.client.from(table).insert(row); if (error) notice(error.message, true); dialog.close(); render(kind === 'scene' ? 'scenes' : kind === 'prompt' ? 'prompts' : kind === 'shop' ? 'shops' : kind === 'item' ? 'items' : kind === 'trigger' ? 'automation' : 'characters'); };
   }
   db.client.channel('roll30-live').on('postgres_changes',{event:'*',schema:'public',table:'sessions',filter:`campaign_id=eq.${campaignId}`},() => notice('Live session updated.')).on('postgres_changes',{event:'INSERT',schema:'public',table:'messages',filter:`campaign_id=eq.${campaignId}`},() => notice('New table message.')).subscribe();
   document.addEventListener('DOMContentLoaded', () => { document.querySelector('x-dc')?.remove(); app.style.display = 'block'; load().catch(error => { app.innerHTML = `<main><h2>Roll30 could not load</h2><p>${esc(error.message)}</p></main>`; }); });
