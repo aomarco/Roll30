@@ -736,14 +736,19 @@ select pg_temp.roll30_assert(
 );
 insert into roll30_test_context(key,id)
 select 'scene_state',id from public.save_roll30_scene_state((select id from roll30_test_context where key='scene'),'Before the change');
+select public.move_roll30_token(
+  (select id from roll30_test_context where key='session'),
+  (select id::text from roll30_test_context where key='hero_token'),55,30
+);
 update public.scene_objects set x=88,layer='objects' where id=(select id from roll30_test_context where key='secret_object');
 insert into public.scene_objects(scene_id,name,object_type,x,y,visible_to_players)
 values((select id from roll30_test_context where key='scene'),'Transient prop','object',90,90,true);
 select public.apply_roll30_scene_state((select id from roll30_test_context where key='session'),(select id from roll30_test_context where key='scene_state'));
 select pg_temp.roll30_assert(
   (select x=25 and layer='gm' from public.scene_objects where id=(select id from roll30_test_context where key='secret_object'))
-  and not exists(select 1 from public.scene_objects where scene_id=(select id from roll30_test_context where key='scene') and name='Transient prop'),
-  'saved scene state did not restore the exact object arrangement'
+  and not exists(select 1 from public.scene_objects where scene_id=(select id from roll30_test_context where key='scene') and name='Transient prop')
+  and (select x=50 and y=50 from public.session_tokens where id=(select id from roll30_test_context where key='hero_token')),
+  'saved scene state did not restore the exact object and token arrangement'
 );
 select pg_temp.roll30_assert(
   public.preview_roll30_last_undo((select id from roll30_test_context where key='session'))->>'event_type'='scene_state_applied',
@@ -752,10 +757,15 @@ select pg_temp.roll30_assert(
 select public.undo_roll30_last_action((select id from roll30_test_context where key='session'));
 select pg_temp.roll30_assert(
   (select x=88 and layer='objects' from public.scene_objects where id=(select id from roll30_test_context where key='secret_object'))
-  and exists(select 1 from public.scene_objects where scene_id=(select id from roll30_test_context where key='scene') and name='Transient prop'),
-  'scene-state undo did not restore the complete previous arrangement'
+  and exists(select 1 from public.scene_objects where scene_id=(select id from roll30_test_context where key='scene') and name='Transient prop')
+  and (select x=55 and y=30 from public.session_tokens where id=(select id from roll30_test_context where key='hero_token')),
+  'scene-state undo did not restore the complete previous object and token arrangement'
 );
 select public.apply_roll30_scene_state((select id from roll30_test_context where key='session'),(select id from roll30_test_context where key='scene_state'));
+select pg_temp.roll30_assert(
+  (select x=50 and y=50 from public.session_tokens where id=(select id from roll30_test_context where key='hero_token')),
+  'reapplying a scene state did not converge the token arrangement'
+);
 select public.advance_roll30_turn((select id from roll30_test_context where key='session'));
 select pg_temp.roll30_assert((select round=2 from public.sessions where id=(select id from roll30_test_context where key='session')),'round did not advance or checkpoint');
 select public.rewind_roll30_round((select id from roll30_test_context where key='session'));
@@ -835,8 +845,10 @@ select pg_temp.roll30_assert(
   and (select count(*) from public.scene_objects where scene_id=(select id from roll30_test_context where key='duplicate_scene'))=(select count(*) from public.scene_objects where scene_id=(select id from roll30_test_context where key='scene'))
   and (select count(*) from public.scene_states where scene_id=(select id from roll30_test_context where key='templated_scene'))=(select count(*) from public.scene_states where scene_id=(select id from roll30_test_context where key='scene'))
   and (select count(*) from public.scene_states where scene_id=(select id from roll30_test_context where key='duplicate_scene'))=(select count(*) from public.scene_states where scene_id=(select id from roll30_test_context where key='scene'))
+  and exists(select 1 from public.scene_states where scene_id=(select id from roll30_test_context where key='templated_scene') and jsonb_array_length(tokens)=2)
+  and exists(select 1 from public.scene_states where scene_id=(select id from roll30_test_context where key='duplicate_scene') and jsonb_array_length(tokens)=2)
   and exists(select 1 from public.scene_objects where scene_id=(select id from roll30_test_context where key='templated_scene') and name='Secret trap' and layer='gm' and visible_to_players=false),
-  'scene templates or duplication lost objects, layers, visibility, or named scene states'
+  'scene templates or duplication lost objects, tokens, layers, visibility, or named scene states'
 );
 select public.trash_roll30_scene((select id from roll30_test_context where key='templated_scene'));
 select public.delete_roll30_scene_permanently((select id from roll30_test_context where key='templated_scene'));
