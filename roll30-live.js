@@ -6,6 +6,7 @@
   let session;
   let campaign;
   let currentRole;
+  let currentView = 'overview';
 
   const esc = (value) => String(value ?? '').replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
   const query = (table) => db.client.from(table).select('*').eq('campaign_id', campaignId).order('created_at', { ascending:false });
@@ -113,6 +114,7 @@
   }
   function cards(rows, renderCard) { return rows.length ? `<div class="live-cards">${rows.map(r => `<article>${renderCard(r)}</article>`).join('')}</div>` : '<p class="muted">Nothing here yet.</p>'; }
   async function render(view = 'overview') {
+    currentView = view;
     app.innerHTML = `<header><div><strong>Roll30</strong><span>${esc(campaign.name)}</span></div><button id="leave-campaign">Campaigns</button></header><nav>${['overview','scenes','characters','items','compendium','media','shops','purchases','prompts','automation','session','messages','settings'].map(v => `<button data-view="${v}" class="${v === view ? 'active' : ''}">${v}</button>`).join('')}</nav><main><p id="live-notice"></p><div id="live-content">Loading…</div></main><dialog id="live-dialog"></dialog>`;
     app.querySelector('nav').insertAdjacentHTML('beforeend', `<button data-view="inventory" class="${view === 'inventory' ? 'active' : ''}">inventory</button>`);
     app.querySelector('nav').insertAdjacentHTML('beforeend', `<button data-view="notes" class="${view === 'notes' ? 'active' : ''}">notes</button>`);
@@ -229,6 +231,6 @@
       dialog.close(); render('notes');
     };
   }
-  db.client.channel('roll30-live').on('postgres_changes',{event:'*',schema:'public',table:'sessions',filter:`campaign_id=eq.${campaignId}`},() => notice('Live session updated.')).on('postgres_changes',{event:'INSERT',schema:'public',table:'messages',filter:`campaign_id=eq.${campaignId}`},() => notice('New table message.')).subscribe();
+  db.client.channel('roll30-live').on('postgres_changes',{event:'*',schema:'public',table:'sessions',filter:`campaign_id=eq.${campaignId}`},() => currentView === 'session' ? render('session') : notice('Live session updated.')).on('postgres_changes',{event:'INSERT',schema:'public',table:'messages',filter:`campaign_id=eq.${campaignId}`},() => currentView === 'messages' ? render('messages') : notice('New table message.')).subscribe();
   document.addEventListener('DOMContentLoaded', () => { document.querySelector('x-dc')?.remove(); app.style.display = 'block'; load().catch(error => { app.innerHTML = `<main><h2>Roll30 could not load</h2><p>${esc(error.message)}</p></main>`; }); });
 })();
