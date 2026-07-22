@@ -8,6 +8,7 @@ import {
   SkipForward,
   Swords,
   Trash2,
+  Users,
 } from "lucide-react";
 import "./styles.css";
 import "./movement.css";
@@ -87,6 +88,15 @@ const loadMapImage = async (id) => {
   return new Promise((resolve, reject) => {
     request.onsuccess = () => resolve(request.result || null);
     request.onerror = () => reject(request.error);
+  });
+};
+const deleteMapImage = async (id) => {
+  const db = await imageDb();
+  const tx = db.transaction("images", "readwrite");
+  tx.objectStore("images").delete(id);
+  return new Promise((resolve, reject) => {
+    tx.oncomplete = resolve;
+    tx.onerror = () => reject(tx.error);
   });
 };
 const playHitSound = () => {
@@ -232,20 +242,27 @@ function App() {
     setMaps((items) => [...items, entry]);
     openMap(entry);
   };
+  const deleteMap = (entry) => {
+    if (!window.confirm(`Delete “${entry.name}”? This cannot be undone.`))
+      return;
+    setMaps((items) => items.filter((item) => item.id !== entry.id));
+    if (activeMapId === entry.id) setActiveMapId(null);
+    deleteMapImage(entry.id).catch(() =>
+      setStorageError(
+        "The map was removed, but its uploaded image could not be cleared.",
+      ),
+    );
+  };
   useEffect(() => {
     setBattle((b) => (b ? { ...b, dashReady: moveMode } : b));
   }, [moveMode]);
   const home = (
     <div className="home">
       <header>
-        <strong>Roll30</strong>
-        <span>Your maps</span>
-        <button
-          className="button home-button"
-          onClick={() => setShowCharacters(true)}
-        >
-          Characters
+        <button className="brand-button" onClick={() => setActiveMapId(null)}>
+          Roll30
         </button>
+        <span>Your maps</span>
       </header>
       {storageError && <div className="storage-error">{storageError}</div>}
       <main className="home-main">
@@ -276,13 +293,28 @@ function App() {
           </button>
         </section>
         <section className="map-list">
-          <p>YOUR MAPS</p>
+          <div className="map-list-heading">
+            <p>YOUR MAPS</p>
+            <button className="button" onClick={() => setShowCharacters(true)}>
+              <Users size={16} /> Characters
+            </button>
+          </div>
           {maps.length ? (
             maps.map((entry) => (
-              <button key={entry.id} onClick={() => openMap(entry)}>
-                <strong>{entry.name}</strong>
-                <span>{entry.mode === "battle" ? "Battle" : "Play"}</span>
-              </button>
+              <div className="map-row" key={entry.id}>
+                <button className="map-open" onClick={() => openMap(entry)}>
+                  <strong>{entry.name}</strong>
+                  <span>{entry.mode === "battle" ? "Battle" : "Play"}</span>
+                </button>
+                <button
+                  className="map-delete"
+                  onClick={() => deleteMap(entry)}
+                  aria-label={`Delete ${entry.name}`}
+                  title="Delete map"
+                >
+                  <Trash2 size={16} />
+                </button>
+              </div>
             ))
           ) : (
             <span>No saved maps yet.</span>
@@ -577,7 +609,9 @@ function App() {
   return (
     <div className="app">
       <header>
-        <strong>Roll30</strong>
+        <button className="brand-button" onClick={() => setActiveMapId(null)}>
+          Roll30
+        </button>
         <span>
           {mapName || "Untitled map"} · {mode === "battle" ? "Battle" : "Play"}
         </span>

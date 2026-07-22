@@ -1,4 +1,4 @@
-import { ArrowLeft, Plus, Shield, Trash2 } from "lucide-react";
+import { Plus, Shield, Trash2 } from "lucide-react";
 import {
   ABILITIES,
   POINT_BUY_TOTAL,
@@ -29,11 +29,10 @@ export default function CharactersPage({ characters, setCharacters, onBack }) {
   return (
     <div className="characters-page">
       <header>
-        <button className="button" onClick={onBack}>
-          <ArrowLeft size={16} /> Maps
+        <button className="brand-button" onClick={onBack}>
+          Roll30
         </button>
-        <strong>Characters</strong>
-        <span>Simplified 5e sheets</span>
+        <span>Characters · Simplified 5e sheets</span>
         <button
           className="button home-button"
           onClick={() => setCharacters((items) => [newCharacter(), ...items])}
