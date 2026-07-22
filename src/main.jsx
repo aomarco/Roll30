@@ -14,8 +14,12 @@ function App() {
   const [draggingId, setDraggingId] = useState(null)
   const [stat, setStat] = useState('hp')
   const [adjustment, setAdjustment] = useState('')
+  const [battle, setBattle] = useState(null)
+  const [targetId, setTargetId] = useState('')
   const boardRef = useRef(null)
   const selected = tokens.find((token) => token.id === selectedId)
+  const activeId = battle?.order[battle.turn]
+  const activeToken = tokens.find((token) => token.id === activeId)
 
   useEffect(() => {
     const move = (event) => {
@@ -39,6 +43,7 @@ function App() {
     const token = makeToken(Date.now())
     setTokens((items) => [...items, token])
     setSelectedId(token.id)
+    setBattle(null)
   }
   function updateTokenName(value) {
     setTokens((items) => items.map((token) => token.id === selectedId ? { ...token, name: value } : token))
@@ -53,6 +58,34 @@ function App() {
   function removeToken() {
     setTokens((items) => items.filter((token) => token.id !== selectedId))
     setSelectedId(null)
+    setBattle(null)
+  }
+  function startBattle() {
+    if (tokens.length < 2) return
+    const order = [...tokens].map((token) => ({ ...token, initiative: Math.floor(Math.random() * 20) + 1 })).sort((a, b) => b.initiative - a.initiative || a.name.localeCompare(b.name))
+    setBattle({ order: order.map((token) => token.id), initiatives: Object.fromEntries(order.map((token) => [token.id, token.initiative])), turn: 0, round: 1, log: 'Initiative rolled. Battle begins!' })
+    setSelectedId(order[0].id)
+    setTargetId(order[1].id)
+  }
+  function simpleAttack(event) {
+    event.preventDefault()
+    const target = tokens.find((token) => token.id === Number(targetId))
+    if (!activeToken || !target || target.id === activeToken.id || target.hp <= 0 || battle?.complete) return
+    const damage = 3
+    const updated = tokens.map((token) => token.id === target.id ? { ...token, hp: Math.max(0, token.hp - damage) } : token)
+    const alive = updated.filter((token) => token.hp > 0)
+    setTokens(updated)
+    if (alive.length <= 1) {
+      setBattle({ ...battle, complete: true, log: `${activeToken.name} hits ${target.name} for ${damage} damage. ${alive[0]?.name ?? 'No one'} wins!` })
+      return
+    }
+    let next = (battle.turn + 1) % battle.order.length
+    while (updated.find((token) => token.id === battle.order[next])?.hp <= 0) next = (next + 1) % battle.order.length
+    const nextToken = updated.find((token) => token.id === battle.order[next])
+    const nextTarget = updated.find((token) => token.id !== nextToken.id && token.hp > 0)
+    setBattle({ ...battle, turn: next, round: next <= battle.turn ? battle.round + 1 : battle.round, log: `${activeToken.name} hits ${target.name} for ${damage} damage.` })
+    setSelectedId(nextToken.id)
+    setTargetId(nextTarget.id)
   }
 
   return <div className="app">
@@ -71,6 +104,7 @@ function App() {
         </div>
       </section>
       <aside className="inspector">
+        {mode === 'battle' && <section className="combat-panel">{!battle ? <><p>COMBAT</p><h1>Ready to battle</h1><span>Roll initiative and begin turn order.</span><button className="start-battle" onClick={startBattle} disabled={tokens.length < 2}><Swords size={16}/> Start battle</button>{tokens.length < 2 && <small>Add at least two tokens first.</small>}</> : <><div className="combat-heading"><div><p>{battle.complete ? 'BATTLE COMPLETE' : `ROUND ${battle.round}`}</p><h1>{battle.complete ? 'Battle finished' : `${activeToken?.name}'s turn`}</h1></div>{!battle.complete && <span className="turn-dot"/>}</div><ol className="initiative">{battle.order.map((id, index) => { const token = tokens.find((item) => item.id === id); return token && <li key={id} className={(id === activeId && !battle.complete ? 'current ' : '') + (token.hp <= 0 ? 'down' : '')}><span>{index + 1}</span><strong>{token.name}</strong><em>{battle.initiatives[id]}</em></li> })}</ol><p className="combat-log">{battle.log}</p>{!battle.complete && <form className="attack" onSubmit={simpleAttack}><label>Target<select value={targetId} onChange={(event) => setTargetId(event.target.value)}>{tokens.filter((token) => token.id !== activeId && token.hp > 0).map((token) => <option key={token.id} value={token.id}>{token.name} · {token.hp} HP</option>)}</select></label><button className="start-battle" type="submit"><Swords size={16}/> Simple attack · 3 damage</button></form>} {battle.complete && <button className="button" onClick={startBattle}>Roll initiative again</button>}</>}</section>}
         {selected ? <>
           <div><p>SELECTED TOKEN</p><h1>Token details</h1></div>
           <label>Name<input value={selected.name} onChange={(event) => updateTokenName(event.target.value)} /></label>
