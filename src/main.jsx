@@ -86,6 +86,26 @@ const loadMapImage = async (id) => {
     request.onerror = () => reject(request.error);
   });
 };
+const playHitSound = () => {
+  try {
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    const context = new AudioContext(),
+      now = context.currentTime;
+    const gain = context.createGain(),
+      thump = context.createOscillator();
+    thump.type = "triangle";
+    thump.frequency.setValueAtTime(130, now);
+    thump.frequency.exponentialRampToValueAtTime(42, now + 0.16);
+    gain.gain.setValueAtTime(0.32, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
+    thump.connect(gain).connect(context.destination);
+    thump.start(now);
+    thump.stop(now + 0.2);
+    thump.onended = () => context.close();
+  } catch {
+    /* Audio may be unavailable or disabled. */
+  }
+};
 
 function App() {
   const [maps, setMaps] = useState(INITIAL_MAPS),
@@ -451,6 +471,7 @@ function App() {
       ),
       alive = updated.filter((t) => t.hp > 0);
     const popupId = `${target.id}-${Date.now()}`;
+    playHitSound();
     setDamagePopups((items) => [
       ...items,
       { id: popupId, tokenId: target.id, damage: SIMPLE_ATTACK.damage },
@@ -731,6 +752,9 @@ function App() {
                   "token " +
                   (selectedId === t.id ? "selected " : "") +
                   (drag?.id === t.id ? "dragging " : "") +
+                  (damagePopups.some((popup) => popup.tokenId === t.id)
+                    ? "hit "
+                    : "") +
                   (attackMode && canAttackTarget(t) ? "targetable" : "")
                 }
                 style={{
