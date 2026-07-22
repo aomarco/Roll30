@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import "./styles.css";
 import "./movement.css";
+import "./premium.css";
 import { patternCells, SIMPLE_ATTACK } from "./patterns.js";
 import CharactersPage from "./CharactersPage.jsx";
 import { deriveCharacter } from "./characterRules.js";
