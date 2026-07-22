@@ -985,6 +985,12 @@ select pg_temp.roll30_assert(
   has_function_privilege('authenticated', 'public.create_roll30_campaign(text)', 'EXECUTE'),
   'authenticated role lost the onboarding RPC grant'
 );
+select pg_temp.roll30_assert(
+  (select not public and file_size_limit=25*1024*1024
+    and allowed_mime_types @> array['image/*','audio/*','application/pdf']::text[]
+    from storage.buckets where id='campaign-media'),
+  'private campaign media does not enforce its server-side file size and MIME limits'
+);
 
 select extensions.pass('Roll30 GM/player/outsider integration paths passed');
 select * from extensions.finish();
