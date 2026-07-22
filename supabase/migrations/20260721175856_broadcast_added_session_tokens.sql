@@ -1,2 +1,0 @@
--- The reconstructed add-token RPC already touches sessions.updated_at and
--- writes a token_added event so subscribed clients refresh immediately.
