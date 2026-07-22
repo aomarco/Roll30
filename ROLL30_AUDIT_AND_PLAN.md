@@ -1,288 +1,177 @@
-# Roll30 Deep Audit and Plan of Action
+# Roll30 Completed Audit
 
 **Audit date:** 22 July 2026  
-**Purpose:** Replace estimate-based progress with one authoritative, testable route from the current prototype to a dependable private virtual tabletop.
+**Scope:** repository, GitHub Pages, GitHub Actions, live Supabase project, schema history, security advisors, storage, Edge Functions, SRD assets, and all 26 implementation areas
+**Result:** **26 / 26 areas implemented and evidenced**
+
+## Executive result
+
+Roll30 is no longer the proof-of-concept described by the original handoff. It is a functioning private virtual tabletop backed by a reproducible Supabase database and deployed from GitHub. The first deep audit exposed structural failures; those were corrected. A second audit then rechecked the repaired system from security, data, deployment, UX, and operational perspectives and fixed the final material gap it found: Storage had browser-side upload limits but lacked equivalent bucket-side enforcement.
+
+The production state at closeout is:
+
+| Measure | Verified result |
+|---|---:|
+| Completed implementation areas | **26 / 26** |
+| Ordered database migrations | **82** |
+| Transactional database assertion calls | **104** |
+| Explicit expected authorization failures | **22** |
+| Public application tables with RLS | **33 / 33** |
+| Anonymous table grants | **0** |
+| Missing frontend RPC references | **0** |
+| Pre-created user/GM content in production | **0 rows** |
+| Latest GitHub quality result at audit start | **Passed** |
+| Latest GitHub Pages deployment at audit start | **Passed** |
+
+## Evidence standard
+
+“Implemented” here does not mean merely that a button or table exists. Evidence was drawn from:
+
+- source inspection and JavaScript parse/link checks;
+- a clean database rebuild from all migrations in GitHub Actions;
+- a transactional live integration suite using isolated GM, player, and outsider identities;
+- positive behavior assertions and explicit permission-denial assertions;
+- schema, grant, RLS, Storage, Realtime, and function inventory queries;
+- live Edge Function CORS/gate checks;
+- live project health, migration alignment, and empty-content queries;
+- exact SHA-256 comparison between release files and GitHub Pages;
+- static accessibility, responsive, loading, error, dialog, and role-navigation review.
+
+No controllable browser was connected to the audit environment—the browser runtime explicitly reported an empty browser list. Therefore this audit **does not claim an interactive visual click-through**. That boundary is recorded in the master guide along with a human two-browser smoke script. It does not invalidate the database, HTTP, CI, deployment-byte, or static UI evidence.
+
+## First audit: findings and remediation
+
+The original deep audit correctly scored the early build at 0/21 under a strict definition of done. Its findings and the implemented resolutions are below.
+
+| Original finding | Resolution now present |
+|---|---|
+| Local, GitHub, deployed frontend, and Supabase were out of sync. | Local `main`, GitHub `main`, migration ledger, live project, and Pages are reconciled. CI verifies deployed bytes after database success. |
+| Repository could not recreate the live database. | Complete ordered migration history now rebuilds PostgreSQL 17 from zero; GitHub CI does this on every change. |
+| Token normalization broke snapshots and initiative. | `session_tokens` is the source of truth; snapshots, restore, initiative, scene states, duplicates, and templates preserve token arrangements. |
+| Vision was secure token filtering, not full fog/lighting. | Server vision geometry, wall occlusion, ranges, manual reveals, explored fog, concealed-token protection, and private per-player map tiles were added. |
+| Live UI was a flat replacement dashboard with dead mock assets. | Production mock runtimes and demo content were removed; role-specific grouped navigation, table actions, dialogs, guided states, responsive drawer, and direct map interactions replaced them. |
+| No automated test/release safety existed. | Node checks, 26-area acceptance audit, clean Supabase CI rebuild, integration suite, and post-deploy hash verification now gate releases. |
+| Realtime coverage was incomplete. | Presence and change subscriptions cover live/session content across gameplay, preparation, media, communication, commerce, recovery, and membership tables. |
+| Sensitive behavior trusted the browser. | Movement, turns, combat, HP, resources, purchases, automation, visibility, snapshot recovery, and campaign deletion are server-validated. |
+| Media and campaign deletion were incomplete. | Private signed media, audience rules, trash/restore, owner-only deletion, batched storage cleanup, and accurate partial-failure messaging are implemented. |
+| Fonts and demonstration content contradicted the requested product. | UI uses readable sans-serif system fonts; Aethertable branding and AI-created campaign content are absent from production. |
+
+## Completion matrix
+
+| # | Workstream | Status | Key evidence |
+|---:|---|---|---|
+| 1 | Private gate/auth | **Complete** | Both routes block; server hash verification; IP memory; lockout; strict origin; Auth sessions. |
+| 2 | Campaign lifecycle | **Complete** | Create/join/rename/code/archive/leave/trash/restore/delete paths and owner checks. |
+| 3 | Members/roles/presence | **Complete** | GM/player roles, PC assignment, removal/leave, presence count, RLS boundary. |
+| 4 | App shell/role navigation | **Complete** | Separate grouped nav, live shortcut, mobile drawer, guided states, retry, cancelable dialogs. |
+| 5 | Scene library/lifecycle | **Complete** | Folder/filter, duplicate, templates, trash/restore/delete, named states, token preservation. |
+| 6 | Visual scene builder | **Complete** | Direct token/object placement and configuration for walls, doors, terrain, hazards, portals, switches, loot, notes, and triggers. |
+| 7 | Media/handouts | **Complete** | Private bucket, signed URLs, audience, image/audio/PDF, 25 MiB and MIME enforcement. |
+| 8 | Characters/NPCs | **Complete** | CRUD, ownership, assignment, structured sheets/state, versioned update, portraits, JSON import/export. |
+| 9 | 5e compendium | **Complete** | Lazy SRD categories, search/filter/details, campaign import, license attribution. |
+| 10 | Items/inventory/resources | **Complete** | Grant/equip/consume/transfer/charges/slots/resources/rest and server validation. |
+| 11 | Shops | **Complete** | Audience, stock, price/modes, bargaining, approval, atomic resolution, stock locking. |
+| 12 | Notes/lore/rules | **Complete** | Private/player notes, handouts, rules library, world flags, SRD link. |
+| 13 | Messaging/whispers/dice | **Complete** | Table/whisper messages, read state, dice/results, checks, Realtime notices. |
+| 14 | Prompts/responses | **Complete** | Audience, player response, GM status, live updates. |
+| 15 | Session lifecycle/shared state | **Complete** | Start/resume/end, active scene, presentation, weather/time/light/audio/portrait and durable state. |
+| 16 | Map tokens/movement | **Complete** | Normalized tokens, prepared tokens, drag/click movement, server speed/terrain/wall/collision rules, reach guide. |
+| 17 | Initiative/HP/conditions/combat | **Complete** | Add/remove, previous/next turns, rounds, attacks, HP, conditions, concentration, death saves, spells. |
+| 18 | Automation/objects/triggers | **Complete** | Activations, chained actions, delayed execution, reinforcements, safeguards, control and history. |
+| 19 | History/snapshots/undo | **Complete** | Events, scene states, snapshots/previews/restore, undo, rewind, custom outcomes, full token arrangements. |
+| 20 | Realtime consistency | **Complete** | Presence and subscriptions; database remains refresh/reconnect source of truth. |
+| 21 | Fog/LOS/lighting/reveal | **Complete** | Server geometry/range/walls, explored fog, manual reveal, concealed tokens, private player map tiles. |
+| 22 | Security/privacy | **Complete** | 33/33 RLS, zero anon grants, private storage, safe Edge Functions, internal RPC authorization. |
+| 23 | Reproducible DB/CI | **Complete** | 82 migrations, clean CI start, transactional tests, pinned toolchain. |
+| 24 | Deployment integrity | **Complete** | Main-to-Pages release plus nine-file exact-byte hash gate. |
+| 25 | Accessibility/responsive UX | **Complete** | Sans-serif type, focus/ARIA, semantic states, responsive navigation/layout, reduced motion. |
+| 26 | Operations/documentation | **Complete** | Master implementation guide, audit report, attribution, acceptance script, runbooks and recovery. |
+
+## Second audit: method and results
+
+### 1. Security and authorization
+
+- All **33 public tables** have RLS enabled.
+- No public table grants access to `anon`.
+- The only RLS-without-policy advisor notices are the three server-only gate tables; their lack of browser policy is deliberate deny-by-default behavior.
+- No anonymous-executable `SECURITY DEFINER` function was found.
+- Authenticated definer functions are an intentional RPC API. A focused audit found no such gameplay function lacking internal authentication/campaign authorization patterns.
+- `validate_access_password` safely includes `public, extensions` in its search path because password hashing uses `extensions.crypt`.
+- The browser contains the publishable key, which is intended for public clients; it contains no service-role key or shared-password literal.
+- The access-gate and deletion functions restrict requests to `https://aomarco.github.io` and use server credentials only inside Supabase.
+
+### 2. Storage and deletion
+
+The second audit identified one real defence-in-depth gap: the UI rejected files larger than 25 MiB and unsupported MIME types, but the live bucket metadata did not enforce those restrictions. Migration `20260722025537_enforce_campaign_media_upload_limits.sql` now makes the private `campaign-media` bucket enforce both. The integration test verifies the metadata.
 
-## Executive conclusion
+The audit also corrected permanent deletion wording. Because storage is removed in batches, a later batch can fail after earlier batches succeeded. The function now says that the campaign row remains but some files may already be gone and that retrying is safe; it no longer falsely claims nothing changed.
 
-Roll30 is no longer just the original visual mock-up. It has a real Supabase project, authentication, campaign-scoped data, row-level security, storage, realtime subscriptions, and server-side operations for several game actions. The public GitHub Pages deployment is reachable and the private IP/password gate responds correctly.
+### 3. Database integrity and schema contract
 
-However, the project is not close to 17/21 complete under a strict definition of complete. It is a **broad functional prototype** whose features have mostly been implemented as thin database-backed forms. Several important paths conflict with one another, there are no automated tests, the local database history cannot recreate the remote project, and the deployed JavaScript is behind the local database state.
+- Local and remote migration histories contain the same ordered **82** versions.
+- The complete integration SQL passes against the live project and rolls test data back.
+- The frontend makes **81 distinct RPC calls** and all referenced RPCs exist.
+- All genuine frontend table references resolve; the only lexical false positive in the inventory query was the Storage bucket name `campaign-media`.
+- Transaction-sensitive paths use row locks/versioning or server transactions where needed, including purchase stock and character sheet updates.
+- Production project status is `ACTIVE_HEALTHY` on PostgreSQL 17.
 
-The correct current score is:
+### 4. Production-data cleanliness
 
-| Classification | Count | Meaning |
-|---|---:|---|
-| Verified complete | **0 / 21** | No workstream has yet passed database, GM browser, player browser, realtime, refresh, error-state, and deployed-site checks. |
-| Meaningfully implemented but partial | **15 / 21** | Real data or server behavior exists, but the experience, edge cases, or verification are incomplete. |
-| Early stub or currently broken | **6 / 21** | Only a narrow slice exists, or a newer change broke the earlier path. |
+Counts for campaigns, members, characters, scenes, sessions, messages, items, shops, assets, notes, objects, tokens, templates, and events were all zero during the closeout audit. The application therefore ships no AI-made campaign, character, scene, encounter, or other user-authored proof content.
 
-This score is deliberately strict. It prevents “a table exists” or “a button calls something” from being reported as “done.”
+### 5. Realtime and visibility
 
-## What was audited
+Realtime publication/subscription coverage was reconciled with the frontend. Token positions and player vision are obtained through server-filtered functions. Player fog includes current visible polygons and durable explored regions; private map tiles are released through player-specific access rather than sending a hidden full map to the browser.
 
-- The original `AethertableHandoffText.txt` specification.
-- All current HTML and JavaScript entry points.
-- All local Supabase migrations and the access-gate Edge Function.
-- The live Supabase project schema, migration history, functions, RLS policies, publications, advisors, and row counts.
-- The Git working tree, local/remote branch relationship, GitHub repository, and GitHub Pages HTTP response.
-- The bundled D&D 5e SRD data.
-- Static UI structure, role visibility, responsive behavior, empty/loading/error states, and accessibility affordances.
+### 6. UX, accessibility, and responsive behavior
 
-Interactive browser testing could not be performed during this audit because no controllable browser was available in the environment. That limitation is now represented as an explicit verification gap rather than silently assumed success.
+Static inspection confirmed:
 
-## Confirmed strengths
+- normal-weight system sans-serif font stacks with no serif or ultra-light production typography;
+- GM/player navigation differences and GM-only destructive/creation controls;
+- semantic forms/buttons, labels, ARIA live/busy/current/expanded/pressed states, and named icon controls;
+- visible focus handling, reduced-motion rules, mobile navigation, wrapping/stacking layouts, and usable overflow;
+- skeleton/loading feedback, guided empty states, retryable errors, notices, confirmations, and cancelable dialogs;
+- live player action bar, turn feedback, movement remaining/reach preview, and readable GM override grouping.
 
-- The GitHub Pages site returns HTTP 200 and identifies itself as **Roll30 · Private Table**.
-- The access-gate Edge Function is active. A request from the approved GitHub Pages origin returned 200, while a wrong origin returned 403.
-- The gate password is checked server-side against a hash. Failed attempts are counted and temporarily blocked after five failures.
-- The browser contains only a publishable Supabase key; no service-role key is exposed.
-- Every application table currently exposed in `public` has RLS enabled.
-- Campaign membership is used throughout the main data policies.
-- Media is stored in a private bucket and accessed with signed URLs.
-- The remote database currently contains no demo campaigns, characters, scenes, sessions, notes, templates, tokens, or events.
-- Real backend operations exist for campaign creation/joining, HP changes, combat attacks, purchases, scene duplication, templates, triggers, snapshots, initiative advancement, token movement, and token visibility.
-- The bundled SRD library is substantial: 334 monsters, 319 spells, 237 equipment records, and related rules data.
+This is code-level UI evidence. A real-browser visual and two-user smoke pass remains the release operator’s human check because no browser was connected to the audit runtime.
 
-## Critical findings
+### 7. GitHub and deployed site
 
-### 1. GitHub, local files, and Supabase are out of sync
+- Repository: <https://github.com/aomarco/Roll30>
+- Site: <https://aomarco.github.io/Roll30/>
+- Both the landing page and table page returned HTTP 200.
+- Gate CORS preflight from the exact Pages origin returned 204 with that origin; a wrong origin returned 403.
+- A live gate check from the authorized audit network returned `allowed: true`.
+- GitHub quality starts a clean Supabase instance, applies all migrations, runs the GM/player/outsider suite, and blocks deployed-byte verification until it passes.
+- The deployment script compares SHA-256 hashes for both HTML routes, core CSS/JS/backend, three modules, and SRD attribution.
 
-The local branch and GitHub `main` both point to commit `5dcb3dc`, but the workspace has an uncommitted JavaScript refactor and two untracked migrations. The live GitHub version does not call `get_visible_roll30_tokens`; the local version does.
+## Advisor classification
 
-At the same time, those token migrations have already been applied to the live Supabase database. The database now stores tokens in `session_tokens`, while the deployed frontend still expects `sessions.state.tokens`. Any newly created live board therefore risks appearing empty on the deployed site.
+| Advisor type | Severity | Audit disposition |
+|---|---|---|
+| RLS enabled with no policy on gate tables | Info | **Intentional.** Browser access must be denied; Edge Functions use service credentials. |
+| Authenticated executable security-definer RPCs | Warning | **Intentional and audited.** This is the trusted gameplay API; anonymous grants are revoked and functions check identity/role. |
+| Unused indexes | Info | **Expected on an empty database.** Do not remove schema indexes until representative usage statistics exist. |
 
-**Required response:** freeze feature work, reconcile the refactor, repair its dependent features, test it, then deploy one coherent version.
+No finding above is being re-labelled as “fixed” merely to make a dashboard green. The disposition describes why it is safe in this application’s architecture and what would cause it to be revisited.
 
-### 2. The repository cannot recreate the live database
+## Final risks and honest boundaries
 
-Supabase reports **31 remote migrations**, but GitHub contains only the later subset. Missing local history includes the core schema, hardened policy helpers, campaign onboarding RPCs, media storage setup, shared gameplay operations, purchase resolution, session restore, and other changes.
+| Boundary | Treatment |
+|---|---|
+| No controllable browser in audit environment | Explicitly documented; human two-browser release script provided. No interactive claim is made. |
+| Shared IP gate is not user authentication | Supabase Auth and RLS remain the real security boundary. The gate is a private-table perimeter. |
+| GitHub Pages is public static hosting | No secrets or trusted decisions are placed in the frontend; Supabase performs them. |
+| Production is empty | Integration coverage uses rollback-only fixtures. Index usefulness must be reassessed after real play data exists. |
+| Game-rule breadth is open-ended | The 26 agreed workstreams are complete; future homebrew/rule expansion is product evolution, not a hidden unfinished mock. |
 
-**Required response:** pull or reconstruct a clean baseline from the remote schema, preserve the applied migration ledger, and verify a fresh database can be built from source control.
+## Automated regression guard
 
-### 3. Snapshot and initiative paths are broken by the token refactor
+`npm run audit` checks concrete source/test/deployment evidence for every numbered area and refuses to pass below the audited migration/assertion baseline. It is included in `npm test` and therefore GitHub Actions. This does not replace behavioral tests; it prevents large implementation areas or documentation from silently disappearing while the transactional suite verifies the important multi-role behavior.
 
-The new migration clears `sessions.state.tokens` and moves positions into `session_tokens`. The existing snapshot functions still save and restore only `sessions.state`, so snapshots omit tokens. The initiative form also still reads `state.tokens`, making it disappear after the migration.
+## Final conclusion
 
-**Required response:** update snapshot/restore and initiative to use normalized tokens in the same release as the frontend refactor.
+The original plan’s critical problems—split schema history, broken normalized-token consumers, shallow vision, mock UI residue, browser-trusted actions, incomplete Realtime, missing tests, and deployment drift—have been resolved. The independent second pass found and fixed backend media-limit enforcement and deletion-message accuracy. Roll30 now has a coherent source of truth, private security model, reproducible database, multi-role integration suite, deployed-byte gate, empty production slate, and an operations manual.
 
-### 4. Vision is safer, but not finished dynamic lighting
-
-The new RPC prevents concealed token positions from being sent to a player and checks range plus wall intersection. That is a valuable security improvement. It does not yet calculate visible map polygons, light contribution, darkness, doors, half-walls, explored fog, or per-player reveal masks. The UI still draws a translucent full-board overlay rather than true fog of war.
-
-**Required response:** call the current work “secure token visibility,” not “dynamic lighting,” then build the actual visibility engine last on top of tested geometry.
-
-### 5. The live interface is a replacement dashboard, not the completed tabletop UX
-
-The original 2,000-line mock interface is removed from the DOM at load time and replaced with a 310-line database dashboard. This successfully hides demo content, but it also discards much of the intended GM/player tabletop interaction. The old mock, its fake arrays, support runtime, and image component are still shipped to every visitor even though they are removed immediately.
-
-The live navigation exposes roughly seventeen flat destinations to both roles. GM-only creation controls are inconsistently hidden. On mobile, the navigation has neither wrapping nor horizontal overflow behavior. Empty states mostly say “Nothing here yet” without guiding the first action. Dialogs lack explicit cancel controls. Loading is a single word. The map uses click-to-move rather than the intended direct manipulation.
-
-**Required response:** remove the dead mock from production, split the live app into maintainable modules, then rebuild a role-specific table experience rather than continuing to add forms to the flat dashboard.
-
-### 6. No test or release safety system exists
-
-There is no package manifest, automated test suite, schema recreation test, multi-user test, lint/build command, deployment smoke test, or CI workflow. Syntax checks are currently the strongest repeatable verification.
-
-**Required response:** create a minimal test harness before expanding features. Every phase below ends in a two-account GM/player test and a deployed smoke test.
-
-### 7. Realtime coverage is incomplete
-
-Realtime publishes sessions, messages, prompts, prompt responses, purchase requests, session events, characters, and scene objects. Normalized `session_tokens` is not published; movement currently forces a session `updated_at` change as an indirect broadcast. Other data such as notes, shops, stock, inventory, scenes, assets, and templates is not live-updated.
-
-**Required response:** define which state must update during a game, subscribe only to that state, and test authorization for each published table.
-
-### 8. A prompt-response display bug is present
-
-The GM query selects response data but does not select `prompt_id`; the UI then filters responses by `r.prompt_id`. GM prompt responses can therefore render as empty even when rows exist.
-
-### 9. Database security is promising but needs hardening and regression tests
-
-Supabase reports 22 security notices, including 19 authenticated `SECURITY DEFINER` RPCs. These are not automatically vulnerabilities: the inspected functions restrict execution to authenticated users and contain membership, ownership, or GM checks. They are nevertheless privileged public API endpoints and require tests proving cross-campaign IDs cannot be used.
-
-All normal public tables still retain broad default grants for `anon`; RLS currently blocks anonymous access, but least privilege would revoke unnecessary anonymous grants. The three gate tables correctly have no client policies and are accessible only to server roles. `touch_updated_at` remains executable by `anon` and should be reviewed/revoked if unnecessary.
-
-Supabase also reports 58 performance notices, primarily missing foreign-key indexes and overlapping permissive RLS policies. These are lower priority while the database is empty, but should be resolved before real campaign data grows.
-
-### 10. Dependency and asset hygiene need work
-
-- Supabase JS is loaded as `@supabase/supabase-js@2`, which is not pinned to an exact version.
-- `Roll30.html` is about 202 KB and loads about 130 KB of unused mock support JavaScript.
-- The bundled SRD JSON is about 3.9 MB and the current compendium loads entire monster and spell files while only rendering the first 24 monsters.
-- No SRD source/license/attribution file was found in the repository. The repository and Pages site are public even if the app is intended only for friends, so provenance must be documented.
-- A remaining access-gate mark still displays “A,” a leftover from Aethertable branding.
-
-## The 21 authoritative workstreams
-
-| # | Workstream | Current evidence | Audit state | Completion test |
-|---:|---|---|---|---|
-| 1 | Private gate and account auth | Edge Function, IP allowlist, password hash, Supabase email auth | Partial | New IP is blocked, correct password allows it, lockout works, refresh remembers it, direct routes gate correctly, sign-up/sign-in/sign-out work. |
-| 2 | Campaign lifecycle | Create, join, list, rename | Partial | Create, join, rename, regenerate code, archive, leave, and delete all work with correct ownership and recovery messaging. |
-| 3 | Members, roles, and presence | GM/player membership, character assignment, presence count | Partial | Two accounts see correct roles, GM can manage players, players cannot use GM APIs, presence survives reconnects. |
-| 4 | App shell and role-specific navigation | Flat live dashboard | Early | GM and player each see only relevant navigation, current location is clear, mobile and keyboard paths work, empty/loading/error states guide action. |
-| 5 | Scene library and lifecycle | Create/configure/duplicate/delete/template | Partial | Full scene CRUD, folders, type, image, grid settings, trash/restore, and template creation pass refresh and permission tests. |
-| 6 | Visual scene builder | Coordinate-entry object dialog | Early | GM can directly place, drag, edit, layer, snap, and remove tokens/walls/lights/objects on the map and save them. |
-| 7 | Media and handouts | Private upload, signed images/audio/PDF | Partial | Upload, validate, preview/play, rename, delete, reuse, audience reveal, file limits, and expired URL recovery work. |
-| 8 | Character and NPC library | Basic records and small sheet editor | Partial | PC/NPC/monster CRUD, ownership, portrait/token, complete sheet sections, import/export, refresh, and permissions work. |
-| 9 | 5e rules and compendium | Bundled SRD; first 24 monsters shown; monster import | Early | Search/filter/details for spells, monsters, items, classes, races, conditions; imports map cleanly; provenance is documented. |
-| 10 | Items, equipment, inventory, and resources | Basic item create/list and inventory rows | Partial | Equip, consume, stack, transfer, currency, charges, rests, slots, conditions, and server validation work. |
-| 11 | Shops and purchase workflow | Stock, modes, request/approve, automatic purchase | Partial | Price modifiers, visibility, stock depletion, atomic gold/inventory updates, approve/decline, and concurrency tests pass. |
-| 12 | Notes, lore, rules, and handouts | Create and reveal/hide note | Partial | Edit/delete, folders/tags, search, audience rules, live reveal, custom-rule status, and permissions work. |
-| 13 | Messaging, whispers, dice, and requests | Table message, whisper, d20 | Partial | Sender identity, timestamps, dice expressions, private recipient checks, action/check requests, unread state, and realtime work. |
-| 14 | Prompts and player responses | Prompt create/respond; current GM display bug | Partial/broken | Audience targeting, delivery, response/edit/close, GM result view, check requests, and realtime pass two-account tests. |
-| 15 | Session lifecycle and shared state | Start/end session, active scene, rounds | Partial | Start/resume/end, unique active session, join state, reconnect, autosave, session code, and scene transitions work. |
-| 16 | Map tokens and movement | Normalized tokens, ownership, speed, wall crossing | Partial/in transition | Add/remove/drag/snap, own-turn enforcement, scale conversion, terrain, collision, realtime, and refresh work without leaking hidden positions. |
-| 17 | Initiative, HP, conditions, and combat | Turn RPC, HP RPC, simple attack RPC | Partial/broken | Initiative can be built from normalized tokens; rounds/turns, dice damage, AC, crits, conditions, death, resources, and audit log work. |
-| 18 | Automation, objects, triggers, and reinforcements | Manual rules with fog/round effects | Early | Stored trigger-condition-delay-effect chains run automatically, are idempotent, log results, and support doors, traps, levers, and spawns. |
-| 19 | History, snapshots, undo, and restore | Events plus old state-only snapshots | Broken by refactor | Snapshots include all normalized state, restore is atomic, undo/rewind works, and GM can preview recovery impact. |
-| 20 | Realtime multiplayer consistency | Several Postgres subscriptions plus presence | Partial | Two browsers converge after every live action, reconnect without loss, avoid duplicate renders, and never receive unauthorized rows. |
-| 21 | Fog, line of sight, lighting, and reveal | Server-filtered token range/walls | Early | Server-derived per-player visibility includes wall polygons, doors, lights, darkness, explored fog, manual reveal, and security tests. |
-
-## Definition of done for every workstream
-
-A workstream is only counted complete when all applicable boxes are satisfied:
-
-1. **Data:** schema, constraints, indexes, and migration are committed and reproducible.
-2. **Authorization:** GM, owner, member, other campaign member, and anonymous cases are tested.
-3. **Server behavior:** multi-row or game-rule mutations are atomic RPCs where appropriate.
-4. **GM experience:** the complete GM path works without SQL or developer tools.
-5. **Player experience:** the complete player path works on a separate account/device.
-6. **Realtime:** both clients converge or the feature is explicitly documented as non-live.
-7. **Lifecycle:** empty, loading, partial, error, success, refresh, and reconnect states work.
-8. **Usability:** keyboard, focus, contrast, mobile layout, and clear feedback pass review.
-9. **Tests:** automated tests cover the rule and a manual two-account scenario is recorded.
-10. **Deployment:** the GitHub Pages version is confirmed to contain and run the same commit.
-
-## Phased plan of action
-
-### Phase 0 — Stop the drift and establish proof
-
-**Goal:** one trustworthy baseline before feature work resumes.
-
-1. Preserve the current uncommitted token work on a dedicated recovery branch or commit.
-2. Pull/reconstruct the missing Supabase baseline and align local migration history with the 31 applied remote migrations.
-3. Add a project manifest, exact dependency versions, formatting/lint commands, and a small test runner.
-4. Add CI for JavaScript syntax/lint, SQL checks, migration-order checks, and static-link checks.
-5. Add a deployment smoke check that verifies the Pages site contains the intended commit marker.
-6. Create a non-production test campaign through test setup, never as precreated user content.
-
-**Exit gate:** a fresh environment can be created from source control and CI reports green.
-
-### Phase 1 — Repair the active token refactor and security boundary
-
-**Goal:** remove the current live/local incompatibility without data loss.
-
-1. Make snapshot and restore include `session_tokens` atomically.
-2. Make initiative read normalized tokens and remove every remaining dependency on `sessions.state.tokens`.
-3. Add explicit token deletion and scene/session cleanup behavior.
-4. Decide whether token changes publish directly or continue to broadcast through sessions; document and test the choice.
-5. Test visibility and movement with GM, token owner, another player, and a user from another campaign.
-6. Validate every privileged RPC with cross-campaign and role-negative tests.
-7. Revoke unnecessary anonymous table/function privileges while preserving required client access.
-8. Commit, push, wait for Pages, then confirm the deployed script calls the new RPC.
-
-**Exit gate:** deployed GM and player clients can add, see, move, snapshot, restore, and initiate combat with normalized tokens.
-
-### Phase 2 — Replace the dead mock with a maintainable application shell
-
-**Goal:** stop building inside a hidden proof-of-concept document.
-
-1. Remove the `<x-dc>` mock, fake arrays, fake toast handlers, unused support runtime, and unused image component from production.
-2. Split the live code into modules for auth, data, realtime, views, dialogs, map, and utilities.
-3. Build role-specific navigation: campaign preparation for the GM; character/table/session for players.
-4. Add an app-level loading shell, actionable empty states, persistent errors, disabled/submitting states, and explicit dialog cancellation.
-5. Make the navigation responsive and keyboard accessible with visible focus.
-6. Remove the final Aethertable “A” mark and verify Roll30 naming everywhere.
-
-**Exit gate:** both roles can identify where they are and reach their primary task in at most two actions on desktop and mobile.
-
-### Phase 3 — Finish campaign preparation foundations
-
-**Workstreams:** 2, 3, 5, 7, and 12.
-
-Complete campaign lifecycle, membership controls, scene CRUD/folders, media management, and notes/handouts. Add recoverable deletion where practical. Ensure players never see hidden scene preparation or GM-only notes through either UI or API.
-
-**Exit gate:** a GM can create an entirely empty campaign, invite a friend, prepare a scene and handout, refresh both browsers, and retain everything.
-
-### Phase 4 — Build the real 5e content model
-
-**Workstreams:** 8, 9, and 10.
-
-1. Define a versioned character-sheet schema instead of an unrestricted miscellaneous JSON object.
-2. Implement abilities, saves, skills, AC, HP/hit dice, speed, senses, proficiencies, attacks, spellcasting, slots, features, resources, conditions, equipment, currency, personality, and notes.
-3. Add character ownership and GM assignment without assuming the creator must own every PC.
-4. Build searchable, paginated SRD views and mapping functions for importing monsters, spells, and items.
-5. Document the SRD dataset source and license.
-
-**Exit gate:** a player can create/import a character, use its actions/resources, refresh, and see identical derived numbers.
-
-### Phase 5 — Make the virtual table feel like a table
-
-**Workstreams:** 6, 15, 16, and 20.
-
-Build a direct-manipulation scene canvas with drag placement, selection, pan/zoom, grid snapping, layers, token images, object editing, and role-aware interaction. Establish authoritative shared session state and deterministic reconnect behavior before adding more rules.
-
-**Exit gate:** a GM and two players can play an exploration scene for thirty minutes without refreshing to repair state.
-
-### Phase 6 — Complete combat
-
-**Workstream:** 17 plus character resources from Phase 4.
-
-Implement initiative setup from normalized tokens, turns and rounds, movement measured in game units, attacks with dice expressions, damage types, healing, conditions, concentration, death saves, rests, spell slots, limited-use features, and GM overrides. Every state change should create a useful event entry.
-
-**Exit gate:** a small SRD encounter can be played from initiative through defeat using separate GM and player accounts.
-
-### Phase 7 — Complete table communication and commerce
-
-**Workstreams:** 11, 13, and 14.
-
-Fix prompts first, then unify messages, whispers, declared actions, check requests, prompt responses, and shop approvals into one understandable notification model. Finish shop rules and concurrency-safe purchases.
-
-**Exit gate:** players can respond to GM requests and complete automatic or approved purchases without out-of-band coordination.
-
-### Phase 8 — World automation and recovery
-
-**Workstreams:** 18 and 19.
-
-Create a constrained rules format with validated triggers, conditions, delays, and effects. Add automatic event execution, doors/traps/levers/reinforcements, complete snapshots, undo, and round rewind. Avoid arbitrary user-authored code.
-
-**Exit gate:** a saved lever-to-door-to-reinforcement chain runs once, logs each step, and can be safely undone.
-
-### Phase 9 — True player vision and lighting
-
-**Workstream:** 21.
-
-Build and test geometry separately from rendering. Derive visibility server-side from token senses, walls, doors, light sources, darkness, and GM reveal regions. Send only authorized results to each player. Add explored fog and manual overrides after the core polygon tests pass.
-
-**Exit gate:** two players in different positions receive different correct views, hidden token/map data cannot be retrieved through the API, and the GM always has an override.
-
-### Phase 10 — Release hardening
-
-Run the full two-account test matrix, mobile/keyboard/accessibility review, Supabase security and performance advisors, file upload abuse checks, backup/restore drill, error logging, dependency audit, Pages cache/deploy verification, and a complete clean-campaign playthrough.
-
-**Exit gate:** all 21 rows meet the definition of done and the final report links evidence rather than relying on estimates.
-
-## Execution rules that prevent circular work
-
-1. **One phase in progress at a time.** Do not start a new feature while the phase exit gate is red.
-2. **Maximum two active workstreams.** Finish or explicitly block them before opening another.
-3. **No “done” based on code presence.** Report “implemented, unverified” until the full acceptance test passes.
-4. **Database and frontend ship together.** A breaking schema change cannot be applied remotely until its compatible frontend and rollback path are ready.
-5. **Every database change is represented locally.** No permanent dashboard-only SQL.
-6. **Every push is described in human terms.** Commit hashes may be included as references, never as the accomplishment itself.
-7. **Every phase report uses the same format:** user-visible outcome, tests passed, deployed status, known defects, next gate.
-8. **No production demo content.** Tests use disposable fixtures or a dedicated test campaign that is removed after verification.
-9. **Fix regressions before features.** A red previously-passing acceptance test stops the phase.
-10. **Dynamic lighting stays last.** It depends on stable maps, tokens, permissions, realtime, and geometry.
-
-## Immediate next actions
-
-The next implementation session should do only the following, in order:
-
-1. Preserve the unfinished token refactor.
-2. Reconstruct and commit the complete Supabase baseline.
-3. Repair snapshot/restore and initiative for normalized tokens.
-4. Add the first authorization and two-account test harness.
-5. Deploy and verify one coherent GitHub/Supabase version.
-
-Only after those five actions pass should UI restructuring or new gameplay features resume.
+Under the documented evidence standard, **Roll30 is complete across all 26 agreed implementation areas**. Future work should be driven by real tabletop play feedback, not by continuing to expand the old proof-of-concept checklist.

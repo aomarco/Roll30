@@ -59,7 +59,7 @@ Deno.serve(async (request) => {
   const paths = [...new Set([...(assets ?? []), ...(tiles ?? [])].map((entry) => entry.storage_path).filter(Boolean))];
   for (let index = 0; index < paths.length; index += 100) {
     const { error } = await admin.storage.from("campaign-media").remove(paths.slice(index, index + 100));
-    if (error) return reply(origin, 503, { error: "Campaign files could not all be removed. Nothing else was deleted." });
+    if (error) return reply(origin, 503, { error: "Campaign deletion stopped before the database record was removed. Some files may already be gone; retry to finish safely." });
   }
 
   const { error: deleteError } = await admin.from("campaigns").delete().eq("id", campaign.id).eq("owner_id", authData.user.id);
