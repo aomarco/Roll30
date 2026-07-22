@@ -89,10 +89,8 @@ const loadMapImage = async (id) => {
 
 function App() {
   const [maps, setMaps] = useState(INITIAL_MAPS),
-    [activeMapId, setActiveMapId] = useState(
-      INITIAL_ENTRY ? INITIAL_ACTIVE_ID : null,
-    ),
-    [mapName, setMapName] = useState(INITIAL_ENTRY?.name || ""),
+    [activeMapId, setActiveMapId] = useState(null),
+    [mapName, setMapName] = useState(""),
     [createMode, setCreateMode] = useState("play"),
     [map, setMap] = useState(INITIAL_DATA.map || null),
     [noMap, setNoMap] = useState(!!INITIAL_DATA.noMap),
@@ -109,7 +107,8 @@ function App() {
     [attackMode, setAttackMode] = useState(false),
     [attackMessage, setAttackMessage] = useState(""),
     [moveMode, setMoveMode] = useState(false),
-    [storageError, setStorageError] = useState("");
+    [storageError, setStorageError] = useState(""),
+    [damagePopups, setDamagePopups] = useState([]);
   const boardRef = useRef(null);
   useEffect(() => {
     try {
@@ -451,6 +450,16 @@ function App() {
           : t,
       ),
       alive = updated.filter((t) => t.hp > 0);
+    const popupId = `${target.id}-${Date.now()}`;
+    setDamagePopups((items) => [
+      ...items,
+      { id: popupId, tokenId: target.id, damage: SIMPLE_ATTACK.damage },
+    ]);
+    setTimeout(
+      () =>
+        setDamagePopups((items) => items.filter((item) => item.id !== popupId)),
+      1250,
+    );
     setTokens(updated);
     if (alive.length <= 1) {
       setBattle({
@@ -701,6 +710,20 @@ function App() {
             {attackMessage && (
               <div className="attack-error">{attackMessage}</div>
             )}
+            {damagePopups.map((popup) => {
+              const token = tokens.find((item) => item.id === popup.tokenId);
+              return (
+                token && (
+                  <div
+                    key={popup.id}
+                    className="damage-popup"
+                    style={{ left: `${token.x}%`, top: `${token.y}%` }}
+                  >
+                    −{popup.damage}
+                  </div>
+                )
+              );
+            })}
             {tokens.map((t) => (
               <button
                 key={t.id}
