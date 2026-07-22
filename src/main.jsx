@@ -12,6 +12,8 @@ import {
 import "./styles.css";
 import "./movement.css";
 import { patternCells, SIMPLE_ATTACK } from "./patterns.js";
+import CharactersPage from "./CharactersPage.jsx";
+import { deriveCharacter } from "./characterRules.js";
 
 const makeToken = (id) => ({
   id,
@@ -128,6 +130,15 @@ function App() {
     [attackMessage, setAttackMessage] = useState(""),
     [moveMode, setMoveMode] = useState(false),
     [storageError, setStorageError] = useState(""),
+    [characters, setCharacters] = useState(() => {
+      try {
+        return JSON.parse(localStorage.getItem("roll30-characters") || "[]");
+      } catch {
+        return [];
+      }
+    }),
+    [showCharacters, setShowCharacters] = useState(false),
+    [selectedCharacterId, setSelectedCharacterId] = useState(""),
     [damagePopups, setDamagePopups] = useState([]);
   const boardRef = useRef(null);
   useEffect(() => {
@@ -153,6 +164,9 @@ function App() {
       );
     }
   }, [maps, activeMapId]);
+  useEffect(() => {
+    localStorage.setItem("roll30-characters", JSON.stringify(characters));
+  }, [characters]);
   useEffect(() => {
     if (activeMapId && map)
       saveMapImage(activeMapId, map).catch(() =>
@@ -225,6 +239,12 @@ function App() {
       <header>
         <strong>Roll30</strong>
         <span>Your maps</span>
+        <button
+          className="button home-button"
+          onClick={() => setShowCharacters(true)}
+        >
+          Characters
+        </button>
       </header>
       {storageError && <div className="storage-error">{storageError}</div>}
       <main className="home-main">
@@ -380,7 +400,22 @@ function App() {
     setAttackMode(false);
   };
   const add = () => {
-    const t = makeToken(Date.now());
+    const character = characters.find(
+      (item) => item.id === selectedCharacterId,
+    );
+    const derived = character && deriveCharacter(character);
+    const t = character
+      ? {
+          ...makeToken(Date.now()),
+          name: character.name,
+          hp: derived.hp,
+          maxHp: derived.hp,
+          ac: derived.ac,
+          speed: derived.speed,
+          initiativeBonus: derived.initiative,
+          characterId: character.id,
+        }
+      : makeToken(Date.now());
     setTokens((x) => [...x, t]);
     setSelectedId(t.id);
     reset();
@@ -529,6 +564,14 @@ function App() {
       ({ x, y }) => x === b.x - a.x && y === b.y - a.y,
     );
   };
+  if (showCharacters)
+    return (
+      <CharactersPage
+        characters={characters}
+        setCharacters={setCharacters}
+        onBack={() => setShowCharacters(false)}
+      />
+    );
   if (!activeMapId) return home;
   return (
     <div className="app">
@@ -578,6 +621,18 @@ function App() {
             <button className="button" onClick={add}>
               <Plus size={17} /> Add token
             </button>
+            <select
+              className="character-token-select"
+              value={selectedCharacterId}
+              onChange={(e) => setSelectedCharacterId(e.target.value)}
+            >
+              <option value="">Blank token</option>
+              {characters.map((character) => (
+                <option key={character.id} value={character.id}>
+                  {character.name}
+                </option>
+              ))}
+            </select>
             {mode === "battle" && (
               <>
                 <span className="battle-grid">
