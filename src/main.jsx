@@ -46,6 +46,16 @@ const cellsBetween = (a, b) => {
   }
   return cells;
 };
+const pointInPolygon = (x, y, polygon) => polygon.reduce((inside, point, index) => { const next = polygon[(index + 1) % polygon.length]; return ((point.y > y) !== (next.y > y)) && x < ((next.x - point.x) * (y - point.y)) / (next.y - point.y) + point.x ? !inside : inside }, false);
+const patternCells = (type, size) => {
+  const n = Math.max(1, Math.floor(size)), cells = [];
+  if (type === 'diamond') for (let y = -n; y <= n; y++) for (let x = -n; x <= n; x++) if (Math.abs(x) + Math.abs(y) <= n) cells.push({ x, y });
+  if (type === 'square') for (let y = -n; y <= n; y++) for (let x = -n; x <= n; x++) cells.push({ x, y });
+  if (type === 'plus') for (let i = -n; i <= n; i++) { cells.push({ x: i, y: 0 }); if (i) cells.push({ x: 0, y: i }) }
+  if (type === 'star') { const points = Array.from({ length: 10 }, (_, i) => { const radius = i % 2 ? n * .9 : n * 2; const angle = -Math.PI / 2 + i * Math.PI / 5; return { x: Math.cos(angle) * radius, y: Math.sin(angle) * radius } }); for (let y = -n * 2; y <= n * 2; y++) for (let x = -n * 2; x <= n * 2; x++) if (pointInPolygon(x, y, points) || (x === 0 && y === 0)) cells.push({ x, y }) }
+  return cells;
+};
+const SIMPLE_ATTACK = { range: 2, pattern: 'star', size: 2, damage: 3 };
 
 function App() {
   const [map, setMap] = useState(null),
@@ -58,6 +68,7 @@ function App() {
     [adjustment, setAdjustment] = useState(""),
     [battle, setBattle] = useState(null),
     [attackMode, setAttackMode] = useState(false),
+    [attackTarget, setAttackTarget] = useState(null),
     [moveMode, setMoveMode] = useState(false);
   const boardRef = useRef(null);
   const selected = tokens.find((t) => t.id === selectedId),
@@ -214,28 +225,34 @@ function App() {
   };
   const attack = (id) => {
     const target = tokens.find((t) => t.id === id);
+    const rect = boardRef.current?.getBoundingClientRect();
+    const origin = rect && active ? cell(active, rect) : null;
+    const targetCell = rect && target ? cell(target, rect) : null;
     if (
       !active ||
       !target ||
       battle.attacked ||
       battle.dashed ||
-      target.hp <= 0
+      target.hp <= 0 ||
+      !origin ||
+      !targetCell ||
+      Math.max(Math.abs(targetCell.x - origin.x), Math.abs(targetCell.y - origin.y)) > SIMPLE_ATTACK.range
     )
       return;
-    const updated = tokens.map((t) =>
-        t.id === id ? { ...t, hp: Math.max(0, t.hp - 3) } : t,
-      ),
+    const affected = new Set(patternCells(SIMPLE_ATTACK.pattern, SIMPLE_ATTACK.size).map((offset) => `${targetCell.x + offset.x},${targetCell.y + offset.y}`));
+    const hitIds = new Set(tokens.filter((t) => t.id !== active.id && affected.has(`${cell(t, rect).x},${cell(t, rect).y}`)).map((t) => t.id));
+    const updated = tokens.map((t) => hitIds.has(t.id) ? { ...t, hp: Math.max(0, t.hp - SIMPLE_ATTACK.damage) } : t),
       alive = updated.filter((t) => t.hp > 0);
     setTokens(updated);
     if (alive.length <= 1) {
       setBattle({
         ...battle,
         complete: true,
-        log: `${active.name} hits ${target.name} for 3 damage. ${alive[0]?.name ?? "No one"} wins!`,
+        log: `${active.name}'s star hits for ${SIMPLE_ATTACK.damage} damage. ${alive[0]?.name ?? "No one"} wins!`,
       });
       setAttackMode(false);
     } else
-      nextTurn(updated, `${active.name} hits ${target.name} for 3 damage.`);
+      nextTurn(updated, `${active.name}'s star hits ${hitIds.size} token(s) for ${SIMPLE_ATTACK.damage} damage.`);
   };
   const end = () =>
     !battle?.complete && nextTurn(tokens, `${active?.name} ended their turn.`);
