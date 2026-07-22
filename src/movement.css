@@ -13,5 +13,6 @@
 .new-map input { height: 42px; border: 1px solid #4d4e52; border-radius: 7px; background: #333438; color: #fff; padding: 0 12px; }
 .mode-choice { display: flex; gap: 8px; }.mode-choice button { flex: 1; padding: 10px; border: 1px solid #4d4e52; border-radius: 7px; background: #303135; color: #ccc; cursor: pointer; }.mode-choice button.active { background: #d88965; color: #2d211d; border-color: #d88965; }
 .map-list > button { display: flex; justify-content: space-between; align-items: center; border: 1px solid #424348; border-radius: 8px; background: #2d2e32; color: #eee; padding: 14px; cursor: pointer; text-align: left; }.map-list button span { color: #d99170; font-size: 11px; }.home-button { margin-left: auto; }
+.storage-error { position: fixed; z-index: 30; top: 78px; left: 50%; transform: translateX(-50%); max-width: min(520px, calc(100vw - 32px)); padding: 10px 14px; border: 1px solid #cf6e67; border-radius: 7px; background: #642f32; color: #fff; font-size: 12px; box-shadow: 0 8px 24px #0006; }
 .board.no-map { background: #fff; }
 .board.no-map .grid { background-image: linear-gradient(#24304424 1px, transparent 1px), linear-gradient(90deg, #24304424 1px, transparent 1px); }

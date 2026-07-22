@@ -48,34 +48,209 @@ const cellsBetween = (a, b) => {
   return cells;
 };
 
+const readStoredMaps = () => {
+  try {
+    const value = JSON.parse(localStorage.getItem("roll30-maps") || "[]");
+    return Array.isArray(value) ? value : [];
+  } catch {
+    return [];
+  }
+};
+const INITIAL_MAPS = readStoredMaps();
+const INITIAL_ACTIVE_ID = localStorage.getItem("roll30-active-map") || null;
+const INITIAL_ENTRY = INITIAL_MAPS.find(
+  (entry) => entry.id === INITIAL_ACTIVE_ID,
+);
+const INITIAL_DATA = INITIAL_ENTRY?.data || {};
+const imageDb = () =>
+  new Promise((resolve, reject) => {
+    const request = indexedDB.open("roll30-assets", 1);
+    request.onupgradeneeded = () => request.result.createObjectStore("images");
+    request.onsuccess = () => resolve(request.result);
+    request.onerror = () => reject(request.error);
+  });
+const saveMapImage = async (id, image) => {
+  const db = await imageDb();
+  const tx = db.transaction("images", "readwrite");
+  tx.objectStore("images").put(image, id);
+  return new Promise((resolve, reject) => {
+    tx.oncomplete = resolve;
+    tx.onerror = () => reject(tx.error);
+  });
+};
+const loadMapImage = async (id) => {
+  const db = await imageDb();
+  const request = db.transaction("images").objectStore("images").get(id);
+  return new Promise((resolve, reject) => {
+    request.onsuccess = () => resolve(request.result || null);
+    request.onerror = () => reject(request.error);
+  });
+};
+
 function App() {
-  const [maps, setMaps] = useState(() => JSON.parse(localStorage.getItem("roll30-maps") || "[]")),
-    [activeMapId, setActiveMapId] = useState(() => localStorage.getItem("roll30-active-map") || null),
-    [mapName, setMapName] = useState(""),
+  const [maps, setMaps] = useState(INITIAL_MAPS),
+    [activeMapId, setActiveMapId] = useState(
+      INITIAL_ENTRY ? INITIAL_ACTIVE_ID : null,
+    ),
+    [mapName, setMapName] = useState(INITIAL_ENTRY?.name || ""),
     [createMode, setCreateMode] = useState("play"),
-    [map, setMap] = useState(null),
-    [noMap, setNoMap] = useState(false),
-    [mode, setMode] = useState("play"),
-    [gridSize, setGridSize] = useState(48),
-    [tokens, setTokens] = useState([]),
+    [map, setMap] = useState(INITIAL_DATA.map || null),
+    [noMap, setNoMap] = useState(!!INITIAL_DATA.noMap),
+    [mode, setMode] = useState(
+      INITIAL_ENTRY?.mode || INITIAL_DATA.mode || "play",
+    ),
+    [gridSize, setGridSize] = useState(INITIAL_DATA.gridSize || 48),
+    [tokens, setTokens] = useState(INITIAL_DATA.tokens || []),
     [selectedId, setSelectedId] = useState(null),
     [drag, setDrag] = useState(null),
     [stat, setStat] = useState("hp"),
     [adjustment, setAdjustment] = useState(""),
-    [battle, setBattle] = useState(null),
+    [battle, setBattle] = useState(INITIAL_DATA.battle || null),
     [attackMode, setAttackMode] = useState(false),
     [attackMessage, setAttackMessage] = useState(""),
-    [moveMode, setMoveMode] = useState(false);
+    [moveMode, setMoveMode] = useState(false),
+    [storageError, setStorageError] = useState("");
   const boardRef = useRef(null);
-  useEffect(() => { localStorage.setItem("roll30-maps", JSON.stringify(maps)); localStorage.setItem("roll30-active-map", activeMapId || ""); }, [maps, activeMapId]);
-  useEffect(() => { if (!activeMapId) return; setMaps(items => items.map(item => item.id === activeMapId ? { ...item, data: { map, noMap, mode, gridSize, tokens, battle } } : item)); }, [map, noMap, mode, gridSize, tokens, battle, activeMapId]);
+  useEffect(() => {
+    try {
+      const lightweightMaps = maps.map((entry) => ({
+        ...entry,
+        data: entry.data
+          ? {
+              ...entry.data,
+              map: null,
+              hasImage: !!entry.data.map || !!entry.data.hasImage,
+            }
+          : entry.data,
+      }));
+      localStorage.setItem("roll30-maps", JSON.stringify(lightweightMaps));
+      localStorage.setItem("roll30-active-map", activeMapId || "");
+      setStorageError("");
+    } catch (error) {
+      setStorageError(
+        error?.name === "QuotaExceededError"
+          ? "Browser storage is full. Use a smaller map image or remove an old map."
+          : "This browser blocked local saving.",
+      );
+    }
+  }, [maps, activeMapId]);
+  useEffect(() => {
+    if (activeMapId && map)
+      saveMapImage(activeMapId, map).catch(() =>
+        setStorageError("The uploaded image could not be saved locally."),
+      );
+  }, [activeMapId, map]);
+  useEffect(() => {
+    const entry = maps.find((item) => item.id === activeMapId);
+    if (activeMapId && !map && !noMap && entry?.data?.hasImage)
+      loadMapImage(activeMapId)
+        .then(setMap)
+        .catch(() =>
+          setStorageError("The saved map image could not be loaded."),
+        );
+  }, [activeMapId]);
+  useEffect(() => {
+    if (!activeMapId) return;
+    setMaps((items) =>
+      items.map((item) =>
+        item.id === activeMapId
+          ? { ...item, data: { map, noMap, mode, gridSize, tokens, battle } }
+          : item,
+      ),
+    );
+  }, [map, noMap, mode, gridSize, tokens, battle, activeMapId]);
   const selected = tokens.find((t) => t.id === selectedId),
     activeId = battle?.order[battle.turn],
     active = tokens.find((t) => t.id === activeId);
-  const openMap = (entry) => { const data = entry.data || {}; setActiveMapId(entry.id); setMapName(entry.name); setMap(data.map || null); setNoMap(!!data.noMap); setMode(entry.mode || data.mode || "play"); setGridSize(data.gridSize || 48); setTokens(data.tokens || []); setBattle(data.battle || null); setSelectedId(null); };
-  const createMap = () => { const entry = { id: Date.now().toString(), name: mapName.trim() || "Untitled map", mode: createMode, data: { map: null, noMap: createMode === "play", mode: createMode, gridSize: 48, tokens: [], battle: null } }; setMaps(items => [...items, entry]); openMap(entry); };
-  useEffect(() => { setBattle((b) => (b ? { ...b, dashReady: moveMode } : b)); }, [moveMode]);
-  const home = <div className="home"><header><strong>Roll30</strong><span>Your maps</span></header><main className="home-main"><section className="new-map"><p>NEW MAP</p><h1>Create a tabletop</h1><input value={mapName} onChange={e => setMapName(e.target.value)} placeholder="Map name"/><div className="mode-choice"><button className={createMode === "play" ? "active" : ""} onClick={() => setCreateMode("play")}>Play</button><button className={createMode === "battle" ? "active" : ""} onClick={() => setCreateMode("battle")}>Battle</button></div><button className="start-battle" onClick={createMap}>Create map</button></section><section className="map-list"><p>YOUR MAPS</p>{maps.length ? maps.map(entry => <button key={entry.id} onClick={() => openMap(entry)}><strong>{entry.name}</strong><span>{entry.mode === "battle" ? "Battle" : "Play"}</span></button>) : <span>No saved maps yet.</span>}</section></main></div>;
+  const openMap = async (entry) => {
+    const data = entry.data || {};
+    setActiveMapId(entry.id);
+    setMapName(entry.name);
+    setMap(data.map || null);
+    setNoMap(!!data.noMap);
+    setMode(entry.mode || data.mode || "play");
+    setGridSize(data.gridSize || 48);
+    setTokens(data.tokens || []);
+    setBattle(data.battle || null);
+    setSelectedId(null);
+    if (!data.map && data.hasImage) {
+      try {
+        setMap(await loadMapImage(entry.id));
+      } catch {
+        setStorageError("The saved map image could not be loaded.");
+      }
+    }
+  };
+  const createMap = () => {
+    const entry = {
+      id: Date.now().toString(),
+      name: mapName.trim() || "Untitled map",
+      mode: createMode,
+      data: {
+        map: null,
+        noMap: createMode === "play",
+        mode: createMode,
+        gridSize: 48,
+        tokens: [],
+        battle: null,
+      },
+    };
+    setMaps((items) => [...items, entry]);
+    openMap(entry);
+  };
+  useEffect(() => {
+    setBattle((b) => (b ? { ...b, dashReady: moveMode } : b));
+  }, [moveMode]);
+  const home = (
+    <div className="home">
+      <header>
+        <strong>Roll30</strong>
+        <span>Your maps</span>
+      </header>
+      {storageError && <div className="storage-error">{storageError}</div>}
+      <main className="home-main">
+        <section className="new-map">
+          <p>NEW MAP</p>
+          <h1>Create a tabletop</h1>
+          <input
+            value={mapName}
+            onChange={(e) => setMapName(e.target.value)}
+            placeholder="Map name"
+          />
+          <div className="mode-choice">
+            <button
+              className={createMode === "play" ? "active" : ""}
+              onClick={() => setCreateMode("play")}
+            >
+              Play
+            </button>
+            <button
+              className={createMode === "battle" ? "active" : ""}
+              onClick={() => setCreateMode("battle")}
+            >
+              Battle
+            </button>
+          </div>
+          <button className="start-battle" onClick={createMap}>
+            Create map
+          </button>
+        </section>
+        <section className="map-list">
+          <p>YOUR MAPS</p>
+          {maps.length ? (
+            maps.map((entry) => (
+              <button key={entry.id} onClick={() => openMap(entry)}>
+                <strong>{entry.name}</strong>
+                <span>{entry.mode === "battle" ? "Battle" : "Play"}</span>
+              </button>
+            ))
+          ) : (
+            <span>No saved maps yet.</span>
+          )}
+        </section>
+      </main>
+    </div>
+  );
   const snap = (event, rect) => {
     const px = Math.max(
         gridSize / 2,
@@ -112,7 +287,12 @@ function App() {
       if (drag.battle) {
         const next = snap(e, rect),
           path = cellsBetween(drag.originCell, next.cell);
-        setDrag((d) => ({ ...d, path, target: next, cursor: { x: e.clientX - rect.left, y: e.clientY - rect.top } }));
+        setDrag((d) => ({
+          ...d,
+          path,
+          target: next,
+          cursor: { x: e.clientX - rect.left, y: e.clientY - rect.top },
+        }));
       } else {
         const x = Math.max(
             3,
@@ -134,7 +314,16 @@ function App() {
           distance = (drag.path?.length ?? 1) - 1,
           allowance = speed * (battle?.dashReady ? 2 : 1),
           usedDash = !!battle?.dashReady && distance > speed;
-        const occupied = drag.target && tokens.some((token) => token.id !== drag.id && cell(token, boardRef.current.getBoundingClientRect()).x === drag.target.cell.x && cell(token, boardRef.current.getBoundingClientRect()).y === drag.target.cell.y);
+        const occupied =
+          drag.target &&
+          tokens.some(
+            (token) =>
+              token.id !== drag.id &&
+              cell(token, boardRef.current.getBoundingClientRect()).x ===
+                drag.target.cell.x &&
+              cell(token, boardRef.current.getBoundingClientRect()).y ===
+                drag.target.cell.y,
+          );
         if (distance <= allowance && distance > 0 && !occupied) {
           setTokens((items) =>
             items.map((t) =>
@@ -150,9 +339,13 @@ function App() {
             dashReady: false,
             log: `${active?.name} moved ${distance * 5} ft.`,
           }));
-        } else if (occupied) setBattle((b) => ({ ...b, dashReady: false, log: "That square is occupied." }));
-        else if (distance === 0)
-          setBattle((b) => ({ ...b, dashReady: false }));
+        } else if (occupied)
+          setBattle((b) => ({
+            ...b,
+            dashReady: false,
+            log: "That square is occupied.",
+          }));
+        else if (distance === 0) setBattle((b) => ({ ...b, dashReady: false }));
       }
       setDrag(null);
     };
@@ -228,9 +421,19 @@ function App() {
     const rect = boardRef.current?.getBoundingClientRect();
     const origin = rect && active ? cell(active, rect) : null;
     const targetCell = rect && target ? cell(target, rect) : null;
-    const validOffsets = new Set(patternCells(SIMPLE_ATTACK.pattern, SIMPLE_ATTACK.size).map(({ x, y }) => `${x},${y}`));
-    const inPattern = origin && targetCell && validOffsets.has(`${targetCell.x - origin.x},${targetCell.y - origin.y}`);
-    if (target && !inPattern) { setAttackMessage("That token is outside your attack pattern."); return; }
+    const validOffsets = new Set(
+      patternCells(SIMPLE_ATTACK.pattern, SIMPLE_ATTACK.size).map(
+        ({ x, y }) => `${x},${y}`,
+      ),
+    );
+    const inPattern =
+      origin &&
+      targetCell &&
+      validOffsets.has(`${targetCell.x - origin.x},${targetCell.y - origin.y}`);
+    if (target && !inPattern) {
+      setAttackMessage("That token is outside your attack pattern.");
+      return;
+    }
     if (
       !active ||
       !target ||
@@ -292,16 +495,26 @@ function App() {
     if (!rect || !active || t.id === active.id || t.hp <= 0) return false;
     const a = cell(active, rect),
       b = cell(t, rect);
-    return patternCells(SIMPLE_ATTACK.pattern, SIMPLE_ATTACK.size).some(({ x, y }) => x === b.x - a.x && y === b.y - a.y);
+    return patternCells(SIMPLE_ATTACK.pattern, SIMPLE_ATTACK.size).some(
+      ({ x, y }) => x === b.x - a.x && y === b.y - a.y,
+    );
   };
   if (!activeMapId) return home;
   return (
     <div className="app">
       <header>
         <strong>Roll30</strong>
-        <span>{mapName || "Untitled map"} · {mode === "battle" ? "Battle" : "Play"}</span>
-        <button className="button home-button" onClick={() => setActiveMapId(null)}>All maps</button>
+        <span>
+          {mapName || "Untitled map"} · {mode === "battle" ? "Battle" : "Play"}
+        </span>
+        <button
+          className="button home-button"
+          onClick={() => setActiveMapId(null)}
+        >
+          All maps
+        </button>
       </header>
+      {storageError && <div className="storage-error">{storageError}</div>}
       <main>
         <section className="board-column">
           <div className="controls">
@@ -311,11 +524,25 @@ function App() {
                 type="file"
                 accept="image/*"
                 onChange={(e) =>
-                  e.target.files?.[0] && (() => { const reader = new FileReader(); reader.onload = () => { setMap(reader.result); setNoMap(false); }; reader.readAsDataURL(e.target.files[0]); })()
+                  e.target.files?.[0] &&
+                  (() => {
+                    const reader = new FileReader();
+                    reader.onload = () => {
+                      setMap(reader.result);
+                      setNoMap(false);
+                    };
+                    reader.readAsDataURL(e.target.files[0]);
+                  })()
                 }
               />
             </label>
-            <button className="button" onClick={() => { setMap(null); setNoMap(true); }}>
+            <button
+              className="button"
+              onClick={() => {
+                setMap(null);
+                setNoMap(true);
+              }}
+            >
               No map
             </button>
             <button className="button" onClick={add}>
@@ -341,7 +568,11 @@ function App() {
           </div>
           <div
             ref={boardRef}
-            className={"board " + (!map && !noMap ? "empty" : "") + (noMap ? " no-map" : "")}
+            className={
+              "board " +
+              (!map && !noMap ? "empty" : "") +
+              (noMap ? " no-map" : "")
+            }
             style={{
               backgroundImage: map ? `url(${map})` : undefined,
               "--grid-size": `${gridSize}px`,
@@ -361,7 +592,26 @@ function App() {
                   {((drag.path?.length ?? 1) - 1) * 5} ft /{" "}
                   {drag.speed * (battle?.dashReady ? 2 : 1)} ft
                 </div>
-                {drag.cursor && boardRef.current && (() => { const rect = boardRef.current.getBoundingClientRect(), x = drag.origin.x / 100 * rect.width, y = drag.origin.y / 100 * rect.height, dx = drag.cursor.x - x, dy = drag.cursor.y - y; return <i className="move-arrow" style={{ left: x, top: y, width: Math.hypot(dx, dy), transform: `rotate(${Math.atan2(dy, dx)}rad)` }} /> })()}
+                {drag.cursor &&
+                  boardRef.current &&
+                  (() => {
+                    const rect = boardRef.current.getBoundingClientRect(),
+                      x = (drag.origin.x / 100) * rect.width,
+                      y = (drag.origin.y / 100) * rect.height,
+                      dx = drag.cursor.x - x,
+                      dy = drag.cursor.y - y;
+                    return (
+                      <i
+                        className="move-arrow"
+                        style={{
+                          left: x,
+                          top: y,
+                          width: Math.hypot(dx, dy),
+                          transform: `rotate(${Math.atan2(dy, dx)}rad)`,
+                        }}
+                      />
+                    );
+                  })()}
                 {drag.path?.map((p, i) => (
                   <i
                     key={`${p.x}-${p.y}`}
@@ -402,7 +652,10 @@ function App() {
                   className={attackMode ? "armed" : ""}
                   disabled={battle.attacked || battle.dashed}
                   onPointerDown={(e) => e.stopPropagation()}
-                  onClick={() => { setAttackMode((v) => !v); setAttackMessage(""); }}
+                  onClick={() => {
+                    setAttackMode((v) => !v);
+                    setAttackMessage("");
+                  }}
                 >
                   <Swords size={16} />
                 </button>
@@ -420,8 +673,34 @@ function App() {
                 Choose a token to attack · 3 damage
               </div>
             )}
-            {attackMode && active && boardRef.current && patternCells(SIMPLE_ATTACK.pattern, SIMPLE_ATTACK.size).map((offset) => { const c = cell(active, boardRef.current.getBoundingClientRect()), distance = Math.abs(offset.x) + Math.abs(offset.y); return <i key={`attack-${offset.x}-${offset.y}`} className="attack-cell" style={{ left: (c.x + offset.x) * gridSize, top: (c.y + offset.y) * gridSize, width: gridSize, height: gridSize, "--attack-delay": `${distance * 55}ms` }} /> })}
-            {attackMessage && <div className="attack-error">{attackMessage}</div>}
+            {attackMode &&
+              active &&
+              boardRef.current &&
+              patternCells(SIMPLE_ATTACK.pattern, SIMPLE_ATTACK.size).map(
+                (offset) => {
+                  const c = cell(
+                      active,
+                      boardRef.current.getBoundingClientRect(),
+                    ),
+                    distance = Math.abs(offset.x) + Math.abs(offset.y);
+                  return (
+                    <i
+                      key={`attack-${offset.x}-${offset.y}`}
+                      className="attack-cell"
+                      style={{
+                        left: (c.x + offset.x) * gridSize,
+                        top: (c.y + offset.y) * gridSize,
+                        width: gridSize,
+                        height: gridSize,
+                        "--attack-delay": `${distance * 55}ms`,
+                      }}
+                    />
+                  );
+                },
+              )}
+            {attackMessage && (
+              <div className="attack-error">{attackMessage}</div>
+            )}
             {tokens.map((t) => (
               <button
                 key={t.id}
@@ -429,9 +708,7 @@ function App() {
                   "token " +
                   (selectedId === t.id ? "selected " : "") +
                   (drag?.id === t.id ? "dragging " : "") +
-                  (attackMode && canAttackTarget(t)
-                    ? "targetable"
-                    : "")
+                  (attackMode && canAttackTarget(t) ? "targetable" : "")
                 }
                 style={{
                   left: `${t.x}%`,
