@@ -1,17 +1,19 @@
 import { useEffect, useRef, useState } from 'react'
 import { createRoot } from 'react-dom/client'
-import { Grid3X3, ImageUp, Plus, Trash2 } from 'lucide-react'
+import { Grid3X3, ImageUp, Plus, Swords, Trash2 } from 'lucide-react'
 import './styles.css'
 
 const makeToken = (id) => ({ id, name: 'Token', x: 50, y: 50, hp: 10, maxHp: 10, ac: 10, color: ['#c96d58', '#769b79', '#7e83ba', '#bd9a52'][id % 4] })
 
 function App() {
   const [map, setMap] = useState(null)
-  const [showGrid, setShowGrid] = useState(true)
+  const [mode, setMode] = useState('play')
   const [gridSize, setGridSize] = useState(48)
   const [tokens, setTokens] = useState([])
   const [selectedId, setSelectedId] = useState(null)
   const [draggingId, setDraggingId] = useState(null)
+  const [stat, setStat] = useState('hp')
+  const [adjustment, setAdjustment] = useState('')
   const boardRef = useRef(null)
   const selected = tokens.find((token) => token.id === selectedId)
 
@@ -38,8 +40,15 @@ function App() {
     setTokens((items) => [...items, token])
     setSelectedId(token.id)
   }
-  function updateToken(key, value) {
-    setTokens((items) => items.map((token) => token.id === selectedId ? { ...token, [key]: key === 'name' ? value : Math.max(0, Number(value)) } : token))
+  function updateTokenName(value) {
+    setTokens((items) => items.map((token) => token.id === selectedId ? { ...token, name: value } : token))
+  }
+  function applyAdjustment(event) {
+    event.preventDefault()
+    const amount = Number(adjustment)
+    if (!selected || !Number.isFinite(amount) || adjustment.trim() === '') return
+    setTokens((items) => items.map((token) => token.id === selectedId ? { ...token, [stat]: Math.max(0, token[stat] + amount) } : token))
+    setAdjustment('')
   }
   function removeToken() {
     setTokens((items) => items.filter((token) => token.id !== selectedId))
@@ -47,33 +56,29 @@ function App() {
   }
 
   return <div className="app">
-    <header><strong>Roll30</strong><span>Simple tabletop board</span></header>
+    <header><strong>Roll30</strong><span>Simple tabletop board</span><div className="mode-switch"><button className={mode === 'play' ? 'active' : ''} onClick={() => setMode('play')}>Play</button><button className={mode === 'battle' ? 'active' : ''} onClick={() => setMode('battle')}><Swords size={15}/> Battle</button></div></header>
     <main>
       <section className="board-column">
         <div className="controls">
           <label className="button"><ImageUp size={17}/> Upload image<input type="file" accept="image/*" onChange={uploadMap}/></label>
           <button className="button" onClick={addToken}><Plus size={17}/> Add token</button>
-          <label className="grid-toggle"><Grid3X3 size={17}/><input type="checkbox" checked={showGrid} onChange={(event) => setShowGrid(event.target.checked)}/> Show grid</label>
-          <label className="grid-size">Grid size <input type="range" min="24" max="80" value={gridSize} onChange={(event) => setGridSize(event.target.value)}/></label>
+          {mode === 'battle' && <><span className="battle-grid"><Grid3X3 size={17}/> Battle grid</span><label className="grid-size">Grid size <input type="range" min="24" max="80" value={gridSize} onChange={(event) => setGridSize(event.target.value)}/></label></>}
         </div>
         <div ref={boardRef} className={'board ' + (!map ? 'empty' : '')} style={{ backgroundImage: map ? `url(${map})` : undefined, '--grid-size': `${gridSize}px` }}>
           {!map && <div className="empty-message"><ImageUp size={28}/><strong>Upload a map image to begin</strong><span>You can add and move tokens at any time.</span></div>}
-          {showGrid && <div className="grid"/>}
+          {mode === 'battle' && <div className="grid"/>}
           {tokens.map((token) => <button key={token.id} className={'token ' + (selectedId === token.id ? 'selected' : '')} style={{ left: `${token.x}%`, top: `${token.y}%`, '--token-colour': token.color }} onPointerDown={(event) => { event.preventDefault(); setSelectedId(token.id); setDraggingId(token.id) }} aria-label={token.name}><span>{token.name.slice(0, 2).toUpperCase()}</span><small>{token.name}</small></button>)}
         </div>
       </section>
       <aside className="inspector">
         {selected ? <>
           <div><p>SELECTED TOKEN</p><h1>Token details</h1></div>
-          <label>Name<input value={selected.name} onChange={(event) => updateToken('name', event.target.value)} /></label>
-          <div className="stats">
-            <label>HP<input type="number" value={selected.hp} onChange={(event) => updateToken('hp', event.target.value)} /></label>
-            <label>Max HP<input type="number" value={selected.maxHp} onChange={(event) => updateToken('maxHp', event.target.value)} /></label>
-            <label>AC<input type="number" value={selected.ac} onChange={(event) => updateToken('ac', event.target.value)} /></label>
-          </div>
+          <label>Name<input value={selected.name} onChange={(event) => updateTokenName(event.target.value)} /></label>
+          {mode === 'battle' && <><div className="stats"><div><span>HP</span><strong>{selected.hp}</strong></div><div><span>MAX HP</span><strong>{selected.maxHp}</strong></div><div><span>AC</span><strong>{selected.ac}</strong></div></div>
           <div className="health"><span>Health</span><strong>{selected.hp} / {selected.maxHp}</strong><i><b style={{ width: `${Math.min(100, selected.maxHp ? selected.hp / selected.maxHp * 100 : 0)}%` }}/></i></div>
+          <form className="calculator" onSubmit={applyAdjustment}><label>Adjust stat<select value={stat} onChange={(event) => setStat(event.target.value)}><option value="hp">HP</option><option value="maxHp">Max HP</option><option value="ac">AC</option></select></label><label>Amount<input value={adjustment} onChange={(event) => setAdjustment(event.target.value)} placeholder="e.g. +3 or -4" inputMode="text" /></label><button className="button" type="submit">Apply</button></form></>}
           <button className="remove" onClick={removeToken}><Trash2 size={16}/> Remove token</button>
-        </> : <div className="no-selection"><p>NO TOKEN SELECTED</p><h1>Add a token</h1><span>Select a token on the board to edit its name and stats.</span><button className="button" onClick={addToken}><Plus size={17}/> Add token</button></div>}
+        </> : <div className="no-selection"><p>NO TOKEN SELECTED</p><h1>Add a token</h1><span>Select a token on the board to edit its name{mode === 'battle' ? ' and battle stats' : ''}.</span><button className="button" onClick={addToken}><Plus size={17}/> Add token</button></div>}
       </aside>
     </main>
   </div>
