@@ -13,9 +13,10 @@ import {
 import "./styles.css";
 import "./movement.css";
 import "./premium.css";
-import { patternCells, SIMPLE_ATTACK } from "./patterns.js";
+import { patternCells } from "./patterns.js";
 import CharactersPage from "./CharactersPage.jsx";
 import { deriveCharacter } from "./characterRules.js";
+import { resolveWeaponAttack, WEAPONS } from "./weapons.js";
 
 const makeToken = (id) => ({
   id,
@@ -26,6 +27,9 @@ const makeToken = (id) => ({
   maxHp: 10,
   ac: 10,
   speed: 30,
+  strength: 10,
+  dexterity: 10,
+  level: 1,
   color: ["#c96d58", "#769b79", "#7e83ba", "#bd9a52"][id % 4],
 });
 const cellsBetween = (a, b) => {
@@ -138,6 +142,8 @@ function App() {
     [adjustment, setAdjustment] = useState(""),
     [battle, setBattle] = useState(INITIAL_DATA.battle || null),
     [attackMode, setAttackMode] = useState(false),
+    [weaponMenuOpen, setWeaponMenuOpen] = useState(false),
+    [selectedWeaponId, setSelectedWeaponId] = useState("longsword"),
     [attackMessage, setAttackMessage] = useState(""),
     [moveMode, setMoveMode] = useState(false),
     [storageError, setStorageError] = useState(""),
@@ -151,6 +157,8 @@ function App() {
     [showCharacters, setShowCharacters] = useState(false),
     [selectedCharacterId, setSelectedCharacterId] = useState(""),
     [damagePopups, setDamagePopups] = useState([]);
+  const selectedWeapon =
+    WEAPONS.find((weapon) => weapon.id === selectedWeaponId) || WEAPONS[0];
   const boardRef = useRef(null);
   useEffect(() => {
     try {
@@ -431,6 +439,7 @@ function App() {
   const reset = () => {
     setBattle(null);
     setAttackMode(false);
+    setWeaponMenuOpen(false);
   };
   const add = () => {
     const character = characters.find(
@@ -446,6 +455,9 @@ function App() {
           ac: derived.ac,
           speed: derived.speed,
           initiativeBonus: derived.initiative,
+          strength: derived.finalAbilities.str,
+          dexterity: derived.finalAbilities.dex,
+          level: character.level,
           characterId: character.id,
         }
       : makeToken(Date.now());
@@ -484,6 +496,7 @@ function App() {
     });
     setSelectedId(order[0].id);
     setAttackMode(false);
+    setWeaponMenuOpen(false);
   };
   const nextTurn = (updated, log) => {
     let n = (battle.turn + 1) % battle.order.length;
@@ -502,23 +515,25 @@ function App() {
     });
     setSelectedId(next.id);
     setAttackMode(false);
+    setWeaponMenuOpen(false);
   };
   const attack = (id) => {
     const target = tokens.find((t) => t.id === id);
     const rect = boardRef.current?.getBoundingClientRect();
     const origin = rect && active ? cell(active, rect) : null;
     const targetCell = rect && target ? cell(target, rect) : null;
+    const rangeSquares = Math.max(1, selectedWeapon.rangeFeet / 5);
     const validOffsets = new Set(
-      patternCells(SIMPLE_ATTACK.pattern, SIMPLE_ATTACK.size).map(
-        ({ x, y }) => `${x},${y}`,
-      ),
+      patternCells("diamond", rangeSquares).map(({ x, y }) => `${x},${y}`),
     );
     const inPattern =
       origin &&
       targetCell &&
       validOffsets.has(`${targetCell.x - origin.x},${targetCell.y - origin.y}`);
     if (target && !inPattern) {
-      setAttackMessage("That token is outside your attack pattern.");
+      setAttackMessage(
+        `${target.name} is outside ${selectedWeapon.name} range.`,
+      );
       return;
     }
     if (
@@ -532,17 +547,26 @@ function App() {
       !inPattern
     )
       return;
+    const result = resolveWeaponAttack(active, target, selectedWeapon);
     const updated = tokens.map((t) =>
-        t.id === target.id
-          ? { ...t, hp: Math.max(0, t.hp - SIMPLE_ATTACK.damage) }
+        t.id === target.id && result.hit
+          ? { ...t, hp: Math.max(0, t.hp - result.damage.total) }
           : t,
       ),
       alive = updated.filter((t) => t.hp > 0);
     const popupId = `${target.id}-${Date.now()}`;
-    playHitSound();
+    if (result.hit) playHitSound();
     setDamagePopups((items) => [
       ...items,
-      { id: popupId, tokenId: target.id, damage: SIMPLE_ATTACK.damage },
+      {
+        id: popupId,
+        tokenId: target.id,
+        damage: result.damage.total,
+        hit: result.hit,
+        critical: result.critical,
+        roll: result.naturalRoll,
+        total: result.attackTotal,
+      },
     ]);
     setTimeout(
       () =>
@@ -554,13 +578,15 @@ function App() {
       setBattle({
         ...battle,
         complete: true,
-        log: `${active.name}'s ${SIMPLE_ATTACK.pattern} hits for ${SIMPLE_ATTACK.damage} damage. ${alive[0]?.name ?? "No one"} wins!`,
+        log: `${active.name}'s ${selectedWeapon.name} hits for ${result.damage.total} ${selectedWeapon.damageType.toLowerCase()} damage. ${alive[0]?.name ?? "No one"} wins!`,
       });
       setAttackMode(false);
     } else
       nextTurn(
         updated,
-        `${active.name} hits ${target.name} for ${SIMPLE_ATTACK.damage} damage.`,
+        result.hit
+          ? `${active.name} rolls ${result.naturalRoll} + ${result.bonus} = ${result.attackTotal} and ${result.critical ? "critically " : ""}hits ${target.name} with a ${selectedWeapon.name} for ${result.damage.total} ${selectedWeapon.damageType.toLowerCase()} damage.`
+          : `${active.name} rolls ${result.naturalRoll} + ${result.bonus} = ${result.attackTotal}; the ${selectedWeapon.name} misses ${target.name} (AC ${target.ac}).`,
       );
   };
   const end = () =>
@@ -593,9 +619,10 @@ function App() {
     if (!rect || !active || t.id === active.id || t.hp <= 0) return false;
     const a = cell(active, rect),
       b = cell(t, rect);
-    return patternCells(SIMPLE_ATTACK.pattern, SIMPLE_ATTACK.size).some(
-      ({ x, y }) => x === b.x - a.x && y === b.y - a.y,
-    );
+    return patternCells(
+      "diamond",
+      Math.max(1, selectedWeapon.rangeFeet / 5),
+    ).some(({ x, y }) => x === b.x - a.x && y === b.y - a.y);
   };
   if (showCharacters)
     return (
@@ -770,6 +797,37 @@ function App() {
                   </div>
                   <em>R{battle.round}</em>
                 </div>
+                {weaponMenuOpen && (
+                  <div className="weapon-picker">
+                    <div className="weapon-picker-title">
+                      <span>CHOOSE A WEAPON</span>
+                      <small>d20 + ability + proficiency</small>
+                    </div>
+                    <div className="weapon-grid">
+                      {WEAPONS.map((weapon) => (
+                        <button
+                          key={weapon.id}
+                          className={
+                            weapon.id === selectedWeaponId ? "selected" : ""
+                          }
+                          onClick={() => {
+                            setSelectedWeaponId(weapon.id);
+                            setWeaponMenuOpen(false);
+                            setAttackMode(true);
+                            setAttackMessage("");
+                          }}
+                        >
+                          <strong>{weapon.name}</strong>
+                          <b>{weapon.damageDice}</b>
+                          <span>
+                            {weapon.damageType} · {weapon.rangeFeet} ft
+                          </span>
+                          <small>{weapon.category}</small>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
                 <div className="combat-actions-row">
                   <button
                     className={battle.dashReady ? "armed" : ""}
@@ -786,11 +844,12 @@ function App() {
                     </span>
                   </button>
                   <button
-                    className={attackMode ? "armed" : ""}
+                    className={attackMode || weaponMenuOpen ? "armed" : ""}
                     disabled={battle.attacked || battle.dashed}
                     onPointerDown={(e) => e.stopPropagation()}
                     onClick={() => {
-                      setAttackMode((v) => !v);
+                      setWeaponMenuOpen((value) => !value);
+                      setAttackMode(false);
                       setAttackMessage("");
                     }}
                   >
@@ -799,7 +858,9 @@ function App() {
                     </span>
                     <span>
                       <strong>Attack</strong>
-                      <small>Diamond 2</small>
+                      <small>
+                        {selectedWeapon.name} · {selectedWeapon.damageDice}
+                      </small>
                     </span>
                   </button>
                   <button
@@ -820,34 +881,35 @@ function App() {
             )}
             {attackMode && (
               <div className="attack-prompt">
-                Choose a token to attack · 3 damage
+                {selectedWeapon.name} ready · choose a target · d20 vs AC
               </div>
             )}
             {attackMode &&
               active &&
               boardRef.current &&
-              patternCells(SIMPLE_ATTACK.pattern, SIMPLE_ATTACK.size).map(
-                (offset) => {
-                  const c = cell(
-                      active,
-                      boardRef.current.getBoundingClientRect(),
-                    ),
-                    distance = Math.abs(offset.x) + Math.abs(offset.y);
-                  return (
-                    <i
-                      key={`attack-${offset.x}-${offset.y}`}
-                      className="attack-cell"
-                      style={{
-                        left: (c.x + offset.x) * gridSize,
-                        top: (c.y + offset.y) * gridSize,
-                        width: gridSize,
-                        height: gridSize,
-                        "--attack-delay": `${distance * 55}ms`,
-                      }}
-                    />
-                  );
-                },
-              )}
+              patternCells(
+                "diamond",
+                Math.max(1, selectedWeapon.rangeFeet / 5),
+              ).map((offset) => {
+                const c = cell(
+                    active,
+                    boardRef.current.getBoundingClientRect(),
+                  ),
+                  distance = Math.abs(offset.x) + Math.abs(offset.y);
+                return (
+                  <i
+                    key={`attack-${offset.x}-${offset.y}`}
+                    className="attack-cell"
+                    style={{
+                      left: (c.x + offset.x) * gridSize,
+                      top: (c.y + offset.y) * gridSize,
+                      width: gridSize,
+                      height: gridSize,
+                      "--attack-delay": `${distance * 55}ms`,
+                    }}
+                  />
+                );
+              })}
             {attackMessage && (
               <div className="attack-error">{attackMessage}</div>
             )}
@@ -857,10 +919,17 @@ function App() {
                 token && (
                   <div
                     key={popup.id}
-                    className="damage-popup"
+                    className={`damage-popup ${popup.hit ? "hit" : "miss"} ${popup.critical ? "critical" : ""}`}
                     style={{ left: `${token.x}%`, top: `${token.y}%` }}
                   >
-                    −{popup.damage}
+                    <small>
+                      d20 {popup.roll} · {popup.total} total
+                    </small>
+                    <strong>
+                      {popup.hit
+                        ? `${popup.critical ? "CRITICAL · " : ""}−${popup.damage}`
+                        : "MISS"}
+                    </strong>
                   </div>
                 )
               );
@@ -872,7 +941,9 @@ function App() {
                   "token " +
                   (selectedId === t.id ? "selected " : "") +
                   (drag?.id === t.id ? "dragging " : "") +
-                  (damagePopups.some((popup) => popup.tokenId === t.id)
+                  (damagePopups.some(
+                    (popup) => popup.tokenId === t.id && popup.hit,
+                  )
                     ? "hit "
                     : "") +
                   (attackMode && canAttackTarget(t) ? "targetable" : "")
