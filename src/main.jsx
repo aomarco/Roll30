@@ -149,7 +149,7 @@ function App() {
       if (drag.battle) {
         const next = snap(e, rect),
           path = cellsBetween(drag.originCell, next.cell);
-        setDrag((d) => ({ ...d, path, target: next }));
+        setDrag((d) => ({ ...d, path, target: next, cursor: { x: e.clientX - rect.left, y: e.clientY - rect.top } }));
       } else {
         const x = Math.max(
             3,
@@ -425,7 +425,7 @@ function App() {
                   {((drag.path?.length ?? 1) - 1) * 5} ft /{" "}
                   {drag.speed * (battle?.dashReady ? 2 : 1)} ft
                 </div>
-                {drag.target && <i className="move-arrow" style={{ left: `${drag.origin.x}%`, top: `${drag.origin.y}%`, width: `${Math.hypot(drag.target.x-drag.origin.x, drag.target.y-drag.origin.y)}%`, transform: `rotate(${Math.atan2(drag.target.y-drag.origin.y, drag.target.x-drag.origin.x)}rad)` }} />}
+                {drag.cursor && boardRef.current && (() => { const rect = boardRef.current.getBoundingClientRect(), x = drag.origin.x / 100 * rect.width, y = drag.origin.y / 100 * rect.height, dx = drag.cursor.x - x, dy = drag.cursor.y - y; return <i className="move-arrow" style={{ left: x, top: y, width: Math.hypot(dx, dy), transform: `rotate(${Math.atan2(dy, dx)}rad)` }} /> })()}
                 {drag.path?.map((p, i) => (
                   <i
                     key={`${p.x}-${p.y}`}
