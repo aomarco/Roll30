@@ -85,7 +85,11 @@ const patternCells = (type, size) => {
 const SIMPLE_ATTACK = { range: 2, pattern: "star", size: 2, damage: 3 };
 
 function App() {
-  const [map, setMap] = useState(null),
+  const [maps, setMaps] = useState(() => JSON.parse(localStorage.getItem("roll30-maps") || "[]")),
+    [activeMapId, setActiveMapId] = useState(() => localStorage.getItem("roll30-active-map") || null),
+    [mapName, setMapName] = useState(""),
+    [createMode, setCreateMode] = useState("play"),
+    [map, setMap] = useState(null),
     [noMap, setNoMap] = useState(false),
     [mode, setMode] = useState("play"),
     [gridSize, setGridSize] = useState(48),
@@ -100,12 +104,15 @@ function App() {
     [attackMessage, setAttackMessage] = useState(""),
     [moveMode, setMoveMode] = useState(false);
   const boardRef = useRef(null);
+  useEffect(() => { localStorage.setItem("roll30-maps", JSON.stringify(maps)); localStorage.setItem("roll30-active-map", activeMapId || ""); }, [maps, activeMapId]);
+  useEffect(() => { if (!activeMapId) return; setMaps(items => items.map(item => item.id === activeMapId ? { ...item, data: { map, noMap, mode, gridSize, tokens, battle } } : item)); }, [map, noMap, mode, gridSize, tokens, battle, activeMapId]);
   const selected = tokens.find((t) => t.id === selectedId),
     activeId = battle?.order[battle.turn],
     active = tokens.find((t) => t.id === activeId);
-  useEffect(() => {
-    setBattle((b) => (b ? { ...b, dashReady: moveMode } : b));
-  }, [moveMode]);
+  const openMap = (entry) => { const data = entry.data || {}; setActiveMapId(entry.id); setMapName(entry.name); setMap(data.map || null); setNoMap(!!data.noMap); setMode(entry.mode || data.mode || "play"); setGridSize(data.gridSize || 48); setTokens(data.tokens || []); setBattle(data.battle || null); setSelectedId(null); };
+  const createMap = () => { const entry = { id: Date.now().toString(), name: mapName.trim() || "Untitled map", mode: createMode, data: { map: null, noMap: createMode === "play", mode: createMode, gridSize: 48, tokens: [], battle: null } }; setMaps(items => [...items, entry]); openMap(entry); };
+  useEffect(() => { setBattle((b) => (b ? { ...b, dashReady: moveMode } : b)); }, [moveMode]);
+  const home = <div className="home"><header><strong>Roll30</strong><span>Your maps</span></header><main className="home-main"><section className="new-map"><p>NEW MAP</p><h1>Create a tabletop</h1><input value={mapName} onChange={e => setMapName(e.target.value)} placeholder="Map name"/><div className="mode-choice"><button className={createMode === "play" ? "active" : ""} onClick={() => setCreateMode("play")}>Play</button><button className={createMode === "battle" ? "active" : ""} onClick={() => setCreateMode("battle")}>Battle</button></div><button className="start-battle" onClick={createMap}>Create map</button></section><section className="map-list"><p>YOUR MAPS</p>{maps.length ? maps.map(entry => <button key={entry.id} onClick={() => openMap(entry)}><strong>{entry.name}</strong><span>{entry.mode === "battle" ? "Battle" : "Play"}</span></button>) : <span>No saved maps yet.</span>}</section></main></div>;
   const snap = (event, rect) => {
     const px = Math.max(
         gridSize / 2,
@@ -164,7 +171,8 @@ function App() {
           distance = (drag.path?.length ?? 1) - 1,
           allowance = speed * (battle?.dashReady ? 2 : 1),
           usedDash = !!battle?.dashReady && distance > speed;
-        if (distance <= allowance && distance > 0) {
+        const occupied = drag.target && tokens.some((token) => token.id !== drag.id && cell(token, boardRef.current.getBoundingClientRect()).x === drag.target.cell.x && cell(token, boardRef.current.getBoundingClientRect()).y === drag.target.cell.y);
+        if (distance <= allowance && distance > 0 && !occupied) {
           setTokens((items) =>
             items.map((t) =>
               t.id === drag.id
@@ -179,7 +187,8 @@ function App() {
             dashReady: false,
             log: `${active?.name} moved ${distance * 5} ft.`,
           }));
-        } else if (distance === 0)
+        } else if (occupied) setBattle((b) => ({ ...b, dashReady: false, log: "That square is occupied." }));
+        else if (distance === 0)
           setBattle((b) => ({ ...b, dashReady: false }));
       }
       setDrag(null);
@@ -349,25 +358,13 @@ function App() {
       Math.max(Math.abs(a.x - b.x), Math.abs(a.y - b.y)) <= SIMPLE_ATTACK.range
     );
   };
+  if (!activeMapId) return home;
   return (
     <div className="app">
       <header>
         <strong>Roll30</strong>
-        <span>Simple tabletop board</span>
-        <div className="mode-switch">
-          <button
-            className={mode === "play" ? "active" : ""}
-            onClick={() => setMode("play")}
-          >
-            Play
-          </button>
-          <button
-            className={mode === "battle" ? "active" : ""}
-            onClick={() => setMode("battle")}
-          >
-            <Swords size={15} /> Battle
-          </button>
-        </div>
+        <span>{mapName || "Untitled map"} · {mode === "battle" ? "Battle" : "Play"}</span>
+        <button className="button home-button" onClick={() => setActiveMapId(null)}>All maps</button>
       </header>
       <main>
         <section className="board-column">
@@ -378,8 +375,7 @@ function App() {
                 type="file"
                 accept="image/*"
                 onChange={(e) =>
-                  e.target.files?.[0] &&
-                  (setMap(URL.createObjectURL(e.target.files[0])), setNoMap(false))
+                  e.target.files?.[0] && (() => { const reader = new FileReader(); reader.onload = () => { setMap(reader.result); setNoMap(false); }; reader.readAsDataURL(e.target.files[0]); })()
                 }
               />
             </label>
@@ -496,6 +492,7 @@ function App() {
                 className={
                   "token " +
                   (selectedId === t.id ? "selected " : "") +
+                  (drag?.id === t.id ? "dragging " : "") +
                   (attackMode && canAttackTarget(t)
                     ? "targetable"
                     : "")
