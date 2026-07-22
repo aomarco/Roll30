@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import "./styles.css";
 import "./movement.css";
+import { patternCells, SIMPLE_ATTACK } from "./patterns.js";
 
 const makeToken = (id) => ({
   id,
@@ -46,43 +47,6 @@ const cellsBetween = (a, b) => {
   }
   return cells;
 };
-const pointInPolygon = (x, y, polygon) =>
-  polygon.reduce((inside, point, index) => {
-    const next = polygon[(index + 1) % polygon.length];
-    return point.y > y !== next.y > y &&
-      x < ((next.x - point.x) * (y - point.y)) / (next.y - point.y) + point.x
-      ? !inside
-      : inside;
-  }, false);
-const patternCells = (type, size) => {
-  const n = Math.max(1, Math.floor(size)),
-    cells = [];
-  if (type === "diamond")
-    for (let y = -n; y <= n; y++)
-      for (let x = -n; x <= n; x++)
-        if (Math.abs(x) + Math.abs(y) <= n) cells.push({ x, y });
-  if (type === "square")
-    for (let y = -n; y <= n; y++)
-      for (let x = -n; x <= n; x++) cells.push({ x, y });
-  if (type === "plus")
-    for (let i = -n; i <= n; i++) {
-      cells.push({ x: i, y: 0 });
-      if (i) cells.push({ x: 0, y: i });
-    }
-  if (type === "star") {
-    const points = Array.from({ length: 10 }, (_, i) => {
-      const radius = i % 2 ? n * 0.9 : n * 2;
-      const angle = -Math.PI / 2 + (i * Math.PI) / 5;
-      return { x: Math.cos(angle) * radius, y: Math.sin(angle) * radius };
-    });
-    for (let y = -n * 2; y <= n * 2; y++)
-      for (let x = -n * 2; x <= n * 2; x++)
-        if (pointInPolygon(x, y, points) || (x === 0 && y === 0))
-          cells.push({ x, y });
-  }
-  return cells;
-};
-const SIMPLE_ATTACK = { range: 2, pattern: "star", size: 2, damage: 3 };
 
 function App() {
   const [maps, setMaps] = useState(() => JSON.parse(localStorage.getItem("roll30-maps") || "[]")),
