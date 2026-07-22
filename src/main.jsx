@@ -46,16 +46,43 @@ const cellsBetween = (a, b) => {
   }
   return cells;
 };
-const pointInPolygon = (x, y, polygon) => polygon.reduce((inside, point, index) => { const next = polygon[(index + 1) % polygon.length]; return ((point.y > y) !== (next.y > y)) && x < ((next.x - point.x) * (y - point.y)) / (next.y - point.y) + point.x ? !inside : inside }, false);
+const pointInPolygon = (x, y, polygon) =>
+  polygon.reduce((inside, point, index) => {
+    const next = polygon[(index + 1) % polygon.length];
+    return point.y > y !== next.y > y &&
+      x < ((next.x - point.x) * (y - point.y)) / (next.y - point.y) + point.x
+      ? !inside
+      : inside;
+  }, false);
 const patternCells = (type, size) => {
-  const n = Math.max(1, Math.floor(size)), cells = [];
-  if (type === 'diamond') for (let y = -n; y <= n; y++) for (let x = -n; x <= n; x++) if (Math.abs(x) + Math.abs(y) <= n) cells.push({ x, y });
-  if (type === 'square') for (let y = -n; y <= n; y++) for (let x = -n; x <= n; x++) cells.push({ x, y });
-  if (type === 'plus') for (let i = -n; i <= n; i++) { cells.push({ x: i, y: 0 }); if (i) cells.push({ x: 0, y: i }) }
-  if (type === 'star') { const points = Array.from({ length: 10 }, (_, i) => { const radius = i % 2 ? n * .9 : n * 2; const angle = -Math.PI / 2 + i * Math.PI / 5; return { x: Math.cos(angle) * radius, y: Math.sin(angle) * radius } }); for (let y = -n * 2; y <= n * 2; y++) for (let x = -n * 2; x <= n * 2; x++) if (pointInPolygon(x, y, points) || (x === 0 && y === 0)) cells.push({ x, y }) }
+  const n = Math.max(1, Math.floor(size)),
+    cells = [];
+  if (type === "diamond")
+    for (let y = -n; y <= n; y++)
+      for (let x = -n; x <= n; x++)
+        if (Math.abs(x) + Math.abs(y) <= n) cells.push({ x, y });
+  if (type === "square")
+    for (let y = -n; y <= n; y++)
+      for (let x = -n; x <= n; x++) cells.push({ x, y });
+  if (type === "plus")
+    for (let i = -n; i <= n; i++) {
+      cells.push({ x: i, y: 0 });
+      if (i) cells.push({ x: 0, y: i });
+    }
+  if (type === "star") {
+    const points = Array.from({ length: 10 }, (_, i) => {
+      const radius = i % 2 ? n * 0.9 : n * 2;
+      const angle = -Math.PI / 2 + (i * Math.PI) / 5;
+      return { x: Math.cos(angle) * radius, y: Math.sin(angle) * radius };
+    });
+    for (let y = -n * 2; y <= n * 2; y++)
+      for (let x = -n * 2; x <= n * 2; x++)
+        if (pointInPolygon(x, y, points) || (x === 0 && y === 0))
+          cells.push({ x, y });
+  }
   return cells;
 };
-const SIMPLE_ATTACK = { range: 2, pattern: 'star', size: 2, damage: 3 };
+const SIMPLE_ATTACK = { range: 2, pattern: "star", size: 2, damage: 3 };
 
 function App() {
   const [map, setMap] = useState(null),
@@ -69,6 +96,7 @@ function App() {
     [battle, setBattle] = useState(null),
     [attackMode, setAttackMode] = useState(false),
     [attackTarget, setAttackTarget] = useState(null),
+    [attackMessage, setAttackMessage] = useState(""),
     [moveMode, setMoveMode] = useState(false);
   const boardRef = useRef(null);
   const selected = tokens.find((t) => t.id === selectedId),
@@ -113,12 +141,7 @@ function App() {
       if (drag.battle) {
         const next = snap(e, rect),
           path = cellsBetween(drag.originCell, next.cell);
-        setTokens((items) =>
-          items.map((t) =>
-            t.id === drag.id ? { ...t, x: next.x, y: next.y } : t,
-          ),
-        );
-        setDrag((d) => ({ ...d, path }));
+        setDrag((d) => ({ ...d, path, target: next }));
       } else {
         const x = Math.max(
             3,
@@ -140,11 +163,14 @@ function App() {
           distance = (drag.path?.length ?? 1) - 1,
           allowance = speed * (battle?.dashReady ? 2 : 1),
           usedDash = !!battle?.dashReady && distance > speed;
-        if (distance > allowance)
+        if (distance <= allowance && distance > 0) {
           setTokens((items) =>
-            items.map((t) => (t.id === drag.id ? { ...t, ...drag.origin } : t)),
+            items.map((t) =>
+              t.id === drag.id
+                ? { ...t, x: drag.target.x, y: drag.target.y }
+                : t,
+            ),
           );
-        else if (distance > 0)
           setBattle((b) => ({
             ...b,
             moved: true,
@@ -152,7 +178,8 @@ function App() {
             dashReady: false,
             log: `${active?.name} moved ${distance * 5} ft.`,
           }));
-        else setBattle((b) => ({ ...b, dashReady: false }));
+        } else if (distance === 0)
+          setBattle((b) => ({ ...b, dashReady: false }));
       }
       setDrag(null);
     };
@@ -229,6 +256,17 @@ function App() {
     const origin = rect && active ? cell(active, rect) : null;
     const targetCell = rect && target ? cell(target, rect) : null;
     if (
+      origin &&
+      targetCell &&
+      Math.max(
+        Math.abs(targetCell.x - origin.x),
+        Math.abs(targetCell.y - origin.y),
+      ) > SIMPLE_ATTACK.range
+    ) {
+      setAttackMessage("That target is out of range (2 squares).");
+      return;
+    }
+    if (
       !active ||
       !target ||
       battle.attacked ||
@@ -236,12 +274,31 @@ function App() {
       target.hp <= 0 ||
       !origin ||
       !targetCell ||
-      Math.max(Math.abs(targetCell.x - origin.x), Math.abs(targetCell.y - origin.y)) > SIMPLE_ATTACK.range
+      Math.max(
+        Math.abs(targetCell.x - origin.x),
+        Math.abs(targetCell.y - origin.y),
+      ) > SIMPLE_ATTACK.range
     )
       return;
-    const affected = new Set(patternCells(SIMPLE_ATTACK.pattern, SIMPLE_ATTACK.size).map((offset) => `${targetCell.x + offset.x},${targetCell.y + offset.y}`));
-    const hitIds = new Set(tokens.filter((t) => t.id !== active.id && affected.has(`${cell(t, rect).x},${cell(t, rect).y}`)).map((t) => t.id));
-    const updated = tokens.map((t) => hitIds.has(t.id) ? { ...t, hp: Math.max(0, t.hp - SIMPLE_ATTACK.damage) } : t),
+    const affected = new Set(
+      patternCells(SIMPLE_ATTACK.pattern, SIMPLE_ATTACK.size).map(
+        (offset) => `${targetCell.x + offset.x},${targetCell.y + offset.y}`,
+      ),
+    );
+    const hitIds = new Set(
+      tokens
+        .filter(
+          (t) =>
+            t.id !== active.id &&
+            affected.has(`${cell(t, rect).x},${cell(t, rect).y}`),
+        )
+        .map((t) => t.id),
+    );
+    const updated = tokens.map((t) =>
+        hitIds.has(t.id)
+          ? { ...t, hp: Math.max(0, t.hp - SIMPLE_ATTACK.damage) }
+          : t,
+      ),
       alive = updated.filter((t) => t.hp > 0);
     setTokens(updated);
     if (alive.length <= 1) {
@@ -252,7 +309,10 @@ function App() {
       });
       setAttackMode(false);
     } else
-      nextTurn(updated, `${active.name}'s star hits ${hitIds.size} token(s) for ${SIMPLE_ATTACK.damage} damage.`);
+      nextTurn(
+        updated,
+        `${active.name}'s star hits ${hitIds.size} token(s) for ${SIMPLE_ATTACK.damage} damage.`,
+      );
   };
   const end = () =>
     !battle?.complete && nextTurn(tokens, `${active?.name} ended their turn.`);
@@ -278,6 +338,15 @@ function App() {
         path: [cell(t, r)],
       });
     } else if (!battle) setDrag({ id: t.id, battle: false });
+  };
+  const canAttackTarget = (t) => {
+    const rect = boardRef.current?.getBoundingClientRect();
+    if (!rect || !active || t.id === active.id || t.hp <= 0) return false;
+    const a = cell(active, rect),
+      b = cell(t, rect);
+    return (
+      Math.max(Math.abs(a.x - b.x), Math.abs(a.y - b.y)) <= SIMPLE_ATTACK.range
+    );
   };
   return (
     <div className="app">
@@ -350,22 +419,36 @@ function App() {
               </div>
             )}
             {mode === "battle" && <div className="grid" />}
-          {drag?.battle && <><div className="move-counter">{((drag.path?.length ?? 1) - 1) * 5} ft / {drag.speed * (battle?.dashReady ? 2 : 1)} ft</div>
-            {drag.path?.map((p, i) => (
-              <i
-                key={`${p.x}-${p.y}`}
-                className={
-                  "move-cell " +
-                    (i === 0 ? "origin" : i > Math.floor(drag.speed / 5) * (battle?.dashReady ? 2 : 1) ? "over" : "")
-                }
-                  style={{
-                    left: p.x * gridSize,
-                    top: p.y * gridSize,
-                    width: gridSize,
-                    height: gridSize,
-                  }}
-              />
-            ))}</>}
+            {drag?.battle && (
+              <>
+                <div className="move-counter">
+                  {((drag.path?.length ?? 1) - 1) * 5} ft /{" "}
+                  {drag.speed * (battle?.dashReady ? 2 : 1)} ft
+                </div>
+                {drag.target && <i className="move-arrow" style={{ left: `${drag.origin.x}%`, top: `${drag.origin.y}%`, width: `${Math.hypot(drag.target.x-drag.origin.x, drag.target.y-drag.origin.y)}%`, transform: `rotate(${Math.atan2(drag.target.y-drag.origin.y, drag.target.x-drag.origin.x)}rad)` }} />}
+                {drag.path?.map((p, i) => (
+                  <i
+                    key={`${p.x}-${p.y}`}
+                    className={
+                      "move-cell " +
+                      (i === 0
+                        ? "origin"
+                        : i >
+                            Math.floor(drag.speed / 5) *
+                              (battle?.dashReady ? 2 : 1)
+                          ? "over"
+                          : "")
+                    }
+                    style={{
+                      left: p.x * gridSize,
+                      top: p.y * gridSize,
+                      width: gridSize,
+                      height: gridSize,
+                    }}
+                  />
+                ))}
+              </>
+            )}
             {battle && !battle.complete && active && (
               <div
                 className="map-actions"
@@ -387,7 +470,11 @@ function App() {
                 >
                   <Swords size={16} />
                 </button>
-                <button onPointerDown={(e) => e.stopPropagation()} onClick={end} aria-label="End turn early">
+                <button
+                  onPointerDown={(e) => e.stopPropagation()}
+                  onClick={end}
+                  aria-label="End turn early"
+                >
                   <SkipForward size={16} />
                 </button>
               </div>
@@ -397,13 +484,15 @@ function App() {
                 Choose a token to attack · 3 damage
               </div>
             )}
+            {attackMode && attackTarget && boardRef.current && patternCells(SIMPLE_ATTACK.pattern, SIMPLE_ATTACK.size).map((offset) => { const c = cell(tokens.find((t) => t.id === attackTarget), boardRef.current.getBoundingClientRect()); return <i key={`attack-${offset.x}-${offset.y}`} className="attack-cell" style={{ left: (c.x + offset.x) * gridSize, top: (c.y + offset.y) * gridSize, width: gridSize, height: gridSize }} /> })}
+            {attackMessage && <div className="attack-error">{attackMessage}</div>}
             {tokens.map((t) => (
               <button
                 key={t.id}
                 className={
                   "token " +
                   (selectedId === t.id ? "selected " : "") +
-                  (attackMode && t.id !== activeId && t.hp > 0
+                  (attackMode && canAttackTarget(t)
                     ? "targetable"
                     : "")
                 }
@@ -413,6 +502,7 @@ function App() {
                   "--token-colour": t.color,
                 }}
                 onPointerDown={(e) => down(e, t)}
+                onPointerEnter={() => attackMode && setAttackTarget(t.id)}
               >
                 <span>{t.name.slice(0, 2).toUpperCase()}</span>
                 <small>{t.name}</small>
@@ -422,7 +512,7 @@ function App() {
         </section>
         <aside className="inspector">
           {mode === "battle" && (
-          <Combat
+            <Combat
               battle={battle}
               tokens={tokens}
               active={active}
