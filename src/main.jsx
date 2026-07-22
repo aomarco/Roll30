@@ -666,36 +666,66 @@ function App() {
               </>
             )}
             {battle && !battle.complete && active && (
-              <div
-                className="map-actions"
-                style={{ left: `${active.x}%`, top: `${active.y}%` }}
-              >
-                <button
-                  className={battle.dashReady ? "armed" : ""}
-                  disabled={battle.moved || battle.attacked}
-                  onPointerDown={(e) => e.stopPropagation()}
-                  onClick={() => setMoveMode((v) => !v)}
-                >
-                  <Footprints size={16} />
-                </button>
-                <button
-                  className={attackMode ? "armed" : ""}
-                  disabled={battle.attacked || battle.dashed}
-                  onPointerDown={(e) => e.stopPropagation()}
-                  onClick={() => {
-                    setAttackMode((v) => !v);
-                    setAttackMessage("");
-                  }}
-                >
-                  <Swords size={16} />
-                </button>
-                <button
-                  onPointerDown={(e) => e.stopPropagation()}
-                  onClick={end}
-                  aria-label="End turn early"
-                >
-                  <SkipForward size={16} />
-                </button>
+              <div className="map-actions">
+                <div className="combat-dock-head">
+                  <span
+                    className="combat-token-dot"
+                    style={{ background: active.color }}
+                  >
+                    {active.name.slice(0, 2).toUpperCase()}
+                  </span>
+                  <div>
+                    <small>ACTIVE TURN</small>
+                    <strong>{active.name}</strong>
+                  </div>
+                  <em>R{battle.round}</em>
+                </div>
+                <div className="combat-actions-row">
+                  <button
+                    className={battle.dashReady ? "armed" : ""}
+                    disabled={battle.moved || battle.attacked}
+                    onPointerDown={(e) => e.stopPropagation()}
+                    onClick={() => setMoveMode((v) => !v)}
+                  >
+                    <span className="action-icon">
+                      <Footprints size={18} />
+                    </span>
+                    <span>
+                      <strong>Dash</strong>
+                      <small>{active.speed * 2} ft</small>
+                    </span>
+                  </button>
+                  <button
+                    className={attackMode ? "armed" : ""}
+                    disabled={battle.attacked || battle.dashed}
+                    onPointerDown={(e) => e.stopPropagation()}
+                    onClick={() => {
+                      setAttackMode((v) => !v);
+                      setAttackMessage("");
+                    }}
+                  >
+                    <span className="action-icon">
+                      <Swords size={18} />
+                    </span>
+                    <span>
+                      <strong>Attack</strong>
+                      <small>Diamond 2</small>
+                    </span>
+                  </button>
+                  <button
+                    onPointerDown={(e) => e.stopPropagation()}
+                    onClick={end}
+                    aria-label="End turn early"
+                  >
+                    <span className="action-icon">
+                      <SkipForward size={18} />
+                    </span>
+                    <span>
+                      <strong>End turn</strong>
+                      <small>Pass early</small>
+                    </span>
+                  </button>
+                </div>
               </div>
             )}
             {attackMode && (
