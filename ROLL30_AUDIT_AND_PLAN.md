@@ -102,7 +102,7 @@ The original deep audit correctly scored the early build at 0/21 under a strict 
 
 ### 2. Storage and deletion
 
-The second audit identified one real defence-in-depth gap: the UI rejected files larger than 25 MiB and unsupported MIME types, but the live bucket metadata did not enforce those restrictions. Migration `20260722025537_enforce_campaign_media_upload_limits.sql` now makes the private `campaign-media` bucket enforce both. The integration test verifies the metadata.
+The second audit identified one real defence-in-depth gap: the UI rejected files larger than 25 MiB and unsupported MIME types, but the live bucket metadata did not enforce those restrictions. Migration `20260722025619_enforce_campaign_media_upload_limits.sql` now makes the private `campaign-media` bucket enforce both. The integration test verifies the metadata.
 
 The audit also corrected permanent deletion wording. Because storage is removed in batches, a later batch can fail after earlier batches succeeded. The function now says that the campaign row remains but some files may already be gone and that retrying is safe; it no longer falsely claims nothing changed.
 
