@@ -2,7 +2,7 @@ name: Deploy Roll30 to GitHub Pages
 
 on:
   push:
-    branches: [main]
+    branches: [main, agent/tabletop-board]
   workflow_dispatch:
 
 permissions:
