@@ -48,7 +48,7 @@ export function patternCells(type, level) {
 
 export const SIMPLE_ATTACK = {
   range: 2,
-  pattern: "star",
+  pattern: "diamond",
   size: 2,
   damage: 3,
 };

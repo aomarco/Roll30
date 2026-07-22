@@ -279,13 +279,13 @@ function App() {
       setBattle({
         ...battle,
         complete: true,
-        log: `${active.name}'s star hits for ${SIMPLE_ATTACK.damage} damage. ${alive[0]?.name ?? "No one"} wins!`,
+        log: `${active.name}'s ${SIMPLE_ATTACK.pattern} hits for ${SIMPLE_ATTACK.damage} damage. ${alive[0]?.name ?? "No one"} wins!`,
       });
       setAttackMode(false);
     } else
       nextTurn(
         updated,
-        `${active.name}'s star hits ${hitIds.size} token(s) for ${SIMPLE_ATTACK.damage} damage.`,
+        `${active.name}'s ${SIMPLE_ATTACK.pattern} hits ${hitIds.size} token(s) for ${SIMPLE_ATTACK.damage} damage.`,
       );
   };
   const end = () =>
