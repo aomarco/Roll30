@@ -86,6 +86,7 @@ const SIMPLE_ATTACK = { range: 2, pattern: "star", size: 2, damage: 3 };
 
 function App() {
   const [map, setMap] = useState(null),
+    [noMap, setNoMap] = useState(false),
     [mode, setMode] = useState("play"),
     [gridSize, setGridSize] = useState(48),
     [tokens, setTokens] = useState([]),
@@ -378,10 +379,13 @@ function App() {
                 accept="image/*"
                 onChange={(e) =>
                   e.target.files?.[0] &&
-                  setMap(URL.createObjectURL(e.target.files[0]))
+                  (setMap(URL.createObjectURL(e.target.files[0])), setNoMap(false))
                 }
               />
             </label>
+            <button className="button" onClick={() => { setMap(null); setNoMap(true); }}>
+              No map
+            </button>
             <button className="button" onClick={add}>
               <Plus size={17} /> Add token
             </button>
@@ -405,13 +409,13 @@ function App() {
           </div>
           <div
             ref={boardRef}
-            className={"board " + (!map ? "empty" : "")}
+            className={"board " + (!map && !noMap ? "empty" : "") + (noMap ? " no-map" : "")}
             style={{
               backgroundImage: map ? `url(${map})` : undefined,
               "--grid-size": `${gridSize}px`,
             }}
           >
-            {!map && (
+            {!map && !noMap && (
               <div className="empty-message">
                 <ImageUp size={28} />
                 <strong>Upload a map image to begin</strong>

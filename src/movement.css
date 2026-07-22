@@ -5,3 +5,5 @@
 .move-arrow { position: absolute; z-index: 5; height: 4px; transform-origin: left center; background: #f6dda2; box-shadow: 0 0 8px #f6dda2; pointer-events: none; }
 .move-arrow::after { content: ''; position: absolute; right: -2px; top: 50%; transform: translateY(-50%); border-left: 12px solid #f6dda2; border-top: 7px solid transparent; border-bottom: 7px solid transparent; }
 .attack-error { position: absolute; z-index: 8; top: 58px; left: 50%; transform: translateX(-50%); padding: 7px 10px; border-radius: 5px; background: #782f32e8; color: #fff; font-size: 12px; }
+.board.no-map { background: #fff; }
+.board.no-map .grid { background-image: linear-gradient(#24304424 1px, transparent 1px), linear-gradient(90deg, #24304424 1px, transparent 1px); }
