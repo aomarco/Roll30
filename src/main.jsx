@@ -64,7 +64,6 @@ function App() {
     [adjustment, setAdjustment] = useState(""),
     [battle, setBattle] = useState(null),
     [attackMode, setAttackMode] = useState(false),
-    [attackTarget, setAttackTarget] = useState(null),
     [attackMessage, setAttackMessage] = useState(""),
     [moveMode, setMoveMode] = useState(false);
   const boardRef = useRef(null);
@@ -229,17 +228,9 @@ function App() {
     const rect = boardRef.current?.getBoundingClientRect();
     const origin = rect && active ? cell(active, rect) : null;
     const targetCell = rect && target ? cell(target, rect) : null;
-    if (
-      origin &&
-      targetCell &&
-      Math.max(
-        Math.abs(targetCell.x - origin.x),
-        Math.abs(targetCell.y - origin.y),
-      ) > SIMPLE_ATTACK.range
-    ) {
-      setAttackMessage("That target is out of range (2 squares).");
-      return;
-    }
+    const validOffsets = new Set(patternCells(SIMPLE_ATTACK.pattern, SIMPLE_ATTACK.size).map(({ x, y }) => `${x},${y}`));
+    const inPattern = origin && targetCell && validOffsets.has(`${targetCell.x - origin.x},${targetCell.y - origin.y}`);
+    if (target && !inPattern) { setAttackMessage("That token is outside your attack pattern."); return; }
     if (
       !active ||
       !target ||
@@ -248,28 +239,11 @@ function App() {
       target.hp <= 0 ||
       !origin ||
       !targetCell ||
-      Math.max(
-        Math.abs(targetCell.x - origin.x),
-        Math.abs(targetCell.y - origin.y),
-      ) > SIMPLE_ATTACK.range
+      !inPattern
     )
       return;
-    const affected = new Set(
-      patternCells(SIMPLE_ATTACK.pattern, SIMPLE_ATTACK.size).map(
-        (offset) => `${targetCell.x + offset.x},${targetCell.y + offset.y}`,
-      ),
-    );
-    const hitIds = new Set(
-      tokens
-        .filter(
-          (t) =>
-            t.id !== active.id &&
-            affected.has(`${cell(t, rect).x},${cell(t, rect).y}`),
-        )
-        .map((t) => t.id),
-    );
     const updated = tokens.map((t) =>
-        hitIds.has(t.id)
+        t.id === target.id
           ? { ...t, hp: Math.max(0, t.hp - SIMPLE_ATTACK.damage) }
           : t,
       ),
@@ -285,7 +259,7 @@ function App() {
     } else
       nextTurn(
         updated,
-        `${active.name}'s ${SIMPLE_ATTACK.pattern} hits ${hitIds.size} token(s) for ${SIMPLE_ATTACK.damage} damage.`,
+        `${active.name} hits ${target.name} for ${SIMPLE_ATTACK.damage} damage.`,
       );
   };
   const end = () =>
@@ -318,9 +292,7 @@ function App() {
     if (!rect || !active || t.id === active.id || t.hp <= 0) return false;
     const a = cell(active, rect),
       b = cell(t, rect);
-    return (
-      Math.max(Math.abs(a.x - b.x), Math.abs(a.y - b.y)) <= SIMPLE_ATTACK.range
-    );
+    return patternCells(SIMPLE_ATTACK.pattern, SIMPLE_ATTACK.size).some(({ x, y }) => x === b.x - a.x && y === b.y - a.y);
   };
   if (!activeMapId) return home;
   return (
@@ -430,7 +402,7 @@ function App() {
                   className={attackMode ? "armed" : ""}
                   disabled={battle.attacked || battle.dashed}
                   onPointerDown={(e) => e.stopPropagation()}
-                  onClick={() => setAttackMode((v) => !v)}
+                  onClick={() => { setAttackMode((v) => !v); setAttackMessage(""); }}
                 >
                   <Swords size={16} />
                 </button>
@@ -448,7 +420,7 @@ function App() {
                 Choose a token to attack · 3 damage
               </div>
             )}
-            {attackMode && attackTarget && boardRef.current && patternCells(SIMPLE_ATTACK.pattern, SIMPLE_ATTACK.size).map((offset) => { const c = cell(tokens.find((t) => t.id === attackTarget), boardRef.current.getBoundingClientRect()); return <i key={`attack-${offset.x}-${offset.y}`} className="attack-cell" style={{ left: (c.x + offset.x) * gridSize, top: (c.y + offset.y) * gridSize, width: gridSize, height: gridSize }} /> })}
+            {attackMode && active && boardRef.current && patternCells(SIMPLE_ATTACK.pattern, SIMPLE_ATTACK.size).map((offset) => { const c = cell(active, boardRef.current.getBoundingClientRect()), distance = Math.abs(offset.x) + Math.abs(offset.y); return <i key={`attack-${offset.x}-${offset.y}`} className="attack-cell" style={{ left: (c.x + offset.x) * gridSize, top: (c.y + offset.y) * gridSize, width: gridSize, height: gridSize, "--attack-delay": `${distance * 55}ms` }} /> })}
             {attackMessage && <div className="attack-error">{attackMessage}</div>}
             {tokens.map((t) => (
               <button
@@ -467,7 +439,6 @@ function App() {
                   "--token-colour": t.color,
                 }}
                 onPointerDown={(e) => down(e, t)}
-                onPointerEnter={() => attackMode && setAttackTarget(t.id)}
               >
                 <span>{t.name.slice(0, 2).toUpperCase()}</span>
                 <small>{t.name}</small>
