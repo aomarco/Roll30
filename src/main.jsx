@@ -13,6 +13,7 @@ import {
 import "./styles.css";
 import "./movement.css";
 import "./premium.css";
+import "./motion.css";
 import { patternCells } from "./patterns.js";
 import CharactersPage from "./CharactersPage.jsx";
 import { deriveCharacter } from "./characterRules.js";
@@ -123,6 +124,26 @@ const playHitSound = () => {
     /* Audio may be unavailable or disabled. */
   }
 };
+const playUiClick = () => {
+  try {
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    const context = new AudioContext();
+    const now = context.currentTime;
+    const gain = context.createGain();
+    const click = context.createOscillator();
+    click.type = "square";
+    click.frequency.setValueAtTime(520, now);
+    click.frequency.exponentialRampToValueAtTime(210, now + 0.035);
+    gain.gain.setValueAtTime(0.025, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
+    click.connect(gain).connect(context.destination);
+    click.start(now);
+    click.stop(now + 0.04);
+    click.onended = () => context.close();
+  } catch {
+    /* UI sounds are optional. */
+  }
+};
 
 function App() {
   const [maps, setMaps] = useState(INITIAL_MAPS),
@@ -160,6 +181,35 @@ function App() {
   const selectedWeapon =
     WEAPONS.find((weapon) => weapon.id === selectedWeaponId) || WEAPONS[0];
   const boardRef = useRef(null);
+  useEffect(() => {
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const animateInteraction = (event) => {
+      const control = event.target.closest(
+        "button:not(:disabled), label.button, input, select",
+      );
+      if (!control) return;
+      if (!control.classList.contains("token")) playUiClick();
+      if (reduced.matches) return;
+      const burst = document.createElement("span");
+      burst.className = "click-burst";
+      burst.style.left = `${event.clientX}px`;
+      burst.style.top = `${event.clientY}px`;
+      for (let index = 0; index < 7; index += 1) {
+        const spark = document.createElement("i");
+        spark.style.setProperty("--spark-angle", `${index * (360 / 7)}deg`);
+        spark.style.setProperty(
+          "--spark-distance",
+          `${16 + (index % 3) * 5}px`,
+        );
+        burst.appendChild(spark);
+      }
+      document.body.appendChild(burst);
+      window.setTimeout(() => burst.remove(), 620);
+    };
+    document.addEventListener("pointerdown", animateInteraction);
+    return () =>
+      document.removeEventListener("pointerdown", animateInteraction);
+  }, []);
   useEffect(() => {
     try {
       const lightweightMaps = maps.map((entry) => ({

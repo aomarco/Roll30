@@ -1,0 +1,409 @@
+:root {
+  --motion-snap: cubic-bezier(0.2, 0.9, 0.22, 1.35);
+  --motion-swish: cubic-bezier(0.16, 1, 0.3, 1);
+  --motion-press: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Every motion is caused by entry, hover, focus, or a user action. */
+.home > header,
+.app > header,
+.characters-page > header {
+  animation: header-swish 520ms var(--motion-swish) both;
+}
+.home-main,
+.characters-layout,
+.app > main {
+  animation: page-rise 560ms 80ms var(--motion-swish) both;
+}
+.new-map,
+.character-sheet,
+.inspector {
+  animation: panel-deal 620ms 120ms var(--motion-swish) both;
+}
+.map-list,
+.character-list,
+.board-column {
+  animation: panel-deal 620ms 190ms var(--motion-swish) both;
+}
+@keyframes header-swish {
+  from {
+    opacity: 0;
+    transform: translateY(-18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes page-rise {
+  from {
+    opacity: 0;
+    transform: translateY(22px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes panel-deal {
+  from {
+    opacity: 0;
+    transform: translateY(26px) rotateX(4deg) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+button,
+.button,
+label.button,
+input,
+select {
+  -webkit-tap-highlight-color: transparent;
+}
+button:not(:disabled),
+.button:not(:disabled),
+label.button {
+  transform-origin: center;
+  will-change: transform;
+}
+button:not(:disabled):hover,
+.button:not(:disabled):hover,
+label.button:hover {
+  filter: brightness(1.075) saturate(1.08);
+}
+button:not(:disabled):active,
+.button:not(:disabled):active,
+label.button:active {
+  transform: translateY(2px) scale(0.955) !important;
+  filter: brightness(1.18) saturate(1.18);
+  transition-duration: 55ms !important;
+}
+button svg,
+.button svg,
+label.button svg {
+  transition:
+    transform 280ms var(--motion-snap),
+    color 180ms ease,
+    filter 180ms ease;
+}
+button:hover svg,
+.button:hover svg,
+label.button:hover svg {
+  transform: translateY(-1px) rotate(-5deg) scale(1.13);
+  filter: drop-shadow(0 3px 5px #0007);
+}
+button:active svg,
+.button:active svg,
+label.button:active svg {
+  transform: rotate(7deg) scale(0.88);
+}
+
+.brand-button:before {
+  transition:
+    transform 360ms var(--motion-snap),
+    box-shadow 240ms ease,
+    filter 240ms ease;
+}
+.brand-button:hover:before {
+  transform: rotate(-7deg) scale(1.1);
+  box-shadow:
+    0 11px 28px #9c3f2870,
+    inset 0 1px #fff7;
+  filter: brightness(1.1);
+}
+.brand-button:active:before {
+  transform: rotate(4deg) scale(0.92);
+}
+
+.map-row,
+.character-list > button,
+.ability-card,
+.derived-grid > div,
+.stats > div {
+  transition:
+    transform 240ms var(--motion-swish),
+    box-shadow 240ms ease,
+    border-color 200ms ease,
+    background 200ms ease;
+}
+.map-row:hover {
+  transform: translateX(5px);
+}
+.character-list > button:hover {
+  transform: translateX(5px) scale(1.015);
+}
+.ability-card:hover,
+.derived-grid > div:hover,
+.stats > div:hover {
+  transform: translateY(-5px) scale(1.025);
+  border-color: #e99a6d55;
+  box-shadow:
+    0 14px 30px #0005,
+    inset 0 1px #ffffff12;
+}
+.ability-card button:active {
+  transform: scale(0.82) rotate(5deg) !important;
+}
+
+input,
+select {
+  transition:
+    border-color 180ms ease,
+    box-shadow 240ms ease,
+    background 180ms ease,
+    transform 220ms var(--motion-swish);
+}
+input:hover,
+select:hover {
+  border-color: #c9866555 !important;
+}
+input:focus,
+select:focus {
+  transform: translateY(-2px);
+  border-color: #efa072 !important;
+  box-shadow:
+    0 0 0 4px #ef946b18,
+    0 8px 20px #0004 !important;
+}
+input[type="range"]:focus {
+  transform: none;
+  box-shadow: none !important;
+}
+
+.mode-choice button.active,
+.weapon-grid button.selected,
+.mode-switch button.active {
+  animation: choice-lock 360ms var(--motion-snap) both;
+}
+@keyframes choice-lock {
+  0% {
+    transform: scale(0.9);
+  }
+  58% {
+    transform: scale(1.06);
+  }
+  100% {
+    transform: none;
+  }
+}
+
+.board {
+  transition:
+    box-shadow 350ms ease,
+    border-color 300ms ease,
+    transform 350ms var(--motion-swish);
+}
+.board:hover {
+  border-color: #de90634d;
+  box-shadow:
+    0 28px 70px #0009,
+    0 0 0 1px #e78c5424,
+    inset 0 1px #fff1;
+}
+.token:not(.dragging) {
+  transition:
+    left 260ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    top 260ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 180ms ease,
+    filter 180ms ease !important;
+}
+.token:hover:not(.dragging) {
+  filter: brightness(1.12) saturate(1.18);
+  box-shadow:
+    0 8px 22px #000a,
+    0 0 0 5px #ffffff10,
+    0 0 24px var(--token-colour);
+}
+.token.selected:not(.dragging) {
+  animation: token-select 420ms var(--motion-snap);
+}
+@keyframes token-select {
+  0% {
+    transform: translate(-50%, -50%) scale(0.78);
+  }
+  58% {
+    transform: translate(-50%, -50%) scale(1.15);
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+.map-actions {
+  animation: dock-arrive 500ms var(--motion-swish) both;
+}
+@keyframes dock-arrive {
+  from {
+    opacity: 0;
+    transform: translate(22px, 22px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.map-actions .combat-actions-row > button:hover:not(:disabled) {
+  transform: translateY(-4px) scale(1.025);
+  box-shadow:
+    0 10px 22px #0007,
+    inset 0 1px #ffffff13 !important;
+}
+.map-actions .combat-actions-row > button.armed .action-icon {
+  animation: armed-pop 420ms var(--motion-snap);
+}
+@keyframes armed-pop {
+  0% {
+    transform: rotate(-12deg) scale(0.7);
+  }
+  60% {
+    transform: rotate(6deg) scale(1.18);
+  }
+  100% {
+    transform: none;
+  }
+}
+.initiative li {
+  transition:
+    transform 280ms var(--motion-swish),
+    background 220ms ease,
+    opacity 220ms ease;
+}
+.initiative li.current {
+  animation: turn-slide 440ms var(--motion-swish) both;
+}
+@keyframes turn-slide {
+  from {
+    opacity: 0.2;
+    transform: translateX(-14px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.combat-log {
+  animation: log-flip 360ms var(--motion-swish);
+}
+@keyframes log-flip {
+  from {
+    opacity: 0.2;
+    transform: translateY(7px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.attack-prompt,
+.move-counter,
+.attack-error,
+.storage-error {
+  animation: toast-drop 420ms var(--motion-snap) both;
+}
+@keyframes toast-drop {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -18px) scale(0.85);
+  }
+  65% {
+    transform: translate(-50%, 3px) scale(1.03);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%);
+  }
+}
+
+.health i b,
+.health i span {
+  transition: width 520ms var(--motion-swish);
+}
+.remove:hover {
+  transform: translateX(4px);
+}
+.empty-message svg {
+  transition:
+    transform 350ms var(--motion-snap),
+    filter 250ms ease;
+}
+.empty-message:hover svg {
+  transform: translateY(-6px) rotate(-6deg) scale(1.12);
+  filter: drop-shadow(0 8px 10px #0006);
+}
+
+.click-burst {
+  position: fixed;
+  z-index: 9999;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+}
+.click-burst:before {
+  content: "";
+  position: absolute;
+  inset: -8px;
+  border: 1px solid #ffd1adcc;
+  border-radius: 50%;
+  animation: click-ring 520ms var(--motion-swish) both;
+}
+.click-burst i {
+  position: absolute;
+  left: -2px;
+  top: -2px;
+  width: 4px;
+  height: 4px;
+  border-radius: 4px;
+  background: linear-gradient(#fff4d9, #e98f62);
+  box-shadow: 0 0 7px #f6a26c;
+  transform: rotate(var(--spark-angle)) translateX(4px);
+  animation: click-spark 580ms var(--motion-swish) both;
+}
+@keyframes click-ring {
+  from {
+    opacity: 1;
+    transform: scale(0.2);
+  }
+  to {
+    opacity: 0;
+    transform: scale(2.5);
+  }
+}
+@keyframes click-spark {
+  0% {
+    opacity: 1;
+    transform: rotate(var(--spark-angle)) translateX(3px) scale(1);
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: rotate(var(--spark-angle)) translateX(var(--spark-distance))
+      scale(0.15);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .click-burst {
+    display: none !important;
+  }
+  .home > header,
+  .app > header,
+  .characters-page > header,
+  .home-main,
+  .characters-layout,
+  .app > main,
+  .new-map,
+  .character-sheet,
+  .inspector,
+  .map-list,
+  .character-list,
+  .board-column,
+  .map-actions {
+    animation: none !important;
+  }
+}
