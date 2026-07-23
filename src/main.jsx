@@ -3,7 +3,9 @@ import { createRoot } from "react-dom/client";
 import {
   Grid3X3,
   ImageUp,
+  Minus,
   Plus,
+  Search,
   Settings2,
   SkipForward,
   Swords,
@@ -20,6 +22,13 @@ import { patternCells } from "./patterns.js";
 import CharactersPage from "./CharactersPage.jsx";
 import { deriveCharacter } from "./characterRules.js";
 import { resolveWeaponAttack, WEAPONS } from "./weapons.js";
+import {
+  ITEM_TYPES,
+  changeInventoryQuantity,
+  filterCatalog,
+  inventoryItemIds,
+  normalizeInventory,
+} from "./items.js";
 import MapSettingsPage from "./MapSettingsPage.jsx";
 
 const makeToken = (id) => ({
@@ -164,6 +173,8 @@ function App() {
     [showSettings, setShowSettings] = useState(false),
     [settingsReturn, setSettingsReturn] = useState("map"),
     [selectedCharacterId, setSelectedCharacterId] = useState(""),
+    [quickItemQuery, setQuickItemQuery] = useState(""),
+    [quickItemType, setQuickItemType] = useState("all"),
     [damagePopups, setDamagePopups] = useState([]);
   const selectedWeapon =
     WEAPONS.find((weapon) => weapon.id === selectedWeaponId) || null;
@@ -259,12 +270,19 @@ function App() {
   const selected = tokens.find((t) => t.id === selectedId),
     activeId = battle?.order[battle.turn],
     active = tokens.find((t) => t.id === activeId);
+  const selectedInventory = normalizeInventory(selected?.inventory);
+  const selectedInventoryQuantities = new Map(
+    selectedInventory.map((entry) => [entry.itemId, entry.quantity]),
+  );
+  const quickCatalogResults = filterCatalog(quickItemQuery, quickItemType);
   const availableWeapons = active
-    ? WEAPONS.filter((weapon) => (active.inventory || []).includes(weapon.id))
+    ? WEAPONS.filter((weapon) =>
+        inventoryItemIds(active.inventory).includes(weapon.id),
+      )
     : [];
   useEffect(() => {
     if (!active) return;
-    const weaponIds = active.inventory || [];
+    const weaponIds = inventoryItemIds(active.inventory);
     setSelectedWeaponId((current) =>
       weaponIds.includes(current) ? current : weaponIds[0] || "",
     );
@@ -306,12 +324,13 @@ function App() {
       ),
     );
   };
-  const toggleSelectedWeapon = (weaponId) => {
+  const changeSelectedItemQuantity = (itemId, amount) => {
     if (!selected) return;
-    const inventory = selected.inventory || [];
-    const nextInventory = inventory.includes(weaponId)
-      ? inventory.filter((id) => id !== weaponId)
-      : [...inventory, weaponId];
+    const nextInventory = changeInventoryQuantity(
+      selected.inventory,
+      itemId,
+      amount,
+    );
     setTokens((items) =>
       items.map((token) =>
         token.id === selected.id
@@ -575,7 +594,7 @@ function App() {
           strength: derived.finalAbilities.str,
           dexterity: derived.finalAbilities.dex,
           level: character.level,
-          inventory: [...(character.inventory || [])],
+          inventory: normalizeInventory(character.inventory),
           characterId: character.id,
         }
       : makeToken(Date.now());
@@ -1232,27 +1251,76 @@ function App() {
                     <div className="quick-inventory">
                       <div className="quick-inventory-heading">
                         <p>QUICK INVENTORY</p>
-                        <span>Choose this token's attacks.</span>
+                        <span>Search the catalog and set quantities.</span>
+                      </div>
+                      <div className="quick-inventory-tools">
+                        <label className="inventory-search">
+                          <Search size={14} />
+                          <input
+                            value={quickItemQuery}
+                            onChange={(event) =>
+                              setQuickItemQuery(event.target.value)
+                            }
+                            placeholder="Search items…"
+                          />
+                        </label>
+                        <select
+                          value={quickItemType}
+                          onChange={(event) =>
+                            setQuickItemType(event.target.value)
+                          }
+                          aria-label="Filter quick inventory"
+                        >
+                          {ITEM_TYPES.map((type) => (
+                            <option key={type.id} value={type.id}>
+                              {type.label}
+                            </option>
+                          ))}
+                        </select>
                       </div>
                       <div className="quick-weapon-list">
-                        {WEAPONS.map((weapon) => {
-                          const equipped = (selected.inventory || []).includes(
-                            weapon.id,
-                          );
+                        {quickCatalogResults.map((item) => {
+                          const quantity =
+                            selectedInventoryQuantities.get(item.id) || 0;
                           return (
-                            <button
-                              key={weapon.id}
-                              className={equipped ? "equipped" : ""}
-                              onClick={() => toggleSelectedWeapon(weapon.id)}
+                            <div
+                              key={item.id}
+                              className={`quick-item-row ${quantity ? "equipped" : ""}`}
                             >
                               <span>
-                                <strong>{weapon.name}</strong>
-                                <small>{weapon.damageDice}</small>
+                                <strong>{item.name}</strong>
+                                <small>
+                                  {item.typeLabel} · {item.damageDice}
+                                </small>
                               </span>
-                              <em>{equipped ? "Remove" : "Add"}</em>
-                            </button>
+                              <div className="quantity-stepper">
+                                <button
+                                  onClick={() =>
+                                    changeSelectedItemQuantity(item.id, -1)
+                                  }
+                                  disabled={!quantity}
+                                  aria-label={`Remove one ${item.name}`}
+                                >
+                                  <Minus size={13} />
+                                </button>
+                                <strong>{quantity}</strong>
+                                <button
+                                  onClick={() =>
+                                    changeSelectedItemQuantity(item.id, 1)
+                                  }
+                                  aria-label={`Add one ${item.name}`}
+                                >
+                                  <Plus size={13} />
+                                </button>
+                              </div>
+                            </div>
                           );
                         })}
+                        {!quickCatalogResults.length && (
+                          <p className="catalog-empty">
+                            No catalog items match that search.
+                          </p>
+                        )}
                       </div>
                     </div>
                   </section>

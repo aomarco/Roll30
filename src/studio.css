@@ -327,6 +327,64 @@
 .quick-weapon-list {
   display: grid;
   gap: 5px;
+  max-height: 260px;
+  padding-right: 3px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.quick-inventory-tools,
+.item-browser-tools {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 7px;
+}
+
+.quick-inventory-tools select,
+.item-browser-tools select {
+  min-width: 104px;
+  border: 1px solid #ffffff13;
+  border-radius: 9px;
+  background: #202126;
+  color: #c9c7c4;
+  padding: 0 8px;
+  font: 9px "DM Mono";
+}
+
+.quick-item-row {
+  min-height: 47px;
+  padding: 7px 8px 7px 10px;
+  border: 1px solid #ffffff0e;
+  border-radius: 9px;
+  background: #202126;
+  color: #d8d5d1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.quick-item-row.equipped {
+  border-color: #df8a5e5c;
+  background: linear-gradient(90deg, #db7c5523, #ffffff04);
+}
+
+.quick-item-row > span {
+  min-width: 0;
+  display: grid;
+  gap: 3px;
+}
+
+.quick-item-row strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 11px;
+}
+
+.quick-item-row small {
+  color: #a98b7b;
+  font: 8px "DM Mono";
 }
 
 .quick-weapon-list > button {
@@ -519,6 +577,13 @@
     serif;
 }
 
+.inventory-summary {
+  display: block;
+  margin-top: 5px;
+  color: #777980;
+  font: 9px "DM Mono";
+}
+
 .inventory-add-wrap {
   position: relative;
   flex: 0 0 auto;
@@ -534,8 +599,8 @@
   z-index: 20;
   right: 0;
   top: calc(100% + 9px);
-  width: min(330px, calc(100vw - 44px));
-  max-height: 340px;
+  width: min(440px, calc(100vw - 44px));
+  max-height: min(470px, 70vh);
   padding: 10px;
   border: 1px solid #e18b6138;
   border-radius: 14px;
@@ -544,8 +609,69 @@
     0 20px 48px #000b,
     inset 0 1px #ffffff0e;
   backdrop-filter: blur(14px);
-  overflow-y: auto;
+  display: grid;
+  grid-template-rows: auto auto minmax(0, 1fr);
+  overflow: hidden;
   animation: weapon-menu-arrive 260ms var(--motion-swish) both;
+}
+
+.item-picker-results {
+  min-height: 0;
+  margin-top: 8px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.item-picker-results > small {
+  display: block;
+  padding: 3px 7px 5px;
+  color: #696b72;
+  font: 8px "DM Mono";
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+}
+
+.catalog-empty {
+  grid-column: 1 / -1;
+  margin: 4px;
+  padding: 18px;
+  border: 1px dashed #ffffff14;
+  border-radius: 10px;
+  color: #777980;
+  text-align: center;
+  font: 10px/1.5 "DM Mono";
+}
+
+.inventory-search {
+  min-width: 0;
+  min-height: 36px;
+  padding: 0 10px;
+  border: 1px solid #ffffff12;
+  border-radius: 9px;
+  background: #202126;
+  color: #777980;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.inventory-search:focus-within {
+  border-color: #df8a5e66;
+  box-shadow: 0 0 0 3px #df8a5e10;
+}
+
+.inventory-search input {
+  min-width: 0;
+  width: 100%;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #ece8e3;
+  font: 10px "DM Mono";
+}
+
+.inventory-list-search {
+  width: min(320px, 100%);
 }
 
 .item-picker-title {
@@ -632,13 +758,52 @@
   border-radius: 11px;
   background: linear-gradient(145deg, #303137, #28292e);
   display: grid;
-  grid-template-columns: 34px minmax(0, 1fr) 28px;
+  grid-template-columns: 34px minmax(0, 1fr) auto 28px;
   align-items: center;
   gap: 9px;
   transition:
     transform 0.2s var(--motion-swish),
     border-color 0.2s,
     box-shadow 0.2s;
+}
+
+.quantity-stepper {
+  display: grid !important;
+  grid-template-columns: 27px 28px 27px;
+  align-items: center;
+  gap: 1px !important;
+  padding: 2px;
+  border: 1px solid #ffffff10;
+  border-radius: 9px;
+  background: #1d1e22;
+}
+
+.quantity-stepper button {
+  width: 27px;
+  height: 27px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: #aaa8a5;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+
+.quantity-stepper button:hover:not(:disabled) {
+  background: #df8a5e22;
+  color: #ffc09b;
+}
+
+.quantity-stepper button:disabled {
+  opacity: 0.25;
+  cursor: not-allowed;
+}
+
+.quantity-stepper > strong {
+  text-align: center;
+  color: #f2eee9;
+  font: 10px "DM Mono";
 }
 
 .inventory-item:hover {

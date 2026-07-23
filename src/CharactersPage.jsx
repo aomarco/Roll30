@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Backpack, Plus, Shield, Trash2, X } from "lucide-react";
+import { Backpack, Minus, Plus, Search, Shield, Trash2, X } from "lucide-react";
 import {
   ABILITIES,
   POINT_BUY_TOTAL,
@@ -9,10 +9,20 @@ import {
   newCharacter,
   pointsSpent,
 } from "./characterRules.js";
-import { WEAPONS } from "./weapons.js";
+import {
+  ITEM_CATALOG,
+  ITEM_TYPES,
+  changeInventoryQuantity,
+  filterCatalog,
+  normalizeInventory,
+  removeInventoryItem,
+} from "./items.js";
 
 export default function CharactersPage({ characters, setCharacters, onBack }) {
   const [itemPickerOpen, setItemPickerOpen] = useState(false);
+  const [itemQuery, setItemQuery] = useState("");
+  const [itemType, setItemType] = useState("all");
+  const [inventoryQuery, setInventoryQuery] = useState("");
   const selected = characters[0] || null;
   const update = (patch) =>
     setCharacters((items) =>
@@ -28,14 +38,20 @@ export default function CharactersPage({ characters, setCharacters, onBack }) {
   const remaining = selected
     ? POINT_BUY_TOTAL - pointsSpent(selected.abilities)
     : POINT_BUY_TOTAL;
-  const inventory = selected?.inventory || [];
-  const addItem = (weaponId) => {
-    if (!selected || inventory.includes(weaponId)) return;
-    update({ inventory: [...inventory, weaponId] });
-    setItemPickerOpen(false);
+  const inventory = normalizeInventory(selected?.inventory);
+  const catalogResults = filterCatalog(itemQuery, itemType);
+  const visibleInventory = inventory.filter((entry) => {
+    const item = ITEM_CATALOG.find(
+      (candidate) => candidate.id === entry.itemId,
+    );
+    return item?.searchText.includes(inventoryQuery.trim().toLowerCase());
+  });
+  const changeItemQuantity = (itemId, amount) => {
+    if (!selected) return;
+    update({ inventory: changeInventoryQuantity(inventory, itemId, amount) });
   };
-  const removeItem = (weaponId) =>
-    update({ inventory: inventory.filter((id) => id !== weaponId) });
+  const removeItem = (itemId) =>
+    update({ inventory: removeInventoryItem(inventory, itemId) });
 
   return (
     <div className="characters-page">
@@ -191,6 +207,13 @@ export default function CharactersPage({ characters, setCharacters, onBack }) {
                 <div>
                   <p>INVENTORY</p>
                   <h2>Weapons and equipment</h2>
+                  <span className="inventory-summary">
+                    {inventory.reduce(
+                      (total, item) => total + item.quantity,
+                      0,
+                    )}{" "}
+                    items · {inventory.length} unique
+                  </span>
                 </div>
                 <div className="inventory-add-wrap">
                   <button
@@ -203,7 +226,7 @@ export default function CharactersPage({ characters, setCharacters, onBack }) {
                   {itemPickerOpen && (
                     <div className="item-picker">
                       <div className="item-picker-title">
-                        <span>ADD A WEAPON</span>
+                        <span>ITEM CATALOG</span>
                         <button
                           onClick={() => setItemPickerOpen(false)}
                           aria-label="Close item list"
@@ -211,55 +234,126 @@ export default function CharactersPage({ characters, setCharacters, onBack }) {
                           <X size={14} />
                         </button>
                       </div>
-                      {WEAPONS.map((weapon) => (
-                        <button
-                          key={weapon.id}
-                          className="item-picker-option"
-                          onClick={() => addItem(weapon.id)}
-                          disabled={inventory.includes(weapon.id)}
+                      <div className="item-browser-tools">
+                        <label className="inventory-search">
+                          <Search size={15} />
+                          <input
+                            value={itemQuery}
+                            onChange={(event) =>
+                              setItemQuery(event.target.value)
+                            }
+                            placeholder="Search name, type, damage…"
+                            autoFocus
+                          />
+                        </label>
+                        <select
+                          value={itemType}
+                          onChange={(event) => setItemType(event.target.value)}
+                          aria-label="Filter item type"
                         >
-                          <span>
-                            <strong>{weapon.name}</strong>
-                            <small>
-                              {weapon.category} · {weapon.rangeFeet} ft
-                            </small>
-                          </span>
-                          <em>{weapon.damageDice}</em>
-                        </button>
-                      ))}
+                          {ITEM_TYPES.map((type) => (
+                            <option key={type.id} value={type.id}>
+                              {type.label}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                      <div className="item-picker-results">
+                        <small>{catalogResults.length} results</small>
+                        {catalogResults.map((item) => {
+                          const owned =
+                            inventory.find((entry) => entry.itemId === item.id)
+                              ?.quantity || 0;
+                          return (
+                            <button
+                              key={item.id}
+                              className="item-picker-option"
+                              onClick={() => changeItemQuantity(item.id, 1)}
+                            >
+                              <span>
+                                <strong>{item.name}</strong>
+                                <small>
+                                  {item.typeLabel} · {item.category} ·{" "}
+                                  {item.rangeFeet} ft
+                                </small>
+                              </span>
+                              <em>{owned ? `${owned} owned` : "+ Add"}</em>
+                            </button>
+                          );
+                        })}
+                        {!catalogResults.length && (
+                          <p className="catalog-empty">
+                            No catalog items match that search.
+                          </p>
+                        )}
+                      </div>
                     </div>
                   )}
                 </div>
               </div>
               {inventory.length ? (
-                <div className="inventory-grid">
-                  {inventory.map((weaponId) => {
-                    const weapon = WEAPONS.find((item) => item.id === weaponId);
-                    if (!weapon) return null;
-                    return (
-                      <article className="inventory-item" key={weapon.id}>
-                        <span className="inventory-item-icon">
-                          <Backpack size={17} />
-                        </span>
-                        <div>
-                          <strong>{weapon.name}</strong>
-                          <small>
-                            {weapon.damageDice}{" "}
-                            {weapon.damageType.toLowerCase()} ·{" "}
-                            {weapon.rangeFeet} ft
-                          </small>
-                        </div>
-                        <button
-                          onClick={() => removeItem(weapon.id)}
-                          aria-label={`Remove ${weapon.name}`}
-                          title="Remove item"
-                        >
-                          <Trash2 size={14} />
-                        </button>
-                      </article>
-                    );
-                  })}
-                </div>
+                <>
+                  <label className="inventory-search inventory-list-search">
+                    <Search size={15} />
+                    <input
+                      value={inventoryQuery}
+                      onChange={(event) =>
+                        setInventoryQuery(event.target.value)
+                      }
+                      placeholder="Search your inventory…"
+                    />
+                  </label>
+                  <div className="inventory-grid">
+                    {visibleInventory.map((entry) => {
+                      const item = ITEM_CATALOG.find(
+                        (candidate) => candidate.id === entry.itemId,
+                      );
+                      if (!item) return null;
+                      return (
+                        <article className="inventory-item" key={item.id}>
+                          <span className="inventory-item-icon">
+                            <Backpack size={17} />
+                          </span>
+                          <div>
+                            <strong>{item.name}</strong>
+                            <small>
+                              {item.damageDice} {item.damageType.toLowerCase()}{" "}
+                              · {item.rangeFeet} ft
+                            </small>
+                          </div>
+                          <div className="quantity-stepper">
+                            <button
+                              onClick={() => changeItemQuantity(item.id, -1)}
+                              aria-label={`Remove one ${item.name}`}
+                            >
+                              <Minus size={13} />
+                            </button>
+                            <strong>{entry.quantity}</strong>
+                            <button
+                              onClick={() => changeItemQuantity(item.id, 1)}
+                              aria-label={`Add one ${item.name}`}
+                            >
+                              <Plus size={13} />
+                            </button>
+                          </div>
+                          <button
+                            className="inventory-delete"
+                            onClick={() => removeItem(item.id)}
+                            aria-label={`Remove all ${item.name}`}
+                            title="Remove all"
+                          >
+                            <Trash2 size={14} />
+                          </button>
+                        </article>
+                      );
+                    })}
+                    {!visibleInventory.length && (
+                      <div className="catalog-empty">
+                        No owned items match that search.
+                      </div>
+                    )}
+                  </div>
+                </>
               ) : (
                 <div className="inventory-empty">
                   <Backpack size={21} />
