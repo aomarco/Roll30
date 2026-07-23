@@ -43,8 +43,10 @@ export function newCharacter() {
     className: "Fighter",
     level: 1,
     species: "Human",
+    size: "medium",
     background: "Soldier",
     inventory: [],
+    loadout: { mainHand: null, offHand: null },
     abilities: { str: 15, dex: 14, con: 13, int: 8, wis: 12, cha: 10 },
   };
 }

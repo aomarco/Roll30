@@ -10,7 +10,7 @@ const SRD_EQUIPMENT = JSON.parse(
   ),
 );
 
-test("the nine mechanically compatible SRD weapons are available", () => {
+test("the complete 23-weapon revision catalog is available", () => {
   assert.deepEqual(
     WEAPONS.map((weapon) => weapon.id),
     [
@@ -23,6 +23,20 @@ test("the nine mechanically compatible SRD weapons are available", () => {
       "scimitar",
       "shortsword",
       "war-pick",
+      "dagger",
+      "greatclub",
+      "handaxe",
+      "javelin",
+      "light-hammer",
+      "dart",
+      "glaive",
+      "greataxe",
+      "greatsword",
+      "halberd",
+      "lance",
+      "maul",
+      "pike",
+      "whip",
     ],
   );
   assert.ok(WEAPONS.every((weapon) => weapon.source === "5e-srd-2014"));
@@ -146,4 +160,46 @@ test("natural 1 misses and natural 20 doubles damage dice", () => {
   );
   assert.equal(critical.critical, true);
   assert.deepEqual(critical.damage.rolls, [1, 4]);
+});
+
+test("off-hand damage omits positive modifiers but keeps negative modifiers", () => {
+  const scimitar = WEAPONS.find((weapon) => weapon.id === "scimitar");
+  const positiveRolls = [0.5, 0];
+  const positive = resolveWeaponAttack(
+    { strength: 10, dexterity: 16, level: 1 },
+    { ac: 1 },
+    scimitar,
+    () => positiveRolls.shift(),
+    { damageModifier: "off-hand" },
+  );
+  assert.equal(positive.damage.modifier, 0);
+  assert.equal(positive.damage.total, 1);
+
+  const negativeRolls = [0.5, 0.5];
+  const negative = resolveWeaponAttack(
+    { strength: 6, dexterity: 8, level: 1 },
+    { ac: 1 },
+    scimitar,
+    () => negativeRolls.shift(),
+    { damageModifier: "off-hand" },
+  );
+  assert.equal(negative.damage.modifier, -1);
+});
+
+test("fixed damage definitions are supported", () => {
+  const blowgunLike = {
+    id: "fixed-test",
+    ability: "dex",
+    damage: { type: "fixed", amount: 1 },
+    damageDice: "1",
+  };
+  const result = resolveWeaponAttack(
+    { dexterity: 14, strength: 10, level: 1 },
+    { ac: 1 },
+    blowgunLike,
+    () => 0.5,
+  );
+  assert.equal(result.damage.diceTotal, 1);
+  assert.equal(result.damage.modifier, 2);
+  assert.equal(result.damage.total, 3);
 });

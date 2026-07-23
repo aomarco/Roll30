@@ -18,6 +18,8 @@ import {
   normalizeInventory,
   removeInventoryItem,
 } from "./items.js";
+import { loadoutProblem, normalizeLoadout } from "./combatRules.js";
+import { weaponById } from "./weapons.js";
 
 export default function CharactersPage({ characters, setCharacters, onBack }) {
   const [itemPickerOpen, setItemPickerOpen] = useState(false);
@@ -48,6 +50,14 @@ export default function CharactersPage({ characters, setCharacters, onBack }) {
     ? POINT_BUY_TOTAL - pointsSpent(selected.abilities)
     : POINT_BUY_TOTAL;
   const inventory = normalizeInventory(selected?.inventory);
+  const loadout = normalizeLoadout(inventory, selected?.loadout);
+  const loadoutError = loadoutProblem(inventory, loadout);
+  const ownedWeapons = inventory
+    .map((entry) => ({
+      ...entry,
+      weapon: weaponById(entry.itemId),
+    }))
+    .filter((entry) => entry.weapon);
   const catalogResults = filterCatalog(itemQuery, itemType);
   const visibleInventory = inventory.filter((entry) => {
     const item = ITEM_CATALOG.find(
@@ -57,10 +67,26 @@ export default function CharactersPage({ characters, setCharacters, onBack }) {
   });
   const changeItemQuantity = (itemId, amount) => {
     if (!selected) return;
-    update({ inventory: changeInventoryQuantity(inventory, itemId, amount) });
+    const nextInventory = changeInventoryQuantity(inventory, itemId, amount);
+    update({
+      inventory: nextInventory,
+      loadout: normalizeLoadout(nextInventory, loadout),
+    });
   };
-  const removeItem = (itemId) =>
-    update({ inventory: removeInventoryItem(inventory, itemId) });
+  const removeItem = (itemId) => {
+    const nextInventory = removeInventoryItem(inventory, itemId);
+    update({
+      inventory: nextInventory,
+      loadout: normalizeLoadout(nextInventory, loadout),
+    });
+  };
+  const setLoadout = (patch) => {
+    const candidate = { ...loadout, ...patch };
+    if (!candidate.mainHand) candidate.offHand = null;
+    if (weaponById(candidate.mainHand)?.hands === "two")
+      candidate.offHand = null;
+    update({ loadout: normalizeLoadout(inventory, candidate) });
+  };
 
   return (
     <div className="characters-page">
@@ -141,6 +167,12 @@ export default function CharactersPage({ characters, setCharacters, onBack }) {
                 Race / Species
                 <select value={selected.species} disabled>
                   <option>Human</option>
+                </select>
+              </label>
+              <label>
+                Size
+                <select value={selected.size || "medium"} disabled>
+                  <option value="medium">Medium</option>
                 </select>
               </label>
               <label className="background-field">
@@ -315,6 +347,62 @@ export default function CharactersPage({ characters, setCharacters, onBack }) {
                       document.body,
                     )}
                 </div>
+              </div>
+              <div className="loadout-editor">
+                <div>
+                  <p>PRE-EQUIPPED LOADOUT</p>
+                  <span>These are the weapons held when battle begins.</span>
+                </div>
+                <label>
+                  Main hand
+                  <select
+                    value={loadout.mainHand || ""}
+                    onChange={(event) =>
+                      setLoadout({ mainHand: event.target.value || null })
+                    }
+                  >
+                    <option value="">Empty</option>
+                    {ownedWeapons.map(({ weapon }) => (
+                      <option key={weapon.id} value={weapon.id}>
+                        {weapon.name}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <label>
+                  Off hand
+                  <select
+                    value={loadout.offHand || ""}
+                    disabled={!loadout.mainHand}
+                    onChange={(event) =>
+                      setLoadout({ offHand: event.target.value || null })
+                    }
+                  >
+                    <option value="">Empty</option>
+                    {ownedWeapons.map(({ weapon, quantity }) => (
+                      <option
+                        key={weapon.id}
+                        value={weapon.id}
+                        disabled={
+                          weapon.hands === "two" ||
+                          !weapon.properties.includes("Light") ||
+                          !weaponById(loadout.mainHand)?.properties.includes(
+                            "Light",
+                          ) ||
+                          (weapon.id === loadout.mainHand && quantity < 2)
+                        }
+                      >
+                        {weapon.name}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <output className={loadoutError ? "loadout-error" : ""}>
+                  {loadoutError ||
+                    (loadout.offHand
+                      ? "Dual-wield loadout ready."
+                      : "One weapon equipped.")}
+                </output>
               </div>
               {inventory.length ? (
                 <>

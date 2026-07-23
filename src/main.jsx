@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import {
+  ArrowLeftRight,
+  Hand,
   Grid3X3,
   ImageUp,
   Minus,
@@ -20,26 +22,45 @@ import "./motion.css";
 import "./layout.css";
 import "./studio.css";
 import "./readability.css";
-import { patternCells } from "./patterns.js";
 import CharactersPage from "./CharactersPage.jsx";
 import { deriveCharacter } from "./characterRules.js";
-import { resolveWeaponAttack, WEAPONS } from "./weapons.js";
+import { resolveWeaponAttack, weaponById, WEAPONS } from "./weapons.js";
 import {
   ITEM_TYPES,
   changeInventoryQuantity,
   filterCatalog,
-  inventoryItemIds,
   normalizeInventory,
 } from "./items.js";
 import MapSettingsPage from "./MapSettingsPage.jsx";
 import {
+  COMBAT_DATA_VERSION,
+  migrateCharacterData,
+  migrateTokenData,
+  restoreBattleData,
+} from "./persistenceRules.js";
+import {
   activateDash,
+  attackRollMode,
+  canDash,
+  canSwapWeapons,
+  canUseAttackAction,
+  chooseLandingCell,
   createTurnResources,
+  distanceFeet,
+  isDualWieldLoadout,
+  loadoutProblem,
   movementMaximum,
   movementRemaining,
-  resolveRollMode,
-  spendAction,
+  normalizeLoadout,
+  normalizeTurnResources,
+  performWeaponSwap,
+  retrievalKind,
+  retrievalRoll,
+  spendAttackAction,
+  spendBonusAction,
   spendMovement,
+  weaponRangeBand,
+  weaponRangeCells,
 } from "./combatRules.js";
 
 const makeToken = (id) => ({
@@ -56,6 +77,8 @@ const makeToken = (id) => ({
   dexterity: 10,
   level: 1,
   inventory: [],
+  loadout: { mainHand: null, offHand: null },
+  size: "medium",
   color: ["#c96d58", "#769b79", "#7e83ba", "#bd9a52"][id % 4],
 });
 const cellsBetween = (a, b) => {
@@ -169,13 +192,24 @@ function App() {
     [statMessage, setStatMessage] = useState(""),
     [battle, setBattle] = useState(INITIAL_DATA.battle || null),
     [attackMode, setAttackMode] = useState(false),
+    [attackKind, setAttackKind] = useState("action"),
+    [selectedAttackHand, setSelectedAttackHand] = useState("mainHand"),
     [weaponMenuOpen, setWeaponMenuOpen] = useState(false),
+    [swapMenuOpen, setSwapMenuOpen] = useState(false),
+    [swapDraft, setSwapDraft] = useState({
+      mainHand: null,
+      offHand: null,
+    }),
+    [bonusMenuOpen, setBonusMenuOpen] = useState(false),
     [selectedWeaponId, setSelectedWeaponId] = useState("club"),
     [attackMessage, setAttackMessage] = useState(""),
     [storageError, setStorageError] = useState(""),
     [characters, setCharacters] = useState(() => {
       try {
-        return JSON.parse(localStorage.getItem("roll30-characters") || "[]");
+        const stored = JSON.parse(
+          localStorage.getItem("roll30-characters") || "[]",
+        );
+        return Array.isArray(stored) ? stored.map(migrateCharacterData) : [];
       } catch {
         return [];
       }
@@ -187,6 +221,7 @@ function App() {
     [quickItemQuery, setQuickItemQuery] = useState(""),
     [quickItemType, setQuickItemType] = useState("all"),
     [attackCinematic, setAttackCinematic] = useState(null),
+    [retrievalCinematic, setRetrievalCinematic] = useState(null),
     [damagePopups, setDamagePopups] = useState([]);
   const selectedWeapon =
     WEAPONS.find((weapon) => weapon.id === selectedWeaponId) || null;
@@ -273,7 +308,15 @@ function App() {
               ...item,
               name: mapName,
               mode,
-              data: { map, noMap, mode, gridSize, tokens, battle },
+              data: {
+                map,
+                noMap,
+                mode,
+                gridSize,
+                tokens,
+                battle,
+                combatVersion: COMBAT_DATA_VERSION,
+              },
             }
           : item,
       ),
@@ -283,26 +326,53 @@ function App() {
     activeId = battle?.order[battle.turn],
     active = tokens.find((t) => t.id === activeId);
   const turnResources =
-    battle?.resources || (active ? createTurnResources(active.speed) : null);
+    battle?.resources && active
+      ? normalizeTurnResources(battle.resources, active.speed)
+      : active
+        ? createTurnResources(active.speed)
+        : null;
   const movementLeft = movementRemaining(turnResources);
   const selectedInventory = normalizeInventory(selected?.inventory);
   const selectedInventoryQuantities = new Map(
     selectedInventory.map((entry) => [entry.itemId, entry.quantity]),
   );
+  const selectedLoadout = selected
+    ? normalizeLoadout(selectedInventory, selected.loadout)
+    : { mainHand: null, offHand: null };
+  const selectedOwnedWeapons = selectedInventory
+    .map((entry) => ({ ...entry, weapon: weaponById(entry.itemId) }))
+    .filter((entry) => entry.weapon);
   const quickCatalogResults = filterCatalog(quickItemQuery, quickItemType);
-  const availableWeapons = active
-    ? WEAPONS.filter((weapon) =>
-        inventoryItemIds(active.inventory).includes(weapon.id),
-      )
+  const activeLoadout = active
+    ? normalizeLoadout(active.inventory, active.loadout)
+    : { mainHand: null, offHand: null };
+  const equippedChoices = active
+    ? ["mainHand", "offHand"]
+        .map((hand) => ({
+          hand,
+          weapon: weaponById(activeLoadout[hand]),
+        }))
+        .filter((choice) => choice.weapon)
     : [];
+  const availableWeapons = equippedChoices.map((choice) => choice.weapon);
+  const activeOwnedWeapons = active
+    ? normalizeInventory(active.inventory)
+        .map((entry) => ({ ...entry, weapon: weaponById(entry.itemId) }))
+        .filter((entry) => entry.weapon)
+    : [];
+  const swapProblem = active
+    ? loadoutProblem(active.inventory, swapDraft)
+    : null;
   useEffect(() => {
     if (!active) return;
-    const weaponIds = inventoryItemIds(active.inventory);
-    setSelectedWeaponId((current) =>
-      weaponIds.includes(current) ? current : weaponIds[0] || "",
-    );
+    const preferred = active.loadout?.mainHand || active.loadout?.offHand || "";
+    setSelectedWeaponId(preferred);
+    setSelectedAttackHand(active.loadout?.mainHand ? "mainHand" : "offHand");
+    setAttackKind("action");
     setAttackMode(false);
     setWeaponMenuOpen(false);
+    setSwapMenuOpen(false);
+    setBonusMenuOpen(false);
   }, [activeId]);
   const adjustSelectedStat = (event) => {
     event.preventDefault();
@@ -349,21 +419,47 @@ function App() {
     setTokens((items) =>
       items.map((token) =>
         token.id === selected.id
-          ? { ...token, inventory: nextInventory }
+          ? {
+              ...token,
+              inventory: nextInventory,
+              loadout: normalizeLoadout(nextInventory, token.loadout),
+            }
+          : token,
+      ),
+    );
+  };
+  const setSelectedLoadout = (patch) => {
+    if (!selected) return;
+    const candidate = { ...selectedLoadout, ...patch };
+    if (!candidate.mainHand) candidate.offHand = null;
+    if (weaponById(candidate.mainHand)?.hands === "two")
+      candidate.offHand = null;
+    setTokens((items) =>
+      items.map((token) =>
+        token.id === selected.id
+          ? {
+              ...token,
+              loadout: normalizeLoadout(token.inventory, candidate),
+            }
           : token,
       ),
     );
   };
   const openMap = async (entry) => {
     const data = entry.data || {};
+    const migratedTokens = (data.tokens || []).map((token) => ({
+      ...makeToken(token.id),
+      ...migrateTokenData(token),
+    }));
+    const restoredBattle = restoreBattleData(data, migratedTokens);
     setActiveMapId(entry.id);
     setMapName(entry.name);
     setMap(data.map || null);
     setNoMap(!!data.noMap);
     setMode(entry.mode || data.mode || "play");
     setGridSize(data.gridSize || 48);
-    setTokens(data.tokens || []);
-    setBattle(null);
+    setTokens(migratedTokens);
+    setBattle(restoredBattle);
     setSelectedId(null);
     if (!data.map && data.hasImage) {
       try {
@@ -385,6 +481,7 @@ function App() {
         gridSize: 48,
         tokens: [],
         battle: null,
+        combatVersion: COMBAT_DATA_VERSION,
       },
     };
     setMaps((items) => [...items, entry]);
@@ -589,6 +686,9 @@ function App() {
     setBattle(null);
     setAttackMode(false);
     setWeaponMenuOpen(false);
+    setSwapMenuOpen(false);
+    setBonusMenuOpen(false);
+    setAttackKind("action");
   };
   const add = () => {
     const character = characters.find(
@@ -608,6 +708,8 @@ function App() {
           dexterity: derived.finalAbilities.dex,
           level: character.level,
           inventory: normalizeInventory(character.inventory),
+          loadout: normalizeLoadout(character.inventory, character.loadout),
+          size: character.size || "medium",
           characterId: character.id,
         }
       : makeToken(Date.now());
@@ -625,7 +727,8 @@ function App() {
           ),
           cy = Math.max(0, Math.floor(((t.y / 100) * rect.height) / gridSize));
         return {
-          ...t,
+          ...makeToken(t.id),
+          ...migrateTokenData(t),
           hp: t.maxHp,
           x: ((cx * gridSize + gridSize / 2) / rect.width) * 100,
           y: ((cy * gridSize + gridSize / 2) / rect.height) * 100,
@@ -643,11 +746,14 @@ function App() {
       turn: 0,
       round: 1,
       resources: createTurnResources(order[0].speed),
+      items: [],
       log: "Initiative rolled. Battle begins!",
     });
     setSelectedId(order[0].id);
     setAttackMode(false);
     setWeaponMenuOpen(false);
+    setSwapMenuOpen(false);
+    setBonusMenuOpen(false);
   };
   const nextTurn = (updated, log) => {
     let n = (battle.turn + 1) % battle.order.length;
@@ -664,51 +770,78 @@ function App() {
     setSelectedId(next.id);
     setAttackMode(false);
     setWeaponMenuOpen(false);
+    setSwapMenuOpen(false);
+    setBonusMenuOpen(false);
   };
   const attack = async (id) => {
-    if (!selectedWeapon || attackCinematic) return;
+    if (!selectedWeapon || attackCinematic || retrievalCinematic) return;
     const target = tokens.find((t) => t.id === id);
     const rect = boardRef.current?.getBoundingClientRect();
     const origin = rect && active ? cell(active, rect) : null;
     const targetCell = rect && target ? cell(target, rect) : null;
-    const rangeSquares = Math.max(1, selectedWeapon.rangeFeet / 5);
-    const validOffsets = new Set(
-      patternCells("diamond", rangeSquares).map(({ x, y }) => `${x},${y}`),
-    );
-    const inPattern =
+    const rangeBand =
       origin &&
       targetCell &&
-      validOffsets.has(`${targetCell.x - origin.x},${targetCell.y - origin.y}`);
-    if (target && !inPattern) {
+      weaponRangeBand(selectedWeapon, distanceFeet(origin, targetCell));
+    if (target && !rangeBand) {
       setAttackMessage(
         `${target.name} is outside ${selectedWeapon.name} range.`,
       );
       return;
     }
+    const attackingLoadout = normalizeLoadout(
+      active?.inventory,
+      active?.loadout,
+    );
+    const weaponIsEquipped =
+      attackingLoadout[selectedAttackHand] === selectedWeapon.id;
     if (
       !active ||
       !target ||
-      turnResources?.actionSpent ||
       target.hp <= 0 ||
       !origin ||
       !targetCell ||
-      !inPattern
+      !rangeBand ||
+      !weaponIsEquipped
     )
       return;
-    const attackResources = spendAction(turnResources, "attack");
+    const dualWielding = isDualWieldLoadout(active.inventory, attackingLoadout);
+    const otherHand =
+      selectedAttackHand === "mainHand" ? "offHand" : "mainHand";
+    const availableOffHandWeaponId =
+      attackKind === "action" && dualWielding && !turnResources.swapped
+        ? attackingLoadout[otherHand]
+        : null;
+    let attackResources =
+      attackKind === "bonus"
+        ? spendBonusAction(turnResources, "off-hand-attack")
+        : spendAttackAction(
+            turnResources,
+            selectedWeapon.id,
+            availableOffHandWeaponId,
+            availableOffHandWeaponId ? otherHand : null,
+          );
     if (!attackResources) return;
+    const rollDetails = attackRollMode({
+      attacker: active,
+      selectedWeapon,
+      rangeBand,
+      resources: turnResources,
+    });
     setBattle((current) => ({
       ...current,
       resources: attackResources,
-      log: `${active.name} attacks ${target.name} with ${selectedWeapon.name}.`,
+      log: `${active.name} attacks ${target.name} with ${selectedWeapon.name}${rollDetails.mode === "normal" ? "" : ` at ${rollDetails.mode}`}.`,
     }));
-    const rollMode = resolveRollMode([], []);
     const result = resolveWeaponAttack(
       active,
       target,
       selectedWeapon,
       Math.random,
-      { rollMode },
+      {
+        rollMode: rollDetails.mode,
+        damageModifier: attackKind === "bonus" ? "off-hand" : "normal",
+      },
     );
     const reducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
@@ -727,6 +860,7 @@ function App() {
         targetAc: target.ac,
         weapon: selectedWeapon.name,
         weaponDice: selectedWeapon.damageDice,
+        rollReasons: rollDetails.disadvantages,
         displayRoll: 1,
         displayRolls: Array.from({ length: rollCount }, () => 1),
         result,
@@ -765,6 +899,7 @@ function App() {
       targetAc: target.ac,
       weapon: selectedWeapon.name,
       weaponDice: selectedWeapon.damageDice,
+      rollReasons: rollDetails.disadvantages,
       displayRoll: result.naturalRoll,
       displayRolls: result.attackRolls,
       result,
@@ -786,12 +921,59 @@ function App() {
     const damageBreakdown = result.damage.modifier
       ? ` (${result.damage.diceTotal} ${result.damage.modifier > 0 ? "+" : "−"} ${Math.abs(result.damage.modifier)})`
       : "";
-    const updated = tokens.map((t) =>
-        t.id === target.id && result.hit
-          ? { ...t, hp: Math.max(0, t.hp - result.damage.total) }
-          : t,
-      ),
-      alive = updated.filter((t) => t.hp > 0);
+    let updated = tokens.map((t) =>
+      t.id === target.id && result.hit
+        ? { ...t, hp: Math.max(0, t.hp - result.damage.total) }
+        : t,
+    );
+    let battleItems = [...(battle.items || [])];
+    const thrownAttack = rangeBand.id.startsWith("thrown-");
+    if (thrownAttack) {
+      if (
+        selectedAttackHand === "mainHand" &&
+        attackingLoadout.offHand &&
+        attackResources.offHandAttackAvailable
+      )
+        attackResources = {
+          ...attackResources,
+          offHandAttackHand: "mainHand",
+        };
+      updated = updated.map((token) => {
+        if (token.id !== active.id) return token;
+        const inventory = changeInventoryQuantity(
+          token.inventory,
+          selectedWeapon.id,
+          -1,
+        );
+        const loadout = { ...attackingLoadout };
+        if (selectedAttackHand === "mainHand" && loadout.offHand) {
+          loadout.mainHand = loadout.offHand;
+          loadout.offHand = null;
+        } else {
+          loadout[selectedAttackHand] = null;
+        }
+        return { ...token, inventory, loadout };
+      });
+      const occupiedCells = updated.map((token) => cell(token, rect));
+      const landingCell = chooseLandingCell(targetCell, occupiedCells, {
+        columns: Math.floor(rect.width / gridSize),
+        rows: Math.floor(rect.height / gridSize),
+      });
+      battleItems.push({
+        id: `battle-item-${Date.now()}`,
+        weaponId: selectedWeapon.id,
+        originalOwnerId: active.id,
+        state:
+          result.hit && selectedWeapon.thrown?.lodgesOnHit
+            ? "embedded"
+            : "ground",
+        embeddedInTokenId:
+          result.hit && selectedWeapon.thrown?.lodgesOnHit ? target.id : null,
+        cell:
+          result.hit && selectedWeapon.thrown?.lodgesOnHit ? null : landingCell,
+      });
+    }
+    const alive = updated.filter((t) => t.hp > 0);
     const popupId = `${target.id}-${Date.now()}`;
     if (result.hit) playHitSound();
     setDamagePopups((items) => [
@@ -819,6 +1001,7 @@ function App() {
       setBattle({
         ...battle,
         resources: attackResources,
+        items: battleItems,
         complete: true,
         log: `${active.name}'s ${selectedWeapon.name} hits for ${result.damage.total} ${selectedWeapon.damageType.toLowerCase()} damage. ${alive[0]?.name ?? "No one"} wins!`,
       });
@@ -828,6 +1011,7 @@ function App() {
       setBattle({
         ...battle,
         resources: attackResources,
+        items: battleItems,
         log: result.hit
           ? `${active.name} rolls ${result.naturalRoll} + ${result.bonus} = ${result.attackTotal} and ${result.critical ? "critically " : ""}hits ${target.name} with a ${selectedWeapon.name} for ${result.damage.total}${damageBreakdown} ${selectedWeapon.damageType.toLowerCase()} damage.`
           : `${active.name} rolls ${result.naturalRoll} + ${result.bonus} = ${result.attackTotal}; the ${selectedWeapon.name} misses ${target.name} (AC ${target.ac}).`,
@@ -835,6 +1019,118 @@ function App() {
       setAttackMode(false);
       setWeaponMenuOpen(false);
     }
+    setAttackKind("action");
+    setBonusMenuOpen(false);
+  };
+  const confirmWeaponSwap = () => {
+    if (!active || loadoutProblem(active.inventory, swapDraft)) return;
+    const swappedResources = performWeaponSwap(turnResources);
+    if (!swappedResources) return;
+    setTokens((items) =>
+      items.map((token) =>
+        token.id === active.id ? { ...token, loadout: swapDraft } : token,
+      ),
+    );
+    setBattle((current) => ({
+      ...current,
+      resources: swappedResources,
+      log: `${active.name} swaps to ${weaponById(swapDraft.mainHand)?.name || "empty hands"}${swapDraft.offHand ? ` and ${weaponById(swapDraft.offHand)?.name}` : ""}.`,
+    }));
+    setSelectedWeaponId(swapDraft.mainHand || swapDraft.offHand || "");
+    setSelectedAttackHand(swapDraft.mainHand ? "mainHand" : "offHand");
+    setSwapMenuOpen(false);
+    setAttackMode(false);
+    setWeaponMenuOpen(false);
+    setSwapMenuOpen(false);
+    setBonusMenuOpen(false);
+  };
+  const equipRecoveredWeapon = (token, weaponId) => {
+    const inventory = changeInventoryQuantity(token.inventory, weaponId, 1);
+    const loadout = { ...normalizeLoadout(token.inventory, token.loadout) };
+    if (!loadout.mainHand) loadout.mainHand = weaponId;
+    else if (!loadout.offHand) {
+      const candidate = { ...loadout, offHand: weaponId };
+      if (!loadoutProblem(inventory, candidate)) loadout.offHand = weaponId;
+    }
+    return { ...token, inventory, loadout };
+  };
+  const retrieveBattleItem = async (option) => {
+    if (!active || !option || retrievalCinematic || attackCinematic) return;
+    const requiresBonus = option.kind !== "corpse";
+    if (requiresBonus && turnResources.bonusActionSpent) return;
+    let nextResources = turnResources;
+    let roll = null;
+    if (option.kind === "embedded") {
+      nextResources = spendBonusAction(turnResources, "retrieve-embedded");
+      if (!nextResources) return;
+      roll = retrievalRoll(active);
+      setBattle((current) => ({
+        ...current,
+        resources: nextResources,
+        log: `${active.name} tries to pull out ${option.weapon.name}.`,
+      }));
+      setRetrievalCinematic({
+        phase: "rolling",
+        weapon: option.weapon.name,
+        displayRoll: 1,
+        result: roll,
+      });
+      const reduced = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      ).matches;
+      let timer;
+      if (!reduced)
+        timer = window.setInterval(
+          () =>
+            setRetrievalCinematic((current) => ({
+              ...current,
+              displayRoll: Math.floor(Math.random() * 20) + 1,
+            })),
+          65,
+        );
+      await new Promise((resolve) =>
+        window.setTimeout(resolve, reduced ? 100 : 700),
+      );
+      window.clearInterval(timer);
+      setRetrievalCinematic((current) => ({
+        ...current,
+        phase: roll.success ? "success" : "failure",
+        displayRoll: roll.naturalRoll,
+      }));
+      await new Promise((resolve) =>
+        window.setTimeout(resolve, reduced ? 120 : 650),
+      );
+      setRetrievalCinematic(null);
+      if (!roll.success) {
+        setBattle((current) => ({
+          ...current,
+          resources: nextResources,
+          log: `${active.name} rolls ${roll.total} against DC 15. ${option.weapon.name} remains embedded.`,
+        }));
+        setBonusMenuOpen(false);
+        return;
+      }
+    } else if (option.kind === "ground") {
+      nextResources = spendBonusAction(turnResources, "retrieve-ground");
+      if (!nextResources) return;
+    }
+    setTokens((items) =>
+      items.map((token) =>
+        token.id === active.id
+          ? equipRecoveredWeapon(token, option.item.weaponId)
+          : token,
+      ),
+    );
+    setBattle((current) => ({
+      ...current,
+      resources: nextResources,
+      items: (current.items || []).filter((item) => item.id !== option.item.id),
+      log:
+        option.kind === "corpse"
+          ? `${active.name} freely recovers ${option.weapon.name} from the defeated target.`
+          : `${active.name} recovers ${option.weapon.name}${roll ? ` with a ${roll.total}` : ""}.`,
+    }));
+    setBonusMenuOpen(false);
   };
   const dash = () => {
     const dashedResources = activateDash(turnResources);
@@ -846,12 +1142,14 @@ function App() {
     }));
     setAttackMode(false);
     setWeaponMenuOpen(false);
+    setSwapMenuOpen(false);
+    setBonusMenuOpen(false);
   };
   const end = () =>
     !battle?.complete && nextTurn(tokens, `${active?.name} ended their turn.`);
   const down = (e, t) => {
     e.preventDefault();
-    if (attackCinematic) return;
+    if (attackCinematic || retrievalCinematic) return;
     if (attackMode && t.id !== activeId && t.hp > 0) return attack(t.id);
     setSelectedId(t.id);
     if (
@@ -859,6 +1157,7 @@ function App() {
       !battle.complete &&
       t.id === activeId &&
       movementLeft >= 5 &&
+      turnResources?.swapChoice !== "attack" &&
       boardRef.current
     ) {
       const r = boardRef.current.getBoundingClientRect();
@@ -875,16 +1174,66 @@ function App() {
       });
     } else if (!battle) setDrag({ id: t.id, battle: false });
   };
+  const retrievalOptions = (() => {
+    const rect = boardRef.current?.getBoundingClientRect();
+    if (!battle || !active || !rect) return [];
+    const actorCell = cell(active, rect);
+    return (battle.items || [])
+      .map((item) => {
+        const carrier = item.embeddedInTokenId
+          ? tokens.find((token) => token.id === item.embeddedInTokenId)
+          : null;
+        const kind = retrievalKind({
+          battleItem: item,
+          actorCell,
+          carrier,
+          carrierCell: carrier ? cell(carrier, rect) : null,
+        });
+        return kind
+          ? { item, kind, carrier, weapon: weaponById(item.weaponId) }
+          : null;
+      })
+      .filter((option) => option?.weapon);
+  })();
+  const attackStatus = !turnResources
+    ? "Unavailable"
+    : turnResources.dashed
+      ? "Unavailable · Dashed"
+      : turnResources.actionSpent
+        ? `Unavailable · ${turnResources.actionType || "Action"} spent`
+        : turnResources.swapped &&
+            (turnResources.movementSpent > 0 ||
+              turnResources.swapChoice === "movement")
+          ? "Unavailable · Moved after swap"
+          : !availableWeapons.length
+            ? "No weapons equipped"
+            : selectedWeapon
+              ? `${selectedWeapon.name} · ${selectedWeapon.damageDice}`
+              : "Choose equipped weapon";
+  const dashStatus = !turnResources
+    ? "Dash unavailable"
+    : turnResources.swapped
+      ? "Dash unavailable · Swapped"
+      : turnResources.actionSpent
+        ? "Dash unavailable · Action spent"
+        : `Dash +${turnResources.movementBase} ft`;
+  const swapStatus = !turnResources
+    ? "Swap unavailable"
+    : turnResources.swapped
+      ? "Swap unavailable · Already swapped"
+      : turnResources.dashed
+        ? "Swap unavailable · Dashed"
+        : turnResources.actionSpent
+          ? "Swap unavailable · Action spent"
+          : "Swap weapon";
   const canAttackTarget = (t) => {
     const rect = boardRef.current?.getBoundingClientRect();
     if (!rect || !active || !selectedWeapon || t.id === active.id || t.hp <= 0)
       return false;
-    const a = cell(active, rect),
-      b = cell(t, rect);
-    return patternCells(
-      "diamond",
-      Math.max(1, selectedWeapon.rangeFeet / 5),
-    ).some(({ x, y }) => x === b.x - a.x && y === b.y - a.y);
+    return !!weaponRangeBand(
+      selectedWeapon,
+      distanceFeet(cell(active, rect), cell(t, rect)),
+    );
   };
   if (showCharacters)
     return (
@@ -1147,6 +1496,28 @@ function App() {
                       {movementLeft} / {movementMaximum(turnResources)} ft
                     </strong>
                   </div>
+                  <span className="resource-pips">
+                    <i
+                      className={turnResources.actionSpent ? "spent" : ""}
+                      title={
+                        turnResources.actionSpent
+                          ? `Action spent: ${turnResources.actionType}`
+                          : "Action available"
+                      }
+                    >
+                      A
+                    </i>
+                    <i
+                      className={turnResources.bonusActionSpent ? "spent" : ""}
+                      title={
+                        turnResources.bonusActionSpent
+                          ? `Bonus Action spent: ${turnResources.bonusActionType}`
+                          : "Bonus Action available"
+                      }
+                    >
+                      B
+                    </i>
+                  </span>
                   <em>ROUND {battle.round}</em>
                 </div>
                 {weaponMenuOpen && (
@@ -1156,14 +1527,19 @@ function App() {
                       <small>d20 + ability + proficiency</small>
                     </div>
                     <div className="weapon-grid">
-                      {availableWeapons.map((weapon) => (
+                      {equippedChoices.map(({ hand, weapon }) => (
                         <button
-                          key={weapon.id}
+                          key={hand}
                           className={
-                            weapon.id === selectedWeaponId ? "selected" : ""
+                            weapon.id === selectedWeaponId &&
+                            hand === selectedAttackHand
+                              ? "selected"
+                              : ""
                           }
                           onClick={() => {
                             setSelectedWeaponId(weapon.id);
+                            setSelectedAttackHand(hand);
+                            setAttackKind("action");
                             setWeaponMenuOpen(false);
                             setAttackMode(true);
                             setAttackMessage("");
@@ -1180,17 +1556,196 @@ function App() {
                     </div>
                   </div>
                 )}
+                {swapMenuOpen && (
+                  <div className="combat-choice-panel swap-picker">
+                    <div className="weapon-picker-title">
+                      <span>SWAP LOADOUT</span>
+                      <small>Attacking after a swap has disadvantage</small>
+                    </div>
+                    <div className="swap-fields">
+                      <label>
+                        Main hand
+                        <select
+                          value={swapDraft.mainHand || ""}
+                          onChange={(event) => {
+                            const mainHand = event.target.value || null;
+                            setSwapDraft((current) => ({
+                              ...current,
+                              mainHand,
+                              offHand:
+                                weaponById(mainHand)?.hands === "two"
+                                  ? null
+                                  : current.offHand,
+                            }));
+                          }}
+                        >
+                          <option value="">Empty</option>
+                          {activeOwnedWeapons.map(({ weapon }) => (
+                            <option key={weapon.id} value={weapon.id}>
+                              {weapon.name}
+                            </option>
+                          ))}
+                        </select>
+                      </label>
+                      <label>
+                        Off hand
+                        <select
+                          value={swapDraft.offHand || ""}
+                          disabled={!swapDraft.mainHand}
+                          onChange={(event) =>
+                            setSwapDraft((current) => ({
+                              ...current,
+                              offHand: event.target.value || null,
+                            }))
+                          }
+                        >
+                          <option value="">Empty</option>
+                          {activeOwnedWeapons.map(({ weapon, quantity }) => (
+                            <option
+                              key={weapon.id}
+                              value={weapon.id}
+                              disabled={
+                                weapon.hands === "two" ||
+                                !weapon.properties.includes("Light") ||
+                                !weaponById(
+                                  swapDraft.mainHand,
+                                )?.properties.includes("Light") ||
+                                (weapon.id === swapDraft.mainHand &&
+                                  quantity < 2)
+                              }
+                            >
+                              {weapon.name}
+                            </option>
+                          ))}
+                        </select>
+                      </label>
+                    </div>
+                    <div className="choice-panel-footer">
+                      <span className={swapProblem ? "choice-error" : ""}>
+                        {swapProblem || "Legal loadout"}
+                      </span>
+                      <button
+                        onClick={confirmWeaponSwap}
+                        disabled={!!swapProblem}
+                      >
+                        Confirm swap
+                      </button>
+                    </div>
+                  </div>
+                )}
+                {bonusMenuOpen && (
+                  <div className="combat-choice-panel bonus-picker">
+                    <div className="weapon-picker-title">
+                      <span>BONUS ACTIONS</span>
+                      <small>Choose one available option</small>
+                    </div>
+                    <div className="bonus-options">
+                      {turnResources.offHandAttackAvailable &&
+                        !turnResources.bonusActionSpent && (
+                          <button
+                            onClick={() => {
+                              const weaponId = turnResources.offHandWeaponId;
+                              const hand =
+                                turnResources.offHandAttackHand ||
+                                (activeLoadout.mainHand === weaponId
+                                  ? "mainHand"
+                                  : "offHand");
+                              setSelectedWeaponId(weaponId);
+                              setSelectedAttackHand(hand);
+                              setAttackKind("bonus");
+                              setAttackMode(true);
+                              setBonusMenuOpen(false);
+                              setAttackMessage("");
+                            }}
+                          >
+                            <Swords size={16} />
+                            <span>
+                              <strong>Off-hand attack</strong>
+                              <small>
+                                {weaponById(turnResources.offHandWeaponId)
+                                  ?.name || "Other weapon"}
+                              </small>
+                            </span>
+                          </button>
+                        )}
+                      {retrievalOptions.map((option) => (
+                        <button
+                          key={option.item.id}
+                          onClick={() => retrieveBattleItem(option)}
+                          disabled={
+                            option.kind !== "corpse" &&
+                            turnResources.bonusActionSpent
+                          }
+                        >
+                          <Hand size={16} />
+                          <span>
+                            <strong>Recover {option.weapon.name}</strong>
+                            <small>
+                              {option.kind === "embedded"
+                                ? "Embedded · d20 + STR + DEX vs DC 15"
+                                : option.kind === "corpse"
+                                  ? "Defeated carrier · free"
+                                  : "Ground · no roll"}
+                            </small>
+                          </span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                <div className="combat-utility-row">
+                  <button
+                    className="dash-compact"
+                    title={dashStatus}
+                    aria-label={dashStatus}
+                    disabled={
+                      !canDash(turnResources) ||
+                      !!attackCinematic ||
+                      !!retrievalCinematic
+                    }
+                    onPointerDown={(e) => e.stopPropagation()}
+                    onClick={dash}
+                  >
+                    <Zap size={15} />
+                    <span>{dashStatus}</span>
+                  </button>
+                  <button
+                    className="swap-compact"
+                    title={swapStatus}
+                    aria-label={swapStatus}
+                    disabled={
+                      !canSwapWeapons(turnResources) ||
+                      !!attackCinematic ||
+                      !!retrievalCinematic
+                    }
+                    onPointerDown={(e) => e.stopPropagation()}
+                    onClick={() => {
+                      setSwapDraft(activeLoadout);
+                      setSwapMenuOpen((open) => !open);
+                      setWeaponMenuOpen(false);
+                      setBonusMenuOpen(false);
+                      setAttackMode(false);
+                    }}
+                  >
+                    <ArrowLeftRight size={15} />
+                    <span>{swapStatus}</span>
+                  </button>
+                </div>
                 <div className="combat-actions-row">
                   <button
                     className={attackMode || weaponMenuOpen ? "armed" : ""}
                     disabled={
-                      turnResources.actionSpent ||
+                      !canUseAttackAction(turnResources) ||
                       !availableWeapons.length ||
-                      !!attackCinematic
+                      !!attackCinematic ||
+                      !!retrievalCinematic
                     }
                     onPointerDown={(e) => e.stopPropagation()}
                     onClick={() => {
                       setWeaponMenuOpen((value) => !value);
+                      setSwapMenuOpen(false);
+                      setBonusMenuOpen(false);
+                      setAttackKind("action");
                       setAttackMode(false);
                       setAttackMessage("");
                     }}
@@ -1200,29 +1755,52 @@ function App() {
                     </span>
                     <span>
                       <strong>Attack</strong>
+                      <small>{attackStatus}</small>
+                    </span>
+                  </button>
+                  <button
+                    className={
+                      turnResources.offHandAttackAvailable ||
+                      retrievalOptions.length
+                        ? "bonus-ready"
+                        : ""
+                    }
+                    disabled={
+                      (!turnResources.offHandAttackAvailable &&
+                        !retrievalOptions.length) ||
+                      !!attackCinematic ||
+                      !!retrievalCinematic
+                    }
+                    onPointerDown={(e) => e.stopPropagation()}
+                    onClick={() => {
+                      setBonusMenuOpen((open) => !open);
+                      setWeaponMenuOpen(false);
+                      setSwapMenuOpen(false);
+                      setAttackMode(false);
+                    }}
+                  >
+                    <span className="action-icon">
+                      <Hand size={18} />
+                    </span>
+                    <span>
+                      <strong>Bonus Action</strong>
                       <small>
-                        {selectedWeapon
-                          ? `${selectedWeapon.name} · ${selectedWeapon.damageDice}`
-                          : "No weapons equipped"}
+                        {retrievalOptions.some(
+                          (option) => option.kind === "corpse",
+                        )
+                          ? "Free recovery ready"
+                          : turnResources.bonusActionSpent
+                            ? "Spent"
+                            : turnResources.offHandAttackAvailable
+                              ? "Off-hand attack ready"
+                              : retrievalOptions.length
+                                ? "Recovery available"
+                                : "Unavailable"}
                       </small>
                     </span>
                   </button>
                   <button
-                    className="dash-compact"
-                    disabled={turnResources.actionSpent || !!attackCinematic}
-                    onPointerDown={(e) => e.stopPropagation()}
-                    onClick={dash}
-                  >
-                    <span className="action-icon">
-                      <Zap size={18} />
-                    </span>
-                    <span>
-                      <strong>Dash</strong>
-                      <small>+{turnResources.movementBase} ft</small>
-                    </span>
-                  </button>
-                  <button
-                    disabled={!!attackCinematic}
+                    disabled={!!attackCinematic || !!retrievalCinematic}
                     onPointerDown={(e) => e.stopPropagation()}
                     onClick={end}
                     aria-label="End turn"
@@ -1368,16 +1946,14 @@ function App() {
             )}
             {attackMode && (
               <div className="attack-prompt">
-                {selectedWeapon.name} ready · choose a target · d20 vs AC
+                {selectedWeapon?.name} ready · choose a highlighted target
               </div>
             )}
             {attackMode &&
               active &&
+              selectedWeapon &&
               boardRef.current &&
-              patternCells(
-                "diamond",
-                Math.max(1, selectedWeapon.rangeFeet / 5),
-              ).map((offset) => {
+              weaponRangeCells(selectedWeapon).map((offset) => {
                 const c = cell(
                     active,
                     boardRef.current.getBoundingClientRect(),
@@ -1386,7 +1962,7 @@ function App() {
                 return (
                   <i
                     key={`attack-${offset.x}-${offset.y}`}
-                    className="attack-cell"
+                    className={`attack-cell ${offset.color}`}
                     style={{
                       left: (c.x + offset.x) * gridSize,
                       top: (c.y + offset.y) * gridSize,
@@ -1419,6 +1995,59 @@ function App() {
                     </strong>
                   </div>
                 )
+              );
+            })}
+            {retrievalCinematic && (
+              <div
+                className={`retrieval-cinematic ${retrievalCinematic.phase}`}
+                role="status"
+                aria-live="polite"
+              >
+                <span>RETRIEVAL · DC 15</span>
+                <strong>{retrievalCinematic.displayRoll}</strong>
+                <small>
+                  d20 + {retrievalCinematic.result.strengthModifier} STR +{" "}
+                  {retrievalCinematic.result.dexterityModifier} DEX ={" "}
+                  {retrievalCinematic.result.total}
+                </small>
+                {retrievalCinematic.phase !== "rolling" && (
+                  <em>
+                    {retrievalCinematic.result.success
+                      ? `${retrievalCinematic.weapon} recovered`
+                      : `${retrievalCinematic.weapon} stays embedded`}
+                  </em>
+                )}
+              </div>
+            )}
+            {(battle?.items || []).map((item) => {
+              const itemWeapon = weaponById(item.weaponId);
+              const carrier = item.embeddedInTokenId
+                ? tokens.find((token) => token.id === item.embeddedInTokenId)
+                : null;
+              if (!itemWeapon || (item.state === "embedded" && !carrier))
+                return null;
+              const matchingOption = retrievalOptions.find(
+                (option) => option.item.id === item.id,
+              );
+              return (
+                <button
+                  key={item.id}
+                  className={`battle-item-marker ${item.state} ${matchingOption ? "retrievable" : ""}`}
+                  style={
+                    item.state === "ground"
+                      ? {
+                          left: (item.cell.x + 0.5) * gridSize,
+                          top: (item.cell.y + 0.5) * gridSize,
+                        }
+                      : { left: `${carrier.x}%`, top: `${carrier.y}%` }
+                  }
+                  title={`${itemWeapon.name} · ${item.state}`}
+                  onPointerDown={(event) => event.stopPropagation()}
+                  onClick={() => matchingOption && setBonusMenuOpen(true)}
+                >
+                  <Swords size={13} />
+                  <span>{itemWeapon.name}</span>
+                </button>
               );
             })}
             {tokens.map((t) => (
@@ -1507,6 +2136,98 @@ function App() {
                           />
                         </label>
                       ))}
+                      <label>
+                        Creature size
+                        <select
+                          value={selected.size || "medium"}
+                          onChange={(event) =>
+                            setTokens((items) =>
+                              items.map((token) =>
+                                token.id === selected.id
+                                  ? { ...token, size: event.target.value }
+                                  : token,
+                              ),
+                            )
+                          }
+                        >
+                          <option value="small">Small</option>
+                          <option value="medium">Medium</option>
+                          <option value="large">Large</option>
+                        </select>
+                      </label>
+                    </div>
+                    <div className="token-loadout-editor">
+                      <div className="quick-inventory-heading">
+                        <p>PRE-EQUIPPED LOADOUT</p>
+                        <span>Only held weapons can attack in battle.</span>
+                      </div>
+                      <div className="loadout-fields">
+                        <label>
+                          Main hand
+                          <select
+                            value={selectedLoadout.mainHand || ""}
+                            onChange={(event) =>
+                              setSelectedLoadout({
+                                mainHand: event.target.value || null,
+                              })
+                            }
+                          >
+                            <option value="">Empty</option>
+                            {selectedOwnedWeapons.map(({ weapon }) => (
+                              <option key={weapon.id} value={weapon.id}>
+                                {weapon.name}
+                              </option>
+                            ))}
+                          </select>
+                        </label>
+                        <label>
+                          Off hand
+                          <select
+                            value={selectedLoadout.offHand || ""}
+                            disabled={!selectedLoadout.mainHand}
+                            onChange={(event) =>
+                              setSelectedLoadout({
+                                offHand: event.target.value || null,
+                              })
+                            }
+                          >
+                            <option value="">Empty</option>
+                            {selectedOwnedWeapons.map(
+                              ({ weapon, quantity }) => (
+                                <option
+                                  key={weapon.id}
+                                  value={weapon.id}
+                                  disabled={
+                                    weapon.hands === "two" ||
+                                    !weapon.properties.includes("Light") ||
+                                    !weaponById(
+                                      selectedLoadout.mainHand,
+                                    )?.properties.includes("Light") ||
+                                    (weapon.id === selectedLoadout.mainHand &&
+                                      quantity < 2)
+                                  }
+                                >
+                                  {weapon.name}
+                                </option>
+                              ),
+                            )}
+                          </select>
+                        </label>
+                      </div>
+                      <output
+                        className={
+                          loadoutProblem(selected.inventory, selectedLoadout)
+                            ? "loadout-error"
+                            : ""
+                        }
+                      >
+                        {loadoutProblem(selected.inventory, selectedLoadout) ||
+                          (selectedLoadout.offHand
+                            ? "Dual-wield loadout ready."
+                            : selectedLoadout.mainHand
+                              ? "One weapon equipped."
+                              : "No weapon equipped.")}
+                      </output>
                     </div>
                     <div className="quick-inventory">
                       <div className="quick-inventory-heading">

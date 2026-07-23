@@ -24,7 +24,7 @@ test("inventory quantities can grow and remove at zero", () => {
 });
 
 test("catalog search and inventory ids are generic", () => {
-  assert.equal(filterCatalog("slashing", "weapon").length, 2);
+  assert.ok(filterCatalog("slashing", "weapon").length >= 8);
   assert.deepEqual(inventoryItemIds([{ itemId: "shortsword", quantity: 3 }]), [
     "shortsword",
   ]);

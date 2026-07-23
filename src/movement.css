@@ -52,6 +52,27 @@
   animation: attack-cell-pop 420ms cubic-bezier(0.16, 1.35, 0.32, 1)
     var(--attack-delay, 0ms) both;
 }
+.attack-cell.green {
+  background: #54b87966;
+  border-color: #8fe5aa;
+  box-shadow:
+    inset 0 0 14px #6adf9180,
+    0 0 10px #46b87244;
+}
+.attack-cell.yellow {
+  background: #d5aa3f70;
+  border-color: #ffe08a;
+  box-shadow:
+    inset 0 0 14px #f2c75588,
+    0 0 10px #c89a3244;
+}
+.attack-cell.red {
+  background: #d9555575;
+  border-color: #ff9a8e;
+  box-shadow:
+    inset 0 0 14px #ff766888,
+    0 0 10px #e0525244;
+}
 @keyframes attack-cell-pop {
   0% {
     opacity: 0;
