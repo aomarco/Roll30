@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import {
-  Footprints,
   Grid3X3,
   ImageUp,
   Plus,
@@ -147,7 +146,6 @@ function App() {
     [weaponMenuOpen, setWeaponMenuOpen] = useState(false),
     [selectedWeaponId, setSelectedWeaponId] = useState("longsword"),
     [attackMessage, setAttackMessage] = useState(""),
-    [moveMode, setMoveMode] = useState(false),
     [storageError, setStorageError] = useState(""),
     [characters, setCharacters] = useState(() => {
       try {
@@ -291,9 +289,6 @@ function App() {
       ),
     );
   };
-  useEffect(() => {
-    setBattle((b) => (b ? { ...b, dashReady: moveMode } : b));
-  }, [moveMode]);
   const home = (
     <div className="home">
       <header>
@@ -422,8 +417,8 @@ function App() {
       if (drag.battle) {
         const speed = Math.floor(drag.speed / 5),
           distance = (drag.path?.length ?? 1) - 1,
-          allowance = speed * (battle?.dashReady ? 2 : 1),
-          usedDash = !!battle?.dashReady && distance > speed;
+          allowance = speed * 2,
+          usedDash = distance > speed;
         const occupied =
           drag.target &&
           tokens.some(
@@ -446,16 +441,18 @@ function App() {
             ...b,
             moved: true,
             dashed: usedDash,
-            dashReady: false,
-            log: `${active?.name} moved ${distance * 5} ft.`,
+            log: `${active?.name} moved ${distance * 5} ft${usedDash ? " using Dash" : ""}.`,
           }));
         } else if (occupied)
           setBattle((b) => ({
             ...b,
-            dashReady: false,
             log: "That square is occupied.",
           }));
-        else if (distance === 0) setBattle((b) => ({ ...b, dashReady: false }));
+        else if (distance > allowance)
+          setBattle((b) => ({
+            ...b,
+            log: `${active?.name} cannot move more than ${drag.speed * 2} ft.`,
+          }));
       }
       setDrag(null);
     };
@@ -522,7 +519,6 @@ function App() {
       moved: false,
       attacked: false,
       dashed: false,
-      dashReady: false,
       log: "Initiative rolled. Battle begins!",
     });
     setSelectedId(order[0].id);
@@ -541,7 +537,6 @@ function App() {
       moved: false,
       attacked: false,
       dashed: false,
-      dashReady: false,
       log,
     });
     setSelectedId(next.id);
@@ -766,9 +761,18 @@ function App() {
             {mode === "battle" && <div className="grid" />}
             {drag?.battle && (
               <>
-                <div className="move-counter">
-                  {((drag.path?.length ?? 1) - 1) * 5} ft /{" "}
-                  {drag.speed * (battle?.dashReady ? 2 : 1)} ft
+                <div
+                  className={
+                    "move-counter " +
+                    ((drag.path?.length ?? 1) - 1 > drag.speed / 5
+                      ? (drag.path?.length ?? 1) - 1 > (drag.speed / 5) * 2
+                        ? "over"
+                        : "dash"
+                      : "walk")
+                  }
+                >
+                  {((drag.path?.length ?? 1) - 1) * 5} ft / {drag.speed} ft
+                  speed · {drag.speed * 2} ft max
                 </div>
                 {drag.cursor &&
                   boardRef.current &&
@@ -797,11 +801,11 @@ function App() {
                       "move-cell " +
                       (i === 0
                         ? "origin"
-                        : i >
-                            Math.floor(drag.speed / 5) *
-                              (battle?.dashReady ? 2 : 1)
+                        : i > Math.floor(drag.speed / 5) * 2
                           ? "over"
-                          : "")
+                          : i > Math.floor(drag.speed / 5)
+                            ? "dash"
+                            : "")
                     }
                     style={{
                       left: p.x * gridSize,
@@ -860,20 +864,6 @@ function App() {
                   </div>
                 )}
                 <div className="combat-actions-row">
-                  <button
-                    className={battle.dashReady ? "armed" : ""}
-                    disabled={battle.moved || battle.attacked}
-                    onPointerDown={(e) => e.stopPropagation()}
-                    onClick={() => setMoveMode((v) => !v)}
-                  >
-                    <span className="action-icon">
-                      <Footprints size={18} />
-                    </span>
-                    <span>
-                      <strong>Dash</strong>
-                      <small>{active.speed * 2} ft</small>
-                    </span>
-                  </button>
                   <button
                     className={attackMode || weaponMenuOpen ? "armed" : ""}
                     disabled={battle.attacked || battle.dashed}
