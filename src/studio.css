@@ -595,10 +595,8 @@
 }
 
 .item-picker {
-  position: absolute;
-  z-index: 20;
-  right: 0;
-  top: calc(100% + 9px);
+  position: relative;
+  z-index: 10001;
   width: min(440px, calc(100vw - 44px));
   max-height: min(470px, 70vh);
   padding: 10px;
@@ -613,6 +611,27 @@
   grid-template-rows: auto auto minmax(0, 1fr);
   overflow: hidden;
   animation: weapon-menu-arrive 260ms var(--motion-swish) both;
+}
+
+.item-picker-backdrop {
+  position: fixed;
+  z-index: 10000;
+  inset: 0;
+  padding: 24px;
+  background: #090a0dc4;
+  display: grid;
+  place-items: center;
+  backdrop-filter: blur(8px);
+  animation: inventory-backdrop-in 180ms ease-out both;
+}
+
+@keyframes inventory-backdrop-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .item-picker-results {

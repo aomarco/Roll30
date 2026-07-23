@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { Backpack, Minus, Plus, Search, Shield, Trash2, X } from "lucide-react";
 import {
   ABILITIES,
@@ -23,6 +24,14 @@ export default function CharactersPage({ characters, setCharacters, onBack }) {
   const [itemQuery, setItemQuery] = useState("");
   const [itemType, setItemType] = useState("all");
   const [inventoryQuery, setInventoryQuery] = useState("");
+  useEffect(() => {
+    if (!itemPickerOpen) return undefined;
+    const closeOnEscape = (event) => {
+      if (event.key === "Escape") setItemPickerOpen(false);
+    };
+    document.addEventListener("keydown", closeOnEscape);
+    return () => document.removeEventListener("keydown", closeOnEscape);
+  }, [itemPickerOpen]);
   const selected = characters[0] || null;
   const update = (patch) =>
     setCharacters((items) =>
@@ -223,72 +232,88 @@ export default function CharactersPage({ characters, setCharacters, onBack }) {
                   >
                     <Plus size={16} /> Add Item
                   </button>
-                  {itemPickerOpen && (
-                    <div className="item-picker">
-                      <div className="item-picker-title">
-                        <span>ITEM CATALOG</span>
-                        <button
-                          onClick={() => setItemPickerOpen(false)}
-                          aria-label="Close item list"
+                  {itemPickerOpen &&
+                    createPortal(
+                      <div
+                        className="item-picker-backdrop"
+                        onPointerDown={() => setItemPickerOpen(false)}
+                      >
+                        <div
+                          className="item-picker"
+                          role="dialog"
+                          aria-modal="true"
+                          aria-label="Add an inventory item"
+                          onPointerDown={(event) => event.stopPropagation()}
                         >
-                          <X size={14} />
-                        </button>
-                      </div>
-                      <div className="item-browser-tools">
-                        <label className="inventory-search">
-                          <Search size={15} />
-                          <input
-                            value={itemQuery}
-                            onChange={(event) =>
-                              setItemQuery(event.target.value)
-                            }
-                            placeholder="Search name, type, damage…"
-                            autoFocus
-                          />
-                        </label>
-                        <select
-                          value={itemType}
-                          onChange={(event) => setItemType(event.target.value)}
-                          aria-label="Filter item type"
-                        >
-                          {ITEM_TYPES.map((type) => (
-                            <option key={type.id} value={type.id}>
-                              {type.label}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-                      <div className="item-picker-results">
-                        <small>{catalogResults.length} results</small>
-                        {catalogResults.map((item) => {
-                          const owned =
-                            inventory.find((entry) => entry.itemId === item.id)
-                              ?.quantity || 0;
-                          return (
+                          <div className="item-picker-title">
+                            <span>ITEM CATALOG</span>
                             <button
-                              key={item.id}
-                              className="item-picker-option"
-                              onClick={() => changeItemQuantity(item.id, 1)}
+                              onClick={() => setItemPickerOpen(false)}
+                              aria-label="Close item list"
                             >
-                              <span>
-                                <strong>{item.name}</strong>
-                                <small>
-                                  {item.typeLabel} · {item.category} ·{" "}
-                                  {item.rangeFeet} ft
-                                </small>
-                              </span>
-                              <em>{owned ? `${owned} owned` : "+ Add"}</em>
+                              <X size={14} />
                             </button>
-                          );
-                        })}
-                        {!catalogResults.length && (
-                          <p className="catalog-empty">
-                            No catalog items match that search.
-                          </p>
-                        )}
-                      </div>
-                    </div>
-                  )}
+                          </div>
+                          <div className="item-browser-tools">
+                            <label className="inventory-search">
+                              <Search size={15} />
+                              <input
+                                value={itemQuery}
+                                onChange={(event) =>
+                                  setItemQuery(event.target.value)
+                                }
+                                placeholder="Search name, type, damage…"
+                                autoFocus
+                              />
+                            </label>
+                            <select
+                              value={itemType}
+                              onChange={(event) =>
+                                setItemType(event.target.value)
+                              }
+                              aria-label="Filter item type"
+                            >
+                              {ITEM_TYPES.map((type) => (
+                                <option key={type.id} value={type.id}>
+                                  {type.label}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+                          <div className="item-picker-results">
+                            <small>{catalogResults.length} results</small>
+                            {catalogResults.map((item) => {
+                              const owned =
+                                inventory.find(
+                                  (entry) => entry.itemId === item.id,
+                                )?.quantity || 0;
+                              return (
+                                <button
+                                  key={item.id}
+                                  className="item-picker-option"
+                                  onClick={() => changeItemQuantity(item.id, 1)}
+                                >
+                                  <span>
+                                    <strong>{item.name}</strong>
+                                    <small>
+                                      {item.typeLabel} · {item.category} ·{" "}
+                                      {item.rangeFeet} ft
+                                    </small>
+                                  </span>
+                                  <em>{owned ? `${owned} owned` : "+ Add"}</em>
+                                </button>
+                              );
+                            })}
+                            {!catalogResults.length && (
+                              <p className="catalog-empty">
+                                No catalog items match that search.
+                              </p>
+                            )}
+                          </div>
+                        </div>
+                      </div>,
+                      document.body,
+                    )}
                 </div>
               </div>
               {inventory.length ? (
