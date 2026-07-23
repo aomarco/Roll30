@@ -688,6 +688,9 @@ function App() {
     )
       return;
     const result = resolveWeaponAttack(active, target, selectedWeapon);
+    const damageBreakdown = result.damage.modifier
+      ? ` (${result.damage.diceTotal} ${result.damage.modifier > 0 ? "+" : "−"} ${Math.abs(result.damage.modifier)})`
+      : "";
     const updated = tokens.map((t) =>
         t.id === target.id && result.hit
           ? { ...t, hp: Math.max(0, t.hp - result.damage.total) }
@@ -725,7 +728,7 @@ function App() {
       nextTurn(
         updated,
         result.hit
-          ? `${active.name} rolls ${result.naturalRoll} + ${result.bonus} = ${result.attackTotal} and ${result.critical ? "critically " : ""}hits ${target.name} with a ${selectedWeapon.name} for ${result.damage.total} ${selectedWeapon.damageType.toLowerCase()} damage.`
+          ? `${active.name} rolls ${result.naturalRoll} + ${result.bonus} = ${result.attackTotal} and ${result.critical ? "critically " : ""}hits ${target.name} with a ${selectedWeapon.name} for ${result.damage.total}${damageBreakdown} ${selectedWeapon.damageType.toLowerCase()} damage.`
           : `${active.name} rolls ${result.naturalRoll} + ${result.bonus} = ${result.attackTotal}; the ${selectedWeapon.name} misses ${target.name} (AC ${target.ac}).`,
       );
   };

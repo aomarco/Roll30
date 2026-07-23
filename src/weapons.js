@@ -151,8 +151,16 @@ export function resolveWeaponAttack(
   const attackTotal = naturalRoll + bonus;
   const critical = naturalRoll === 20;
   const hit = critical || (naturalRoll !== 1 && attackTotal >= target.ac);
-  const damage = hit
+  const damageRoll = hit
     ? rollDice(weapon.damageDice, random, critical ? 2 : 1)
     : { rolls: [], total: 0 };
+  const damageModifier =
+    hit && weapon.ability === "finesse" ? abilityModifier : 0;
+  const damage = {
+    ...damageRoll,
+    diceTotal: damageRoll.total,
+    modifier: damageModifier,
+    total: hit ? Math.max(0, damageRoll.total + damageModifier) : 0,
+  };
   return { naturalRoll, bonus, attackTotal, critical, hit, damage };
 }

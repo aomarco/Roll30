@@ -50,6 +50,34 @@ test("finesse uses the better ability modifier", () => {
   assert.equal(weaponModifier({ strength: 8, dexterity: 16 }, rapier), 3);
 });
 
+test("finesse adds the better modifier to attack and damage", () => {
+  const rapier = WEAPONS.find((weapon) => weapon.id === "rapier");
+  const rolls = [0.5, 0];
+  const result = resolveWeaponAttack(
+    { strength: 8, dexterity: 16, level: 1 },
+    { ac: 10 },
+    rapier,
+    () => rolls.shift(),
+  );
+  assert.equal(result.bonus, 5);
+  assert.equal(result.damage.diceTotal, 1);
+  assert.equal(result.damage.modifier, 3);
+  assert.equal(result.damage.total, 4);
+});
+
+test("negative finesse damage cannot reduce a hit below zero damage", () => {
+  const rapier = WEAPONS.find((weapon) => weapon.id === "rapier");
+  const rolls = [0.25, 0];
+  const result = resolveWeaponAttack(
+    { strength: 6, dexterity: 8, level: 1 },
+    { ac: 1 },
+    rapier,
+    () => rolls.shift(),
+  );
+  assert.equal(result.damage.modifier, -1);
+  assert.equal(result.damage.total, 0);
+});
+
 test("an attack meeting AC hits and rolls damage", () => {
   const rolls = [0.5, 0];
   const result = resolveWeaponAttack(
