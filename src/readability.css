@@ -1,0 +1,206 @@
+/*
+ * Readability pass
+ * Keeps dense tabletop information legible without browser magnification and
+ * lets browser zoom trigger useful reflow before fixed columns become cramped.
+ */
+
+body {
+  font-size: 16px;
+  line-height: 1.45;
+}
+
+/* Eyebrows, metadata, compact labels and supporting copy. */
+.sidebar-heading p,
+.sidebar-section-title span,
+.inspector p,
+.character-list > p,
+.character-sheet p,
+.quick-inventory-heading p,
+.item-picker-title > span,
+.weapon-picker-title > span,
+.combat-dock-head small,
+.settings-intro p,
+.settings-card > p,
+.map-list-heading p {
+  font-size: 11px !important;
+  line-height: 1.35;
+}
+
+.quick-inventory-heading span,
+.inventory-summary,
+.item-picker-results > small,
+.item-picker-option small,
+.quick-item-row small,
+.inventory-item small,
+.points-left span,
+.ability-card small,
+.derived-grid span,
+.derived-grid small,
+.weapon-grid small,
+.weapon-grid span,
+.turn-order-float li em,
+.equation-labels {
+  font-size: 11px !important;
+  line-height: 1.35;
+}
+
+.character-list button span,
+.identity-grid label,
+.ability-heading > span,
+.rules-note,
+.inventory-empty,
+.catalog-empty,
+.quick-item-row strong,
+.inventory-item strong,
+.turn-order-float li,
+.combat-log,
+.combat-actions-row small,
+.setup-stat-grid label,
+.grid-setting-control,
+.map-row span,
+.settings-card label {
+  font-size: 12px !important;
+  line-height: 1.45;
+}
+
+.inventory-search input,
+.quick-inventory-tools select,
+.item-browser-tools select,
+.quantity-stepper > strong,
+.ability-card > span,
+.ability-card > em,
+.derived-grid small,
+.weapon-picker-title small {
+  font-size: 12px !important;
+}
+
+.button,
+.mode-switch button,
+.encounter-switch button,
+.character-list button strong,
+.item-picker-option strong,
+.item-picker-option em,
+.combat-actions-row strong,
+.setup-stat-grid input,
+.identity-grid input,
+.identity-grid select {
+  font-size: 14px !important;
+}
+
+/* Frequent controls should not require precision clicking. */
+.button,
+.mode-switch,
+.identity-grid input,
+.identity-grid select {
+  min-height: 42px;
+}
+
+.inventory-search {
+  min-height: 42px;
+}
+
+.quantity-stepper {
+  grid-template-columns: 31px 32px 31px;
+}
+
+.quantity-stepper button {
+  width: 31px;
+  height: 31px;
+}
+
+.ability-card button {
+  width: 31px;
+  height: 31px;
+}
+
+.ability-card > div {
+  grid-template-columns: 31px 1fr 31px;
+}
+
+/* Give the larger type enough physical room at normal desktop widths. */
+@media (min-width: 1251px) {
+  .app > main {
+    grid-template-columns: 285px minmax(420px, 1fr) 315px;
+  }
+
+  .characters-layout {
+    max-width: 1240px !important;
+    grid-template-columns: 245px minmax(0, 1fr);
+  }
+}
+
+/* Browser zoom reduces CSS viewport width; reflow before content clips. */
+@media (max-width: 1000px) {
+  .characters-layout {
+    grid-template-columns: 1fr;
+    grid-template-rows: 150px minmax(0, 1fr);
+    gap: 24px !important;
+    padding-top: 20px !important;
+  }
+
+  .character-list {
+    max-height: 150px;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  }
+
+  .character-list > p {
+    grid-column: 1 / -1;
+  }
+
+  .ability-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .derived-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 960px) {
+  .app > main {
+    display: flex !important;
+    flex-direction: column;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .board-column {
+    order: -1;
+    height: clamp(430px, 68dvh, 720px);
+    min-height: 430px;
+  }
+
+  .encounter-sidebar,
+  .inspector {
+    overflow: visible;
+  }
+
+  .encounter-sidebar {
+    min-height: auto;
+  }
+
+  .inspector {
+    min-height: 360px;
+  }
+}
+
+@media (max-width: 620px) {
+  .ability-grid,
+  .derived-grid,
+  .inventory-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .identity-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .background-field {
+    grid-column: auto;
+  }
+
+  .item-browser-tools,
+  .quick-inventory-tools {
+    grid-template-columns: 1fr;
+  }
+}
