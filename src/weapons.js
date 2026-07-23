@@ -147,7 +147,8 @@ export function resolveWeaponAttack(
 ) {
   const naturalRoll = Math.floor(random() * 20) + 1;
   const abilityModifier = weaponModifier(attacker, weapon);
-  const bonus = abilityModifier + proficiencyBonus(attacker.level);
+  const proficiency = proficiencyBonus(attacker.level);
+  const bonus = abilityModifier + proficiency;
   const attackTotal = naturalRoll + bonus;
   const critical = naturalRoll === 20;
   const hit = critical || (naturalRoll !== 1 && attackTotal >= target.ac);
@@ -162,5 +163,14 @@ export function resolveWeaponAttack(
     modifier: damageModifier,
     total: hit ? Math.max(0, damageRoll.total + damageModifier) : 0,
   };
-  return { naturalRoll, bonus, attackTotal, critical, hit, damage };
+  return {
+    naturalRoll,
+    abilityModifier,
+    proficiency,
+    bonus,
+    attackTotal,
+    critical,
+    hit,
+    damage,
+  };
 }

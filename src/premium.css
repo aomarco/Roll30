@@ -831,6 +831,254 @@ header > strong:before {
     0 0 16px #ffaf38,
     0 5px 20px #000;
 }
+
+/* Staged attack roll */
+.attack-cinematic {
+  position: absolute;
+  z-index: 30;
+  left: 50%;
+  top: 47%;
+  width: min(430px, calc(100% - 36px));
+  min-height: 220px;
+  padding: 27px 30px;
+  border: 1px solid #f2a06d52;
+  border-radius: 22px;
+  background:
+    radial-gradient(circle at 50% 20%, #e7825429, transparent 48%),
+    linear-gradient(145deg, #292a31f5, #111217f7);
+  box-shadow:
+    0 34px 80px #000d,
+    0 0 0 9999px #08090cad,
+    inset 0 1px #ffffff16;
+  color: #f4eee8;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 13px;
+  text-align: center;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  animation: cinematic-arrive 280ms var(--motion-snap) both;
+  backdrop-filter: blur(8px);
+}
+
+.attack-cinematic > small {
+  color: #d39777;
+  font: 700 9px "DM Mono";
+  letter-spacing: 1.3px;
+  text-transform: uppercase;
+}
+
+.attack-cinematic > span {
+  color: #8c8e96;
+  font: 700 10px "DM Mono";
+  letter-spacing: 1.5px;
+}
+
+.attack-cinematic > em {
+  color: #8f9097;
+  font: 10px "DM Mono";
+  font-style: normal;
+}
+
+.rolling-number {
+  width: 92px;
+  height: 92px;
+  border: 1px solid #f1a06f80;
+  border-radius: 24px;
+  background: linear-gradient(145deg, #4b3531, #211e22);
+  box-shadow:
+    0 16px 30px #0008,
+    0 0 32px #e37d4e38,
+    inset 0 1px #fff3;
+  color: #fff4e9;
+  display: grid;
+  place-items: center;
+  font:
+    700 48px/1 Fraunces,
+    serif;
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 4px 20px #f08a55a8;
+  animation: die-tumble 130ms ease-in-out infinite alternate;
+}
+
+.damage-die {
+  border-radius: 50%;
+  border-color: #ef626c8c;
+  background: linear-gradient(145deg, #5d3035, #211c21);
+  box-shadow:
+    0 16px 30px #0008,
+    0 0 36px #e54e5b42,
+    inset 0 1px #fff3;
+}
+
+.roll-equation,
+.damage-equation,
+.versus-line {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 13px;
+  font-variant-numeric: tabular-nums;
+}
+
+.roll-equation b,
+.damage-equation b,
+.versus-line b {
+  min-width: 48px;
+  height: 56px;
+  border: 1px solid #ffffff18;
+  border-radius: 13px;
+  background: #ffffff08;
+  display: grid;
+  place-items: center;
+  color: #eee7df;
+  font: 600 25px "DM Mono";
+  animation: equation-piece 360ms var(--motion-snap) both;
+}
+
+.roll-equation b:nth-of-type(2) {
+  animation-delay: 110ms;
+}
+
+.roll-equation b:nth-of-type(3) {
+  animation-delay: 220ms;
+}
+
+.roll-equation i,
+.damage-equation i,
+.versus-line i {
+  color: #e18b61;
+  font: 700 17px "DM Mono";
+  font-style: normal;
+  animation: equation-piece 300ms var(--motion-snap) 170ms both;
+}
+
+.roll-equation strong,
+.damage-equation strong {
+  min-width: 66px;
+  color: #ffd0af;
+  font:
+    700 42px Fraunces,
+    serif;
+  text-shadow: 0 0 25px #ea83599e;
+  animation: total-land 500ms var(--motion-snap) 330ms both;
+}
+
+.equation-labels {
+  width: min(354px, 100%);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  color: #6f7179;
+  font: 8px "DM Mono";
+  text-transform: uppercase;
+}
+
+.cinematic-verdict,
+.impact-result {
+  color: #ffbf94;
+  font:
+    700 48px/1 Fraunces,
+    serif;
+  letter-spacing: 1px;
+  text-shadow:
+    0 0 22px #ef7a4cba,
+    0 8px 28px #000;
+  animation: verdict-slam 560ms var(--motion-snap) both;
+}
+
+.will-miss .cinematic-verdict,
+.will-miss .impact-result {
+  color: #a8a9b0;
+  text-shadow: 0 8px 28px #000;
+}
+
+.will-hit.impact {
+  animation: impact-flash 500ms var(--motion-snap) both;
+}
+
+@keyframes cinematic-arrive {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -44%) scale(0.86);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes die-tumble {
+  from {
+    transform: rotate(-3deg) scale(0.96);
+    filter: brightness(0.9);
+  }
+  to {
+    transform: rotate(3deg) scale(1.04);
+    filter: brightness(1.2);
+  }
+}
+
+@keyframes equation-piece {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.7);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes total-land {
+  from {
+    opacity: 0;
+    transform: scale(1.7);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes verdict-slam {
+  0% {
+    opacity: 0;
+    transform: scale(2.2) rotate(-3deg);
+    filter: blur(5px);
+  }
+  65% {
+    opacity: 1;
+    transform: scale(0.9) rotate(1deg);
+    filter: blur(0);
+  }
+  100% {
+    transform: none;
+  }
+}
+
+@keyframes impact-flash {
+  0% {
+    filter: brightness(1);
+  }
+  35% {
+    filter: brightness(2);
+  }
+  100% {
+    filter: brightness(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .attack-cinematic,
+  .rolling-number,
+  .roll-equation *,
+  .damage-equation *,
+  .cinematic-verdict,
+  .impact-result {
+    animation: none !important;
+  }
+}
 @keyframes miss-burst {
   0% {
     opacity: 0;

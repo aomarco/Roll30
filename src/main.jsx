@@ -175,6 +175,7 @@ function App() {
     [selectedCharacterId, setSelectedCharacterId] = useState(""),
     [quickItemQuery, setQuickItemQuery] = useState(""),
     [quickItemType, setQuickItemType] = useState("all"),
+    [attackCinematic, setAttackCinematic] = useState(null),
     [damagePopups, setDamagePopups] = useState([]);
   const selectedWeapon =
     WEAPONS.find((weapon) => weapon.id === selectedWeaponId) || null;
@@ -656,8 +657,8 @@ function App() {
     setAttackMode(false);
     setWeaponMenuOpen(false);
   };
-  const attack = (id) => {
-    if (!selectedWeapon) return;
+  const attack = async (id) => {
+    if (!selectedWeapon || attackCinematic) return;
     const target = tokens.find((t) => t.id === id);
     const rect = boardRef.current?.getBoundingClientRect();
     const origin = rect && active ? cell(active, rect) : null;
@@ -688,6 +689,66 @@ function App() {
     )
       return;
     const result = resolveWeaponAttack(active, target, selectedWeapon);
+    const reducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    const pause = (milliseconds) =>
+      new Promise((resolve) =>
+        window.setTimeout(resolve, reducedMotion ? 80 : milliseconds),
+      );
+    let spinTimer;
+    const beginSpin = (phase, sides) => {
+      setAttackCinematic({
+        phase,
+        attacker: active.name,
+        target: target.name,
+        targetAc: target.ac,
+        weapon: selectedWeapon.name,
+        weaponDice: selectedWeapon.damageDice,
+        displayRoll: 1,
+        result,
+      });
+      if (!reducedMotion)
+        spinTimer = window.setInterval(
+          () =>
+            setAttackCinematic((current) =>
+              current
+                ? {
+                    ...current,
+                    displayRoll: Math.floor(Math.random() * sides) + 1,
+                  }
+                : current,
+            ),
+          65,
+        );
+    };
+    beginSpin("attack-roll", 20);
+    await pause(850);
+    window.clearInterval(spinTimer);
+    setAttackCinematic({
+      phase: "attack-total",
+      attacker: active.name,
+      target: target.name,
+      targetAc: target.ac,
+      weapon: selectedWeapon.name,
+      weaponDice: selectedWeapon.damageDice,
+      displayRoll: result.naturalRoll,
+      result,
+    });
+    await pause(900);
+    setAttackCinematic((current) => ({ ...current, phase: "verdict" }));
+    await pause(700);
+    if (result.hit) {
+      beginSpin("damage-roll", Number(selectedWeapon.damageDice.split("d")[1]));
+      await pause(700);
+      window.clearInterval(spinTimer);
+      setAttackCinematic((current) => ({
+        ...current,
+        phase: "damage-total",
+        displayRoll: result.damage.diceTotal,
+      }));
+      await pause(850);
+    }
     const damageBreakdown = result.damage.modifier
       ? ` (${result.damage.diceTotal} ${result.damage.modifier > 0 ? "+" : "−"} ${Math.abs(result.damage.modifier)})`
       : "";
@@ -717,6 +778,9 @@ function App() {
       1250,
     );
     setTokens(updated);
+    setAttackCinematic((current) => ({ ...current, phase: "impact" }));
+    await pause(500);
+    setAttackCinematic(null);
     if (alive.length <= 1) {
       setBattle({
         ...battle,
@@ -736,6 +800,7 @@ function App() {
     !battle?.complete && nextTurn(tokens, `${active?.name} ended their turn.`);
   const down = (e, t) => {
     e.preventDefault();
+    if (attackCinematic) return;
     if (attackMode && t.id !== activeId && t.hp > 0) return attack(t.id);
     setSelectedId(t.id);
     if (
@@ -1072,7 +1137,8 @@ function App() {
                     disabled={
                       battle.attacked ||
                       battle.dashed ||
-                      !availableWeapons.length
+                      !availableWeapons.length ||
+                      !!attackCinematic
                     }
                     onPointerDown={(e) => e.stopPropagation()}
                     onClick={() => {
@@ -1094,6 +1160,7 @@ function App() {
                     </span>
                   </button>
                   <button
+                    disabled={!!attackCinematic}
                     onPointerDown={(e) => e.stopPropagation()}
                     onClick={end}
                     aria-label="End turn early"
@@ -1107,6 +1174,109 @@ function App() {
                     </span>
                   </button>
                 </div>
+              </div>
+            )}
+            {attackCinematic && (
+              <div
+                className={`attack-cinematic ${attackCinematic.phase} ${
+                  attackCinematic.result.hit ? "will-hit" : "will-miss"
+                }`}
+                role="status"
+                aria-live="assertive"
+              >
+                <small>
+                  {attackCinematic.attacker} · {attackCinematic.weapon}
+                </small>
+                {attackCinematic.phase === "attack-roll" && (
+                  <>
+                    <span>ATTACK ROLL</span>
+                    <strong className="rolling-number">
+                      {attackCinematic.displayRoll}
+                    </strong>
+                    <em>d20 against {attackCinematic.target}</em>
+                  </>
+                )}
+                {attackCinematic.phase === "attack-total" && (
+                  <>
+                    <span>BUILDING ATTACK</span>
+                    <div className="roll-equation">
+                      <b>{attackCinematic.result.naturalRoll}</b>
+                      <i>+</i>
+                      <b>{attackCinematic.result.abilityModifier}</b>
+                      <i>+</i>
+                      <b>{attackCinematic.result.proficiency}</b>
+                      <i>=</i>
+                      <strong>{attackCinematic.result.attackTotal}</strong>
+                    </div>
+                    <div className="equation-labels">
+                      <span>d20</span>
+                      <span>ability</span>
+                      <span>proficiency</span>
+                      <span>total</span>
+                    </div>
+                  </>
+                )}
+                {attackCinematic.phase === "verdict" && (
+                  <>
+                    <span>ATTACK TOTAL VS ARMOUR CLASS</span>
+                    <div className="versus-line">
+                      <b>{attackCinematic.result.attackTotal}</b>
+                      <i>VS</i>
+                      <b>{attackCinematic.targetAc}</b>
+                    </div>
+                    <strong className="cinematic-verdict">
+                      {attackCinematic.result.critical
+                        ? "CRITICAL HIT"
+                        : attackCinematic.result.hit
+                          ? "HIT"
+                          : "MISS"}
+                    </strong>
+                  </>
+                )}
+                {attackCinematic.phase === "damage-roll" && (
+                  <>
+                    <span>ROLLING DAMAGE</span>
+                    <strong className="rolling-number damage-die">
+                      {attackCinematic.displayRoll}
+                    </strong>
+                    <em>{attackCinematic.weaponDice}</em>
+                  </>
+                )}
+                {attackCinematic.phase === "damage-total" && (
+                  <>
+                    <span>DAMAGE</span>
+                    <div className="damage-equation">
+                      <b>{attackCinematic.result.damage.diceTotal}</b>
+                      {attackCinematic.result.damage.modifier !== 0 && (
+                        <>
+                          <i>
+                            {attackCinematic.result.damage.modifier > 0
+                              ? "+"
+                              : "−"}
+                          </i>
+                          <b>
+                            {Math.abs(attackCinematic.result.damage.modifier)}
+                          </b>
+                        </>
+                      )}
+                      <i>=</i>
+                      <strong>{attackCinematic.result.damage.total}</strong>
+                    </div>
+                    <em>
+                      dice{" "}
+                      {attackCinematic.result.damage.modifier
+                        ? "+ ability modifier"
+                        : ""}
+                    </em>
+                  </>
+                )}
+                {attackCinematic.phase === "impact" && (
+                  <strong className="impact-result">
+                    {attackCinematic.result.hit
+                      ? `−${attackCinematic.result.damage.total} HP`
+                      : "MISS"}
+                  </strong>
+                )}
               </div>
             )}
             {attackMode && (
