@@ -305,6 +305,33 @@
   font: 10px "DM Mono";
   font-style: normal;
 }
+.turn-resource-strip {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 7px;
+}
+.turn-resource-strip > div {
+  min-width: 0;
+  padding: 9px 10px;
+  border: 1px solid #ffffff12;
+  border-radius: 10px;
+  background: #17181ca8;
+  display: grid;
+  gap: 4px;
+}
+.turn-resource-strip span {
+  color: #858891;
+  font: 700 9px "DM Mono";
+  letter-spacing: 0.8px;
+}
+.turn-resource-strip strong {
+  overflow: hidden;
+  color: #efb08e;
+  font: 700 11px "DM Mono";
+  text-overflow: ellipsis;
+  text-transform: capitalize;
+  white-space: nowrap;
+}
 .combat-actions-row {
   display: grid;
   grid-template-columns: repeat(2, 1fr);

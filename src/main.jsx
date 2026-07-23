@@ -4,6 +4,7 @@ import {
   Grid3X3,
   ImageUp,
   Minus,
+  Move,
   Plus,
   Search,
   Settings2,
@@ -11,6 +12,7 @@ import {
   Swords,
   Trash2,
   Users,
+  Zap,
 } from "lucide-react";
 import "./styles.css";
 import "./movement.css";
@@ -31,6 +33,15 @@ import {
   normalizeInventory,
 } from "./items.js";
 import MapSettingsPage from "./MapSettingsPage.jsx";
+import {
+  activateDash,
+  createTurnResources,
+  movementMaximum,
+  movementRemaining,
+  resolveRollMode,
+  spendAction,
+  spendMovement,
+} from "./combatRules.js";
 
 const makeToken = (id) => ({
   id,
@@ -154,6 +165,7 @@ function App() {
     [tokens, setTokens] = useState(INITIAL_DATA.tokens || []),
     [selectedId, setSelectedId] = useState(null),
     [drag, setDrag] = useState(null),
+    [moveMode, setMoveMode] = useState(false),
     [stat, setStat] = useState("hp"),
     [adjustment, setAdjustment] = useState(""),
     [statMessage, setStatMessage] = useState(""),
@@ -272,6 +284,9 @@ function App() {
   const selected = tokens.find((t) => t.id === selectedId),
     activeId = battle?.order[battle.turn],
     active = tokens.find((t) => t.id === activeId);
+  const turnResources =
+    battle?.resources || (active ? createTurnResources(active.speed) : null);
+  const movementLeft = movementRemaining(turnResources);
   const selectedInventory = normalizeInventory(selected?.inventory);
   const selectedInventoryQuantities = new Map(
     selectedInventory.map((entry) => [entry.itemId, entry.quantity]),
@@ -290,6 +305,7 @@ function App() {
     );
     setAttackMode(false);
     setWeaponMenuOpen(false);
+    setMoveMode(false);
   }, [activeId]);
   const adjustSelectedStat = (event) => {
     event.preventDefault();
@@ -526,10 +542,9 @@ function App() {
     const up = () => {
       if (!drag) return;
       if (drag.battle) {
-        const speed = Math.floor(drag.speed / 5),
-          distance = (drag.path?.length ?? 1) - 1,
-          allowance = speed * 2,
-          usedDash = distance > speed;
+        const distance = (drag.path?.length ?? 1) - 1,
+          feet = distance * 5,
+          allowance = Math.floor(drag.allowanceFeet / 5);
         const occupied =
           drag.target &&
           tokens.some(
@@ -550,10 +565,10 @@ function App() {
           );
           setBattle((b) => ({
             ...b,
-            moved: true,
-            dashed: usedDash,
-            log: `${active?.name} moved ${distance * 5} ft${usedDash ? " using Dash" : ""}.`,
+            resources: spendMovement(b.resources, feet),
+            log: `${active?.name} moved ${feet} ft. ${Math.max(0, drag.allowanceFeet - feet)} ft remains.`,
           }));
+          setMoveMode(false);
         } else if (occupied)
           setBattle((b) => ({
             ...b,
@@ -562,7 +577,7 @@ function App() {
         else if (distance > allowance)
           setBattle((b) => ({
             ...b,
-            log: `${active?.name} cannot move more than ${drag.speed * 2} ft.`,
+            log: `${active?.name} only has ${drag.allowanceFeet} ft of movement remaining.`,
           }));
       }
       setDrag(null);
@@ -578,6 +593,7 @@ function App() {
     setBattle(null);
     setAttackMode(false);
     setWeaponMenuOpen(false);
+    setMoveMode(false);
   };
   const add = () => {
     const character = characters.find(
@@ -631,14 +647,13 @@ function App() {
       initiatives: Object.fromEntries(order.map((t) => [t.id, t.initiative])),
       turn: 0,
       round: 1,
-      moved: false,
-      attacked: false,
-      dashed: false,
+      resources: createTurnResources(order[0].speed),
       log: "Initiative rolled. Battle begins!",
     });
     setSelectedId(order[0].id);
     setAttackMode(false);
     setWeaponMenuOpen(false);
+    setMoveMode(false);
   };
   const nextTurn = (updated, log) => {
     let n = (battle.turn + 1) % battle.order.length;
@@ -649,14 +664,13 @@ function App() {
       ...battle,
       turn: n,
       round: n <= battle.turn ? battle.round + 1 : battle.round,
-      moved: false,
-      attacked: false,
-      dashed: false,
+      resources: createTurnResources(next.speed),
       log,
     });
     setSelectedId(next.id);
     setAttackMode(false);
     setWeaponMenuOpen(false);
+    setMoveMode(false);
   };
   const attack = async (id) => {
     if (!selectedWeapon || attackCinematic) return;
@@ -681,15 +695,28 @@ function App() {
     if (
       !active ||
       !target ||
-      battle.attacked ||
-      battle.dashed ||
+      turnResources?.actionSpent ||
       target.hp <= 0 ||
       !origin ||
       !targetCell ||
       !inPattern
     )
       return;
-    const result = resolveWeaponAttack(active, target, selectedWeapon);
+    const attackResources = spendAction(turnResources, "attack");
+    if (!attackResources) return;
+    setBattle((current) => ({
+      ...current,
+      resources: attackResources,
+      log: `${active.name} attacks ${target.name} with ${selectedWeapon.name}.`,
+    }));
+    const rollMode = resolveRollMode([], []);
+    const result = resolveWeaponAttack(
+      active,
+      target,
+      selectedWeapon,
+      Math.random,
+      { rollMode },
+    );
     const reducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
@@ -699,6 +726,7 @@ function App() {
       );
     let spinTimer;
     const beginSpin = (phase, sides) => {
+      const rollCount = phase === "attack-roll" ? result.attackRolls.length : 1;
       setAttackCinematic({
         phase,
         attacker: active.name,
@@ -707,6 +735,7 @@ function App() {
         weapon: selectedWeapon.name,
         weaponDice: selectedWeapon.damageDice,
         displayRoll: 1,
+        displayRolls: Array.from({ length: rollCount }, () => 1),
         result,
       });
       if (!reducedMotion)
@@ -717,6 +746,9 @@ function App() {
                 ? {
                     ...current,
                     displayRoll: Math.floor(Math.random() * sides) + 1,
+                    displayRolls: current.displayRolls.map(
+                      () => Math.floor(Math.random() * sides) + 1,
+                    ),
                   }
                 : current,
             ),
@@ -726,6 +758,13 @@ function App() {
     beginSpin("attack-roll", 20);
     await pause(850);
     window.clearInterval(spinTimer);
+    setAttackCinematic((current) => ({
+      ...current,
+      phase: "attack-roll-landed",
+      displayRoll: result.naturalRoll,
+      displayRolls: result.attackRolls,
+    }));
+    await pause(420);
     setAttackCinematic({
       phase: "attack-total",
       attacker: active.name,
@@ -734,6 +773,7 @@ function App() {
       weapon: selectedWeapon.name,
       weaponDice: selectedWeapon.damageDice,
       displayRoll: result.naturalRoll,
+      displayRolls: result.attackRolls,
       result,
     });
     await pause(900);
@@ -785,17 +825,35 @@ function App() {
     if (alive.length <= 1) {
       setBattle({
         ...battle,
+        resources: attackResources,
         complete: true,
         log: `${active.name}'s ${selectedWeapon.name} hits for ${result.damage.total} ${selectedWeapon.damageType.toLowerCase()} damage. ${alive[0]?.name ?? "No one"} wins!`,
       });
       setAttackMode(false);
-    } else
-      nextTurn(
-        updated,
-        result.hit
+      setWeaponMenuOpen(false);
+    } else {
+      setBattle({
+        ...battle,
+        resources: attackResources,
+        log: result.hit
           ? `${active.name} rolls ${result.naturalRoll} + ${result.bonus} = ${result.attackTotal} and ${result.critical ? "critically " : ""}hits ${target.name} with a ${selectedWeapon.name} for ${result.damage.total}${damageBreakdown} ${selectedWeapon.damageType.toLowerCase()} damage.`
           : `${active.name} rolls ${result.naturalRoll} + ${result.bonus} = ${result.attackTotal}; the ${selectedWeapon.name} misses ${target.name} (AC ${target.ac}).`,
-      );
+      });
+      setAttackMode(false);
+      setWeaponMenuOpen(false);
+    }
+  };
+  const dash = () => {
+    const dashedResources = activateDash(turnResources);
+    if (!dashedResources || !active || attackCinematic) return;
+    setBattle((current) => ({
+      ...current,
+      resources: dashedResources,
+      log: `${active.name} uses Dash and now has ${movementRemaining(dashedResources)} ft of movement remaining.`,
+    }));
+    setAttackMode(false);
+    setWeaponMenuOpen(false);
+    setMoveMode(true);
   };
   const end = () =>
     !battle?.complete && nextTurn(tokens, `${active?.name} ended their turn.`);
@@ -808,8 +866,8 @@ function App() {
       battle &&
       !battle.complete &&
       t.id === activeId &&
-      !battle.attacked &&
-      !battle.moved &&
+      moveMode &&
+      movementLeft >= 5 &&
       boardRef.current
     ) {
       const r = boardRef.current.getBoundingClientRect();
@@ -818,6 +876,7 @@ function App() {
         origin: { x: t.x, y: t.y },
         originCell: cell(t, r),
         speed: t.speed,
+        allowanceFeet: movementLeft,
         battle: true,
         path: [cell(t, r)],
       });
@@ -1033,15 +1092,17 @@ function App() {
                 <div
                   className={
                     "move-counter " +
-                    ((drag.path?.length ?? 1) - 1 > drag.speed / 5
-                      ? (drag.path?.length ?? 1) - 1 > (drag.speed / 5) * 2
-                        ? "over"
-                        : "dash"
+                    (((drag.path?.length ?? 1) - 1) * 5 > drag.allowanceFeet
+                      ? "over"
                       : "walk")
                   }
                 >
-                  {((drag.path?.length ?? 1) - 1) * 5} ft / {drag.speed} ft
-                  speed · {drag.speed * 2} ft max
+                  Move {((drag.path?.length ?? 1) - 1) * 5} ft ·{" "}
+                  {Math.max(
+                    0,
+                    drag.allowanceFeet - ((drag.path?.length ?? 1) - 1) * 5,
+                  )}{" "}
+                  ft remaining
                 </div>
                 {drag.cursor &&
                   boardRef.current &&
@@ -1070,11 +1131,9 @@ function App() {
                       "move-cell " +
                       (i === 0
                         ? "origin"
-                        : i > Math.floor(drag.speed / 5) * 2
+                        : i > Math.floor(drag.allowanceFeet / 5)
                           ? "over"
-                          : i > Math.floor(drag.speed / 5)
-                            ? "dash"
-                            : "")
+                          : "")
                     }
                     style={{
                       left: p.x * gridSize,
@@ -1101,6 +1160,22 @@ function App() {
                   </div>
                   <em>R{battle.round}</em>
                 </div>
+                <div className="turn-resource-strip">
+                  <div>
+                    <span>MOVEMENT</span>
+                    <strong>
+                      {movementLeft} / {movementMaximum(turnResources)} ft
+                    </strong>
+                  </div>
+                  <div>
+                    <span>ACTION</span>
+                    <strong>
+                      {turnResources.actionSpent
+                        ? `Spent · ${turnResources.actionType}`
+                        : "Ready"}
+                    </strong>
+                  </div>
+                </div>
                 {weaponMenuOpen && (
                   <div className="weapon-picker">
                     <div className="weapon-picker-title">
@@ -1118,6 +1193,7 @@ function App() {
                             setSelectedWeaponId(weapon.id);
                             setWeaponMenuOpen(false);
                             setAttackMode(true);
+                            setMoveMode(false);
                             setAttackMessage("");
                           }}
                         >
@@ -1134,10 +1210,27 @@ function App() {
                 )}
                 <div className="combat-actions-row">
                   <button
+                    className={moveMode ? "armed" : ""}
+                    disabled={movementLeft < 5 || !!attackCinematic}
+                    onPointerDown={(e) => e.stopPropagation()}
+                    onClick={() => {
+                      setMoveMode((current) => !current);
+                      setAttackMode(false);
+                      setWeaponMenuOpen(false);
+                    }}
+                  >
+                    <span className="action-icon">
+                      <Move size={18} />
+                    </span>
+                    <span>
+                      <strong>Move</strong>
+                      <small>{movementLeft} ft remaining</small>
+                    </span>
+                  </button>
+                  <button
                     className={attackMode || weaponMenuOpen ? "armed" : ""}
                     disabled={
-                      battle.attacked ||
-                      battle.dashed ||
+                      turnResources.actionSpent ||
                       !availableWeapons.length ||
                       !!attackCinematic
                     }
@@ -1145,6 +1238,7 @@ function App() {
                     onClick={() => {
                       setWeaponMenuOpen((value) => !value);
                       setAttackMode(false);
+                      setMoveMode(false);
                       setAttackMessage("");
                     }}
                   >
@@ -1161,17 +1255,32 @@ function App() {
                     </span>
                   </button>
                   <button
+                    disabled={turnResources.actionSpent || !!attackCinematic}
+                    onPointerDown={(e) => e.stopPropagation()}
+                    onClick={dash}
+                  >
+                    <span className="action-icon">
+                      <Zap size={18} />
+                    </span>
+                    <span>
+                      <strong>Dash</strong>
+                      <small>
+                        +{turnResources.movementBase} ft · spends action
+                      </small>
+                    </span>
+                  </button>
+                  <button
                     disabled={!!attackCinematic}
                     onPointerDown={(e) => e.stopPropagation()}
                     onClick={end}
-                    aria-label="End turn early"
+                    aria-label="End turn"
                   >
                     <span className="action-icon">
                       <SkipForward size={18} />
                     </span>
                     <span>
                       <strong>End turn</strong>
-                      <small>Pass early</small>
+                      <small>Advance initiative</small>
                     </span>
                   </button>
                 </div>
@@ -1183,17 +1292,42 @@ function App() {
                   attackCinematic.result.hit ? "will-hit" : "will-miss"
                 }`}
                 role="status"
-                aria-live="assertive"
+                aria-live="polite"
+                aria-atomic="true"
               >
                 <small>
                   {attackCinematic.attacker} · {attackCinematic.weapon}
                 </small>
-                {attackCinematic.phase === "attack-roll" && (
+                {["attack-roll", "attack-roll-landed"].includes(
+                  attackCinematic.phase,
+                ) && (
                   <>
-                    <span>ATTACK ROLL</span>
-                    <strong className="rolling-number">
-                      {attackCinematic.displayRoll}
-                    </strong>
+                    <span>
+                      {attackCinematic.result.rollMode === "normal"
+                        ? "ATTACK ROLL"
+                        : attackCinematic.result.rollMode.toUpperCase()}
+                    </span>
+                    {attackCinematic.displayRolls.length > 1 ? (
+                      <div className="dual-d20-roll">
+                        {attackCinematic.displayRolls.map((roll, index) => (
+                          <strong
+                            className={`rolling-number ${
+                              attackCinematic.phase === "attack-roll-landed" &&
+                              index !== attackCinematic.result.selectedRollIndex
+                                ? "rejected"
+                                : ""
+                            }`}
+                            key={index}
+                          >
+                            {roll}
+                          </strong>
+                        ))}
+                      </div>
+                    ) : (
+                      <strong className="rolling-number">
+                        {attackCinematic.displayRoll}
+                      </strong>
+                    )}
                     <em>d20 against {attackCinematic.target}</em>
                   </>
                 )}

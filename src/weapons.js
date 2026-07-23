@@ -144,8 +144,22 @@ export function resolveWeaponAttack(
   target,
   weapon,
   random = Math.random,
+  options = {},
 ) {
-  const naturalRoll = Math.floor(random() * 20) + 1;
+  const rollMode = ["advantage", "disadvantage"].includes(options.rollMode)
+    ? options.rollMode
+    : "normal";
+  const attackRolls = Array.from(
+    { length: rollMode === "normal" ? 1 : 2 },
+    () => Math.floor(random() * 20) + 1,
+  );
+  const naturalRoll =
+    rollMode === "advantage"
+      ? Math.max(...attackRolls)
+      : rollMode === "disadvantage"
+        ? Math.min(...attackRolls)
+        : attackRolls[0];
+  const selectedRollIndex = attackRolls.indexOf(naturalRoll);
   const abilityModifier = weaponModifier(attacker, weapon);
   const proficiency = proficiencyBonus(attacker.level);
   const bonus = abilityModifier + proficiency;
@@ -155,8 +169,7 @@ export function resolveWeaponAttack(
   const damageRoll = hit
     ? rollDice(weapon.damageDice, random, critical ? 2 : 1)
     : { rolls: [], total: 0 };
-  const damageModifier =
-    hit && weapon.ability === "finesse" ? abilityModifier : 0;
+  const damageModifier = hit ? abilityModifier : 0;
   const damage = {
     ...damageRoll,
     diceTotal: damageRoll.total,
@@ -165,6 +178,9 @@ export function resolveWeaponAttack(
   };
   return {
     naturalRoll,
+    attackRolls,
+    selectedRollIndex,
+    rollMode,
     abilityModifier,
     proficiency,
     bonus,

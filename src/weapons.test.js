@@ -65,6 +65,47 @@ test("finesse adds the better modifier to attack and damage", () => {
   assert.equal(result.damage.total, 4);
 });
 
+test("ordinary melee attacks add Strength to damage", () => {
+  const flail = WEAPONS.find((weapon) => weapon.id === "flail");
+  const rolls = [0.5, 0];
+  const result = resolveWeaponAttack(
+    { strength: 16, dexterity: 8, level: 1 },
+    { ac: 10 },
+    flail,
+    () => rolls.shift(),
+  );
+  assert.equal(result.damage.diceTotal, 1);
+  assert.equal(result.damage.modifier, 3);
+  assert.equal(result.damage.total, 4);
+});
+
+test("advantage keeps the higher d20 and disadvantage keeps the lower", () => {
+  const club = WEAPONS.find((weapon) => weapon.id === "club");
+  const advantageRolls = [0.2, 0.8, 0];
+  const advantage = resolveWeaponAttack(
+    { strength: 10, level: 1 },
+    { ac: 1 },
+    club,
+    () => advantageRolls.shift(),
+    { rollMode: "advantage" },
+  );
+  assert.deepEqual(advantage.attackRolls, [5, 17]);
+  assert.equal(advantage.naturalRoll, 17);
+  assert.equal(advantage.selectedRollIndex, 1);
+
+  const disadvantageRolls = [0.2, 0.8, 0];
+  const disadvantage = resolveWeaponAttack(
+    { strength: 10, level: 1 },
+    { ac: 1 },
+    club,
+    () => disadvantageRolls.shift(),
+    { rollMode: "disadvantage" },
+  );
+  assert.deepEqual(disadvantage.attackRolls, [5, 17]);
+  assert.equal(disadvantage.naturalRoll, 5);
+  assert.equal(disadvantage.selectedRollIndex, 0);
+});
+
 test("negative finesse damage cannot reduce a hit below zero damage", () => {
   const rapier = WEAPONS.find((weapon) => weapon.id === "rapier");
   const rolls = [0.25, 0];
