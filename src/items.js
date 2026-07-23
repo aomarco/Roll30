@@ -8,8 +8,10 @@ export const ITEM_CATALOG = WEAPONS.map((weapon) => ({
   searchText: [
     weapon.name,
     weapon.category,
+    ...(weapon.properties || []),
     weapon.damageType,
     weapon.damageDice,
+    weapon.cost && `${weapon.cost.quantity} ${weapon.cost.unit}`,
   ]
     .join(" ")
     .toLowerCase(),

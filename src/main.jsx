@@ -159,7 +159,7 @@ function App() {
     [battle, setBattle] = useState(INITIAL_DATA.battle || null),
     [attackMode, setAttackMode] = useState(false),
     [weaponMenuOpen, setWeaponMenuOpen] = useState(false),
-    [selectedWeaponId, setSelectedWeaponId] = useState("longsword"),
+    [selectedWeaponId, setSelectedWeaponId] = useState("club"),
     [attackMessage, setAttackMessage] = useState(""),
     [storageError, setStorageError] = useState(""),
     [characters, setCharacters] = useState(() => {

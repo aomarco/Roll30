@@ -9,10 +9,10 @@ import {
 
 test("legacy string inventories migrate and merge safely", () => {
   assert.deepEqual(
-    normalizeInventory(["club", "club", { itemId: "dagger", quantity: 2 }]),
+    normalizeInventory(["club", "club", { itemId: "rapier", quantity: 2 }]),
     [
       { itemId: "club", quantity: 2 },
-      { itemId: "dagger", quantity: 2 },
+      { itemId: "rapier", quantity: 2 },
     ],
   );
 });
@@ -25,7 +25,7 @@ test("inventory quantities can grow and remove at zero", () => {
 
 test("catalog search and inventory ids are generic", () => {
   assert.equal(filterCatalog("slashing", "weapon").length, 2);
-  assert.deepEqual(inventoryItemIds([{ itemId: "shortbow", quantity: 3 }]), [
-    "shortbow",
+  assert.deepEqual(inventoryItemIds([{ itemId: "shortsword", quantity: 3 }]), [
+    "shortsword",
   ]);
 });
