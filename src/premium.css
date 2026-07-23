@@ -703,6 +703,8 @@ header > strong:before {
 }
 .weapon-grid button {
   position: relative;
+  width: 100%;
+  height: auto;
   min-width: 0;
   min-height: 92px;
   padding: 11px 12px 10px;
@@ -711,6 +713,9 @@ header > strong:before {
   background: linear-gradient(145deg, #303138, #25262c);
   color: #f2eee8;
   display: grid;
+  place-items: initial;
+  align-items: initial;
+  justify-items: stretch;
   grid-template-columns: minmax(0, 1fr) auto;
   grid-template-rows: 18px 1fr 13px;
   grid-template-areas:
@@ -719,6 +724,7 @@ header > strong:before {
     "category category";
   gap: 3px 8px;
   text-align: left;
+  box-shadow: none;
   cursor: pointer;
   transition:
     transform 160ms,
