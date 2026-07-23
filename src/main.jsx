@@ -124,26 +124,6 @@ const playHitSound = () => {
     /* Audio may be unavailable or disabled. */
   }
 };
-const playUiClick = () => {
-  try {
-    const AudioContext = window.AudioContext || window.webkitAudioContext;
-    const context = new AudioContext();
-    const now = context.currentTime;
-    const gain = context.createGain();
-    const click = context.createOscillator();
-    click.type = "square";
-    click.frequency.setValueAtTime(520, now);
-    click.frequency.exponentialRampToValueAtTime(210, now + 0.035);
-    gain.gain.setValueAtTime(0.025, now);
-    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
-    click.connect(gain).connect(context.destination);
-    click.start(now);
-    click.stop(now + 0.04);
-    click.onended = () => context.close();
-  } catch {
-    /* UI sounds are optional. */
-  }
-};
 
 function App() {
   const [maps, setMaps] = useState(INITIAL_MAPS),
@@ -188,7 +168,6 @@ function App() {
         "button:not(:disabled), label.button, input, select",
       );
       if (!control) return;
-      if (!control.classList.contains("token")) playUiClick();
       if (reduced.matches) return;
       const burst = document.createElement("span");
       burst.className = "click-burst";
