@@ -704,13 +704,19 @@ header > strong:before {
 .weapon-grid button {
   position: relative;
   min-width: 0;
-  padding: 10px 11px;
+  min-height: 92px;
+  padding: 11px 12px 10px;
   border: 1px solid #ffffff12;
   border-radius: 10px;
   background: linear-gradient(145deg, #303138, #25262c);
   color: #f2eee8;
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-rows: 18px 1fr 13px;
+  grid-template-areas:
+    "name die"
+    "detail detail"
+    "category category";
   gap: 3px 8px;
   text-align: left;
   cursor: pointer;
@@ -729,24 +735,28 @@ header > strong:before {
   box-shadow: inset 0 0 18px #df75451a;
 }
 .weapon-grid strong {
+  grid-area: name;
   font: 700 12px "DM Sans";
 }
 .weapon-grid b {
+  grid-area: die;
   color: #ffc199;
   font: 700 12px "DM Mono";
 }
 .weapon-grid span,
 .weapon-grid small {
-  grid-column: 1 / -1;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 .weapon-grid span {
+  grid-area: detail;
+  align-self: center;
   color: #b7b1ae;
   font: 9px "DM Mono";
 }
 .weapon-grid small {
+  grid-area: category;
   color: #777980;
   font: 9px "DM Sans";
 }
