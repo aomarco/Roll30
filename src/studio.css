@@ -246,9 +246,58 @@
 }
 
 /* Tokens keep their geometric center while the generic press animation runs. */
-.token:active,
-.token.dragging {
+.board button.token:not(:disabled):active,
+.board button.token.dragging {
   transform: translate(-50%, -50%) !important;
+}
+
+.setup-stat-editor {
+  display: grid;
+  gap: 13px;
+}
+
+.setup-stat-heading {
+  display: grid;
+  gap: 4px;
+}
+
+.setup-stat-heading p {
+  margin: 0 !important;
+}
+
+.setup-stat-heading span {
+  color: #85878d;
+  font-size: 10px;
+}
+
+.setup-stat-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 9px;
+}
+
+.setup-stat-grid label {
+  min-width: 0;
+  display: grid;
+  gap: 6px;
+  color: #9d9da2;
+  font-size: 10px;
+}
+
+.setup-stat-grid input {
+  width: 100%;
+  height: 38px;
+  border: 1px solid #ffffff16;
+  border-radius: 8px;
+  background: #202126;
+  color: #f0ede8;
+  padding: 0 9px;
+  font: 12px "DM Mono";
+}
+
+.setup-stat-grid input:focus {
+  border-color: #e18b61;
+  outline: 0;
 }
 
 .turn-order-float {

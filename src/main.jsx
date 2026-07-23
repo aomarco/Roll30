@@ -31,6 +31,7 @@ const makeToken = (id) => ({
   maxHp: 10,
   ac: 10,
   speed: 30,
+  initiativeBonus: 0,
   strength: 10,
   dexterity: 10,
   level: 1,
@@ -278,6 +279,19 @@ function App() {
       `${stat === "maxHp" ? "MAX HP" : stat.toUpperCase()} is now ${nextValue}${stat === "speed" ? " ft" : ""}.`,
     );
     setAdjustment("");
+  };
+  const setSelectedStat = (key, value) => {
+    if (!selected) return;
+    const parsed = Number(value);
+    if (!Number.isFinite(parsed)) return;
+    const minimum = key === "initiativeBonus" ? -20 : key === "level" ? 1 : 0;
+    const maximum = key === "level" ? 20 : Number.POSITIVE_INFINITY;
+    const nextValue = Math.min(maximum, Math.max(minimum, parsed));
+    setTokens((items) =>
+      items.map((token) =>
+        token.id === selected.id ? { ...token, [key]: nextValue } : token,
+      ),
+    );
   };
   const openMap = async (entry) => {
     const data = entry.data || {};
@@ -555,7 +569,10 @@ function App() {
           hp: t.maxHp,
           x: ((cx * gridSize + gridSize / 2) / rect.width) * 100,
           y: ((cy * gridSize + gridSize / 2) / rect.height) * 100,
-          initiative: Math.floor(Math.random() * 20) + 1,
+          initiative:
+            Math.floor(Math.random() * 20) +
+            1 +
+            (Number(t.initiativeBonus) || 0),
         };
       }),
       order = [...snapped].sort((a, b) => b.initiative - a.initiative);
@@ -1138,73 +1155,112 @@ function App() {
                   }
                 />
               </label>
-              {mode === "battle" && (
-                <>
-                  <div className="stats">
-                    <div>
-                      <span>HP</span>
-                      <strong>{selected.hp}</strong>
+              {mode === "battle" &&
+                (!battle ? (
+                  <section className="setup-stat-editor">
+                    <div className="setup-stat-heading">
+                      <p>SETUP STATS</p>
+                      <span>Set this token's starting values.</span>
                     </div>
-                    <div>
-                      <span>MAX HP</span>
-                      <strong>{selected.maxHp}</strong>
+                    <div className="setup-stat-grid">
+                      {[
+                        ["hp", "HP"],
+                        ["maxHp", "Max HP"],
+                        ["ac", "AC"],
+                        ["speed", "Speed (ft)"],
+                        ["strength", "Strength"],
+                        ["dexterity", "Dexterity"],
+                        ["level", "Level"],
+                        ["initiativeBonus", "Initiative bonus"],
+                      ].map(([key, label]) => (
+                        <label key={key}>
+                          {label}
+                          <input
+                            type="number"
+                            value={selected[key] ?? (key === "level" ? 1 : 0)}
+                            min={
+                              key === "initiativeBonus"
+                                ? -20
+                                : key === "level"
+                                  ? 1
+                                  : 0
+                            }
+                            max={key === "level" ? 20 : undefined}
+                            onChange={(event) =>
+                              setSelectedStat(key, event.target.value)
+                            }
+                          />
+                        </label>
+                      ))}
                     </div>
-                    <div>
-                      <span>AC</span>
-                      <strong>{selected.ac}</strong>
+                  </section>
+                ) : (
+                  <>
+                    <div className="stats">
+                      <div>
+                        <span>HP</span>
+                        <strong>{selected.hp}</strong>
+                      </div>
+                      <div>
+                        <span>MAX HP</span>
+                        <strong>{selected.maxHp}</strong>
+                      </div>
+                      <div>
+                        <span>AC</span>
+                        <strong>{selected.ac}</strong>
+                      </div>
+                      <div>
+                        <span>SPEED</span>
+                        <strong>{selected.speed} ft</strong>
+                      </div>
                     </div>
-                    <div>
-                      <span>SPEED</span>
-                      <strong>{selected.speed} ft</strong>
+                    <div className="health">
+                      <span>Health</span>
+                      <strong>
+                        {selected.hp} / {selected.maxHp}
+                      </strong>
+                      <i>
+                        <b
+                          style={{
+                            width: `${Math.min(100, (selected.hp / selected.maxHp) * 100)}%`,
+                          }}
+                        />
+                      </i>
                     </div>
-                  </div>
-                  <div className="health">
-                    <span>Health</span>
-                    <strong>
-                      {selected.hp} / {selected.maxHp}
-                    </strong>
-                    <i>
-                      <b
-                        style={{
-                          width: `${Math.min(100, (selected.hp / selected.maxHp) * 100)}%`,
-                        }}
-                      />
-                    </i>
-                  </div>
-                  <form className="calculator" onSubmit={adjustSelectedStat}>
-                    <label>
-                      Adjust stat
-                      <select
-                        value={stat}
-                        onChange={(e) => setStat(e.target.value)}
-                      >
-                        <option value="hp">HP</option>
-                        <option value="maxHp">Max HP</option>
-                        <option value="ac">AC</option>
-                        <option value="speed">Speed</option>
-                      </select>
-                    </label>
-                    <label>
-                      Amount
-                      <input
-                        value={adjustment}
-                        onChange={(e) => {
-                          setAdjustment(e.target.value);
-                          setStatMessage("");
-                        }}
-                        placeholder="e.g. +5 or -5"
-                        inputMode="numeric"
-                      />
-                    </label>
-                    <button className="button" type="submit">
-                      Apply adjustment
-                    </button>
-                    {statMessage && (
-                      <output className="stat-feedback">{statMessage}</output>
-                    )}
-                  </form>
-                </>
-              )}
+                    <form className="calculator" onSubmit={adjustSelectedStat}>
+                      <label>
+                        Adjust stat
+                        <select
+                          value={stat}
+                          onChange={(e) => setStat(e.target.value)}
+                        >
+                          <option value="hp">HP</option>
+                          <option value="maxHp">Max HP</option>
+                          <option value="ac">AC</option>
+                          <option value="speed">Speed</option>
+                        </select>
+                      </label>
+                      <label>
+                        Amount
+                        <input
+                          value={adjustment}
+                          onChange={(e) => {
+                            setAdjustment(e.target.value);
+                            setStatMessage("");
+                          }}
+                          placeholder="e.g. +5 or -5"
+                          inputMode="numeric"
+                        />
+                      </label>
+                      <button className="button" type="submit">
+                        Apply adjustment
+                      </button>
+                      {statMessage && (
+                        <output className="stat-feedback">{statMessage}</output>
+                      )}
+                    </form>
+                  </>
+                ))}
               <button
                 className="remove"
                 onClick={() => {
