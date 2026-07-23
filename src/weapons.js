@@ -27,6 +27,15 @@ export const WEAPONS = [
     rangeFeet: 5,
   },
   {
+    id: "battleaxe",
+    name: "Battleaxe",
+    category: "Martial melee · Versatile",
+    damageDice: "1d8",
+    damageType: "Slashing",
+    ability: "str",
+    rangeFeet: 5,
+  },
+  {
     id: "shortbow",
     name: "Shortbow",
     category: "Simple ranged",

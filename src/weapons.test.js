@@ -2,10 +2,10 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { resolveWeaponAttack, WEAPONS, weaponModifier } from "./weapons.js";
 
-test("the four SRD test weapons are available", () => {
+test("the five SRD test weapons are available", () => {
   assert.deepEqual(
     WEAPONS.map((weapon) => weapon.id),
-    ["club", "dagger", "longsword", "shortbow"],
+    ["club", "dagger", "longsword", "battleaxe", "shortbow"],
   );
 });
 

@@ -671,7 +671,10 @@ header > strong:before {
 /* Weapon selection and combat rolls */
 .weapon-picker {
   display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
   gap: 10px;
+  max-height: 246px;
+  overflow: hidden;
   padding: 13px;
   border: 1px solid #f0a16f38;
   border-radius: 14px;
@@ -699,7 +702,28 @@ header > strong:before {
 .weapon-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+  align-content: start;
   gap: 7px;
+  min-height: 0;
+  max-height: 201px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+  padding: 1px 6px 1px 1px;
+  scrollbar-width: thin;
+  scrollbar-color: #c47754 #191a1e;
+}
+.weapon-grid::-webkit-scrollbar {
+  width: 8px;
+}
+.weapon-grid::-webkit-scrollbar-track {
+  border-radius: 8px;
+  background: #191a1e;
+}
+.weapon-grid::-webkit-scrollbar-thumb {
+  border: 2px solid #191a1e;
+  border-radius: 8px;
+  background: #c47754;
 }
 .weapon-grid button {
   position: relative;
