@@ -472,16 +472,19 @@
 }
 
 .turn-order-float ol {
+  width: 100%;
   max-height: 142px;
   margin: 0;
   padding: 0;
   list-style: none;
   overflow-y: auto;
+  overflow-x: hidden;
   display: grid;
   gap: 3px;
 }
 
 .turn-order-float li {
+  width: 100%;
   min-width: 0;
   padding: 6px 7px;
   border-radius: 7px;
@@ -506,6 +509,7 @@
 }
 
 .turn-order-float li em {
+  flex: 0 0 auto;
   color: #7f8188;
   font: 10px "DM Mono";
   font-style: normal;
@@ -517,7 +521,6 @@
   box-shadow:
     inset 2px 0 #f1a277,
     0 0 18px #d66e4130;
-  transform: translateX(2px);
   animation: current-turn-glow 1.5s ease-in-out infinite alternate;
 }
 

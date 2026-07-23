@@ -4,7 +4,6 @@ import {
   Grid3X3,
   ImageUp,
   Minus,
-  Move,
   Plus,
   Search,
   Settings2,
@@ -165,7 +164,6 @@ function App() {
     [tokens, setTokens] = useState(INITIAL_DATA.tokens || []),
     [selectedId, setSelectedId] = useState(null),
     [drag, setDrag] = useState(null),
-    [moveMode, setMoveMode] = useState(false),
     [stat, setStat] = useState("hp"),
     [adjustment, setAdjustment] = useState(""),
     [statMessage, setStatMessage] = useState(""),
@@ -305,7 +303,6 @@ function App() {
     );
     setAttackMode(false);
     setWeaponMenuOpen(false);
-    setMoveMode(false);
   }, [activeId]);
   const adjustSelectedStat = (event) => {
     event.preventDefault();
@@ -568,7 +565,6 @@ function App() {
             resources: spendMovement(b.resources, feet),
             log: `${active?.name} moved ${feet} ft. ${Math.max(0, drag.allowanceFeet - feet)} ft remains.`,
           }));
-          setMoveMode(false);
         } else if (occupied)
           setBattle((b) => ({
             ...b,
@@ -593,7 +589,6 @@ function App() {
     setBattle(null);
     setAttackMode(false);
     setWeaponMenuOpen(false);
-    setMoveMode(false);
   };
   const add = () => {
     const character = characters.find(
@@ -653,7 +648,6 @@ function App() {
     setSelectedId(order[0].id);
     setAttackMode(false);
     setWeaponMenuOpen(false);
-    setMoveMode(false);
   };
   const nextTurn = (updated, log) => {
     let n = (battle.turn + 1) % battle.order.length;
@@ -670,7 +664,6 @@ function App() {
     setSelectedId(next.id);
     setAttackMode(false);
     setWeaponMenuOpen(false);
-    setMoveMode(false);
   };
   const attack = async (id) => {
     if (!selectedWeapon || attackCinematic) return;
@@ -853,7 +846,6 @@ function App() {
     }));
     setAttackMode(false);
     setWeaponMenuOpen(false);
-    setMoveMode(true);
   };
   const end = () =>
     !battle?.complete && nextTurn(tokens, `${active?.name} ended their turn.`);
@@ -866,11 +858,12 @@ function App() {
       battle &&
       !battle.complete &&
       t.id === activeId &&
-      moveMode &&
       movementLeft >= 5 &&
       boardRef.current
     ) {
       const r = boardRef.current.getBoundingClientRect();
+      setAttackMode(false);
+      setWeaponMenuOpen(false);
       setDrag({
         id: t.id,
         origin: { x: t.x, y: t.y },
@@ -1147,34 +1140,14 @@ function App() {
             )}
             {battle && !battle.complete && active && (
               <div className="map-actions">
-                <div className="combat-dock-head">
-                  <span
-                    className="combat-token-dot"
-                    style={{ background: active.color }}
-                  >
-                    {active.name.slice(0, 2).toUpperCase()}
-                  </span>
-                  <div>
-                    <small>ACTIVE TURN</small>
-                    <strong>{active.name}</strong>
-                  </div>
-                  <em>R{battle.round}</em>
-                </div>
-                <div className="turn-resource-strip">
+                <div className="turn-resource-strip movement-only">
                   <div>
                     <span>MOVEMENT</span>
                     <strong>
                       {movementLeft} / {movementMaximum(turnResources)} ft
                     </strong>
                   </div>
-                  <div>
-                    <span>ACTION</span>
-                    <strong>
-                      {turnResources.actionSpent
-                        ? `Spent · ${turnResources.actionType}`
-                        : "Ready"}
-                    </strong>
-                  </div>
+                  <em>ROUND {battle.round}</em>
                 </div>
                 {weaponMenuOpen && (
                   <div className="weapon-picker">
@@ -1193,7 +1166,6 @@ function App() {
                             setSelectedWeaponId(weapon.id);
                             setWeaponMenuOpen(false);
                             setAttackMode(true);
-                            setMoveMode(false);
                             setAttackMessage("");
                           }}
                         >
@@ -1210,24 +1182,6 @@ function App() {
                 )}
                 <div className="combat-actions-row">
                   <button
-                    className={moveMode ? "armed" : ""}
-                    disabled={movementLeft < 5 || !!attackCinematic}
-                    onPointerDown={(e) => e.stopPropagation()}
-                    onClick={() => {
-                      setMoveMode((current) => !current);
-                      setAttackMode(false);
-                      setWeaponMenuOpen(false);
-                    }}
-                  >
-                    <span className="action-icon">
-                      <Move size={18} />
-                    </span>
-                    <span>
-                      <strong>Move</strong>
-                      <small>{movementLeft} ft remaining</small>
-                    </span>
-                  </button>
-                  <button
                     className={attackMode || weaponMenuOpen ? "armed" : ""}
                     disabled={
                       turnResources.actionSpent ||
@@ -1238,7 +1192,6 @@ function App() {
                     onClick={() => {
                       setWeaponMenuOpen((value) => !value);
                       setAttackMode(false);
-                      setMoveMode(false);
                       setAttackMessage("");
                     }}
                   >
@@ -1255,6 +1208,7 @@ function App() {
                     </span>
                   </button>
                   <button
+                    className="dash-compact"
                     disabled={turnResources.actionSpent || !!attackCinematic}
                     onPointerDown={(e) => e.stopPropagation()}
                     onClick={dash}
@@ -1264,9 +1218,7 @@ function App() {
                     </span>
                     <span>
                       <strong>Dash</strong>
-                      <small>
-                        +{turnResources.movementBase} ft · spends action
-                      </small>
+                      <small>+{turnResources.movementBase} ft</small>
                     </span>
                   </button>
                   <button

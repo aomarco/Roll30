@@ -310,6 +310,17 @@
   grid-template-columns: 1fr 1fr;
   gap: 7px;
 }
+.turn-resource-strip.movement-only {
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+}
+.turn-resource-strip.movement-only > em {
+  padding-right: 4px;
+  color: #858891;
+  font: 700 9px "DM Mono";
+  font-style: normal;
+  letter-spacing: 0.8px;
+}
 .turn-resource-strip > div {
   min-width: 0;
   padding: 9px 10px;
@@ -334,7 +345,7 @@
 }
 .combat-actions-row {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   gap: 7px;
 }
 .map-actions .combat-actions-row > button {
@@ -367,6 +378,23 @@
 .map-actions .combat-actions-row > button:disabled {
   opacity: 0.36;
   cursor: not-allowed;
+}
+.map-actions .combat-actions-row > button.dash-compact {
+  width: 76px;
+  grid-template-columns: 1fr;
+  justify-items: center;
+  padding-inline: 6px;
+  text-align: center;
+}
+.map-actions .combat-actions-row > button.dash-compact .action-icon {
+  width: 24px;
+  height: 24px;
+}
+.map-actions .combat-actions-row > button.dash-compact > span:last-child {
+  justify-items: center;
+}
+.map-actions .combat-actions-row > button.dash-compact small {
+  font-size: 8px;
 }
 .action-icon {
   width: 27px;
