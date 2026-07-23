@@ -14,6 +14,7 @@ import "./styles.css";
 import "./movement.css";
 import "./premium.css";
 import "./motion.css";
+import "./layout.css";
 import { patternCells } from "./patterns.js";
 import CharactersPage from "./CharactersPage.jsx";
 import { deriveCharacter } from "./characterRules.js";

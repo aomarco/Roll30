@@ -1,0 +1,200 @@
+/* Viewport shell: the document stays fixed; content-heavy regions scroll locally. */
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.app,
+.home,
+.characters-page {
+  width: 100%;
+  height: 100dvh;
+  min-height: 0 !important;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.app > header,
+.home > header,
+.characters-page > header {
+  flex: 0 0 74px;
+}
+
+.app > main,
+.home-main,
+.characters-layout {
+  flex: 1 1 auto;
+  height: auto;
+  min-height: 0 !important;
+}
+
+/* Map library */
+.home-main {
+  width: 100%;
+  overflow: hidden;
+  align-items: center;
+  padding-top: clamp(24px, 6vh, 64px) !important;
+  padding-bottom: clamp(24px, 6vh, 64px) !important;
+}
+
+.new-map,
+.map-list {
+  min-height: 0;
+  max-height: 100%;
+}
+
+.map-list {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+  padding-right: 8px;
+}
+
+.map-list-heading {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  padding: 2px 0 10px;
+  background: linear-gradient(#202126 78%, transparent);
+}
+
+/* Tabletop */
+.app > main {
+  overflow: hidden;
+  grid-template-rows: minmax(0, 1fr);
+}
+
+.board-column {
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.controls {
+  flex: 0 0 auto;
+}
+
+.board {
+  flex: 1 1 auto;
+  height: auto !important;
+  min-height: 0 !important;
+}
+
+.inspector {
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+}
+
+/* Character library */
+.characters-layout {
+  width: 100%;
+  overflow: hidden;
+  align-items: stretch;
+}
+
+.character-list,
+.character-sheet {
+  min-height: 0;
+  max-height: 100%;
+  overflow-y: auto !important;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+}
+
+.character-list {
+  padding-right: 8px;
+}
+
+.character-sheet {
+  padding-right: 30px !important;
+}
+
+/* Quiet, consistent scrollbars for the deliberately scrollable regions. */
+.map-list,
+.inspector,
+.character-list,
+.character-sheet,
+.app > main {
+  scrollbar-width: thin;
+  scrollbar-color: #b96b4b #1d1e22;
+}
+
+.map-list::-webkit-scrollbar,
+.inspector::-webkit-scrollbar,
+.character-list::-webkit-scrollbar,
+.character-sheet::-webkit-scrollbar,
+.app > main::-webkit-scrollbar {
+  width: 8px;
+}
+
+.map-list::-webkit-scrollbar-thumb,
+.inspector::-webkit-scrollbar-thumb,
+.character-list::-webkit-scrollbar-thumb,
+.character-sheet::-webkit-scrollbar-thumb,
+.app > main::-webkit-scrollbar-thumb {
+  border: 2px solid #1d1e22;
+  border-radius: 10px;
+  background: #b96b4b;
+}
+
+@media (max-width: 850px) {
+  .home-main {
+    grid-template-rows: auto minmax(0, 1fr);
+    align-items: stretch;
+    padding-top: 24px !important;
+    padding-bottom: 20px !important;
+  }
+
+  .characters-layout {
+    grid-template-rows: minmax(90px, 140px) minmax(0, 1fr);
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+
+  .character-list {
+    max-height: 140px;
+  }
+}
+
+@media (max-width: 780px) {
+  .app > main {
+    display: block;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .board-column {
+    height: clamp(390px, 66dvh, 660px);
+    min-height: 390px;
+  }
+
+  .inspector {
+    min-height: 320px;
+    overflow: visible;
+  }
+}
+
+@media (max-height: 680px) and (min-width: 781px) {
+  .home-main {
+    padding-top: 18px !important;
+    padding-bottom: 18px !important;
+  }
+
+  .characters-layout {
+    padding-top: 18px;
+    padding-bottom: 18px;
+  }
+
+  .board-column,
+  .inspector {
+    padding-top: 16px !important;
+    padding-bottom: 16px !important;
+  }
+}
