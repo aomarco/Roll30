@@ -2,148 +2,403 @@
 
 ## Purpose of This Document
 
-This is the master product and engineering handoff for Roll30. It explains the app’s current features, the rules behind them, where important systems live, how data is stored, and what future work must preserve.
+This is the authoritative handoff for **Roll30**, a browser-based tabletop battle-map app inspired by D&D 5e. It explains the current product, its rules, architecture, persistence, tests, limitations, and agreed future direction.
 
-### Maintenance Rule
+The document distinguishes between:
 
-- **Every app change must add a medium-sized summary to “To Be Updated”.**
-- An ordinary feature or fix **does not** require the rest of this document to be rewritten immediately.
-- When the user explicitly asks to **update the document**, delete every entry from “To Be Updated”, inspect the current app, and rewrite the full handoff so it is completely accurate.
-- After that rewrite, leave “To Be Updated” empty until the next app change.
+- **Implemented:** behavior that exists in the current application.
+- **Planned:** behavior discussed and agreed upon but not yet built.
+- **Deferred or excluded:** ideas intentionally postponed or removed from scope.
 
-## Product Overview
+Do not treat the planned combat revision as current behavior.
 
-Roll30 is a lightweight browser-based tabletop battle-map app inspired by virtual tabletops. It focuses on fast local play: users create maps, create simplified D&D 5e characters, place tokens, configure combat statistics and equipment, and run turn-based battles on a grid.
+## Maintenance Protocol
 
-The app is a React application built with Vite. It is designed as a local-first app: maps, tokens, battles, characters, and inventories are saved in the browser rather than through a hosted account or database.
+This file must remain synchronized with the application.
 
-## Navigation and Main Pages
+1. After any application change, add a medium-sized summary under **To Be Updated**.
+2. When asked to “update the master document,” rewrite all affected sections so they describe the current app.
+3. After that full rewrite, remove every entry from **To Be Updated** and leave the section empty.
+4. Record planned mechanics as **planned**, never as implemented.
+5. Preserve the local `DND 5E Data` source folder unless the user explicitly asks to remove it.
 
-### Home
+## Product Summary
 
-The app loads into the home page. From there a user can:
+Roll30 lets a user:
 
-- Create and name a map.
-- Choose the map’s play style when creating it.
+- Create and manage multiple maps from a home library.
+- Choose whether each map is a **Play** map or a **Battle** map.
+- Upload a background image or use a plain white board.
+- Add tokens manually or create them from saved character sheets.
+- Configure token combat statistics and inventories.
+- Run grid-based battles with initiative, movement, attacks, damage, and turn order.
+- Create simplified D&D characters using point buy and an item inventory.
+- Keep maps and characters in local browser storage.
+
+The application is deliberately focused. It is not yet a complete D&D 5e rules engine, multiplayer virtual tabletop, account system, or cloud-synced campaign manager.
+
+## Live Application and Repository
+
+| Resource           | Location                            |
+| ------------------ | ----------------------------------- |
+| Production app     | https://aomarco.github.io/Roll30/   |
+| GitHub repository  | `aomarco/Roll30`                    |
+| Frontend framework | React                               |
+| Build tool         | Vite                                |
+| Deployment         | GitHub Pages through GitHub Actions |
+
+## Getting Started Locally
+
+```powershell
+npm install
+npm run dev
+```
+
+Other useful commands:
+
+```powershell
+npm test
+npm run build
+npm run preview
+```
+
+The production build is written to `dist/`.
+
+## User Experience and Navigation
+
+### Home Page
+
+The app opens on the **home page**, not directly inside the last-opened map.
+
+The home page is the map library. From it, the user can:
+
+- Create a map.
+- Give the map a name.
+- Choose **Play** or **Battle** as the map type.
 - Open an existing map.
-- Delete a map.
-- Open map settings.
-- Open the character-sheet area.
+- Open its settings.
+- Delete it.
+- Open the character workspace.
 
-The **Roll30** brand button returns to the home page from other areas.
+Selecting the Roll30 brand from elsewhere in the app returns to the home page.
+
+### Map Creation
+
+The map's mode is selected when it is created:
+
+- **Play:** a lightweight freeform board.
+- **Battle:** a grid-based setup and combat workspace.
+
+The old design that switched between Play and Battle in the middle of a session has been replaced by a mode stored on each map. A map's mode can still be changed from its settings.
 
 ### Map Settings
 
-Map settings can be opened from the home page or from a map workspace. Settings allow the user to:
+Map settings are available from the home page and from the open map workspace.
 
-- Rename the map.
-- Upload or replace the map image.
-- Select the no-map option, which uses a clean white background.
-- Adjust map-related configuration such as grid size.
+The settings page supports:
 
-Map images are stored separately in IndexedDB so large image data does not overflow normal localStorage.
+- Renaming the map.
+- Changing its Play/Battle type.
+- Uploading or replacing the map image.
+- Selecting the **No Map** white-background option.
+- Changing battle grid cell size from **24 px to 80 px**.
 
-### Character Sheets
+Each grid square represents **5 feet** regardless of its visual pixel size.
 
-Character sheets are a separate page. A simplified sheet currently includes:
+### Character Workspace
 
-| Area          | Current behaviour                                                   |
-| ------------- | ------------------------------------------------------------------- |
-| Identity      | Character name, Fighter class, level, Human species, and background |
-| Abilities     | Six core ability scores using a 27-point-buy system                 |
-| Derived stats | HP, AC, initiative bonus, and speed                                 |
-| Inventory     | Searchable, filterable, quantity-based item inventory               |
+Characters have their own full page. The character creator is a complete page section rather than a small card nested inside another bubble.
 
-The current rules implementation supports one class and one species:
+The page includes:
 
-- **Fighter:** supplies the current hit-die logic.
-- **Human:** adds +1 to purchased ability scores and has a 30-foot walking speed.
+- A character list.
+- New and delete controls.
+- Identity fields.
+- Point-buy ability controls.
+- Derived combat statistics.
+- Inventory management.
 
-HP is derived from class and Constitution. Species currently affects HP only indirectly through its Constitution increase.
+The Add Item interface is rendered at the document level with a high stacking order, a blurred backdrop, and its own scrolling. It can be closed with its close control, the backdrop, or Escape.
 
 ## Map Workspace
 
-The workspace uses two sidebars so map-making controls and token configuration have room without obscuring the board. General page scrolling is locked; sections that may grow, such as inventories and weapon lists, scroll internally.
+The tabletop workspace uses three functional regions:
 
-### Setup and Battle Modes
+| Region        | Responsibility                                      |
+| ------------- | --------------------------------------------------- |
+| Left sidebar  | Encounter and token creation controls               |
+| Center board  | Map, grid, tokens, movement, targeting, and effects |
+| Right sidebar | Selected-token setup and editing                    |
 
-Battle-style maps use a **Setup / Battle** switch.
+The general page is designed to fit without whole-page vertical scrolling at normal desktop sizes. Areas that can grow—such as inventories and weapon lists—scroll internally.
 
-- **Setup** is the default when opening a battle map. It is used for placing tokens, editing their stats, and managing their quick inventory.
-- **Battle** runs initiative, movement, attacks, damage, and turns.
+At narrower widths or browser zoom levels, the layout reflows instead of merely shrinking everything. On mobile-width layouts, the board becomes the primary vertical workspace.
 
-### Tokens
+### Readability
 
-Users can add blank tokens or select a character name next to the add-token control to create a token prefilled from that character sheet.
+The app includes a dedicated readability layer:
 
-Token data includes:
+- Small interface labels are generally at least 11–12 px.
+- Main controls are generally 12–14 px or larger.
+- Interactive targets are larger than the earliest versions.
+- Browser zoom causes layout reflow at the relevant breakpoints.
 
-- Name and visual colour.
-- Grid position.
-- HP and maximum HP.
-- Armour Class.
+### Motion
+
+The interface intentionally uses energetic, tactile motion:
+
+- Buttons compress and spring.
+- Panels and menus enter with swishy transitions.
+- Click interactions can produce visual bursts.
+- Attack ranges pop outward from the token.
+- Combat rolls are staged rather than appearing instantly.
+- Damage produces a shake and floating result.
+
+The app respects reduced-motion preferences and shortens or removes nonessential animation when requested by the operating system.
+
+Only the **attack hit sound** remains. General interface sound effects were removed.
+
+## Maps and Tokens
+
+### New Token Defaults
+
+A manually created token begins with:
+
+| Field            | Default |
+| ---------------- | ------: |
+| HP               |      10 |
+| Maximum HP       |      10 |
+| AC               |      10 |
+| Speed            |   30 ft |
+| Initiative bonus |      +0 |
+| Strength         |      10 |
+| Dexterity        |      10 |
+| Level            |       1 |
+| Inventory        |   Empty |
+
+Tokens also store an ID, name, grid position, and display color.
+
+### Character-Based Tokens
+
+The Add Token area lists saved character names. Choosing one prefills the new token with that character's:
+
+- Name.
+- Maximum and current HP.
+- AC.
 - Speed.
 - Initiative bonus.
-- Strength and Dexterity.
+- Strength.
+- Dexterity.
 - Level.
 - Inventory.
+- Character reference.
 
-Two tokens cannot occupy the same grid square.
+A character-based token receives only the weapons in that character's inventory. It does not receive every weapon in the catalog.
 
-### Token Setup
+### Setup Mode
 
-In Setup mode, selecting a token exposes direct editable fields for its combat stats. Its quick inventory can be searched and filtered, and item quantities can be changed without opening the full character-sheet page.
+Battle maps open in **Setup** mode by default.
 
-Blank tokens begin with no weapons. Tokens imported from character sheets copy that character’s current inventory.
+In Setup, the user can directly edit a token's:
 
-## Inventory and Item Catalog
+- Name.
+- Current HP.
+- Maximum HP.
+- AC.
+- Speed.
+- Initiative bonus.
+- Strength.
+- Dexterity.
+- Level.
 
-Inventory is built around a generic catalog rather than a hard-coded group of weapon buttons.
+Setup also provides a quick inventory with:
 
-### Data Model
+- Search.
+- Item-type filtering.
+- Quantity controls.
+- Add and remove behavior.
+- Internal scrolling for a large future catalog.
 
-An inventory is an array of entries:
+The inventory design is generic and is not hard-coded around the current number of weapons.
 
-```js
-{ itemId: "longsword", quantity: 1 }
+### Token Position Rules
+
+- Two tokens cannot occupy the same battle-grid square.
+- Setup movement snaps tokens into grid cells on Battle maps.
+- Play maps permit ordinary freeform dragging.
+- Ordinary dragging is immediate; it does not continuously apply the combat movement animation.
+- The smooth token transition is reserved for committing a legal combat move.
+- Drag calculations compensate for the token's grab point so the token remains visually aligned with the cursor.
+
+## Character Sheets
+
+### Identity Fields
+
+Current character sheets contain:
+
+- Character Name.
+- Class.
+- Level.
+- Race/Species.
+- Background.
+
+There is currently one supported class and one supported species:
+
+| Type         | Available option |
+| ------------ | ---------------- |
+| Class        | Fighter          |
+| Race/Species | Human            |
+
+Background is stored as character information but does not yet drive additional rules.
+
+### Ability Scores and Point Buy
+
+Characters use the six core abilities:
+
+- Strength.
+- Dexterity.
+- Constitution.
+- Intelligence.
+- Wisdom.
+- Charisma.
+
+The current creator uses standard-style **27-point buy**, with purchasable scores from **8 through 15**.
+
+Human currently adds **+1 to every ability score**. The interface distinguishes the purchased score from the final calculated score.
+
+The ability modifier formula is:
+
+```text
+floor((score - 10) / 2)
 ```
 
-Catalog items have a stable ID, item kind, display type, searchable metadata, and type-specific properties. The first catalog records happen to be five weapons, but the UI and storage model are designed to support dozens of weapons and hundreds of mixed items.
+### Derived Statistics
 
-Legacy inventories saved as arrays of weapon ID strings are normalized automatically. Duplicate legacy entries are merged into quantities, so existing users do not lose their equipment.
+Current derived values are:
 
-### Current Inventory Interfaces
+| Statistic        | Current calculation                                              |
+| ---------------- | ---------------------------------------------------------------- |
+| Level 1 HP       | `10 + Constitution modifier`, minimum 1                          |
+| HP after level 1 | Adds `6 + Constitution modifier` per level, minimum 1 each level |
+| AC               | `10 + Dexterity modifier`                                        |
+| Initiative bonus | Dexterity modifier                                               |
+| Speed            | 30 ft                                                            |
 
-| Interface             | Intended use                                                                                  |
-| --------------------- | --------------------------------------------------------------------------------------------- |
-| Character inventory   | Full item browser, search, type filter, owned count, quantity controls, and remove-all action |
-| Token quick inventory | Compact setup browser with search, type filter, scrollable results, and quantity controls     |
-| Battle weapon picker  | Shows only attack-capable weapons owned by the active token                                   |
+The HP formula is a simplified fixed-average Fighter model. In official D&D, hit points depend on class hit die, level, Constitution modifier, and sometimes species, feats, or other features. Roll30 currently has only Fighter/Human, so it does not yet implement the full class/species system.
 
-The initial catalog contains Club, Dagger, Longsword, Battleaxe, and Shortbow. Adding future catalog data should not require redesigning either inventory interface.
+### Character Inventory
 
-## Grid and Movement
+Character inventories are quantity-based and use the shared item catalog.
 
-The grid is active in Battle mode and locks token placement to squares.
+The inventory supports:
 
-- Each square represents **5 feet**.
-- The default speed is **30 feet**, or six squares.
-- Dragging a token during its turn leaves the token at its origin and draws an arrow from the token to the live cursor.
-- The arrow reaches the cursor itself; grid highlighting is calculated separately.
-- The starting square is white.
-- Movement within normal speed is green.
-- Movement beyond normal speed but within double speed is blue and counts as a dash.
-- Movement beyond double speed is red and cannot be completed.
-- Dropping on a legal square animates the token from its origin to the destination.
-- Ordinary dragging outside this combat move does not use that travel animation.
+- Adding an item from the catalog.
+- Search by useful item text.
+- Item-type filtering.
+- Increasing or decreasing quantity.
+- Removing the last copy.
+- Internal scrolling for large catalogs.
 
-Landing on a green route preserves the token’s attack. Landing on a blue route uses the dash and prevents attacking. A token cannot move after attacking.
+Inventory entries use item IDs instead of embedding duplicate item definitions in every character.
 
-## Battle Flow
+## Item and Weapon Data
 
-Entering Battle starts or prepares combat and rolls initiative automatically for tokens. Initiative includes each token’s initiative bonus.
+### Generic Item Model
 
-The turn order appears as a compact floating panel in the top-left of the map:
+The item layer is designed to expand beyond weapons.
+
+An inventory entry has the shape:
+
+```js
+{
+  itemId: "weapon-id",
+  quantity: 1
+}
+```
+
+The system:
+
+- Normalizes legacy string inventories.
+- Merges duplicate item entries.
+- Clamps quantities to valid values.
+- Searches catalog metadata.
+- Exposes generic item types and labels.
+
+At present, the catalog contains weapons only, but the UI and data helpers are structured for future armor, equipment, consumables, and other items.
+
+### Imported Weapons
+
+The five fake prototype weapons were removed. The current catalog contains nine real weapons sourced from the local 2014 D&D 5e SRD data:
+
+| Weapon      | Damage          | Current functional notes |
+| ----------- | --------------- | ------------------------ |
+| Club        | 1d4 bludgeoning | Simple melee             |
+| Mace        | 1d6 bludgeoning | Simple melee             |
+| Sickle      | 1d4 slashing    | Simple melee             |
+| Flail       | 1d8 bludgeoning | Martial melee            |
+| Morningstar | 1d8 piercing    | Martial melee            |
+| Rapier      | 1d8 piercing    | Finesse                  |
+| Scimitar    | 1d6 slashing    | Finesse                  |
+| Shortsword  | 1d6 piercing    | Finesse                  |
+| War pick    | 1d8 piercing    | Martial melee            |
+
+Each definition retains relevant metadata such as:
+
+- Name and ID.
+- Damage dice and type.
+- Category.
+- Range.
+- Properties.
+- Cost.
+- Weight.
+- Source marker.
+
+Property metadata such as **Light** and **Monk** is preserved even when the corresponding combat rule is not yet implemented.
+
+### Finesse
+
+Finesse is implemented.
+
+When attacking with a finesse weapon, Roll30 compares the attacker's Strength and Dexterity modifiers and uses the higher one for:
+
+- The attack roll.
+- The damage roll.
+
+Ordinary current melee weapons use Strength.
+
+### Local D&D Data
+
+The repository contains a `DND 5E Data` directory with local 2014 SRD JSON source data. It is a reference/import source and must not be deleted accidentally.
+
+The app does not dynamically load the whole source dataset at runtime. Supported entries are transformed into the app's explicit catalog schema so rules can be reviewed and tested.
+
+## Battle Lifecycle
+
+### Setup/Battle Switch
+
+Battle maps use a **Setup / Battle** switch.
+
+- **Setup** is for map preparation, token placement, token stats, and inventory.
+- **Battle** starts or enters initiative-based combat.
+
+After a battle finishes, the user can return to Setup and start another battle.
+
+### Starting Battle
+
+Starting a battle:
+
+1. Includes the map's current tokens.
+2. Restores each token to its configured maximum HP.
+3. Snaps battle positions to valid grid cells.
+4. Rolls initiative automatically.
+5. Sorts tokens from highest to lowest initiative.
+6. Creates a fresh turn-resource state for the first token.
+
+### Turn Order
+
+Turn order is a compact floating element in the upper-left of the map rather than a full sidebar section.
+
+It is intentionally simple:
 
 ```text
 Turn Order
@@ -151,115 +406,556 @@ Token 1 (19)
 Token 2 (13)
 ```
 
-The current combatant glows. The active token has its actions in the larger bottom-right combat bubble, including attack and ending the turn early. A completed battle can be started again.
+The current token glows. Defeated tokens are visually distinguished.
 
-## Attacks and Weapons
+### Combat Controls
 
-Pressing attack opens the active token’s owned weapon list. A token without weapons has no weapon attacks available.
+The current token's controls appear in a larger bubble in the bottom-right of the board. This gives weapon selection and future actions enough room without clipping.
 
-An attack follows the basic D&D flow:
+The current controls are:
 
-1. Roll a d20 and add the weapon’s attack modifier.
-2. Compare the result with the target’s Armour Class.
-3. On a hit, roll the weapon’s damage dice and apply the appropriate modifier.
-4. Subtract damage from the target’s HP.
+- Move.
+- Attack.
+- Dash.
+- End Turn.
 
-The current attack uses the **Diamond 2** targeting pattern. Pressing attack makes the active token’s affected squares appear and remain visible while targeting. Pattern cells animate outward from the centre. Trying to target outside the allowed range displays an out-of-range message.
+The bubble also shows:
 
-On a successful hit:
+- Active token.
+- Round.
+- Remaining movement.
+- Action availability.
 
+## Current Turn Economy
+
+Roll30 now models movement and an action separately.
+
+Each turn starts with:
+
+- Movement equal to the token's speed.
+- One available action.
+- An unused bonus-action state reserved for future features.
+- Dash inactive.
+
+### Movement Currency
+
+Movement is a spendable currency:
+
+- Each square costs **5 feet**.
+- A 30-foot token starts with **30 feet**, or six squares.
+- Moving subtracts only the distance actually traveled.
+- The Move action can be used multiple times while movement remains.
+- Movement can be split before and after an attack.
+- Unused movement does not carry into the next turn.
+- Movement resets at the start of the token's next turn.
+
+### Dash
+
+Dash is manual.
+
+Activating Dash:
+
+- Spends the token's action.
+- Doubles that turn's movement maximum.
+- Preserves movement already spent.
+- Prevents attacking because the action has been used.
+- Enters movement mode.
+
+There is no longer an automatic “drag past speed to Dash” rule.
+
+### Attack
+
+Attack spends the action but **does not end the turn**.
+
+After attacking, a token may still use any remaining movement. The user must press **End Turn** explicitly.
+
+### End Turn
+
+End Turn is always manual. It is the normal way to advance initiative, including when the token has no useful actions remaining.
+
+### Bonus Action
+
+The turn-state model contains bonus-action fields, but there is currently no player-facing bonus-action button and no completed bonus-action mechanic. This is groundwork for dual wielding and thrown-weapon retrieval.
+
+## Combat Movement Interaction
+
+When Move is active and the current token is dragged:
+
+1. The token remains visibly in its origin square.
+2. An arrow begins at the token and stretches to the live cursor position.
+3. The arrow tip points to the cursor, not merely to the center of a grid square.
+4. Every intersected grid square along the calculated path highlights.
+5. The origin square is white.
+6. Squares within the current legal movement budget are green.
+7. Squares beyond the legal budget are red.
+8. A feet counter previews the movement cost before the drop.
+9. Dropping on a legal, unoccupied destination commits the move.
+10. The token then smoothly animates to the destination square.
+11. An illegal or occupied drop leaves the token at its origin.
+
+The animation applies only when a combat move is committed. It is not active during ordinary Setup or Play dragging.
+
+## Attack Range and Patterns
+
+### Pattern Engine
+
+Attack patterns are generated mathematically and scale without hard-coded maximum levels.
+
+Supported pattern families are:
+
+- Square.
+- Diamond.
+- Plus.
+- Star.
+
+The level-one and level-two outputs are tested against the exact coordinate sets supplied during development. The attacker/token origin is excluded from the affected cells.
+
+### Current Attack Pattern
+
+Current weapon targeting derives a diamond-shaped range from the selected weapon's range in feet:
+
+```text
+pattern level = weapon range in feet / 5
+```
+
+All currently imported weapons are five-foot melee weapons, so their live targeting area is the adjacent diamond around the attacker.
+
+This is different from the earlier prototype that used a fixed Diamond 2 attack. The current code uses weapon range dynamically.
+
+### Targeting Interaction
+
+Pressing Attack:
+
+- Opens the weapon menu.
+- Shows only weapons owned by the active token.
+- Keeps the active token's attack area visible.
+- Does not show arbitrary ranges merely because the pointer passed over another token.
+- Animates affected cells outward from the attacker.
+- Prompts the user to click a target.
+- Rejects targets outside the selected weapon's range.
+
+New blank tokens have no weapons, so they must receive a weapon through Setup inventory before they can attack.
+
+## Attack Resolution
+
+### Attack Roll
+
+The current attack check is:
+
+```text
+d20 + ability modifier + proficiency bonus
+```
+
+The result is compared with the target's AC.
+
+- A natural 1 misses.
+- A natural 20 is a critical hit.
+- Otherwise, the attack hits when the total meets or exceeds AC.
+
+Proficiency bonus is derived from level.
+
+### Ability Modifier
+
+Current weapon ability selection:
+
+- Ordinary melee weapon: Strength.
+- Finesse weapon: whichever is higher, Strength or Dexterity.
+- The combat engine also supports an explicitly Dexterity-based weapon definition for future ranged weapons.
+
+The selected ability modifier is added to both the attack roll and damage.
+
+### Damage
+
+On a hit:
+
+```text
+weapon damage dice + selected ability modifier
+```
+
+Damage cannot fall below zero.
+
+On a critical hit:
+
+- Damage dice are doubled.
+- The ability modifier is added once.
+
+Successful damage reduces the target's actual HP.
+
+### Advantage and Disadvantage Engine
+
+The underlying combat resolver supports:
+
+- Normal rolls.
+- Advantage: roll two d20s and keep the higher.
+- Disadvantage: roll two d20s and keep the lower.
+- Advantage and disadvantage cancel one another.
+- Multiple sources do not stack into extra dice.
+
+The attack presentation can animate both dice and dim the rejected result.
+
+No current weapon or battlefield rule automatically supplies advantage or disadvantage yet. The engine exists for future Heavy, long-range, weapon-swap, and similar rules.
+
+### Attack Presentation
+
+Attacks use a staged cinematic sequence:
+
+1. The d20 rapidly cycles through values.
+2. The selected result settles.
+3. Ability and proficiency modifiers appear.
+4. The total is compared with AC.
+5. Hit, miss, or critical result is revealed.
+6. On a hit, damage dice animate.
+7. The damage modifier is added.
+8. The impact is applied.
+
+During resolution, conflicting attack and turn controls are locked.
+
+With reduced motion enabled, the sequence remains understandable but skips lengthy number spinning.
+
+### Impact Feedback
+
+When a target takes damage:
+
+- The remaining attack sound plays.
 - The target token shakes.
-- Damage appears dramatically above it for a short time.
-- The attack hit sound plays.
+- The damage number appears dramatically above the target.
+- HP updates after the impact.
 
-All non-attack interface sound effects are intentionally disabled.
+## Battle Completion
 
-## Scalable Pattern System
+A battle is considered complete when no more than one token remains conscious.
 
-Patterns are generated mathematically rather than stored as fixed level-one and level-two lists. Supported pattern families are:
-
-- Square
-- Diamond
-- Plus
-- Star
-
-The numeric pattern level scales the generated coordinates indefinitely. The current exact coordinate definitions were calibrated from user-provided 9×9 examples. Pattern generation lives in `src/patterns.js` and its tests.
+The user can return to Setup and begin another battle. The setup/battle lifecycle must remain reusable; battle completion must not permanently lock the map.
 
 ## Persistence
 
-Roll30 is local-first and stores:
+### Local Storage
 
-| Data                                             | Storage      |
-| ------------------------------------------------ | ------------ |
-| Map records, configuration, tokens, battle state | localStorage |
-| Character sheets and inventories                 | localStorage |
-| Uploaded map images                              | IndexedDB    |
+Roll30 stores lightweight application state using:
 
-Persistence is browser- and device-specific. Clearing site data removes locally saved Roll30 content. There is currently no account sync or server backup.
+| Key                 | Purpose                             |
+| ------------------- | ----------------------------------- |
+| `roll30-maps`       | Map definitions and saved map state |
+| `roll30-active-map` | Most recently active map reference  |
+| `roll30-characters` | Character sheets                    |
 
-## Important Source Files
+Saved map state includes the map's:
+
+- ID and name.
+- Mode.
+- No-map choice.
+- Grid size.
+- Tokens.
+- Token stats and inventory.
+- Battle state needed for restoration.
+
+### Map Images
+
+Uploaded images are stored separately in IndexedDB:
+
+| Database        | Object store | Key    |
+| --------------- | ------------ | ------ |
+| `roll30-assets` | `images`     | Map ID |
+
+The lightweight map record stores whether an image exists, while the image data itself stays out of localStorage. This avoids consuming the much smaller localStorage quota with large data URLs.
+
+### Persistence Boundaries
+
+Persistence is:
+
+- Local to the current browser and device.
+- Not tied to an account.
+- Not cloud synchronized.
+- Not collaborative.
+- Not currently exportable or importable as a campaign file.
+
+Clearing browser site data removes saved maps, characters, and images. Storage quota or permission failures should be surfaced in the interface instead of failing silently.
+
+## Key Source Files
 
 | File                      | Responsibility                                                             |
 | ------------------------- | -------------------------------------------------------------------------- |
-| `src/main.jsx`            | Main navigation, map workspace, tokens, movement, battle flow, persistence |
-| `src/CharactersPage.jsx`  | Character sheet and full inventory UI                                      |
-| `src/MapSettingsPage.jsx` | Map settings                                                               |
-| `src/characterRules.js`   | Point buy and derived character statistics                                 |
-| `src/weapons.js`          | Weapon definitions and attack resolution                                   |
-| `src/items.js`            | Generic catalog and inventory normalization/quantity helpers               |
-| `src/patterns.js`         | Infinite mathematical attack patterns                                      |
-| `src/studio.css`          | Workspace, character, and inventory styling                                |
+| `src/main.jsx`            | Application shell, routes/state, map workspace, tokens, battle interaction |
+| `src/CharactersPage.jsx`  | Character creator and character inventory                                  |
+| `src/MapSettingsPage.jsx` | Map naming, mode, background, and grid settings                            |
+| `src/characterRules.js`   | Point buy, modifiers, and derived character statistics                     |
+| `src/combatRules.js`      | Turn resources, roll modes, and attack resolution                          |
+| `src/items.js`            | Generic catalog and inventory helpers                                      |
+| `src/weapons.js`          | Imported weapon definitions and weapon helpers                             |
+| `src/patterns.js`         | Infinite mathematical attack-pattern generation                            |
+| `src/styles.css`          | Base application styling                                                   |
+| `src/studio.css`          | Main tabletop studio presentation                                          |
+| `src/layout.css`          | Page and responsive layout                                                 |
+| `src/movement.css`        | Grid movement, path, arrow, and token effects                              |
+| `src/motion.css`          | Global interaction and transition animation                                |
+| `src/premium.css`         | Higher-polish visual treatments                                            |
+| `src/readability.css`     | Text sizing, target sizing, zoom/reflow improvements                       |
 
-## Testing and Release
+Rule modules have matching `*.test.js` files under `src/`.
 
-Before publishing a change:
+## Current Test Coverage
 
-1. Run formatting.
-2. Run `npm test`.
-3. Run `npm run build`.
-4. Run `git diff --check`.
-5. Inspect the affected UI at desktop and constrained sizes.
-6. Commit only intended source changes.
-7. Push to GitHub and confirm the GitHub Pages deployment succeeds.
+The current automated suite contains **28 tests** covering:
 
-The production app is hosted at:
+- Point-buy calculations.
+- Character-derived statistics.
+- Turn-resource creation and spending.
+- Manual Dash behavior.
+- Advantage/disadvantage selection and cancellation.
+- Generic item inventory normalization.
+- Quantity behavior.
+- Search and filtering.
+- Exact Square, Diamond, Plus, and Star pattern coordinates.
+- Infinite pattern scaling assumptions.
+- Weapon ability choice.
+- Finesse modifier selection.
+- Proficiency.
+- Attack hit/miss/critical logic.
+- Damage modifiers.
+- Advantage/disadvantage attack resolution.
 
-**https://aomarco.github.io/Roll30/**
+Run:
 
-## Known Future Direction
+```powershell
+npm test
+npm run build
+```
 
-- Import the wider D&D 5e equipment catalog into the generic item catalog.
-- Add more item types, such as armour, adventuring gear, consumables, and containers.
-- Add more classes, species, and their derived-stat rules.
-- Decide how equipped, carried, attuned, and container states should work before those mechanics are needed.
-- Add import/export or account-backed syncing if cross-device persistence becomes a priority.
+Visual changes should also be checked in the browser at desktop, narrow, and zoomed layouts.
+
+## Known Current Limitations
+
+| Area           | Current limitation                                                     |
+| -------------- | ---------------------------------------------------------------------- |
+| Rules content  | Only Fighter and Human are supported                                   |
+| Items          | Catalog currently contains nine weapons and no other item types        |
+| Equipment      | Inventory exists, but equipped loadouts do not                         |
+| Weapon choice  | Any owned weapon can currently be chosen when attacking                |
+| Bonus actions  | State exists, but no usable bonus-action mechanic exists               |
+| Ranged combat  | No ranged or thrown weapons are currently active                       |
+| Ammunition     | Not modeled                                                            |
+| Creature size  | Not modeled                                                            |
+| Heavy weapons  | Size-based disadvantage is not active                                  |
+| Reach          | No live Reach or Lance rules                                           |
+| Dual wielding  | Not implemented                                                        |
+| Thrown objects | No weapon tokens, landing squares, lodging, or retrieval               |
+| Multiplayer    | No networking, accounts, shared sessions, or permissions               |
+| Persistence    | Browser-local only; no export, sync, or backup                         |
+| Accessibility  | Reduced motion exists, but a full keyboard/screen-reader audit remains |
+
+## Agreed Future Combat and Equipment Revision
+
+Everything in this section is **planned and not yet implemented**.
+
+### Goals
+
+The next major revision should add:
+
+- Equipment and pre-battle loadouts.
+- Weapon swapping during combat.
+- One-hand/two-hand rules.
+- Dual wielding and bonus-action attacks.
+- Creature size and Heavy disadvantage.
+- Reach and simplified Lance behavior.
+- Ranged and thrown range bands.
+- Physical thrown-weapon outcomes and retrieval.
+- More SRD weapons.
+
+### Planned Equipment Model
+
+Before battle, a token can pre-equip a specific weapon or valid pair of weapons.
+
+During battle:
+
+- A token may attack only with an equipped weapon.
+- Swapping equipment is an action-like tactical choice with special restrictions.
+- A swapped weapon attack has disadvantage on the **attack roll only**.
+- Damage is rolled normally if that attack hits.
+- The player still ends the turn manually.
+
+The exact state model should distinguish:
+
+- Inventory ownership.
+- Primary equipped weapon.
+- Optional off-hand weapon.
+- Hand occupancy.
+- Whether a swap occurred this turn.
+- Whether movement, Dash, Attack, or Swap has consumed the relevant option.
+
+### Planned Swap Restrictions
+
+The agreed behavior is:
+
+- A weapon may be pre-equipped before combat without penalty.
+- A token may swap to another owned weapon on its turn.
+- After swapping, the token may either attack at disadvantage or use allowed movement, subject to the finalized action rules.
+- Swapping must not automatically advance initiative.
+- If Dash has already been used, the token cannot swap.
+- The implementation must preserve explicit End Turn even when no other option remains.
+
+Because the discussion evolved alongside the new movement/action system, these restrictions should be encoded in one tested turn-state reducer rather than scattered UI conditions.
+
+### Planned Hand and Dual-Wield Rules
+
+- One-handed mode is automatic when a weapon is paired for dual wielding.
+- A weapon requiring two hands cannot be dual wielded.
+- After attacking with one qualifying weapon, the other weapon becomes available as a bonus-action attack.
+- The attack modifier still applies to the off-hand attack roll.
+- A positive ability modifier is not added to off-hand damage.
+- A negative ability modifier still reduces off-hand damage, following the intended 5e-style rule.
+- The future Bonus Action button should glow when the off-hand attack becomes available.
+
+The implementation should use weapon property data, not weapon-name special cases.
+
+### Planned Heavy and Size Rule
+
+Creature size will be added to the combat model.
+
+If a **Small** creature attacks with a **Heavy** weapon, the attack roll has disadvantage. This rule should be implemented generically so future monsters and species can use it.
+
+### Planned Reach and Lance
+
+Reach should extend the melee targeting pattern according to weapon data.
+
+Lance will use a deliberately simplified custom rule:
+
+- It has Reach.
+- It attacks at disadvantage against a target within 5 feet.
+- Mounting and dismounting rules are excluded.
+
+### Planned Range Colors
+
+Affected squares should stop at the weapon's maximum range. There is no generic “impossible range” band beyond that point.
+
+Normal ranged weapons:
+
+| Color  | Meaning                            |
+| ------ | ---------------------------------- |
+| Green  | Normal range                       |
+| Yellow | Long range; attack at disadvantage |
+
+Thrown weapons:
+
+| Color  | Meaning                                   |
+| ------ | ----------------------------------------- |
+| Green  | Melee range                               |
+| Yellow | Normal thrown range                       |
+| Red    | Long thrown range; attack at disadvantage |
+
+Red is specifically reserved for long-range throwing because throwing the weapon has additional physical consequences.
+
+### Planned Thrown-Weapon State
+
+A thrown weapon must leave the attacker's equipped hand and become a physical combat-state object.
+
+On a hit:
+
+- A lodging weapon embeds in the target.
+- A blunt/non-lodging weapon falls on a nearby legal square.
+
+On a miss:
+
+- The weapon lands on the same or an adjacent legal square near the target.
+
+**Handaxe is explicitly classified as able to lodge.**
+
+The state model should support:
+
+```js
+{
+  weaponId,
+  ownerTokenId,
+  state: "ground" | "embedded",
+  gridX,
+  gridY,
+  embeddedInTokenId
+}
+```
+
+### Planned Retrieval Rules
+
+Embedded weapon:
+
+- Retrieval uses a bonus action.
+- Roll against **DC 15**.
+- Add both the retriever's Strength modifier and Dexterity modifier.
+
+Ground weapon:
+
+- Can be picked up from the same or an adjacent square.
+- Uses a bonus action.
+- Requires no roll.
+
+Dead carrier:
+
+- If the original target is dead and the retriever is adjacent, retrieval is free and requires no roll.
+
+After retrieval:
+
+- If the retriever has empty hands, the weapon is equipped immediately without the normal swapping downside.
+- Otherwise, it returns to inventory and requires a proper future equip action.
+
+### Planned Additional Weapons
+
+Only weapons whose rules fit the current engine were imported first. Later imports should be staged by the rule systems they require.
+
+The future sequence should broadly be:
+
+1. Equipment/loadout foundation.
+2. Advantage/disadvantage sources.
+3. Handedness and dual wielding.
+4. Size and Heavy.
+5. Reach and Lance.
+6. Range bands.
+7. Thrown-weapon state and retrieval.
+8. Import newly supported weapons.
+9. Add Versatile behavior.
+10. Add ammunition and ammunition tracking later.
+
+### Deferred or Excluded Mechanics
+
+| Mechanic                                 | Decision                                               |
+| ---------------------------------------- | ------------------------------------------------------ |
+| Net                                      | Excluded; too complex for its value                    |
+| Ammunition                               | Deferred until after the core equipment/range revision |
+| Mount/unmount Lance rules                | Excluded                                               |
+| Full improvised-weapon edge cases        | Deferred                                               |
+| Full official object interaction economy | Replaced by Roll30's custom equipment rules            |
+
+## Recommended Implementation Order
+
+When work resumes on the planned revision:
+
+1. Expand tests around the current turn-resource model.
+2. Add an explicit loadout/equipment schema with migration for saved tokens.
+3. Centralize legal-action calculation in `combatRules.js`.
+4. Build the Setup equipment editor.
+5. Restrict attack selection to equipped weapons.
+6. Add Swap and its disadvantage source.
+7. Add bonus-action state and dual wielding.
+8. Add creature size and Heavy disadvantage.
+9. Add range-band calculation and color output.
+10. Add Reach and simplified Lance.
+11. Add thrown-weapon entities and retrieval state transitions.
+12. Import only the newly supported SRD weapons.
+13. Run unit, build, persistence-migration, and browser interaction checks.
+
+Avoid implementing these rules solely as button-disable conditions in React. Rule legality and state transitions should live in pure, tested helpers so saving, UI display, and combat resolution cannot disagree.
+
+## Definition of Done for Future Changes
+
+A combat or inventory feature is complete only when:
+
+- Its rule is represented in the shared data model.
+- Its legality is enforced in pure rule code.
+- The UI clearly explains why an action is available or unavailable.
+- Animation does not obscure the final result.
+- Reduced-motion behavior remains usable.
+- Old saved maps and inventories migrate safely.
+- Unit tests cover the rule's important branches.
+- `npm test` passes.
+- `npm run build` passes.
+- Desktop, narrow, zoomed, and overflow layouts are visually checked.
+- The change is summarized under **To Be Updated** until the next full handoff refresh.
 
 ## To Be Updated
-
-### 2026-07-23 — Scalable Inventory Foundation
-
-Replaced the five-weapon toggle assumption with a generic, quantity-based inventory system shared by character sheets and map tokens. Added catalog search, item-type filters, owned quantities, increment/decrement controls, remove-all behaviour, compact internal scrolling, and inventory result summaries. Combat now derives its weapon picker from attack-capable catalog items actually owned by the active token. Existing inventories saved as weapon ID strings are automatically migrated in memory to `{ itemId, quantity }` entries, including merging duplicates, so previous maps and characters remain usable. Added focused tests for legacy normalization, quantity updates, catalog searching, and generic ID extraction.
-
-### 2026-07-23 — First SRD Weapon Import
-
-Removed the original five hand-written test weapon definitions and replaced them with nine records selected directly from the local 2014 5e SRD equipment dataset: Club, Mace, Sickle, Flail, Morningstar, Rapier, Scimitar, Shortsword, and War pick. This first batch deliberately contains only five-foot melee weapons whose attacks work faithfully with Roll30’s existing Strength and Finesse mechanics; weapons needing thrown ranges, long-range disadvantage, versatile damage, reach, hand tracking, ammunition, loading, or special rules remain deferred. The imported records now retain their SRD source, properties, price, and weight for later inventory-detail work, and those fields participate in catalog search. The old default weapon selection was also removed, while Club keeps its stable ID so existing Club inventory entries remain valid.
-
-### 2026-07-23 — Finesse Damage Modifiers
-
-Completed the requested Finesse attack calculation so Roll30 finds the higher of the attacker’s Strength and Dexterity modifiers and uses that same modifier for both the d20 attack bonus and the damage total. Critical hits still double only the weapon’s damage dice, not the ability modifier, and final damage is prevented from falling below zero. Successful Finesse attacks now include a readable damage breakdown in the combat log, such as `7 (4 + 3) piercing damage`, while the dramatic damage popup continues to display the final HP loss. Added coverage for modifier selection, attack bonuses, damage bonuses, and negative-modifier damage.
-
-### 2026-07-23 — Dramatic Staged Attack Rolls
-
-Replaced instant attack resolution with a cinematic, input-safe roll sequence shown over the battle map. The presentation rapidly spins through d20 values, lands on the real natural roll, assembles the ability and proficiency modifiers one at a time, compares the completed attack total against the target’s Armour Class, and then clearly announces a hit, miss, or critical hit. Successful attacks continue into a separate damage-die spin, reveal any Finesse ability modifier, calculate the final damage, and finish with a forceful HP-loss impact before advancing the turn. Attack and end-turn controls are locked during resolution to prevent duplicate actions, the existing hit sound and token impact effects now occur at the final payoff, and reduced-motion users receive the same information through an accelerated non-spinning sequence.
-
-### 2026-07-24 — Full-Section Character Creator
-
-Removed the rounded, elevated card treatment from the character creator so the active character sheet now reads as a full workspace section beside the character list. The sheet uses a quiet structural divider, open page background, and full-width content flow instead of appearing nested inside another bubble. Rebuilt the Add Item browser as a document-level modal rendered outside the character sheet’s scrolling and stacking contexts, with an opaque blurred backdrop and z-index above every application surface. The catalog can be dismissed by its close button, clicking the backdrop, or pressing Escape, ensuring that no sheet decoration, control, or scrolling container can clip or cover it.
-
-### 2026-07-24 — Readability and Browser-Zoom Reflow
-
-Added a final design-system readability layer that raises the app’s smallest 8–10px metadata to an accessible 11–12px range, increases routine labels and controls to approximately 12–14px, enlarges search fields, quantity steppers, ability controls, and common buttons, and gives the larger typography additional sidebar and character-sheet width on spacious desktops. Reworked responsive thresholds so character creation becomes a stacked library-and-sheet workspace at 1000px and the three-column tabletop becomes a vertically scrollable map-first layout at 960px. Because browser zoom reduces the effective CSS viewport, these earlier breakpoints make zoom produce deliberate reflow rather than crushed sidebars, clipped text, or unusably narrow controls.
-
-### 2026-07-24 — Combat Revision Phases 1–6
-
-Replaced the old `moved`, `attacked`, and automatic-Dash booleans with an explicit per-turn resource model containing movement allowance, movement spent, action state, bonus-action placeholders, and manual Dash state. Movement now behaves as reusable currency: the active token enters Move mode, spends five feet per traversed grid square, may move repeatedly before or after attacking, sees both total and remaining movement in the combat bubble, and resets to base Speed at the next turn without carrying unused distance forward. Dash is again a deliberate action that adds one full Speed allowance even after partial movement, disables attacking, and never triggers automatically. Attacks spend the action but no longer advance initiative, allowing remaining normal movement and requiring the player to press End Turn. Added normal, advantage, and disadvantage d20 resolution with source cancellation plus an initial two-die cinematic that dims the rejected result, and corrected all weapon damage to add the same Strength, Dexterity, or Finesse modifier used for the attack while continuing to double only dice on critical hits. Added focused resource, split-movement, Dash, roll-mode, cancellation, and universal-damage tests.
