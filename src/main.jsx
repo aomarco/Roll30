@@ -144,6 +144,7 @@ function App() {
     [drag, setDrag] = useState(null),
     [stat, setStat] = useState("hp"),
     [adjustment, setAdjustment] = useState(""),
+    [statMessage, setStatMessage] = useState(""),
     [battle, setBattle] = useState(INITIAL_DATA.battle || null),
     [attackMode, setAttackMode] = useState(false),
     [weaponMenuOpen, setWeaponMenuOpen] = useState(false),
@@ -220,6 +221,10 @@ function App() {
     localStorage.setItem("roll30-characters", JSON.stringify(characters));
   }, [characters]);
   useEffect(() => {
+    setStatMessage("");
+    setAdjustment("");
+  }, [selectedId]);
+  useEffect(() => {
     if (activeMapId && map)
       saveMapImage(activeMapId, map).catch(() =>
         setStorageError("The uploaded image could not be saved locally."),
@@ -252,6 +257,28 @@ function App() {
   const selected = tokens.find((t) => t.id === selectedId),
     activeId = battle?.order[battle.turn],
     active = tokens.find((t) => t.id === activeId);
+  const adjustSelectedStat = (event) => {
+    event.preventDefault();
+    const amount = Number(adjustment.trim());
+    if (!selected || !Number.isFinite(amount) || !adjustment.trim()) {
+      setStatMessage("Enter an adjustment such as +3 or -4.");
+      return;
+    }
+    const currentValue = Number(selected[stat]);
+    const nextValue = Math.max(
+      0,
+      (Number.isFinite(currentValue) ? currentValue : 0) + amount,
+    );
+    setTokens((items) =>
+      items.map((token) =>
+        token.id === selected.id ? { ...token, [stat]: nextValue } : token,
+      ),
+    );
+    setStatMessage(
+      `${stat === "maxHp" ? "MAX HP" : stat.toUpperCase()} is now ${nextValue}${stat === "speed" ? " ft" : ""}.`,
+    );
+    setAdjustment("");
+  };
   const openMap = async (entry) => {
     const data = entry.data || {};
     setActiveMapId(entry.id);
@@ -809,13 +836,12 @@ function App() {
             </div>
           </section>
 
-          {mode === "battle" && (
-            <Combat
-              battle={battle}
-              tokens={tokens}
-              active={active}
-              activeId={activeId}
-            />
+          {mode === "battle" && !battle && (
+            <p className="setup-guidance">
+              {tokens.length < 2
+                ? "Add at least two tokens to enable Battle."
+                : "Arrange the scene, then switch to Battle to roll initiative."}
+            </p>
           )}
         </aside>
         <section className="board-column">
@@ -864,6 +890,9 @@ function App() {
               </div>
             )}
             {mode === "battle" && <div className="grid" />}
+            {battle && (
+              <TurnOrder battle={battle} tokens={tokens} activeId={activeId} />
+            )}
             {drag?.battle && (
               <>
                 <div
@@ -1142,22 +1171,7 @@ function App() {
                       />
                     </i>
                   </div>
-                  <form
-                    className="calculator"
-                    onSubmit={(e) => {
-                      e.preventDefault();
-                      const n = Number(adjustment);
-                      if (Number.isFinite(n) && adjustment.trim())
-                        setTokens((x) =>
-                          x.map((t) =>
-                            t.id === selectedId
-                              ? { ...t, [stat]: Math.max(0, t[stat] + n) }
-                              : t,
-                          ),
-                        );
-                      setAdjustment("");
-                    }}
-                  >
+                  <form className="calculator" onSubmit={adjustSelectedStat}>
                     <label>
                       Adjust stat
                       <select
@@ -1174,11 +1188,20 @@ function App() {
                       Amount
                       <input
                         value={adjustment}
-                        onChange={(e) => setAdjustment(e.target.value)}
+                        onChange={(e) => {
+                          setAdjustment(e.target.value);
+                          setStatMessage("");
+                        }}
                         placeholder="e.g. +5 or -5"
+                        inputMode="numeric"
                       />
                     </label>
-                    <button className="button">Apply</button>
+                    <button className="button" type="submit">
+                      Apply adjustment
+                    </button>
+                    {statMessage && (
+                      <output className="stat-feedback">{statMessage}</output>
+                    )}
                   </form>
                 </>
               )}
@@ -1207,32 +1230,12 @@ function App() {
     </div>
   );
 }
-function Combat({ battle, tokens, active, activeId }) {
-  if (!battle)
-    return (
-      <section className="combat-panel">
-        <p>SETUP MODE</p>
-        <h1>Prepare the encounter</h1>
-        <span>
-          {tokens.length < 2
-            ? "Add at least two tokens to begin."
-            : "Arrange tokens, then switch to Battle to roll initiative."}
-        </span>
-      </section>
-    );
+function TurnOrder({ battle, tokens, activeId }) {
   return (
-    <section className="combat-panel">
-      <div className="combat-heading">
-        <div>
-          <p>{battle.complete ? "BATTLE COMPLETE" : `ROUND ${battle.round}`}</p>
-          <h1>
-            {battle.complete ? "Battle finished" : `${active?.name}'s turn`}
-          </h1>
-        </div>
-        {!battle.complete && <span className="turn-dot" />}
-      </div>
-      <ol className="initiative">
-        {battle.order.map((id, i) => {
+    <aside className="turn-order-float">
+      <strong>Turn Order</strong>
+      <ol>
+        {battle.order.map((id) => {
           const t = tokens.find((x) => x.id === id);
           return (
             t && (
@@ -1243,27 +1246,14 @@ function Combat({ battle, tokens, active, activeId }) {
                   (t.hp <= 0 ? "down" : "")
                 }
               >
-                <span>{i + 1}</span>
-                <strong>{t.name}</strong>
-                <em>{battle.initiatives[id]}</em>
+                <span>{t.name}</span>
+                <em>({battle.initiatives[id]})</em>
               </li>
             )
           );
         })}
       </ol>
-      <p className="combat-log">{battle.log}</p>
-      {battle.complete ? (
-        <span className="attack-help">
-          Return to Setup, adjust the scene, then choose Battle again.
-        </span>
-      ) : (
-        <>
-          <span className="attack-help">
-            Drag the active token to move, then use the icons beside it.
-          </span>
-        </>
-      )}
-    </section>
+    </aside>
   );
 }
 createRoot(document.getElementById("root")).render(<App />);

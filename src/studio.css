@@ -180,6 +180,18 @@
   white-space: nowrap;
 }
 
+.setup-guidance {
+  flex: 0 0 auto;
+  margin: 0;
+  padding: 13px 14px;
+  border-left: 2px solid #d9825c;
+  border-radius: 0 9px 9px 0;
+  background: linear-gradient(90deg, #d97b5517, transparent);
+  color: #929398;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
 .token-roster strong {
   font-size: 12px;
 }
@@ -231,6 +243,124 @@
 
 .board {
   border-radius: 16px !important;
+}
+
+/* Tokens keep their geometric center while the generic press animation runs. */
+.token:active,
+.token.dragging {
+  transform: translate(-50%, -50%) !important;
+}
+
+.turn-order-float {
+  position: absolute;
+  z-index: 8;
+  top: 16px;
+  left: 16px;
+  width: min(190px, calc(100% - 32px));
+  max-height: 190px;
+  padding: 12px;
+  border: 1px solid #ffffff1c;
+  border-radius: 13px;
+  background: linear-gradient(145deg, #22242aec, #17181dec);
+  box-shadow:
+    0 14px 32px #0009,
+    inset 0 1px #ffffff0d;
+  backdrop-filter: blur(12px);
+  pointer-events: none;
+  overflow: hidden;
+  animation: weapon-menu-arrive 300ms var(--motion-swish) both;
+}
+
+.turn-order-float > strong {
+  display: block;
+  margin-bottom: 8px;
+  color: #f0ece7;
+  font:
+    600 13px Fraunces,
+    serif;
+}
+
+.turn-order-float ol {
+  max-height: 142px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow-y: auto;
+  display: grid;
+  gap: 3px;
+}
+
+.turn-order-float li {
+  min-width: 0;
+  padding: 6px 7px;
+  border-radius: 7px;
+  color: #aaa9ae;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  font-size: 11px;
+  transition:
+    color 0.2s,
+    background 0.2s,
+    box-shadow 0.2s,
+    transform 0.2s;
+}
+
+.turn-order-float li span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.turn-order-float li em {
+  color: #7f8188;
+  font: 10px "DM Mono";
+  font-style: normal;
+}
+
+.turn-order-float li.current {
+  color: #fff6ef;
+  background: linear-gradient(90deg, #e184594d, #e184590a);
+  box-shadow:
+    inset 2px 0 #f1a277,
+    0 0 18px #d66e4130;
+  transform: translateX(2px);
+  animation: current-turn-glow 1.5s ease-in-out infinite alternate;
+}
+
+.turn-order-float li.current em {
+  color: #ffc09d;
+}
+.turn-order-float li.down {
+  opacity: 0.42;
+  text-decoration: line-through;
+}
+
+@keyframes current-turn-glow {
+  from {
+    box-shadow:
+      inset 2px 0 #f1a277,
+      0 0 10px #d66e411d;
+  }
+  to {
+    box-shadow:
+      inset 2px 0 #ffd0ad,
+      0 0 24px #e17d4f55;
+  }
+}
+
+.stat-feedback {
+  grid-column: 1 / -1;
+  min-height: 34px;
+  padding: 9px 10px;
+  border: 1px solid #77b77b40;
+  border-radius: 8px;
+  background: #35523938;
+  color: #a8dca9;
+  font: 10px/1.4 "DM Mono";
+  animation: toast-drop 320ms var(--motion-snap) both;
 }
 
 .no-selection > span {
