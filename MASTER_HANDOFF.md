@@ -959,3 +959,5 @@ A combat or inventory feature is complete only when:
 - The change is summarized under **To Be Updated** until the next full handoff refresh.
 
 ## To Be Updated
+
+- **Prevented the application from crashing on its home page when no battle is active.** The shared movement helper now treats a missing turn-resource object as zero available movement instead of attempting to read `movementSpent` from `null`. This restores initial React rendering for clean sessions and normal home-page loads. A regression test now verifies that both movement-total helpers safely accept a missing active turn.

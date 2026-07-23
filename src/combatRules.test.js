@@ -18,6 +18,11 @@ test("turn resources begin fresh at the token's speed", () => {
   assert.equal(resources.bonusActionSpent, false);
 });
 
+test("movement helpers are safe before a battle has an active turn", () => {
+  assert.equal(movementMaximum(null), 0);
+  assert.equal(movementRemaining(null), 0);
+});
+
 test("movement is a currency that can be spent in separate moves", () => {
   const first = spendMovement(createTurnResources(30), 10);
   const second = spendMovement(first, 15);

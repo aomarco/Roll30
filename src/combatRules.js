@@ -18,6 +18,7 @@ export function movementMaximum(resources) {
 }
 
 export function movementRemaining(resources) {
+  if (!resources) return 0;
   return Math.max(0, movementMaximum(resources) - resources.movementSpent);
 }
 
