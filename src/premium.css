@@ -490,11 +490,17 @@ main {
   font-synthesis: none;
 }
 .map-actions {
+  width: min(580px, calc(100% - 36px)) !important;
+  padding: 18px !important;
   border-color: #ffffff20 !important;
   background: linear-gradient(145deg, #292b32f8, #17181df8) !important;
   box-shadow:
     0 20px 50px #000b,
     inset 0 1px #fff1 !important;
+}
+.restart-battle {
+  margin-top: 4px;
+  animation: choice-lock 360ms var(--motion-snap) both;
 }
 .combat-actions-row > button {
   transition:

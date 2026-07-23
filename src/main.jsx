@@ -505,6 +505,7 @@ function App() {
           cy = Math.max(0, Math.floor(((t.y / 100) * rect.height) / gridSize));
         return {
           ...t,
+          hp: t.maxHp,
           x: ((cx * gridSize + gridSize / 2) / rect.width) * 100,
           y: ((cy * gridSize + gridSize / 2) / rect.height) * 100,
           initiative: Math.floor(Math.random() * 20) + 1,
@@ -1167,7 +1168,15 @@ function Combat({ battle, tokens, active, activeId, start }) {
         })}
       </ol>
       <p className="combat-log">{battle.log}</p>
-      {!battle.complete && (
+      {battle.complete ? (
+        <button
+          className="start-battle restart-battle"
+          onClick={start}
+          disabled={tokens.length < 2}
+        >
+          <Swords size={16} /> Start again
+        </button>
+      ) : (
         <>
           <span className="attack-help">
             Drag the active token to move, then use the icons beside it.
