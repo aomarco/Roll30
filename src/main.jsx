@@ -4,6 +4,7 @@ import {
   Grid3X3,
   ImageUp,
   Plus,
+  Settings2,
   SkipForward,
   Swords,
   Trash2,
@@ -14,10 +15,12 @@ import "./movement.css";
 import "./premium.css";
 import "./motion.css";
 import "./layout.css";
+import "./studio.css";
 import { patternCells } from "./patterns.js";
 import CharactersPage from "./CharactersPage.jsx";
 import { deriveCharacter } from "./characterRules.js";
 import { resolveWeaponAttack, WEAPONS } from "./weapons.js";
+import MapSettingsPage from "./MapSettingsPage.jsx";
 
 const makeToken = (id) => ({
   id,
@@ -155,6 +158,8 @@ function App() {
       }
     }),
     [showCharacters, setShowCharacters] = useState(false),
+    [showSettings, setShowSettings] = useState(false),
+    [settingsReturn, setSettingsReturn] = useState("map"),
     [selectedCharacterId, setSelectedCharacterId] = useState(""),
     [damagePopups, setDamagePopups] = useState([]);
   const selectedWeapon =
@@ -234,11 +239,16 @@ function App() {
     setMaps((items) =>
       items.map((item) =>
         item.id === activeMapId
-          ? { ...item, data: { map, noMap, mode, gridSize, tokens, battle } }
+          ? {
+              ...item,
+              name: mapName,
+              mode,
+              data: { map, noMap, mode, gridSize, tokens, battle },
+            }
           : item,
       ),
     );
-  }, [map, noMap, mode, gridSize, tokens, battle, activeMapId]);
+  }, [map, noMap, mode, gridSize, tokens, battle, activeMapId, mapName]);
   const selected = tokens.find((t) => t.id === selectedId),
     activeId = battle?.order[battle.turn],
     active = tokens.find((t) => t.id === activeId);
@@ -338,6 +348,18 @@ function App() {
                 <button className="map-open" onClick={() => openMap(entry)}>
                   <strong>{entry.name}</strong>
                   <span>{entry.mode === "battle" ? "Battle" : "Play"}</span>
+                </button>
+                <button
+                  className="map-settings"
+                  onClick={async () => {
+                    await openMap(entry);
+                    setSettingsReturn("home");
+                    setShowSettings(true);
+                  }}
+                  aria-label={`Settings for ${entry.name}`}
+                  title="Map settings"
+                >
+                  <Settings2 size={16} />
                 </button>
                 <button
                   className="map-delete"
@@ -658,6 +680,37 @@ function App() {
         onBack={() => setShowCharacters(false)}
       />
     );
+  if (showSettings && activeMapId)
+    return (
+      <MapSettingsPage
+        name={mapName}
+        setName={setMapName}
+        mode={mode}
+        setMode={(nextMode) => {
+          setMode(nextMode);
+          if (nextMode !== "battle") reset();
+        }}
+        map={map}
+        noMap={noMap}
+        gridSize={gridSize}
+        setGridSize={setGridSize}
+        onUpload={(image) => {
+          setMap(image);
+          setNoMap(false);
+        }}
+        onNoMap={() => {
+          setMap(null);
+          setNoMap(true);
+          deleteMapImage(activeMapId).catch(() =>
+            setStorageError("The old map image could not be cleared."),
+          );
+        }}
+        onBack={() => {
+          setShowSettings(false);
+          if (settingsReturn === "home") setActiveMapId(null);
+        }}
+      />
+    );
   if (!activeMapId) return home;
   return (
     <div className="app">
@@ -669,6 +722,15 @@ function App() {
           {mapName || "Untitled map"} · {mode === "battle" ? "Battle" : "Play"}
         </span>
         <button
+          className="button header-settings"
+          onClick={() => {
+            setSettingsReturn("map");
+            setShowSettings(true);
+          }}
+        >
+          <Settings2 size={16} /> Map settings
+        </button>
+        <button
           className="button home-button"
           onClick={() => setActiveMapId(null)}
         >
@@ -677,38 +739,38 @@ function App() {
       </header>
       {storageError && <div className="storage-error">{storageError}</div>}
       <main>
-        <section className="board-column">
-          <div className="controls">
-            <label className="button">
-              <ImageUp size={17} /> Upload image
-              <input
-                type="file"
-                accept="image/*"
-                onChange={(e) =>
-                  e.target.files?.[0] &&
-                  (() => {
-                    const reader = new FileReader();
-                    reader.onload = () => {
-                      setMap(reader.result);
-                      setNoMap(false);
-                    };
-                    reader.readAsDataURL(e.target.files[0]);
-                  })()
-                }
-              />
-            </label>
-            <button
-              className="button"
-              onClick={() => {
-                setMap(null);
-                setNoMap(true);
-              }}
-            >
-              No map
-            </button>
-            <button className="button" onClick={add}>
-              <Plus size={17} /> Add token
-            </button>
+        <aside className="encounter-sidebar">
+          <div className="sidebar-heading">
+            <p>{mode === "battle" ? "ENCOUNTER" : "MAP TOOLS"}</p>
+            <h1>
+              {mode === "battle"
+                ? battle
+                  ? "Battle running"
+                  : "Build the scene"
+                : "Play setup"}
+            </h1>
+          </div>
+
+          {mode === "battle" && (
+            <div className="encounter-switch" aria-label="Encounter mode">
+              <button className={!battle ? "active" : ""} onClick={reset}>
+                Setup
+              </button>
+              <button
+                className={battle ? "active" : ""}
+                onClick={() => (!battle || battle.complete) && start()}
+                disabled={tokens.length < 2}
+              >
+                Battle
+              </button>
+            </div>
+          )}
+
+          <section className="token-library">
+            <div className="sidebar-section-title">
+              <span>TOKENS</span>
+              <em>{tokens.length}</em>
+            </div>
             <select
               className="character-token-select"
               value={selectedCharacterId}
@@ -721,22 +783,54 @@ function App() {
                 </option>
               ))}
             </select>
+            <button className="button sidebar-add-token" onClick={add}>
+              <Plus size={17} /> Add to map
+            </button>
+            <div className="token-roster">
+              {tokens.map((token) => (
+                <button
+                  key={token.id}
+                  className={selectedId === token.id ? "active" : ""}
+                  onClick={() => setSelectedId(token.id)}
+                >
+                  <i style={{ background: token.color }}>
+                    {token.name.slice(0, 2).toUpperCase()}
+                  </i>
+                  <span>
+                    <strong>{token.name}</strong>
+                    <small>
+                      {mode === "battle"
+                        ? `${token.hp}/${token.maxHp} HP`
+                        : "On map"}
+                    </small>
+                  </span>
+                </button>
+              ))}
+            </div>
+          </section>
+
+          {mode === "battle" && (
+            <Combat
+              battle={battle}
+              tokens={tokens}
+              active={active}
+              activeId={activeId}
+            />
+          )}
+        </aside>
+        <section className="board-column">
+          <div className="board-statusbar">
+            <span>
+              {battle && !battle.complete
+                ? `Round ${battle.round} · ${active?.name}'s turn`
+                : mode === "battle"
+                  ? "Setup mode · arrange your encounter"
+                  : "Play mode · free movement"}
+            </span>
             {mode === "battle" && (
-              <>
-                <span className="battle-grid">
-                  <Grid3X3 size={17} /> 5 ft squares
-                </span>
-                <label className="grid-size">
-                  Grid size{" "}
-                  <input
-                    type="range"
-                    min="24"
-                    max="80"
-                    value={gridSize}
-                    onChange={(e) => setGridSize(+e.target.value)}
-                  />
-                </label>
-              </>
+              <em>
+                <Grid3X3 size={14} /> 5 ft grid
+              </em>
             )}
           </div>
           <div
@@ -754,8 +848,19 @@ function App() {
             {!map && !noMap && (
               <div className="empty-message">
                 <ImageUp size={28} />
-                <strong>Upload a map image to begin</strong>
-                <span>You can add and move tokens at any time.</span>
+                <strong>Choose a map background</strong>
+                <span>
+                  Upload artwork or use a white canvas in Map Settings.
+                </span>
+                <button
+                  className="button"
+                  onClick={() => {
+                    setSettingsReturn("map");
+                    setShowSettings(true);
+                  }}
+                >
+                  <Settings2 size={16} /> Open map settings
+                </button>
               </div>
             )}
             {mode === "battle" && <div className="grid" />}
@@ -983,15 +1088,6 @@ function App() {
           </div>
         </section>
         <aside className="inspector">
-          {mode === "battle" && (
-            <Combat
-              battle={battle}
-              tokens={tokens}
-              active={active}
-              activeId={activeId}
-              start={start}
-            />
-          )}{" "}
           {selected ? (
             <>
               <div>
@@ -1100,10 +1196,10 @@ function App() {
           ) : (
             <div className="no-selection">
               <p>NO TOKEN SELECTED</p>
-              <h1>Add a token</h1>
-              <button className="button" onClick={add}>
-                <Plus size={17} /> Add token
-              </button>
+              <h1>Select a token</h1>
+              <span>
+                Choose one from the map or the token list to edit its details.
+              </span>
             </div>
           )}
         </aside>
@@ -1111,20 +1207,17 @@ function App() {
     </div>
   );
 }
-function Combat({ battle, tokens, active, activeId, start }) {
+function Combat({ battle, tokens, active, activeId }) {
   if (!battle)
     return (
       <section className="combat-panel">
-        <p>COMBAT</p>
-        <h1>Ready to battle</h1>
-        <span>Roll initiative and begin turn order.</span>
-        <button
-          className="start-battle"
-          onClick={start}
-          disabled={tokens.length < 2}
-        >
-          <Swords size={16} /> Start battle
-        </button>
+        <p>SETUP MODE</p>
+        <h1>Prepare the encounter</h1>
+        <span>
+          {tokens.length < 2
+            ? "Add at least two tokens to begin."
+            : "Arrange tokens, then switch to Battle to roll initiative."}
+        </span>
       </section>
     );
   return (
@@ -1160,13 +1253,9 @@ function Combat({ battle, tokens, active, activeId, start }) {
       </ol>
       <p className="combat-log">{battle.log}</p>
       {battle.complete ? (
-        <button
-          className="start-battle restart-battle"
-          onClick={start}
-          disabled={tokens.length < 2}
-        >
-          <Swords size={16} /> Start again
-        </button>
+        <span className="attack-help">
+          Return to Setup, adjust the scene, then choose Battle again.
+        </span>
       ) : (
         <>
           <span className="attack-help">
