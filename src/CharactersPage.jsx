@@ -1,4 +1,5 @@
-import { Plus, Shield, Trash2 } from "lucide-react";
+import { useState } from "react";
+import { Backpack, Plus, Shield, Trash2, X } from "lucide-react";
 import {
   ABILITIES,
   POINT_BUY_TOTAL,
@@ -8,8 +9,10 @@ import {
   newCharacter,
   pointsSpent,
 } from "./characterRules.js";
+import { WEAPONS } from "./weapons.js";
 
 export default function CharactersPage({ characters, setCharacters, onBack }) {
+  const [itemPickerOpen, setItemPickerOpen] = useState(false);
   const selected = characters[0] || null;
   const update = (patch) =>
     setCharacters((items) =>
@@ -25,6 +28,14 @@ export default function CharactersPage({ characters, setCharacters, onBack }) {
   const remaining = selected
     ? POINT_BUY_TOTAL - pointsSpent(selected.abilities)
     : POINT_BUY_TOTAL;
+  const inventory = selected?.inventory || [];
+  const addItem = (weaponId) => {
+    if (!selected || inventory.includes(weaponId)) return;
+    update({ inventory: [...inventory, weaponId] });
+    setItemPickerOpen(false);
+  };
+  const removeItem = (weaponId) =>
+    update({ inventory: inventory.filter((id) => id !== weaponId) });
 
   return (
     <div className="characters-page">
@@ -175,6 +186,87 @@ export default function CharactersPage({ characters, setCharacters, onBack }) {
                 <small>Human walking speed</small>
               </div>
             </div>
+            <section className="inventory-section">
+              <div className="inventory-heading">
+                <div>
+                  <p>INVENTORY</p>
+                  <h2>Weapons and equipment</h2>
+                </div>
+                <div className="inventory-add-wrap">
+                  <button
+                    className="button inventory-add"
+                    onClick={() => setItemPickerOpen((open) => !open)}
+                    aria-expanded={itemPickerOpen}
+                  >
+                    <Plus size={16} /> Add Item
+                  </button>
+                  {itemPickerOpen && (
+                    <div className="item-picker">
+                      <div className="item-picker-title">
+                        <span>ADD A WEAPON</span>
+                        <button
+                          onClick={() => setItemPickerOpen(false)}
+                          aria-label="Close item list"
+                        >
+                          <X size={14} />
+                        </button>
+                      </div>
+                      {WEAPONS.map((weapon) => (
+                        <button
+                          key={weapon.id}
+                          className="item-picker-option"
+                          onClick={() => addItem(weapon.id)}
+                          disabled={inventory.includes(weapon.id)}
+                        >
+                          <span>
+                            <strong>{weapon.name}</strong>
+                            <small>
+                              {weapon.category} · {weapon.rangeFeet} ft
+                            </small>
+                          </span>
+                          <em>{weapon.damageDice}</em>
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+              {inventory.length ? (
+                <div className="inventory-grid">
+                  {inventory.map((weaponId) => {
+                    const weapon = WEAPONS.find((item) => item.id === weaponId);
+                    if (!weapon) return null;
+                    return (
+                      <article className="inventory-item" key={weapon.id}>
+                        <span className="inventory-item-icon">
+                          <Backpack size={17} />
+                        </span>
+                        <div>
+                          <strong>{weapon.name}</strong>
+                          <small>
+                            {weapon.damageDice}{" "}
+                            {weapon.damageType.toLowerCase()} ·{" "}
+                            {weapon.rangeFeet} ft
+                          </small>
+                        </div>
+                        <button
+                          onClick={() => removeItem(weapon.id)}
+                          aria-label={`Remove ${weapon.name}`}
+                          title="Remove item"
+                        >
+                          <Trash2 size={14} />
+                        </button>
+                      </article>
+                    );
+                  })}
+                </div>
+              ) : (
+                <div className="inventory-empty">
+                  <Backpack size={21} />
+                  <span>No items yet. Add a weapon to get started.</span>
+                </div>
+              )}
+            </section>
             <p className="rules-note">
               HP uses the Fighter hit die and Constitution modifier. Species
               only affects it indirectly here through Human’s +1 Constitution.

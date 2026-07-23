@@ -35,6 +35,7 @@ const makeToken = (id) => ({
   strength: 10,
   dexterity: 10,
   level: 1,
+  inventory: [],
   color: ["#c96d58", "#769b79", "#7e83ba", "#bd9a52"][id % 4],
 });
 const cellsBetween = (a, b) => {
@@ -133,7 +134,7 @@ function App() {
   const [maps, setMaps] = useState(INITIAL_MAPS),
     [activeMapId, setActiveMapId] = useState(null),
     [mapName, setMapName] = useState(""),
-    [createMode, setCreateMode] = useState("play"),
+    [createMode, setCreateMode] = useState("battle"),
     [map, setMap] = useState(INITIAL_DATA.map || null),
     [noMap, setNoMap] = useState(!!INITIAL_DATA.noMap),
     [mode, setMode] = useState(
@@ -165,7 +166,7 @@ function App() {
     [selectedCharacterId, setSelectedCharacterId] = useState(""),
     [damagePopups, setDamagePopups] = useState([]);
   const selectedWeapon =
-    WEAPONS.find((weapon) => weapon.id === selectedWeaponId) || WEAPONS[0];
+    WEAPONS.find((weapon) => weapon.id === selectedWeaponId) || null;
   const boardRef = useRef(null);
   useEffect(() => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -258,6 +259,18 @@ function App() {
   const selected = tokens.find((t) => t.id === selectedId),
     activeId = battle?.order[battle.turn],
     active = tokens.find((t) => t.id === activeId);
+  const availableWeapons = active
+    ? WEAPONS.filter((weapon) => (active.inventory || []).includes(weapon.id))
+    : [];
+  useEffect(() => {
+    if (!active) return;
+    const weaponIds = active.inventory || [];
+    setSelectedWeaponId((current) =>
+      weaponIds.includes(current) ? current : weaponIds[0] || "",
+    );
+    setAttackMode(false);
+    setWeaponMenuOpen(false);
+  }, [activeId]);
   const adjustSelectedStat = (event) => {
     event.preventDefault();
     const amount = Number(adjustment.trim());
@@ -293,6 +306,20 @@ function App() {
       ),
     );
   };
+  const toggleSelectedWeapon = (weaponId) => {
+    if (!selected) return;
+    const inventory = selected.inventory || [];
+    const nextInventory = inventory.includes(weaponId)
+      ? inventory.filter((id) => id !== weaponId)
+      : [...inventory, weaponId];
+    setTokens((items) =>
+      items.map((token) =>
+        token.id === selected.id
+          ? { ...token, inventory: nextInventory }
+          : token,
+      ),
+    );
+  };
   const openMap = async (entry) => {
     const data = entry.data || {};
     setActiveMapId(entry.id);
@@ -302,7 +329,7 @@ function App() {
     setMode(entry.mode || data.mode || "play");
     setGridSize(data.gridSize || 48);
     setTokens(data.tokens || []);
-    setBattle(data.battle || null);
+    setBattle(null);
     setSelectedId(null);
     if (!data.map && data.hasImage) {
       try {
@@ -548,6 +575,7 @@ function App() {
           strength: derived.finalAbilities.str,
           dexterity: derived.finalAbilities.dex,
           level: character.level,
+          inventory: [...(character.inventory || [])],
           characterId: character.id,
         }
       : makeToken(Date.now());
@@ -610,6 +638,7 @@ function App() {
     setWeaponMenuOpen(false);
   };
   const attack = (id) => {
+    if (!selectedWeapon) return;
     const target = tokens.find((t) => t.id === id);
     const rect = boardRef.current?.getBoundingClientRect();
     const origin = rect && active ? cell(active, rect) : null;
@@ -708,7 +737,8 @@ function App() {
   };
   const canAttackTarget = (t) => {
     const rect = boardRef.current?.getBoundingClientRect();
-    if (!rect || !active || t.id === active.id || t.hp <= 0) return false;
+    if (!rect || !active || !selectedWeapon || t.id === active.id || t.hp <= 0)
+      return false;
     const a = cell(active, rect),
       b = cell(t, rect);
     return patternCells(
@@ -990,7 +1020,7 @@ function App() {
                       <small>d20 + ability + proficiency</small>
                     </div>
                     <div className="weapon-grid">
-                      {WEAPONS.map((weapon) => (
+                      {availableWeapons.map((weapon) => (
                         <button
                           key={weapon.id}
                           className={
@@ -1017,7 +1047,11 @@ function App() {
                 <div className="combat-actions-row">
                   <button
                     className={attackMode || weaponMenuOpen ? "armed" : ""}
-                    disabled={battle.attacked || battle.dashed}
+                    disabled={
+                      battle.attacked ||
+                      battle.dashed ||
+                      !availableWeapons.length
+                    }
                     onPointerDown={(e) => e.stopPropagation()}
                     onClick={() => {
                       setWeaponMenuOpen((value) => !value);
@@ -1031,7 +1065,9 @@ function App() {
                     <span>
                       <strong>Attack</strong>
                       <small>
-                        {selectedWeapon.name} · {selectedWeapon.damageDice}
+                        {selectedWeapon
+                          ? `${selectedWeapon.name} · ${selectedWeapon.damageDice}`
+                          : "No weapons equipped"}
                       </small>
                     </span>
                   </button>
@@ -1192,6 +1228,32 @@ function App() {
                           />
                         </label>
                       ))}
+                    </div>
+                    <div className="quick-inventory">
+                      <div className="quick-inventory-heading">
+                        <p>QUICK INVENTORY</p>
+                        <span>Choose this token's attacks.</span>
+                      </div>
+                      <div className="quick-weapon-list">
+                        {WEAPONS.map((weapon) => {
+                          const equipped = (selected.inventory || []).includes(
+                            weapon.id,
+                          );
+                          return (
+                            <button
+                              key={weapon.id}
+                              className={equipped ? "equipped" : ""}
+                              onClick={() => toggleSelectedWeapon(weapon.id)}
+                            >
+                              <span>
+                                <strong>{weapon.name}</strong>
+                                <small>{weapon.damageDice}</small>
+                              </span>
+                              <em>{equipped ? "Remove" : "Add"}</em>
+                            </button>
+                          );
+                        })}
+                      </div>
                     </div>
                   </section>
                 ) : (

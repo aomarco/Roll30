@@ -300,6 +300,90 @@
   outline: 0;
 }
 
+.quick-inventory {
+  margin-top: 4px;
+  padding-top: 15px;
+  border-top: 1px solid #ffffff0e;
+  display: grid;
+  gap: 9px;
+}
+
+.quick-inventory-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.quick-inventory-heading p {
+  margin: 0 !important;
+}
+
+.quick-inventory-heading span {
+  color: #777980;
+  font-size: 9px;
+}
+
+.quick-weapon-list {
+  display: grid;
+  gap: 5px;
+}
+
+.quick-weapon-list > button {
+  width: 100%;
+  min-height: 43px;
+  padding: 7px 9px;
+  border: 1px solid #ffffff0e;
+  border-radius: 9px;
+  background: #202126;
+  color: #d8d5d1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.quick-weapon-list > button:hover {
+  border-color: #d9825c52;
+  background: #302a2b;
+}
+
+.quick-weapon-list > button.equipped {
+  border-color: #df8a5e5c;
+  background: linear-gradient(90deg, #db7c5523, #ffffff04);
+}
+
+.quick-weapon-list button > span {
+  min-width: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+}
+
+.quick-weapon-list strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 11px;
+}
+
+.quick-weapon-list small {
+  color: #e6a17c;
+  font: 9px "DM Mono";
+}
+
+.quick-weapon-list em {
+  color: #84868c;
+  font: 9px "DM Mono";
+  font-style: normal;
+}
+
+.quick-weapon-list .equipped em {
+  color: #efa47c;
+}
+
 .turn-order-float {
   position: absolute;
   z-index: 8;
@@ -410,6 +494,228 @@
   color: #a8dca9;
   font: 10px/1.4 "DM Mono";
   animation: toast-drop 320ms var(--motion-snap) both;
+}
+
+/* Character inventory */
+.inventory-section {
+  position: relative;
+  padding-top: 22px;
+  border-top: 1px solid #ffffff10;
+  display: grid;
+  gap: 14px;
+}
+
+.inventory-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.inventory-heading h2 {
+  margin: 4px 0 0;
+  font:
+    600 20px Fraunces,
+    serif;
+}
+
+.inventory-add-wrap {
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.inventory-add {
+  border-color: #d9845c55 !important;
+  background: linear-gradient(145deg, #3b302f, #2b292c) !important;
+}
+
+.item-picker {
+  position: absolute;
+  z-index: 20;
+  right: 0;
+  top: calc(100% + 9px);
+  width: min(330px, calc(100vw - 44px));
+  max-height: 340px;
+  padding: 10px;
+  border: 1px solid #e18b6138;
+  border-radius: 14px;
+  background: linear-gradient(145deg, #25262cec, #17181dec);
+  box-shadow:
+    0 20px 48px #000b,
+    inset 0 1px #ffffff0e;
+  backdrop-filter: blur(14px);
+  overflow-y: auto;
+  animation: weapon-menu-arrive 260ms var(--motion-swish) both;
+}
+
+.item-picker-title {
+  padding: 3px 4px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.item-picker-title > span {
+  color: #e68e65;
+  font: 700 9px "DM Mono";
+  letter-spacing: 1px;
+}
+
+.item-picker-title > button {
+  width: 28px;
+  height: 28px;
+  border: 1px solid #ffffff10;
+  border-radius: 8px;
+  background: #ffffff07;
+  color: #a8a8ad;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+
+.item-picker-option {
+  width: 100%;
+  min-height: 54px;
+  padding: 9px 10px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: transparent;
+  color: #e9e5df;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.item-picker-option:hover:not(:disabled) {
+  border-color: #df8a5e52;
+  background: linear-gradient(90deg, #dc7e5722, #ffffff05);
+}
+
+.item-picker-option:disabled {
+  opacity: 0.38;
+  cursor: not-allowed;
+}
+
+.item-picker-option > span {
+  min-width: 0;
+  display: grid;
+  gap: 4px;
+}
+
+.item-picker-option strong {
+  font-size: 12px;
+}
+.item-picker-option small {
+  color: #85878d;
+  font-size: 9px;
+}
+.item-picker-option em {
+  color: #ffc09b;
+  font: 700 11px "DM Mono";
+  font-style: normal;
+}
+
+.inventory-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.inventory-item {
+  min-width: 0;
+  min-height: 66px;
+  padding: 10px;
+  border: 1px solid #ffffff10;
+  border-radius: 11px;
+  background: linear-gradient(145deg, #303137, #28292e);
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr) 28px;
+  align-items: center;
+  gap: 9px;
+  transition:
+    transform 0.2s var(--motion-swish),
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+
+.inventory-item:hover {
+  transform: translateY(-3px);
+  border-color: #df8a5e42;
+  box-shadow: 0 10px 24px #0004;
+}
+
+.inventory-item-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  background: #201f23;
+  color: #e99a71;
+  display: grid;
+  place-items: center;
+}
+
+.inventory-item > div {
+  min-width: 0;
+  display: grid;
+  gap: 4px;
+}
+
+.inventory-item strong,
+.inventory-item small {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.inventory-item strong {
+  font-size: 12px;
+}
+.inventory-item small {
+  color: #85878d;
+  font-size: 9px;
+}
+
+.inventory-item > button {
+  width: 28px;
+  height: 28px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: transparent;
+  color: #8b7a78;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+
+.inventory-item > button:hover {
+  border-color: #e16e6650;
+  background: #642f3238;
+  color: #ffaaa2;
+}
+
+.inventory-empty {
+  min-height: 72px;
+  padding: 14px;
+  border: 1px dashed #ffffff16;
+  border-radius: 11px;
+  color: #777980;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  font-size: 11px;
+}
+
+@media (max-width: 620px) {
+  .inventory-grid {
+    grid-template-columns: 1fr;
+  }
+  .inventory-heading {
+    align-items: center;
+  }
 }
 
 .no-selection > span {

@@ -7,7 +7,9 @@ import {
 } from "./characterRules.js";
 
 test("default character spends exactly 27 points", () => {
-  assert.equal(pointsSpent(newCharacter().abilities), 27);
+  const character = newCharacter();
+  assert.equal(pointsSpent(character.abilities), 27);
+  assert.deepEqual(character.inventory, []);
 });
 
 test("level 1 Human Fighter derives expected stats", () => {

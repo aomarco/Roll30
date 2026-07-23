@@ -44,6 +44,7 @@ export function newCharacter() {
     level: 1,
     species: "Human",
     background: "Soldier",
+    inventory: [],
     abilities: { str: 15, dex: 14, con: 13, int: 8, wis: 12, cha: 10 },
   };
 }
