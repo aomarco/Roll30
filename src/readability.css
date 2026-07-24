@@ -46,7 +46,7 @@ body {
 
 .character-list button span,
 .identity-grid label,
-.ability-heading > span,
+.ability-heading > div > span,
 .rules-note,
 .inventory-empty,
 .catalog-empty,

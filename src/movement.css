@@ -579,9 +579,14 @@
     600 20px Fraunces,
     serif;
 }
-.ability-heading > span {
+.ability-heading > div > span {
+  display: block;
+  margin-top: 2px;
   color: #8f9197;
   font-size: 11px;
+}
+.ability-heading .points-left {
+  flex: 0 0 auto;
 }
 .ability-grid {
   display: grid;

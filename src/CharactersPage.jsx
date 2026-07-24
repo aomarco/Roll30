@@ -143,10 +143,6 @@ export default function CharactersPage({ characters, setCharacters, onBack }) {
                 <p>CHARACTER SHEET</p>
                 <h1>{selected.name}</h1>
               </div>
-              <div className="points-left">
-                <strong>{remaining}</strong>
-                <span>POINTS LEFT</span>
-              </div>
             </div>
             <div className="identity-grid">
               <label>
@@ -200,8 +196,12 @@ export default function CharactersPage({ characters, setCharacters, onBack }) {
               <div>
                 <p>ABILITY SCORES</p>
                 <h2>27-point buy</h2>
+                <span>Human adds +1 to every purchased score.</span>
               </div>
-              <span>Human adds +1 to every purchased score.</span>
+              <div className="points-left">
+                <strong>{remaining}</strong>
+                <span>POINTS LEFT</span>
+              </div>
             </div>
             <div className="ability-grid">
               {ABILITIES.map((key) => {
