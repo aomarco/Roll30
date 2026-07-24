@@ -47,6 +47,10 @@ export function restoreBattleData(data, tokens) {
   return {
     ...data.battle,
     items: Array.isArray(data.battle.items) ? data.battle.items : [],
+    ammoSpent:
+      data.battle.ammoSpent && typeof data.battle.ammoSpent === "object"
+        ? data.battle.ammoSpent
+        : {},
     resources: normalizeTurnResources(
       data.battle.resources,
       active?.speed || 0,

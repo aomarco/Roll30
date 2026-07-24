@@ -1,7 +1,12 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { resolveWeaponAttack, WEAPONS, weaponModifier } from "./weapons.js";
+import {
+  AMMUNITION,
+  resolveWeaponAttack,
+  WEAPONS,
+  weaponModifier,
+} from "./weapons.js";
 
 const SRD_EQUIPMENT = JSON.parse(
   readFileSync(
@@ -10,7 +15,7 @@ const SRD_EQUIPMENT = JSON.parse(
   ),
 );
 
-test("the complete 23-weapon revision catalog is available", () => {
+test("the complete 36-weapon catalog is available", () => {
   assert.deepEqual(
     WEAPONS.map((weapon) => weapon.id),
     [
@@ -37,6 +42,19 @@ test("the complete 23-weapon revision catalog is available", () => {
       "maul",
       "pike",
       "whip",
+      "quarterstaff",
+      "spear",
+      "battleaxe",
+      "longsword",
+      "trident",
+      "warhammer",
+      "crossbow-light",
+      "shortbow",
+      "sling",
+      "blowgun",
+      "crossbow-hand",
+      "crossbow-heavy",
+      "longbow",
     ],
   );
   assert.ok(WEAPONS.every((weapon) => weapon.source === "5e-srd-2014"));
@@ -47,7 +65,12 @@ test("imported weapon records match their local SRD source", () => {
     const source = SRD_EQUIPMENT.find((item) => item.index === weapon.id);
     assert.ok(source, `${weapon.id} exists in the SRD equipment data`);
     assert.equal(weapon.name, source.name);
-    assert.equal(weapon.damageDice, source.damage.damage_dice);
+    // Versatile weapons are wielded two-handed in Roll30, so they carry the
+    // two-handed damage die from the source record.
+    const expectedDice = weapon.properties.includes("Versatile")
+      ? source.two_handed_damage.damage_dice
+      : source.damage.damage_dice;
+    assert.equal(weapon.damageDice, expectedDice);
     assert.equal(weapon.damageType, source.damage.damage_type.name);
     assert.equal(weapon.rangeFeet, source.range.normal);
     assert.deepEqual(
@@ -57,6 +80,23 @@ test("imported weapon records match their local SRD source", () => {
     assert.deepEqual(weapon.cost, source.cost);
     assert.equal(weapon.weight, source.weight);
   }
+});
+
+test("imported ammunition matches its local SRD source", () => {
+  for (const ammo of AMMUNITION) {
+    const source = SRD_EQUIPMENT.find((item) => item.index === ammo.id);
+    assert.ok(source, `${ammo.id} exists in the SRD equipment data`);
+    assert.equal(ammo.name, source.name);
+    assert.deepEqual(ammo.cost, source.cost);
+    assert.equal(ammo.weight, source.weight);
+    assert.equal(ammo.bundle, source.quantity);
+  }
+  assert.deepEqual(
+    WEAPONS.filter((weapon) => weapon.ammunition)
+      .map((weapon) => weapon.ammunition)
+      .every((id) => AMMUNITION.some((ammo) => ammo.id === id)),
+    true,
+  );
 });
 
 test("finesse uses the better ability modifier", () => {

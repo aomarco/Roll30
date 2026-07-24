@@ -24,11 +24,17 @@ import "./studio.css";
 import "./readability.css";
 import CharactersPage from "./CharactersPage.jsx";
 import { deriveCharacter } from "./characterRules.js";
-import { resolveWeaponAttack, weaponById, WEAPONS } from "./weapons.js";
+import {
+  ammunitionById,
+  resolveWeaponAttack,
+  weaponById,
+  WEAPONS,
+} from "./weapons.js";
 import {
   ITEM_TYPES,
   changeInventoryQuantity,
   filterCatalog,
+  inventoryQuantity,
   normalizeInventory,
 } from "./items.js";
 import MapSettingsPage from "./MapSettingsPage.jsx";
@@ -747,6 +753,7 @@ function App() {
       round: 1,
       resources: createTurnResources(order[0].speed),
       items: [],
+      ammoSpent: {},
       log: "Initiative rolled. Battle begins!",
     });
     setSelectedId(order[0].id);
@@ -786,6 +793,17 @@ function App() {
     if (target && !rangeBand) {
       setAttackMessage(
         `${target.name} is outside ${selectedWeapon.name} range.`,
+      );
+      return;
+    }
+    if (
+      active &&
+      selectedWeapon.ammunition &&
+      inventoryQuantity(active.inventory, selectedWeapon.ammunition) < 1
+    ) {
+      const ammo = ammunitionById(selectedWeapon.ammunition);
+      setAttackMessage(
+        `Out of ${(ammo?.name || "ammunition").toLowerCase()}. Restock before firing the ${selectedWeapon.name}.`,
       );
       return;
     }
@@ -908,7 +926,11 @@ function App() {
     setAttackCinematic((current) => ({ ...current, phase: "verdict" }));
     await pause(700);
     if (result.hit) {
-      beginSpin("damage-roll", Number(selectedWeapon.damageDice.split("d")[1]));
+      beginSpin(
+        "damage-roll",
+        Number(selectedWeapon.damageDice.split("d")[1]) ||
+          Math.max(1, result.damage.diceTotal),
+      );
       await pause(700);
       window.clearInterval(spinTimer);
       setAttackCinematic((current) => ({
@@ -973,6 +995,26 @@ function App() {
           result.hit && selectedWeapon.thrown?.lodgesOnHit ? null : landingCell,
       });
     }
+    let nextAmmoSpent = battle.ammoSpent || {};
+    if (selectedWeapon.ammunition) {
+      const ammoId = selectedWeapon.ammunition;
+      updated = updated.map((token) =>
+        token.id === active.id
+          ? {
+              ...token,
+              inventory: changeInventoryQuantity(token.inventory, ammoId, -1),
+            }
+          : token,
+      );
+      const shooterSpent = nextAmmoSpent[active.id] || {};
+      nextAmmoSpent = {
+        ...nextAmmoSpent,
+        [active.id]: {
+          ...shooterSpent,
+          [ammoId]: (shooterSpent[ammoId] || 0) + 1,
+        },
+      };
+    }
     const alive = updated.filter((t) => t.hp > 0);
     const popupId = `${target.id}-${Date.now()}`;
     if (result.hit) playHitSound();
@@ -993,17 +1035,35 @@ function App() {
         setDamagePopups((items) => items.filter((item) => item.id !== popupId)),
       1250,
     );
-    setTokens(updated);
+    const completing = alive.length <= 1;
+    let recoveredCount = 0;
+    const finalTokens = completing
+      ? updated.map((token) => {
+          const spent = nextAmmoSpent[token.id];
+          if (!spent) return token;
+          let inventory = token.inventory;
+          for (const [ammoId, count] of Object.entries(spent)) {
+            const give = Math.floor(count / 2);
+            if (give > 0) {
+              inventory = changeInventoryQuantity(inventory, ammoId, give);
+              recoveredCount += give;
+            }
+          }
+          return { ...token, inventory };
+        })
+      : updated;
+    setTokens(finalTokens);
     setAttackCinematic((current) => ({ ...current, phase: "impact" }));
     await pause(500);
     setAttackCinematic(null);
-    if (alive.length <= 1) {
+    if (completing) {
       setBattle({
         ...battle,
         resources: attackResources,
         items: battleItems,
+        ammoSpent: nextAmmoSpent,
         complete: true,
-        log: `${active.name}'s ${selectedWeapon.name} hits for ${result.damage.total} ${selectedWeapon.damageType.toLowerCase()} damage. ${alive[0]?.name ?? "No one"} wins!`,
+        log: `${active.name}'s ${selectedWeapon.name} hits for ${result.damage.total} ${selectedWeapon.damageType.toLowerCase()} damage. ${alive[0]?.name ?? "No one"} wins!${recoveredCount ? ` Recovered ${recoveredCount} spent ammunition (50%).` : ""}`,
       });
       setAttackMode(false);
       setWeaponMenuOpen(false);
@@ -1012,6 +1072,7 @@ function App() {
         ...battle,
         resources: attackResources,
         items: battleItems,
+        ammoSpent: nextAmmoSpent,
         log: result.hit
           ? `${active.name} rolls ${result.naturalRoll} + ${result.bonus} = ${result.attackTotal} and ${result.critical ? "critically " : ""}hits ${target.name} with a ${selectedWeapon.name} for ${result.damage.total}${damageBreakdown} ${selectedWeapon.damageType.toLowerCase()} damage.`
           : `${active.name} rolls ${result.naturalRoll} + ${result.bonus} = ${result.attackTotal}; the ${selectedWeapon.name} misses ${target.name} (AC ${target.ac}).`,
@@ -1527,32 +1588,51 @@ function App() {
                       <small>d20 + ability + proficiency</small>
                     </div>
                     <div className="weapon-grid">
-                      {equippedChoices.map(({ hand, weapon }) => (
-                        <button
-                          key={hand}
-                          className={
-                            weapon.id === selectedWeaponId &&
-                            hand === selectedAttackHand
-                              ? "selected"
-                              : ""
-                          }
-                          onClick={() => {
-                            setSelectedWeaponId(weapon.id);
-                            setSelectedAttackHand(hand);
-                            setAttackKind("action");
-                            setWeaponMenuOpen(false);
-                            setAttackMode(true);
-                            setAttackMessage("");
-                          }}
-                        >
-                          <strong>{weapon.name}</strong>
-                          <b>{weapon.damageDice}</b>
-                          <span>
-                            {weapon.damageType} · {weapon.rangeFeet} ft
-                          </span>
-                          <small>{weapon.category}</small>
-                        </button>
-                      ))}
+                      {equippedChoices.map(({ hand, weapon }) => {
+                        const ammoLeft = weapon.ammunition
+                          ? inventoryQuantity(
+                              active.inventory,
+                              weapon.ammunition,
+                            )
+                          : null;
+                        const outOfAmmo = ammoLeft === 0;
+                        return (
+                          <button
+                            key={hand}
+                            disabled={outOfAmmo}
+                            className={
+                              (weapon.id === selectedWeaponId &&
+                              hand === selectedAttackHand
+                                ? "selected "
+                                : "") + (outOfAmmo ? "out-of-ammo" : "")
+                            }
+                            onClick={() => {
+                              setSelectedWeaponId(weapon.id);
+                              setSelectedAttackHand(hand);
+                              setAttackKind("action");
+                              setWeaponMenuOpen(false);
+                              setAttackMode(true);
+                              setAttackMessage("");
+                            }}
+                          >
+                            <strong>{weapon.name}</strong>
+                            <b>{weapon.damageDice}</b>
+                            <span>
+                              {weapon.damageType} · {weapon.rangeFeet} ft
+                            </span>
+                            {weapon.ammunition ? (
+                              <small className="ammo-count">
+                                {ammoLeft}{" "}
+                                {ammunitionById(weapon.ammunition)?.name ||
+                                  "ammo"}
+                                {ammoLeft === 1 ? "" : "s"} left
+                              </small>
+                            ) : (
+                              <small>{weapon.category}</small>
+                            )}
+                          </button>
+                        );
+                      })}
                     </div>
                   </div>
                 )}
@@ -1591,7 +1671,10 @@ function App() {
                         Off hand
                         <select
                           value={swapDraft.offHand || ""}
-                          disabled={!swapDraft.mainHand}
+                          disabled={
+                            !swapDraft.mainHand ||
+                            weaponById(swapDraft.mainHand)?.hands === "two"
+                          }
                           onChange={(event) =>
                             setSwapDraft((current) => ({
                               ...current,
@@ -1599,7 +1682,11 @@ function App() {
                             }))
                           }
                         >
-                          <option value="">Empty</option>
+                          <option value="">
+                            {weaponById(swapDraft.mainHand)?.hands === "two"
+                              ? "Requires 2 Hands"
+                              : "Empty"}
+                          </option>
                           {activeOwnedWeapons.map(({ weapon, quantity }) => (
                             <option
                               key={weapon.id}
@@ -2184,14 +2271,23 @@ function App() {
                           Off hand
                           <select
                             value={selectedLoadout.offHand || ""}
-                            disabled={!selectedLoadout.mainHand}
+                            disabled={
+                              !selectedLoadout.mainHand ||
+                              weaponById(selectedLoadout.mainHand)?.hands ===
+                                "two"
+                            }
                             onChange={(event) =>
                               setSelectedLoadout({
                                 offHand: event.target.value || null,
                               })
                             }
                           >
-                            <option value="">Empty</option>
+                            <option value="">
+                              {weaponById(selectedLoadout.mainHand)?.hands ===
+                              "two"
+                                ? "Requires 2 Hands"
+                                : "Empty"}
+                            </option>
                             {selectedOwnedWeapons.map(
                               ({ weapon, quantity }) => (
                                 <option
@@ -2271,7 +2367,9 @@ function App() {
                               <span>
                                 <strong>{item.name}</strong>
                                 <small>
-                                  {item.typeLabel} · {item.damageDice}
+                                  {item.kind === "ammunition"
+                                    ? `${item.typeLabel} · bundle of ${item.bundle}`
+                                    : `${item.typeLabel} · ${item.damageDice}`}
                                 </small>
                               </span>
                               <div className="quantity-stepper">

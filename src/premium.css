@@ -1083,6 +1083,17 @@ header > strong:before {
   color: #777980;
   font: 9px "DM Sans";
 }
+.weapon-grid small.ammo-count {
+  color: #e6a17c;
+  font: 700 9px "DM Mono";
+}
+.weapon-grid button.out-of-ammo {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.weapon-grid button.out-of-ammo small.ammo-count {
+  color: #f39a8e;
+}
 @keyframes weapon-menu-arrive {
   from {
     opacity: 0;

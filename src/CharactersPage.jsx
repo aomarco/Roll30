@@ -328,8 +328,9 @@ export default function CharactersPage({ characters, setCharacters, onBack }) {
                                   <span>
                                     <strong>{item.name}</strong>
                                     <small>
-                                      {item.typeLabel} · {item.category} ·{" "}
-                                      {item.rangeFeet} ft
+                                      {item.kind === "ammunition"
+                                        ? `${item.typeLabel} · bundle of ${item.bundle}`
+                                        : `${item.typeLabel} · ${item.category} · ${item.rangeFeet} ft`}
                                     </small>
                                   </span>
                                   <em>{owned ? `${owned} owned` : "+ Add"}</em>
@@ -373,12 +374,19 @@ export default function CharactersPage({ characters, setCharacters, onBack }) {
                   Off hand
                   <select
                     value={loadout.offHand || ""}
-                    disabled={!loadout.mainHand}
+                    disabled={
+                      !loadout.mainHand ||
+                      weaponById(loadout.mainHand)?.hands === "two"
+                    }
                     onChange={(event) =>
                       setLoadout({ offHand: event.target.value || null })
                     }
                   >
-                    <option value="">Empty</option>
+                    <option value="">
+                      {weaponById(loadout.mainHand)?.hands === "two"
+                        ? "Requires 2 Hands"
+                        : "Empty"}
+                    </option>
                     {ownedWeapons.map(({ weapon, quantity }) => (
                       <option
                         key={weapon.id}
@@ -430,8 +438,9 @@ export default function CharactersPage({ characters, setCharacters, onBack }) {
                           <div>
                             <strong>{item.name}</strong>
                             <small>
-                              {item.damageDice} {item.damageType.toLowerCase()}{" "}
-                              · {item.rangeFeet} ft
+                              {item.kind === "ammunition"
+                                ? `Ammunition · bundle of ${item.bundle}`
+                                : `${item.damageDice} ${item.damageType.toLowerCase()} · ${item.rangeFeet} ft`}
                             </small>
                           </div>
                           <div className="quantity-stepper">
