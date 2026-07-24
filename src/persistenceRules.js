@@ -6,6 +6,7 @@ import {
   normalizeTurnResources,
 } from "./combatRules.js";
 import { normalizeConditions } from "./conditions.js";
+import { raceById } from "./races.js";
 
 export const COMBAT_DATA_VERSION = 2;
 
@@ -47,8 +48,20 @@ export function migrateCharacterData(character = {}) {
     armor: character.armor || null,
     shield: !!character.shield,
   });
+  // Map legacy species text onto a race id; unknown species fall back to human.
+  const legacyRace =
+    typeof character.species === "string"
+      ? character.species.toLowerCase().replace(/\s+/g, "-")
+      : null;
+  const race = raceById(character.race)
+    ? character.race
+    : raceById(legacyRace)
+      ? legacyRace
+      : "human";
   return {
     ...character,
+    race,
+    subrace: character.subrace || null,
     size: character.size || "medium",
     alignment: character.alignment || "Neutral",
     languages: Array.isArray(character.languages)

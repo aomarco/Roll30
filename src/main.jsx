@@ -784,8 +784,8 @@ function App() {
           hp: derived.hp,
           maxHp: derived.hp,
           ac: derived.ac,
-          // Store base speed; the heavy-armor penalty is applied per turn.
-          speed: 30,
+          // Store race base speed; the heavy-armor penalty is applied per turn.
+          speed: derived.baseSpeed,
           initiativeBonus: derived.initiative,
           strength: derived.finalAbilities.str,
           dexterity: derived.finalAbilities.dex,
@@ -794,7 +794,7 @@ function App() {
           loadout: normalizeLoadout(character.inventory, character.loadout),
           armor: character.armor || null,
           shield: !!character.shield,
-          size: character.size || "medium",
+          size: derived.size,
           characterId: character.id,
         }
       : makeToken(Date.now());

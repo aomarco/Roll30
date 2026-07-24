@@ -46,7 +46,7 @@ Roll30 currently provides:
 - Character identity fields: alignment, languages, and background.
 - Local browser persistence and GitHub Pages deployment.
 
-Roll30 is still a single-browser local application. It does not provide accounts, multiplayer synchronization, cloud saves, monsters, spells, conditions/status effects, class features, magic-item effects, skills/saving throws, or a complete D&D rules engine. Only Human Fighter character derivation exists.
+Roll30 is still a single-browser local application. It does not provide accounts, multiplayer synchronization, cloud saves, monsters, spells, conditions/status effects, class features, magic-item effects, skills/saving throws, or a complete D&D rules engine. Only Fighter class derivation exists, though all nine SRD races (numeric traits only) are selectable.
 
 ## Live Application and Repository
 
@@ -215,7 +215,8 @@ Each simplified sheet currently contains:
 - Character Name.
 - Class.
 - Level.
-- Race/Species.
+- Race (9 SRD races) and Subrace (4, shown only for races that have one).
+- Size (derived read-only from the race).
 - Alignment (9 SRD alignments).
 - Background (free text with SRD suggestions via a datalist).
 - Languages (16 SRD languages as toggle chips).
@@ -231,14 +232,18 @@ Each simplified sheet currently contains:
 
 Alignment, background, and languages are identity/flavor fields with no mechanical effect. Feats are intentionally omitted: the SRD contains only Grappler, which requires grappling/conditions rules that do not exist yet.
 
-Only one class and species are implemented:
-
-- **Fighter**
-- **Human**
+Only one class is implemented (**Fighter**), but all **nine SRD races** are:
+Dwarf (Hill Dwarf), Elf (High Elf), Halfling (Lightfoot Halfling), Human,
+Dragonborn, Gnome (Rock Gnome), Half-Elf, Half-Orc, and Tiefling. `src/races.js`
+holds each race's ability bonuses, base speed, size, granted languages, and any
+subraces (`raceById`, `subraceById`, `raceAbilitySummary`). Only the **numeric**
+traits are modeled — non-numeric racial traits (Darkvision, Dwarven Resilience,
+Breath Weapon, resistances, etc.) are deferred to the future feature/effect
+engine.
 
 ### Point Buy
 
-Point buy uses the standard 27-point structure for base values from 8 through 15. Human adds +1 to each ability afterward. New characters start with every ability at 8 (all 27 points unspent) so the player buys from scratch.
+Point buy uses the standard 27-point structure for base values from 8 through 15. The selected race (and subrace) adds its ability bonuses afterward — e.g. Human +1 to each, Dwarf +2 CON, Hill Dwarf a further +1 WIS. New characters start with every ability at 8 (all 27 points unspent) so the player buys from scratch.
 
 ### Derived Values
 
@@ -247,11 +252,11 @@ Current character calculations are:
 - Level 1 Fighter HP: `10 + Constitution modifier`.
 - Later fixed-average Fighter levels: `6 + Constitution modifier` per additional level.
 - Initiative: Dexterity modifier.
-- Speed: 30 feet, reduced by 10 when Strength is below equipped heavy armor's minimum.
+- Speed: the race's base speed (25 or 30 ft), reduced by 10 when Strength is below equipped heavy armor's minimum.
 - AC: derived by `computeArmorClass` from equipped armor, Dexterity (category-capped), and shield; unarmoured is `10 + Dexterity modifier`.
-- Size: Medium.
+- Size: the race's size (Small for Halfling/Gnome, otherwise Medium).
 
-Race does not directly provide Fighter HP. Human can affect it indirectly through the Constitution increase.
+Race does not directly provide Fighter HP. A race can affect it indirectly through any Constitution bonus it grants. `deriveCharacter` returns `finalAbilities`, `hp`, `ac`, `initiative`, `baseSpeed`, `speed`, and `size`; token creation in `add()` copies the derived speed and size so race flows onto the board.
 
 ## Inventory System
 
@@ -860,6 +865,7 @@ Legacy characters:
 - Receive normalized inventory.
 - Receive a normalized loadout.
 - Receive `armor`/`shield` (normalized to owned items), `alignment: "Neutral"`, and `languages: ["Common"]` defaults.
+- Receive a `race`/`subrace`: an existing race id is kept, else a legacy `species` string is mapped to a race id, else it falls back to `"human"`.
 
 An explicitly saved empty main hand remains empty; it is not silently re-equipped during normal restore.
 
@@ -877,6 +883,8 @@ Storage failures are surfaced in the UI. A failed image or state save must not s
 | `src/items.js` | Generic catalog and quantity-based inventory helpers |
 | `src/persistenceRules.js` | Versioned token, character, and battle migration |
 | `src/characterRules.js` | Point buy and simplified character derivation |
+| `src/races.js` | SRD race/subrace numeric traits (ability bonuses, speed, size, languages) |
+| `src/gear.js` | Generated mundane SRD equipment catalog (inert gear) |
 | `src/CharactersPage.jsx` | Character workspace, inventory, and pre-equipped loadout UI |
 | `src/patterns.js` | Infinite mathematical Square, Diamond, Plus, and Star cell generators |
 | `src/movement.css` | Movement, attack-cell, token, dock, and grid feedback |
@@ -1028,7 +1036,7 @@ A combat, inventory, or persistence change is complete only when:
 - Saves are local to one browser profile.
 - No accounts, cloud sync, or multiplayer.
 - No undo/redo history.
-- Only Human Fighter character derivation exists.
+- Only Fighter class derivation exists. All nine SRD races are selectable, but only their numeric traits (ability bonuses, speed, size, languages) apply — other racial traits are deferred to the future feature/effect engine.
 - Armor AC is simplified (base + capped Dex + shield); no per-item AC exceptions.
 - No spells, conditions/status effects, reactions, class features, or monsters.
 - No skills, saving throws, or proficiency-based checks.
@@ -1044,3 +1052,4 @@ A combat, inventory, or persistence change is complete only when:
 
 - **Conditions/status-effect engine (2026-07-25):** Added a backend-first conditions system so future features (spells, monster abilities, feats) can apply a condition by id and have combat react automatically. New `src/conditions.js` holds the 15 SRD conditions, each with structured flags (`selfAttack`, `vsMelee`, `vsRanged`, `incapacitated`, `immobile`, `autoCritMelee`) plus pure helpers: `normalizeConditions`, `isIncapacitated`, `isImmobilized`, `attackerConditionModes`, `targetConditionModes`, `targetAutoCrit`, and `conditionById`. Effects wired in: `attackRollMode` (`src/combatRules.js`) now folds attacker and target condition roll-modes into the existing advantage/disadvantage engine (prone melee-vs-ranged, restrained/blinded/etc. grant advantage, poisoned/frightened/invisible bias the attacker); `resolveWeaponAttack` (`src/weapons.js`) gains an `autoCritical` option for melee hits on paralyzed/unconscious targets; tokens carry a `conditions: []` array (defaulted in `makeToken` and `migrateTokenData`, cleared on battle start); the combat dock disables Attack/Bonus/Dash/Swap when the active token is incapacitated and zeroes movement when immobilized. Visual indicators: colored abbreviation badges float above each affected token, and the token inspector has a Conditions section of toggle chips (active chips take the condition's color). Tests in `src/conditions.test.js` cover normalization, incapacitated/immobilized detection, attacker/target roll-mode folding, and auto-crit (suite now 57). Verified by rendering badges + editor in headless Chrome; `npm run build` passes. Net remains excluded but its blocker (Restrained) now exists.
 - **Mundane equipment import (2026-07-25):** Imported the remaining 183 non-weapon/non-armor SRD equipment items (excluding the 4 already-imported ammunition types) into a new generated `src/gear.js` (`GEAR` array of `{ id, name, gearCategory, cost, weight, source }`, plus `gearById`). `src/items.js` maps them to `kind: "gear"` catalog entries with a human `typeLabel` (Gear/Tool/Pack/Mount·Vehicle/Holy Symbol/Arcane Focus/Druidic Focus/Kit), adds a "Gear" item type, exposes `GEAR_CLASSES` (the distinct labels) for the class filter, and extends `itemClass` so gear filters by its label. The three inventory `<small>` render sites (item picker + owned list in `src/CharactersPage.jsx`, quick-item row in `src/main.jsx`) gained a gear branch showing `typeLabel · cost`. Gear is inert — no persistence, encumbrance, tool, or mount mechanics; it reuses the existing generic inventory model with no migration needed. New `src/gear.test.js` (6 tests: count/fidelity against the SRD JSON, mount category derivation, `gearById` miss, gear-type filtering, and category narrowing); suite now 63. `npm test` and `npm run build` pass.
+- **Races + subraces (2026-07-25):** Replaced the hardcoded "Human +1 to all" derivation with a data-driven race system. New `src/races.js` holds the 9 SRD races and 4 subraces (`RACES`, `raceById`, `subraceById`, `raceAbilitySummary`) with numeric traits only — ability bonuses, base speed, size, and granted languages. `deriveCharacter` (`src/characterRules.js`) now adds race + subrace ability bonuses to the point-buy base and returns `baseSpeed` and `size` from the race; `newCharacter` seeds `race: "human"`, `subrace: null`. The character sheet's Race select is enabled (a Subrace select appears for races that have one), Size is a derived read-only display, the ability-score caption uses `raceAbilitySummary`, the speed caption names the race, and changing race unions-in its granted languages. Token creation in `add()` (`src/main.jsx`) now copies the derived race speed and size so a Small/slow race flows onto the board. `migrateCharacterData` backfills `race`/`subrace`, mapping a legacy `species` string to a race id (unknown → human). Tests added to `src/characterRules.test.js` (raceById/subraceById, race bonuses, subrace stacking, Small-race speed/size); suite now 67. Racial non-numeric traits remain deferred. `npm test` and `npm run build` pass.

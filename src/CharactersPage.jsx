@@ -13,6 +13,9 @@ import {
   newCharacter,
   pointsSpent,
 } from "./characterRules.js";
+import { RACES, raceAbilitySummary, raceById } from "./races.js";
+
+const SIZE_LABELS = { small: "Small", medium: "Medium", large: "Large" };
 import {
   ARMOR_CLASSES,
   GEAR_CLASSES,
@@ -68,6 +71,16 @@ export default function CharactersPage({ characters, setCharacters, onBack }) {
         ? knownLanguages.filter((item) => item !== language)
         : [...knownLanguages, language],
     });
+  };
+  const activeRace = selected && (raceById(selected.race) || raceById("human"));
+  const changeRace = (raceId) => {
+    const race = raceById(raceId);
+    if (!race) return;
+    // Union-in the race's granted languages; keep any the player already added.
+    const languages = [
+      ...new Set([...(selected.languages || []), ...race.languages]),
+    ];
+    update({ race: raceId, subrace: null, languages });
   };
   const derived = selected && deriveCharacter(selected);
   const remaining = selected
@@ -215,15 +228,42 @@ export default function CharactersPage({ characters, setCharacters, onBack }) {
                 />
               </label>
               <label>
-                Race / Species
-                <select value={selected.species} disabled>
-                  <option>Human</option>
+                Race
+                <select
+                  value={selected.race || "human"}
+                  onChange={(e) => changeRace(e.target.value)}
+                >
+                  {RACES.map((race) => (
+                    <option key={race.id} value={race.id}>
+                      {race.name}
+                    </option>
+                  ))}
                 </select>
               </label>
+              {activeRace.subraces.length > 0 && (
+                <label>
+                  Subrace
+                  <select
+                    value={selected.subrace || ""}
+                    onChange={(e) =>
+                      update({ subrace: e.target.value || null })
+                    }
+                  >
+                    <option value="">None</option>
+                    {activeRace.subraces.map((sub) => (
+                      <option key={sub.id} value={sub.id}>
+                        {sub.name}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              )}
               <label>
                 Size
-                <select value={selected.size || "medium"} disabled>
-                  <option value="medium">Medium</option>
+                <select value={derived.size} disabled>
+                  <option value={derived.size}>
+                    {SIZE_LABELS[derived.size] || "Medium"}
+                  </option>
                 </select>
               </label>
               <label>
@@ -278,7 +318,10 @@ export default function CharactersPage({ characters, setCharacters, onBack }) {
               <div>
                 <p>ABILITY SCORES</p>
                 <h2>27-point buy</h2>
-                <span>Human adds +1 to every purchased score.</span>
+                <span>
+                  {raceAbilitySummary(selected.race, selected.subrace) ||
+                    "Racial bonuses apply on top of purchased scores."}
+                </span>
               </div>
               <div className="points-left">
                 <strong>{remaining}</strong>
@@ -342,9 +385,9 @@ export default function CharactersPage({ characters, setCharacters, onBack }) {
                 <span>SPEED</span>
                 <strong>{derived.speed} ft</strong>
                 <small>
-                  {derived.speed < 30
+                  {derived.speed < derived.baseSpeed
                     ? "−10 ft: Strength below armor minimum"
-                    : "Human walking speed"}
+                    : `${activeRace.name} walking speed`}
                 </small>
               </div>
             </div>
@@ -678,8 +721,9 @@ export default function CharactersPage({ characters, setCharacters, onBack }) {
               )}
             </section>
             <p className="rules-note">
-              HP uses the Fighter hit die and Constitution modifier. Species
-              only affects it indirectly here through Human’s +1 Constitution.
+              HP uses the Fighter hit die and Constitution modifier. A race
+              affects HP only indirectly, through any Constitution bonus it
+              grants.
             </p>
             <button
               className="remove"

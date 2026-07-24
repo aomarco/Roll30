@@ -1,4 +1,5 @@
 import { computeArmorClass, effectiveSpeed } from "./combatRules.js";
+import { raceById, subraceById } from "./races.js";
 
 export const ABILITIES = ["str", "dex", "con", "int", "wis", "cha"];
 
@@ -52,8 +53,15 @@ export const pointsSpent = (abilities) =>
   ABILITIES.reduce((total, key) => total + POINT_BUY_COST[abilities[key]], 0);
 
 export function deriveCharacter(character) {
+  const race = raceById(character.race) || raceById("human");
+  const subrace = subraceById(character.race, character.subrace);
   const finalAbilities = Object.fromEntries(
-    ABILITIES.map((key) => [key, character.abilities[key] + 1]),
+    ABILITIES.map((key) => [
+      key,
+      character.abilities[key] +
+        (race.abilityBonuses[key] || 0) +
+        (subrace?.abilityBonuses[key] || 0),
+    ]),
   );
   const conModifier = modifier(finalAbilities.con);
   const dexModifier = modifier(finalAbilities.dex);
@@ -70,10 +78,12 @@ export function deriveCharacter(character) {
       dexterity: finalAbilities.dex,
     }),
     initiative: dexModifier,
-    speed: effectiveSpeed(30, {
+    baseSpeed: race.speed,
+    speed: effectiveSpeed(race.speed, {
       armor: character.armor,
       strength: finalAbilities.str,
     }),
+    size: race.size,
   };
 }
 
@@ -83,6 +93,8 @@ export function newCharacter() {
     name: "New Character",
     className: "Fighter",
     level: 1,
+    race: "human",
+    subrace: null,
     species: "Human",
     size: "medium",
     background: "Soldier",
