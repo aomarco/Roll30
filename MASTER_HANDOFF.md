@@ -34,15 +34,19 @@ Roll30 currently provides:
 - Initiative and a floating turn-order display.
 - Split movement, manual Dash, Actions, Bonus Actions, and manual End Turn.
 - D&D-style weapon attack rolls, damage, critical hits, advantage, and disadvantage.
-- Dual wielding and off-hand Bonus Action attacks.
+- Dual wielding, off-hand Bonus Action attacks, and true Versatile weapons.
 - Weapon swapping with custom Roll30 restrictions.
 - Melee, Reach, ranged, and thrown range bands.
 - Physical ground and embedded thrown weapons.
 - Ground, embedded, and defeated-carrier weapon recovery.
-- Twenty-three imported 2014 SRD weapons.
+- Ranged weapons with consumable ammunition and end-of-battle recovery.
+- Thirty-six imported 2014 SRD weapons plus four ammunition types.
+- Armor and shields with fully derived Armor Class and a heavy-armor speed penalty.
+- Inventory-gated equipping (you can only equip what you own).
+- Character identity fields: alignment, languages, and background.
 - Local browser persistence and GitHub Pages deployment.
 
-Roll30 is still a single-browser local application. It does not provide accounts, multiplayer synchronization, cloud saves, monsters, spells, armour mechanics, ammunition, or a complete D&D rules engine.
+Roll30 is still a single-browser local application. It does not provide accounts, multiplayer synchronization, cloud saves, monsters, spells, conditions/status effects, class features, magic-item effects, skills/saving throws, or a complete D&D rules engine. Only Human Fighter character derivation exists.
 
 ## Live Application and Repository
 
@@ -212,7 +216,9 @@ Each simplified sheet currently contains:
 - Class.
 - Level.
 - Race/Species.
-- Background.
+- Alignment (9 SRD alignments).
+- Background (free text with SRD suggestions via a datalist).
+- Languages (16 SRD languages as toggle chips).
 - Six ability scores.
 - Point-buy controls.
 - AC.
@@ -221,7 +227,9 @@ Each simplified sheet currently contains:
 - HP.
 - Size.
 - Inventory.
-- Pre-equipped loadout.
+- Pre-equipped loadout, armor, and shield.
+
+Alignment, background, and languages are identity/flavor fields with no mechanical effect. Feats are intentionally omitted: the SRD contains only Grappler, which requires grappling/conditions rules that do not exist yet.
 
 Only one class and species are implemented:
 
@@ -230,7 +238,7 @@ Only one class and species are implemented:
 
 ### Point Buy
 
-Point buy uses the standard 27-point structure for base values from 8 through 15. Human adds +1 to each ability afterward.
+Point buy uses the standard 27-point structure for base values from 8 through 15. Human adds +1 to each ability afterward. New characters start with every ability at 8 (all 27 points unspent) so the player buys from scratch.
 
 ### Derived Values
 
@@ -256,16 +264,20 @@ Characters and tokens use the same generic inventory model:
 ]
 ```
 
-The inventory UI supports:
+The catalog contains three item kinds: `weapon`, `ammunition`, and `armor` (shields are `armor` with category `Shield`). The inventory UI supports:
 
 - Search.
-- Item-type filtering.
+- Item-type filtering (All / Weapons / Ammunition / Armour).
+- Class filtering (Simple/Martial for weapons; Light/Medium/Heavy/Shield for armour).
+- Weapon-property filtering (Finesse, Light, Thrown, Two-Handed, Versatile, Reach, …).
 - Internal scrolling.
 - Quantity increments and decrements.
 - Removing a full stack.
 - Total and unique-item summaries.
 
-The Add Item catalog is rendered at document level with a high stacking layer so character-sheet content cannot overlap or clip it. It closes through its close button, the backdrop, or Escape.
+`filterCatalog(query, type, { category, property })` applies these filters. Ammunition is added and stepped a full bundle at a time (`bundleSize`): arrows/bolts/bullets in 20s, blowgun needles in 50s.
+
+On the character sheet the **Add Item** button sits directly above the inventory list. The Add Item catalog is rendered at document level (a portal) with a high stacking layer so character-sheet content cannot overlap or clip it. It closes through its close button, the backdrop, or Escape.
 
 Legacy string inventories migrate into quantity entries and duplicate IDs merge safely.
 
@@ -280,17 +292,20 @@ loadout: {
 }
 ```
 
-Rules:
+Rules (`loadoutProblem` for weapons, `equipmentProblem` for weapons + shield):
 
-- A loadout can only reference owned weapons.
+- A loadout can only reference owned weapons; equipping is inventory-gated for weapons, armor, and shields alike.
 - Equipping the same weapon in both hands requires two inventory copies.
 - Two-Handed weapons require the off hand to be empty.
 - An off-hand weapon is legal only when both weapons are Light melee weapons.
+- A shield needs a free off hand: it is illegal with a two-handed weapon or while dual wielding, and equipping such a loadout auto-clears the shield.
 - Merely owning a weapon does not make it available in the Battle attack picker.
 - The attack picker displays equipped weapons only.
-- Character sheets and token Setup both support pre-equipping.
+- Character sheets and token Setup both support pre-equipping (weapons, armor, and shield).
 
-Versatile weapons are deferred, so the current 23-weapon catalog uses only one-hand or two-hand requirements.
+### Versatile Weapons
+
+Versatile weapons (`hands: "versatile"`) carry both a one-handed `damageDice` and a two-handed `versatileDamageDice`. `effectiveDamageDice(weapon, { shield })` returns the two-handed die when the off hand is free and the one-handed die when a shield is equipped. A shield may be raised with a versatile weapon (it drops to its one-handed die); it cannot be raised with a truly two-handed weapon.
 
 ## Battle Start and Initiative
 
@@ -695,7 +710,7 @@ After recovery:
 
 ## Supported Weapon Catalog
 
-Roll30 contains **23 source-backed 2014 SRD weapons**.
+Roll30 contains **36 source-backed 2014 SRD weapons**: 23 melee/thrown, 6 Versatile, and 7 ranged (ammunition) weapons.
 
 | Weapon | Damage | Important behavior |
 | --- | ---: | --- |
@@ -722,34 +737,56 @@ Roll30 contains **23 source-backed 2014 SRD weapons**.
 | Maul | 2d6 bludgeoning | Heavy, Two-Handed |
 | Pike | 1d10 piercing | Heavy, Reach, Two-Handed |
 | Whip | 1d4 slashing | Finesse, Reach |
+| Quarterstaff | 1d6 / 1d8 bludgeoning | Versatile |
+| Spear | 1d6 / 1d8 piercing | Versatile, thrown, lodges |
+| Battleaxe | 1d8 / 1d10 slashing | Versatile |
+| Longsword | 1d8 / 1d10 slashing | Versatile |
+| Trident | 1d6 / 1d8 piercing | Versatile, thrown, lodges |
+| Warhammer | 1d8 / 1d10 bludgeoning | Versatile |
+| Crossbow, light | 1d8 piercing | Ammunition (bolt), Two-Handed |
+| Shortbow | 1d6 piercing | Ammunition (arrow), Two-Handed |
+| Sling | 1d4 bludgeoning | Ammunition (bullet) |
+| Blowgun | 1 piercing | Ammunition (needle), fixed damage |
+| Crossbow, hand | 1d6 piercing | Ammunition (bolt), Light |
+| Crossbow, heavy | 1d10 piercing | Ammunition (bolt), Heavy, Two-Handed |
+| Longbow | 1d8 piercing | Ammunition (arrow), Heavy, Two-Handed |
 
-Source-fidelity tests compare imported names, damage, types, ranges, properties, price, and weight with the local SRD data.
+Versatile damage is shown as `one-handed / two-handed`. Source-fidelity tests compare imported names, damage (including the two-handed die), types, ranges, properties, price, and weight with the local SRD data.
+
+### Ammunition
+
+Four source-backed ammunition types back the ranged weapons: **Arrow** (bundle 20), **Crossbow bolt** (20), **Sling bullet** (20), and **Blowgun needle** (50). A ranged weapon at 0 ammo cannot fire; each shot consumes one unit; `battle.ammoSpent` tracks per-token expenditure and **50% (floored) of ammunition fired is returned** to each token when the battle ends.
+
+## Armor and Shields
+
+Roll30 imports the **13 source-backed 2014 SRD armors**: 3 Light, 5 Medium, 4 Heavy, and the Shield. Names use the official SRD forms (Plate Armor, Leather Armor, Chain Mail, …).
+
+Armor Class is **fully derived** by `computeArmorClass({ armor, shield, dexterity })`; there is no manual AC field:
+
+- Unarmored: `10 + Dexterity modifier`.
+- Light: `base + full Dexterity modifier`.
+- Medium: `base + Dexterity modifier capped at +2`.
+- Heavy: `base` (no Dexterity).
+- Shield: `+2`.
+
+`effectiveSpeed` reduces speed by 10 ft when Strength is below an armor's `str_minimum` (Chain Mail 13, Splint/Plate 15). Stealth-disadvantage is imported for fidelity but not enforced (no stealth system). Armor and shields are inventory-gated like weapons (`normalizeEquipment` clears equipped gear that is not owned).
 
 ## Deferred and Excluded Weapon Work
 
 ### Versatile Batch — implemented
 
-Quarterstaff, Spear, Battleaxe, Longsword, Trident, and Warhammer are now in the
-catalog with `hands: "versatile"`: two-handed damage die when the off hand is
-free, one-handed die when a shield is equipped (see `effectiveDamageDice`).
+Quarterstaff, Spear, Battleaxe, Longsword, Trident, and Warhammer are in the
+catalog with `hands: "versatile"` (see the Versatile Weapons and Supported
+Weapon Catalog sections).
 
-### Ammunition Batch
+### Ammunition Batch — implemented
 
-Deferred until ammunition inventory and consumption exist:
-
-- Light Crossbow.
-- Shortbow.
-- Sling.
-- Blowgun.
-- Hand Crossbow.
-- Heavy Crossbow.
-- Longbow.
-
-The fixed-damage engine support needed by Blowgun already exists.
+Light/Hand/Heavy Crossbow, Shortbow, Longbow, Sling, and Blowgun are all in the
+catalog with consumable ammunition (see the Ammunition section).
 
 ### Excluded
 
-- Net mechanics are intentionally excluded.
+- Net mechanics are intentionally excluded (no condition system for Restrained).
 - Full mounted Lance mechanics are intentionally excluded.
 
 ## Battle Completion and Restart
@@ -773,9 +810,9 @@ The winner is reported. A completed battle can be started again, which:
 - Names and modes.
 - Grid settings.
 - Tokens and positions.
-- Token stats, size, inventories, and loadouts.
-- Versioned battle state.
-- Characters, inventories, and loadouts.
+- Token stats, size, inventories, loadouts, armor, and shield.
+- Versioned battle state (including per-token ammunition spent).
+- Characters, inventories, loadouts, armor, shield, alignment, and languages.
 
 ### IndexedDB
 
@@ -797,6 +834,7 @@ Versioned battles restore:
 - Round.
 - Turn resources.
 - Ground and embedded battle items.
+- Per-token ammunition spent (`ammoSpent`, normalized on restore).
 - Bonus Action state.
 - Movement spent.
 - Dash and Swap state.
@@ -810,12 +848,14 @@ Legacy tokens:
 - Receive `size: "medium"`.
 - Receive normalized quantity inventory.
 - Receive a safe loadout using the first owned weapon when no loadout field existed.
+- Receive `armor`/`shield` defaults, with equipment normalized to owned items and AC recomputed (any legacy manual AC is discarded).
 
 Legacy characters:
 
 - Receive `size: "medium"`.
 - Receive normalized inventory.
 - Receive a normalized loadout.
+- Receive `armor`/`shield` (normalized to owned items), `alignment: "Neutral"`, and `languages: ["Common"]` defaults.
 
 An explicitly saved empty main hand remains empty; it is not silently re-equipped during normal restore.
 
@@ -855,9 +895,9 @@ Weapon range currently uses scalable Diamond cells centered on the attacker, the
 
 ## Automated Test Coverage
 
-The current suite contains **42 tests** covering:
+The current suite contains **50 tests** covering:
 
-- Character point buy and derived Fighter statistics.
+- Character point buy (starting empty) and derived Fighter statistics.
 - Safe no-battle movement helpers.
 - Movement spending and split movement.
 - Manual Dash.
@@ -875,15 +915,20 @@ The current suite contains **42 tests** covering:
 - Inventory normalization and quantities.
 - Generic catalog search.
 - Exact Square, Diamond, Plus, and Star coordinates.
-- Token and character migration.
+- Token and character migration, including unowned-gear stripping.
 - Legacy versus versioned battle restore.
-- Exact 23-weapon catalog.
-- Local SRD source fidelity.
+- Exact 36-weapon catalog.
+- Local SRD source fidelity for weapons, ammunition, and armor.
 - Strength, Dexterity, and Finesse modifiers.
 - Normal, advantage, and disadvantage attack selection.
 - Natural 1, natural 20, and critical damage.
 - Positive and negative off-hand modifiers.
 - Fixed damage definitions.
+- Armor Class derivation across categories and shield.
+- Heavy-armor Strength speed penalty.
+- Effective Versatile damage die (one- vs two-handed).
+- Shield/two-handed/dual-wield equipment legality.
+- Inventory-gated equipment normalization.
 
 ## UI Layout and Anti-Clipping Practices
 
@@ -980,42 +1025,15 @@ A combat, inventory, or persistence change is complete only when:
 - No accounts, cloud sync, or multiplayer.
 - No undo/redo history.
 - Only Human Fighter character derivation exists.
-- AC is simplified and armour does not alter it.
-- No shields, armour equipping, spells, conditions, reactions, or monsters.
-- No ammunition or Loading-property enforcement.
-- No Versatile damage mode.
-- No Net.
+- Armor AC is simplified (base + capped Dex + shield); no per-item AC exceptions.
+- No spells, conditions/status effects, reactions, class features, or monsters.
+- No skills, saving throws, or proficiency-based checks.
+- The Loading property is imported but not enforced (no per-turn shot limit).
+- Alignment, languages, and background are flavor only (no mechanical effect).
+- No Net (needs the Restrained condition).
 - No mounted Lance rules.
-- No magic-item effect engine.
-- The catalog contains weapons only, although its schema and UI are generic.
+- No magic-item effect engine (mundane armor/weapons/ammunition only).
+- The catalog covers weapons, ammunition, and armor; other equipment (gear, tools, packs) is not yet imported.
 - Physical thrown items exist only inside an active versioned battle.
 
 ## To Be Updated
-
-- **Character identity: alignment, languages, backgrounds (2026-07-25):** Added the 2014 SRD identity fields to the character sheet. New constants `ALIGNMENTS` (9), `LANGUAGES` (16), and `BACKGROUNDS` (Acolyte, Soldier) in `src/characterRules.js`; `newCharacter()` defaults `alignment: "Neutral"` and `languages: ["Common"]`, and `migrateCharacterData` backfills both for older saves. UI in `src/CharactersPage.jsx`: an Alignment `<select>` in the identity grid, the Background input backed by a `<datalist>` of SRD suggestions (still free text), and a new Languages section of toggle chips (styles in `src/movement.css`). These are pure identity/flavor fields with no mechanical effect. **Feats were intentionally skipped** — the SRD contains only Grappler, which needs the (nonexistent) grappling/conditions rules to function, so a one-item feat picker was not worth adding. Verified by rendering; `npm test` (50) and `npm run build` pass.
-
-- **Comprehensive item picker + repositioned Add button (2026-07-25):** The character-sheet "Add Item" button was in the inventory heading, far above the actual inventory list (separated by the loadout and armour editors). Moved it into an `inventory-add-wrap` placed directly above the inventory list, always visible. The catalog picker gained two filters beside the existing search + type: a **class** select (adapts to type — Simple/Martial for weapons, Light/Medium/Heavy/Shield for armour, disabled for ammunition) and a **property** select (weapon properties, enabled for weapons/all). `filterCatalog(query, type, { category, property })` in `src/items.js` now takes an optional third filters arg (existing 2-arg callers unaffected), with exported `WEAPON_CLASSES`, `ARMOR_CLASSES`, and catalog-derived `WEAPON_PROPERTIES`; changing type resets the sub-filters. New `.item-filter-row` styles in `src/studio.css`. Verified by rendering the picker in headless Chrome; `npm test` (50) and `npm run build` pass.
-
-- **Armor renamed to official SRD names (2026-07-24):** Bare armor names were ambiguous ("Plate", "Leather"). Renamed all body armor in `src/weapons.js` to the exact 2014 SRD names, which append "Armor" to the material/adjective entries (Plate Armor, Leather Armor, Padded Armor, Studded Leather Armor, Hide Armor, Half Plate Armor, Splint Armor) while leaving self-descriptive ones unchanged (Chain Shirt, Scale Mail, Breastplate, Ring Mail, Chain Mail). Shield unchanged. Because names now match the source exactly, the armor source-fidelity test re-asserts `armor.name === source.name`. `npm test` (50) and `npm run build` pass.
-
-- **Armor and shields are inventory-gated (2026-07-24):** Equipment can now only be equipped if the entity owns the item, matching how weapons already work. New pure helper `normalizeEquipment(inventory, { armor, shield })` in `src/combatRules.js` (the armor analogue of `normalizeLoadout`) clears equipped armor not in inventory and clears the shield unless a `shield` item is owned. The Body-armor `<select>` in the character sheet and token Setup now lists only owned armor; the Shield checkbox is disabled unless a shield is owned (label shows "(none owned)"). Removing equipped armor/shield from inventory auto-unequips it and recomputes AC (character `changeItemQuantity`/`removeItem`, token `changeSelectedItemQuantity`). `migrateTokenData`/`migrateCharacterData` run `normalizeEquipment` so legacy/edited saves can't wear unowned gear. Equipping does not consume the item. Tests: `normalizeEquipment` cases + a migration test (50 total); build clean; gated UI render-verified.
-
-- **Points-left moved next to the point-buy section (2026-07-24):** The "POINTS LEFT" chip was in the character-sheet title; it now sits in the Ability Scores heading (`.ability-heading`) beside the "27-point buy" label, where it's relevant. The "Human adds +1…" caption moved into the heading's inner div; `.ability-heading > span` selectors in `src/movement.css` and `src/readability.css` updated to `.ability-heading > div > span`. Verified by rendering in headless Chrome. `npm run build` passes.
-
-- **New characters start with an empty point buy (2026-07-24):** `newCharacter()` in `src/characterRules.js` previously pre-filled abilities with a full 27-point spread (`str:15, dex:14, …`). It now starts every ability at the base `8` (0 points spent) so the player buys from scratch. Character-rules tests updated to the new baseline (all 9s after Human's +1). `npm test` (48) and `npm run build` pass.
-
-- **Armor, shields, and true Versatile weapons (2026-07-24):** Added the 2014 SRD armor system. New source-backed `ARMOR` catalog in `src/weapons.js` (12 body armors + shield) and an "Armour" item type in `src/items.js`. **AC is now fully derived** via `computeArmorClass` in `src/combatRules.js` (unarmored 10+Dex; Light +full Dex; Medium +Dex capped at +2; Heavy no Dex; +2 for a shield) — the manual token AC input was removed and AC recomputes whenever armor/shield/Dexterity change. Tokens and characters gain `armor` and `shield` fields (defaulted in `migrateTokenData`/`migrateCharacterData`; **legacy manual AC values are discarded** in favor of the derived value). **Heavy-armor Strength penalty** is enforced through `effectiveSpeed` (−10 ft when Strength is below the armor's minimum), applied when building each turn's movement. A **shield occupies a hand**: `equipmentProblem` forbids it with a two-handed weapon or while dual wielding, and equipping such a loadout auto-clears the shield; a shield checkbox appears in the character sheet and token Setup. **Versatile weapons are now genuinely versatile** (reverting last week's always-two-handed behavior): `hands: "versatile"`, one-handed die in `damageDice` and two-handed die in `versatileDamageDice`; `effectiveDamageDice` returns the two-handed die when both hands are free and the one-handed die when a shield is equipped, used by the attack resolution and shown in the weapon picker. Str/stealth data is imported for fidelity but stealth is not enforced (no stealth system). Tests: armor source fidelity, AC across categories + shield, effective versatile die, Strength speed penalty, and shield legality — suite now 48, `npm run build` passes; new Setup armor block render-verified in headless Chrome.
-
-- **Bonus option button full width — verified (2026-07-24):** The Bonus Actions option button kept collapsing to a bare icon. Fixed in `src/premium.css` by giving the button a deterministic two-column grid (`grid-template-columns: 18px minmax(0, 1fr)`, `justify-items: start`, `width: 100%`) plus `width: 100%` on the label span, instead of relying on flex/grid auto-stretch that wasn't taking. The icon sits left with the title and subtitle beside it, full width. Verified by rendering the compiled CSS in headless Chrome (button 490px in a 518px panel) — not just reasoned. `npm run build` passes.
-
-- **Combat dock horizontal-overflow root-cause fix (2026-07-24):** Earlier per-panel tweaks did not stop the Swap "Confirm" button clipping or the Bonus option collapsing to a bare icon. Root cause: `.map-actions` is a CSS grid with no column template, so its implicit `auto` column plus default `min-width: auto` on children let any wide child (the Confirm button, long status text) force the dock wider than its box, which then clipped against `overflow-x: hidden`. Fixed structurally in `src/premium.css`: `.map-actions` now uses `grid-template-columns: minmax(0, 1fr)` with `.map-actions > * { min-width: 0 }`, and `.bonus-options` uses `grid-template-columns: minmax(0, 1fr)` so its buttons stretch full width and show their label/subtitle instead of shrinking to the icon. Action-row `strong`/`small` now ellipsise (`src/movement.css`) so states like "Unavailable · attack spent" truncate cleanly instead of overflowing. Reworded the Swap picker status from the cryptic "Legal loadout" to a plain "Ready — swap to <weapon>" / "Ready — dual-wield swap" message (`src/main.jsx`). `npm run build` and `git diff --check` pass.
-
-- **Combat dock panel layout fixes (2026-07-24):** Two CSS-only fixes in `src/premium.css`. (1) In the **Bonus Actions** panel the option label column wasn't growing, so titles like "Recover Dagger" wrapped to two lines and the subtitle was clipped; the label `<span>` now uses `flex: 1 1 auto`, the icon is pinned with `flex: 0 0 auto`, and the title truncates on one line. (2) In the **Swap Loadout** panel the "Confirm swap" button overflowed the panel and produced an orange horizontal scrollbar; the footer status text now flexes/ellipsises, the button is pinned with `flex: 0 0 auto` and `white-space: nowrap`, and `.combat-choice-panel` clips horizontal overflow (`overflow-x: hidden`). `npm run build` and `git diff --check` pass.
-
-- **Ammunition bundles and attack-range performance (2026-07-24):** Two follow-up fixes. (1) Ammunition is now added and adjusted **a full bundle at a time** — Arrows/Crossbow bolts/Sling bullets step by 20, Blowgun needles by 50 — matching the "bundle of 20/50" catalog description, so adding a stack in the character sheet or token Setup grants the whole bundle rather than a single unit (via `bundleSize` in `src/items.js`, applied at both quantity-change sites). Per-shot battle consumption and 50% recovery still operate on individual units. (2) **Fixed severe lag when targeting long-range weapons.** The attack-range overlay previously generated the weapon's full diamond (a Longbow at 600 ft produced ~29,000 cells) and called `getBoundingClientRect()` once per cell. `weaponRangeCells` now accepts a `maxRadius` cap, and the renderer computes board geometry once and only builds/paints cells that fall on the visible board (`columns + rows` radius), cutting thousands of off-screen nodes to at most the on-board count. The staggered pop-in animation and colour bands are unchanged.
-
-- **Versatile weapons imported as two-handed (2026-07-24):** Added Quarterstaff, Spear, Battleaxe, Longsword, Trident, and Warhammer to `src/weapons.js`. Roll30 wields Versatile weapons two-handed by default, so each carries its SRD **two-handed** damage die (e.g. Longsword `1d10`, Quarterstaff `1d8`) and `hands: "two"`. The two-handed requirement blocks the off hand: all three off-hand selects (character sheet, token Setup, and the Swap picker) now disable the off-hand slot and label it **"Requires 2 Hands"** when a two-handed weapon is in the main hand. Spear and Trident remain Thrown and lodge on hit. Source-fidelity test updated to expect the two-handed die for Versatile weapons.
-
-- **Ranged weapons and ammunition (2026-07-24):** Added the seven ammunition weapons — Light/Hand/Heavy Crossbow, Shortbow, Longbow, Sling, Blowgun — to `src/weapons.js`, each with an `ammunition` field naming its ammo type. Added a source-backed `AMMUNITION` catalog (Arrow, Crossbow bolt, Sling bullet, Blowgun needle) and exposed it as a new **Ammunition** item type in `src/items.js`; inventory renderers guard the non-weapon `kind`. Combat behavior: pressing **Attack** with a ranged weapon shows remaining ammunition in the weapon picker; a weapon at **0 ammo is disabled and cannot fire** (an out-of-ammo message shows if attempted); each shot consumes one unit from the shooter's inventory. Battle state tracks spent ammo per token (`battle.ammoSpent`), and **when the battle ends each token recovers 50% (floored) of the ammunition it fired**, added back to its inventory with a log note. Blowgun uses the existing fixed-damage engine; the damage-spin was hardened against non-dice weapons. `restoreBattleData` normalizes `ammoSpent`. Net remains intentionally excluded. Catalog is now 36 weapons; `npm test` (43) and `npm run build` pass.
-
-- **Combat dock utility buttons fix (2026-07-24):** The compact **Dash** and **Swap** controls in `.combat-utility-row` were collapsing to tiny squares that truncated their icons and labels. They now use `flex: 1 1 0` with `min-width: 0`, centered content, and a non-shrinking icon (`.combat-utility-row > button svg { flex: 0 0 auto }`) so each button fills half the row and shows its icon plus status text. CSS-only change in `src/premium.css`; `npm run build` and `git diff --check` pass.
