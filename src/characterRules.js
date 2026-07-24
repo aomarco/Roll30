@@ -1,6 +1,38 @@
 import { computeArmorClass, effectiveSpeed } from "./combatRules.js";
 
 export const ABILITIES = ["str", "dex", "con", "int", "wis", "cha"];
+
+/** Static 2014 SRD identity lists (no mechanical effect yet). */
+export const ALIGNMENTS = [
+  "Lawful Good",
+  "Neutral Good",
+  "Chaotic Good",
+  "Lawful Neutral",
+  "Neutral",
+  "Chaotic Neutral",
+  "Lawful Evil",
+  "Neutral Evil",
+  "Chaotic Evil",
+];
+export const LANGUAGES = [
+  "Common",
+  "Dwarvish",
+  "Elvish",
+  "Giant",
+  "Gnomish",
+  "Goblin",
+  "Halfling",
+  "Orc",
+  "Abyssal",
+  "Celestial",
+  "Draconic",
+  "Deep Speech",
+  "Infernal",
+  "Primordial",
+  "Sylvan",
+  "Undercommon",
+];
+export const BACKGROUNDS = ["Acolyte", "Soldier"];
 export const POINT_BUY_COST = {
   8: 0,
   9: 1,
@@ -54,6 +86,8 @@ export function newCharacter() {
     species: "Human",
     size: "medium",
     background: "Soldier",
+    alignment: "Neutral",
+    languages: ["Common"],
     inventory: [],
     loadout: { mainHand: null, offHand: null },
     armor: null,

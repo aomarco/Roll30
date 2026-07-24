@@ -48,6 +48,10 @@ export function migrateCharacterData(character = {}) {
   return {
     ...character,
     size: character.size || "medium",
+    alignment: character.alignment || "Neutral",
+    languages: Array.isArray(character.languages)
+      ? character.languages
+      : ["Common"],
     armor,
     shield,
     inventory,

@@ -3,6 +3,9 @@ import { createPortal } from "react-dom";
 import { Backpack, Minus, Plus, Search, Shield, Trash2, X } from "lucide-react";
 import {
   ABILITIES,
+  ALIGNMENTS,
+  BACKGROUNDS,
+  LANGUAGES,
   POINT_BUY_TOTAL,
   deriveCharacter,
   formatModifier,
@@ -55,6 +58,15 @@ export default function CharactersPage({ characters, setCharacters, onBack }) {
     const next = Math.max(8, Math.min(15, selected.abilities[key] + amount));
     const abilities = { ...selected.abilities, [key]: next };
     if (pointsSpent(abilities) <= POINT_BUY_TOTAL) update({ abilities });
+  };
+  const knownLanguages = selected?.languages || [];
+  const toggleLanguage = (language) => {
+    if (!selected) return;
+    update({
+      languages: knownLanguages.includes(language)
+        ? knownLanguages.filter((item) => item !== language)
+        : [...knownLanguages, language],
+    });
   };
   const derived = selected && deriveCharacter(selected);
   const remaining = selected
@@ -211,13 +223,53 @@ export default function CharactersPage({ characters, setCharacters, onBack }) {
                   <option value="medium">Medium</option>
                 </select>
               </label>
+              <label>
+                Alignment
+                <select
+                  value={selected.alignment || "Neutral"}
+                  onChange={(e) => update({ alignment: e.target.value })}
+                >
+                  {ALIGNMENTS.map((alignment) => (
+                    <option key={alignment} value={alignment}>
+                      {alignment}
+                    </option>
+                  ))}
+                </select>
+              </label>
               <label className="background-field">
                 Background
                 <input
+                  list="background-options"
                   value={selected.background}
                   onChange={(e) => update({ background: e.target.value })}
                 />
+                <datalist id="background-options">
+                  {BACKGROUNDS.map((background) => (
+                    <option key={background} value={background} />
+                  ))}
+                </datalist>
               </label>
+            </div>
+            <div className="languages-section">
+              <div className="languages-heading">
+                <p>LANGUAGES</p>
+                <span>{knownLanguages.length} known</span>
+              </div>
+              <div className="language-chips">
+                {LANGUAGES.map((language) => (
+                  <button
+                    key={language}
+                    type="button"
+                    className={
+                      knownLanguages.includes(language) ? "chip on" : "chip"
+                    }
+                    aria-pressed={knownLanguages.includes(language)}
+                    onClick={() => toggleLanguage(language)}
+                  >
+                    {language}
+                  </button>
+                ))}
+              </div>
             </div>
             <div className="ability-heading">
               <div>

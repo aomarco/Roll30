@@ -588,6 +588,55 @@
 .ability-heading .points-left {
   flex: 0 0 auto;
 }
+.languages-section {
+  display: grid;
+  gap: 10px;
+  padding-top: 16px;
+  border-top: 1px solid #3d3e43;
+}
+.languages-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+.languages-heading p {
+  margin: 0;
+  color: #d99170;
+  font: 10px "DM Mono";
+  letter-spacing: 1px;
+}
+.languages-heading span {
+  color: #8f9197;
+  font: 10px "DM Mono";
+}
+.language-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+.language-chips .chip {
+  min-height: 30px;
+  padding: 0 12px;
+  border: 1px solid #4a4c52;
+  border-radius: 16px;
+  background: #2b2c31;
+  color: #b6b4b1;
+  font: 600 11px "DM Sans";
+  cursor: pointer;
+  transition:
+    border-color 0.16s,
+    background 0.16s,
+    color 0.16s;
+}
+.language-chips .chip:hover {
+  border-color: #df8a5e66;
+}
+.language-chips .chip.on {
+  border-color: #df8a5e;
+  background: linear-gradient(135deg, #efaa7b, #c9694d);
+  color: #281a15;
+}
 .ability-grid {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
