@@ -558,18 +558,18 @@ const armor = ({
 });
 
 export const ARMOR = [
-  armor({ id: "padded-armor", name: "Padded", category: "Light", acBase: 11, acDex: true, stealthDisadvantage: true, cost: { quantity: 5, unit: "gp" }, weight: 8 }),
-  armor({ id: "leather-armor", name: "Leather", category: "Light", acBase: 11, acDex: true, cost: { quantity: 10, unit: "gp" }, weight: 10 }),
-  armor({ id: "studded-leather-armor", name: "Studded leather", category: "Light", acBase: 12, acDex: true, cost: { quantity: 45, unit: "gp" }, weight: 13 }),
-  armor({ id: "hide-armor", name: "Hide", category: "Medium", acBase: 12, acDex: true, acMaxBonus: 2, cost: { quantity: 10, unit: "gp" }, weight: 12 }),
-  armor({ id: "chain-shirt", name: "Chain shirt", category: "Medium", acBase: 13, acDex: true, acMaxBonus: 2, cost: { quantity: 50, unit: "gp" }, weight: 20 }),
-  armor({ id: "scale-mail", name: "Scale mail", category: "Medium", acBase: 14, acDex: true, acMaxBonus: 2, stealthDisadvantage: true, cost: { quantity: 50, unit: "gp" }, weight: 45 }),
+  armor({ id: "padded-armor", name: "Padded Armor", category: "Light", acBase: 11, acDex: true, stealthDisadvantage: true, cost: { quantity: 5, unit: "gp" }, weight: 8 }),
+  armor({ id: "leather-armor", name: "Leather Armor", category: "Light", acBase: 11, acDex: true, cost: { quantity: 10, unit: "gp" }, weight: 10 }),
+  armor({ id: "studded-leather-armor", name: "Studded Leather Armor", category: "Light", acBase: 12, acDex: true, cost: { quantity: 45, unit: "gp" }, weight: 13 }),
+  armor({ id: "hide-armor", name: "Hide Armor", category: "Medium", acBase: 12, acDex: true, acMaxBonus: 2, cost: { quantity: 10, unit: "gp" }, weight: 12 }),
+  armor({ id: "chain-shirt", name: "Chain Shirt", category: "Medium", acBase: 13, acDex: true, acMaxBonus: 2, cost: { quantity: 50, unit: "gp" }, weight: 20 }),
+  armor({ id: "scale-mail", name: "Scale Mail", category: "Medium", acBase: 14, acDex: true, acMaxBonus: 2, stealthDisadvantage: true, cost: { quantity: 50, unit: "gp" }, weight: 45 }),
   armor({ id: "breastplate", name: "Breastplate", category: "Medium", acBase: 14, acDex: true, acMaxBonus: 2, cost: { quantity: 400, unit: "gp" }, weight: 20 }),
-  armor({ id: "half-plate-armor", name: "Half plate", category: "Medium", acBase: 15, acDex: true, acMaxBonus: 2, stealthDisadvantage: true, cost: { quantity: 750, unit: "gp" }, weight: 40 }),
-  armor({ id: "ring-mail", name: "Ring mail", category: "Heavy", acBase: 14, stealthDisadvantage: true, cost: { quantity: 30, unit: "gp" }, weight: 40 }),
-  armor({ id: "chain-mail", name: "Chain mail", category: "Heavy", acBase: 16, strMinimum: 13, stealthDisadvantage: true, cost: { quantity: 75, unit: "gp" }, weight: 55 }),
-  armor({ id: "splint-armor", name: "Splint", category: "Heavy", acBase: 17, strMinimum: 15, stealthDisadvantage: true, cost: { quantity: 200, unit: "gp" }, weight: 60 }),
-  armor({ id: "plate-armor", name: "Plate", category: "Heavy", acBase: 18, strMinimum: 15, stealthDisadvantage: true, cost: { quantity: 1500, unit: "gp" }, weight: 65 }),
+  armor({ id: "half-plate-armor", name: "Half Plate Armor", category: "Medium", acBase: 15, acDex: true, acMaxBonus: 2, stealthDisadvantage: true, cost: { quantity: 750, unit: "gp" }, weight: 40 }),
+  armor({ id: "ring-mail", name: "Ring Mail", category: "Heavy", acBase: 14, stealthDisadvantage: true, cost: { quantity: 30, unit: "gp" }, weight: 40 }),
+  armor({ id: "chain-mail", name: "Chain Mail", category: "Heavy", acBase: 16, strMinimum: 13, stealthDisadvantage: true, cost: { quantity: 75, unit: "gp" }, weight: 55 }),
+  armor({ id: "splint-armor", name: "Splint Armor", category: "Heavy", acBase: 17, strMinimum: 15, stealthDisadvantage: true, cost: { quantity: 200, unit: "gp" }, weight: 60 }),
+  armor({ id: "plate-armor", name: "Plate Armor", category: "Heavy", acBase: 18, strMinimum: 15, stealthDisadvantage: true, cost: { quantity: 1500, unit: "gp" }, weight: 65 }),
   armor({ id: "shield", name: "Shield", category: "Shield", acBase: 2, cost: { quantity: 10, unit: "gp" }, weight: 6 }),
 ];
 

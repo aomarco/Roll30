@@ -107,8 +107,7 @@ test("imported armor matches its local SRD source", () => {
   for (const armor of ARMOR) {
     const source = SRD_EQUIPMENT.find((item) => item.index === armor.id);
     assert.ok(source, `${armor.id} exists in the SRD equipment data`);
-    // Display names are friendly labels ("Padded" vs SRD "Padded Armor"); the
-    // AC/cost/weight stats are what must stay faithful to the source.
+    assert.equal(armor.name, source.name);
     assert.equal(armor.category, source.armor_category);
     assert.equal(armor.acBase, source.armor_class.base);
     assert.equal(armor.acDex, source.armor_class.dex_bonus);
