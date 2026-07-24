@@ -1710,7 +1710,12 @@ function App() {
                     </div>
                     <div className="choice-panel-footer">
                       <span className={swapProblem ? "choice-error" : ""}>
-                        {swapProblem || "Legal loadout"}
+                        {swapProblem ||
+                          (swapDraft.offHand
+                            ? "Ready — dual-wield swap"
+                            : swapDraft.mainHand
+                              ? `Ready — swap to ${weaponById(swapDraft.mainHand)?.name}`
+                              : "Ready — swap to empty hands")}
                       </span>
                       <button
                         onClick={confirmWeaponSwap}

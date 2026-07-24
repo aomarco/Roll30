@@ -659,11 +659,17 @@ header > strong:before {
 /* Resource combat dock: phases 7-15 */
 .map-actions {
   max-height: calc(100% - 36px);
+  /* Constrain the single column so no child can force the dock wider than its
+     box (which would clip against overflow-x: hidden). */
+  grid-template-columns: minmax(0, 1fr);
   overflow-x: hidden;
   overflow-y: auto;
   overscroll-behavior: contain;
   scrollbar-width: thin;
   scrollbar-color: #b96f4d #191a1e;
+}
+.map-actions > * {
+  min-width: 0;
 }
 
 .resource-pips {
@@ -833,6 +839,7 @@ header > strong:before {
 
 .bonus-options {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 6px;
 }
 

@@ -432,12 +432,16 @@
   gap: 3px;
 }
 .combat-actions-row strong {
+  overflow: hidden;
   font: 600 11px "DM Sans";
+  text-overflow: ellipsis;
   white-space: nowrap;
 }
 .combat-actions-row small {
+  overflow: hidden;
   color: #9d9fa5;
   font: 9px "DM Mono";
+  text-overflow: ellipsis;
   white-space: nowrap;
 }
 @media (max-width: 600px) {
