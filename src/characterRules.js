@@ -58,6 +58,6 @@ export function newCharacter() {
     loadout: { mainHand: null, offHand: null },
     armor: null,
     shield: false,
-    abilities: { str: 15, dex: 14, con: 13, int: 8, wis: 12, cha: 10 },
+    abilities: { str: 8, dex: 8, con: 8, int: 8, wis: 8, cha: 8 },
   };
 }
