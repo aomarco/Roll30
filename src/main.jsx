@@ -2605,7 +2605,9 @@ function App() {
                                     ? `${item.typeLabel} · bundle of ${item.bundle}`
                                     : item.kind === "armor"
                                       ? `${item.typeLabel} · AC ${item.acBase}${item.acDex ? "+Dex" : ""}`
-                                      : `${item.typeLabel} · ${item.damageDice}`}
+                                      : item.kind === "gear"
+                                        ? `${item.typeLabel}${item.cost ? ` · ${item.cost.quantity} ${item.cost.unit}` : ""}`
+                                        : `${item.typeLabel} · ${item.damageDice}`}
                                 </small>
                               </span>
                               <div className="quantity-stepper">

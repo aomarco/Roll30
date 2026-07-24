@@ -1,4 +1,19 @@
 import { AMMUNITION, ARMOR, WEAPONS } from "./weapons.js";
+import { GEAR } from "./gear.js";
+
+/** Human-readable label for a gear category id. */
+const GEAR_CATEGORY_LABELS = {
+  "standard-gear": "Gear",
+  "holy-symbols": "Holy Symbol",
+  "arcane-foci": "Arcane Focus",
+  "druidic-foci": "Druidic Focus",
+  kits: "Kit",
+  "equipment-packs": "Pack",
+  tools: "Tool",
+  "mounts-and-vehicles": "Mount / Vehicle",
+};
+
+const gearLabel = (category) => GEAR_CATEGORY_LABELS[category] || "Gear";
 
 /** Generic catalog shape. More SRD equipment can be appended without changing inventory UI. */
 const WEAPON_ITEMS = WEAPONS.map((weapon) => ({
@@ -45,10 +60,26 @@ const ARMOR_ITEMS = ARMOR.map((armor) => ({
     .toLowerCase(),
 }));
 
+const GEAR_ITEMS = GEAR.map((item) => ({
+  ...item,
+  kind: "gear",
+  category: item.gearCategory,
+  typeLabel: gearLabel(item.gearCategory),
+  searchText: [
+    item.name,
+    "gear equipment",
+    item.gearCategory.replace(/-/g, " "),
+    item.cost && `${item.cost.quantity} ${item.cost.unit}`,
+  ]
+    .join(" ")
+    .toLowerCase(),
+}));
+
 export const ITEM_CATALOG = [
   ...WEAPON_ITEMS,
   ...AMMUNITION_ITEMS,
   ...ARMOR_ITEMS,
+  ...GEAR_ITEMS,
 ];
 
 export const ITEM_TYPES = [
@@ -56,6 +87,7 @@ export const ITEM_TYPES = [
   { id: "weapon", label: "Weapons" },
   { id: "ammunition", label: "Ammunition" },
   { id: "armor", label: "Armour" },
+  { id: "gear", label: "Gear" },
 ];
 
 export function normalizeInventory(inventory = []) {
@@ -112,6 +144,10 @@ export function bundleSize(itemId) {
 /** Filter option lists for the item catalog UI. */
 export const WEAPON_CLASSES = ["Simple", "Martial"];
 export const ARMOR_CLASSES = ["Light", "Medium", "Heavy", "Shield"];
+// Distinct gear labels, in the catalog's natural category order.
+export const GEAR_CLASSES = [
+  ...new Set(GEAR_ITEMS.map((item) => item.typeLabel)),
+];
 export const WEAPON_PROPERTIES = [
   ...new Set(WEAPONS.flatMap((weapon) => weapon.properties || [])),
 ].sort();
@@ -122,7 +158,9 @@ const itemClass = (item) =>
     ? item.weaponCategory
     : item.kind === "armor"
       ? item.category
-      : null;
+      : item.kind === "gear"
+        ? item.typeLabel
+        : null;
 
 export function filterCatalog(query = "", type = "all", filters = {}) {
   const needle = query.trim().toLowerCase();

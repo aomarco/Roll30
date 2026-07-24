@@ -264,11 +264,11 @@ Characters and tokens use the same generic inventory model:
 ]
 ```
 
-The catalog contains three item kinds: `weapon`, `ammunition`, and `armor` (shields are `armor` with category `Shield`). The inventory UI supports:
+The catalog contains four item kinds: `weapon`, `ammunition`, `armor` (shields are `armor` with category `Shield`), and `gear`. The inventory UI supports:
 
 - Search.
-- Item-type filtering (All / Weapons / Ammunition / Armour).
-- Class filtering (Simple/Martial for weapons; Light/Medium/Heavy/Shield for armour).
+- Item-type filtering (All / Weapons / Ammunition / Armour / Gear).
+- Class filtering (Simple/Martial for weapons; Light/Medium/Heavy/Shield for armour; category labels for gear).
 - Weapon-property filtering (Finesse, Light, Thrown, Two-Handed, Versatile, Reach, …).
 - Internal scrolling.
 - Quantity increments and decrements.
@@ -276,6 +276,10 @@ The catalog contains three item kinds: `weapon`, `ammunition`, and `armor` (shie
 - Total and unique-item summaries.
 
 `filterCatalog(query, type, { category, property })` applies these filters. Ammunition is added and stepped a full bundle at a time (`bundleSize`): arrows/bolts/bullets in 20s, blowgun needles in 50s.
+
+### Mundane Gear
+
+`src/gear.js` holds **183 source-backed 2014 SRD equipment items** — everything in the SRD equipment list that is not a weapon or armor, minus the four already-imported ammunition types. They span standard gear, holy symbols, arcane/druidic foci, kits, equipment packs, tools, and mounts/vehicles. Each `GEAR` record is `{ id, name, gearCategory, cost, weight, source }` and is generated from the data folder, not hand-typed. In the catalog they become `kind: "gear"` items with a human `typeLabel` (Gear, Tool, Pack, Mount / Vehicle, …) used both as the subtitle and as the class-filter value (`GEAR_CLASSES`). Gear is **inert**: it can be searched, filtered, and added to any inventory, but has no weight/encumbrance, tool-proficiency, or mount mechanics.
 
 On the character sheet the **Add Item** button sits directly above the inventory list. The Add Item catalog is rendered at document level (a portal) with a high stacking layer so character-sheet content cannot overlap or clip it. It closes through its close button, the backdrop, or Escape.
 
@@ -1033,9 +1037,10 @@ A combat, inventory, or persistence change is complete only when:
 - No Net (needs the Restrained condition).
 - No mounted Lance rules.
 - No magic-item effect engine (mundane armor/weapons/ammunition only).
-- The catalog covers weapons, ammunition, and armor; other equipment (gear, tools, packs) is not yet imported.
+- Mundane gear (tools, packs, mounts, etc.) is imported for inventory/roleplay only; it has no mechanical effect (no encumbrance, tool proficiencies, or mount rules).
 - Physical thrown items exist only inside an active versioned battle.
 
 ## To Be Updated
 
 - **Conditions/status-effect engine (2026-07-25):** Added a backend-first conditions system so future features (spells, monster abilities, feats) can apply a condition by id and have combat react automatically. New `src/conditions.js` holds the 15 SRD conditions, each with structured flags (`selfAttack`, `vsMelee`, `vsRanged`, `incapacitated`, `immobile`, `autoCritMelee`) plus pure helpers: `normalizeConditions`, `isIncapacitated`, `isImmobilized`, `attackerConditionModes`, `targetConditionModes`, `targetAutoCrit`, and `conditionById`. Effects wired in: `attackRollMode` (`src/combatRules.js`) now folds attacker and target condition roll-modes into the existing advantage/disadvantage engine (prone melee-vs-ranged, restrained/blinded/etc. grant advantage, poisoned/frightened/invisible bias the attacker); `resolveWeaponAttack` (`src/weapons.js`) gains an `autoCritical` option for melee hits on paralyzed/unconscious targets; tokens carry a `conditions: []` array (defaulted in `makeToken` and `migrateTokenData`, cleared on battle start); the combat dock disables Attack/Bonus/Dash/Swap when the active token is incapacitated and zeroes movement when immobilized. Visual indicators: colored abbreviation badges float above each affected token, and the token inspector has a Conditions section of toggle chips (active chips take the condition's color). Tests in `src/conditions.test.js` cover normalization, incapacitated/immobilized detection, attacker/target roll-mode folding, and auto-crit (suite now 57). Verified by rendering badges + editor in headless Chrome; `npm run build` passes. Net remains excluded but its blocker (Restrained) now exists.
+- **Mundane equipment import (2026-07-25):** Imported the remaining 183 non-weapon/non-armor SRD equipment items (excluding the 4 already-imported ammunition types) into a new generated `src/gear.js` (`GEAR` array of `{ id, name, gearCategory, cost, weight, source }`, plus `gearById`). `src/items.js` maps them to `kind: "gear"` catalog entries with a human `typeLabel` (Gear/Tool/Pack/Mount·Vehicle/Holy Symbol/Arcane Focus/Druidic Focus/Kit), adds a "Gear" item type, exposes `GEAR_CLASSES` (the distinct labels) for the class filter, and extends `itemClass` so gear filters by its label. The three inventory `<small>` render sites (item picker + owned list in `src/CharactersPage.jsx`, quick-item row in `src/main.jsx`) gained a gear branch showing `typeLabel · cost`. Gear is inert — no persistence, encumbrance, tool, or mount mechanics; it reuses the existing generic inventory model with no migration needed. New `src/gear.test.js` (6 tests: count/fidelity against the SRD JSON, mount category derivation, `gearById` miss, gear-type filtering, and category narrowing); suite now 63. `npm test` and `npm run build` pass.

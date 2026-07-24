@@ -15,6 +15,7 @@ import {
 } from "./characterRules.js";
 import {
   ARMOR_CLASSES,
+  GEAR_CLASSES,
   ITEM_CATALOG,
   ITEM_TYPES,
   WEAPON_CLASSES,
@@ -93,9 +94,11 @@ export default function CharactersPage({ characters, setCharacters, onBack }) {
   const classOptions =
     itemType === "armor"
       ? ARMOR_CLASSES
-      : itemType === "ammunition"
-        ? []
-        : WEAPON_CLASSES;
+      : itemType === "gear"
+        ? GEAR_CLASSES
+        : itemType === "ammunition"
+          ? []
+          : WEAPON_CLASSES;
   const propertyEnabled = itemType === "weapon" || itemType === "all";
   const visibleInventory = inventory.filter((entry) => {
     const item = ITEM_CATALOG.find(
@@ -579,7 +582,9 @@ export default function CharactersPage({ characters, setCharacters, onBack }) {
                                       ? `${item.typeLabel} · bundle of ${item.bundle}`
                                       : item.kind === "armor"
                                         ? `${item.typeLabel} · ${item.category} · AC ${item.acBase}${item.acDex ? "+Dex" : ""}`
-                                        : `${item.typeLabel} · ${item.category} · ${item.rangeFeet} ft`}
+                                        : item.kind === "gear"
+                                          ? `${item.typeLabel}${item.cost ? ` · ${item.cost.quantity} ${item.cost.unit}` : ""}`
+                                          : `${item.typeLabel} · ${item.category} · ${item.rangeFeet} ft`}
                                   </small>
                                 </span>
                                 <em>{owned ? `${owned} owned` : "+ Add"}</em>
@@ -627,7 +632,9 @@ export default function CharactersPage({ characters, setCharacters, onBack }) {
                                 ? `Ammunition · bundle of ${item.bundle}`
                                 : item.kind === "armor"
                                   ? `${item.category} armour · AC ${item.acBase}${item.acDex ? "+Dex" : ""}`
-                                  : `${item.damageDice} ${item.damageType.toLowerCase()} · ${item.rangeFeet} ft`}
+                                  : item.kind === "gear"
+                                    ? `${item.typeLabel}${item.cost ? ` · ${item.cost.quantity} ${item.cost.unit}` : ""}`
+                                    : `${item.damageDice} ${item.damageType.toLowerCase()} · ${item.rangeFeet} ft`}
                             </small>
                           </div>
                           <div className="quantity-stepper">
