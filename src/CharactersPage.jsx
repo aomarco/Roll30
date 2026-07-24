@@ -16,11 +16,16 @@ import {
   bundleSize,
   changeInventoryQuantity,
   filterCatalog,
+  inventoryQuantity,
   normalizeInventory,
   removeInventoryItem,
 } from "./items.js";
-import { loadoutProblem, normalizeLoadout } from "./combatRules.js";
-import { ARMOR, armorById, weaponById } from "./weapons.js";
+import {
+  loadoutProblem,
+  normalizeEquipment,
+  normalizeLoadout,
+} from "./combatRules.js";
+import { armorById, weaponById } from "./weapons.js";
 
 export default function CharactersPage({ characters, setCharacters, onBack }) {
   const [itemPickerOpen, setItemPickerOpen] = useState(false);
@@ -59,6 +64,10 @@ export default function CharactersPage({ characters, setCharacters, onBack }) {
       weapon: weaponById(entry.itemId),
     }))
     .filter((entry) => entry.weapon);
+  const ownedArmor = inventory
+    .map((entry) => ({ ...entry, armor: armorById(entry.itemId) }))
+    .filter((entry) => entry.armor && entry.armor.category !== "Shield");
+  const ownsShield = inventoryQuantity(inventory, "shield") > 0;
   const catalogResults = filterCatalog(itemQuery, itemType);
   const visibleInventory = inventory.filter((entry) => {
     const item = ITEM_CATALOG.find(
@@ -76,6 +85,7 @@ export default function CharactersPage({ characters, setCharacters, onBack }) {
     update({
       inventory: nextInventory,
       loadout: normalizeLoadout(nextInventory, loadout),
+      ...normalizeEquipment(nextInventory, selected),
     });
   };
   const removeItem = (itemId) => {
@@ -83,6 +93,7 @@ export default function CharactersPage({ characters, setCharacters, onBack }) {
     update({
       inventory: nextInventory,
       loadout: normalizeLoadout(nextInventory, loadout),
+      ...normalizeEquipment(nextInventory, selected),
     });
   };
   const setLoadout = (patch) => {
@@ -451,23 +462,26 @@ export default function CharactersPage({ characters, setCharacters, onBack }) {
                     }
                   >
                     <option value="">None (unarmored)</option>
-                    {ARMOR.filter((armor) => armor.category !== "Shield").map(
-                      (armor) => (
-                        <option key={armor.id} value={armor.id}>
-                          {armor.name} · {armor.category}
-                        </option>
-                      ),
-                    )}
+                    {ownedArmor.map(({ armor }) => (
+                      <option key={armor.id} value={armor.id}>
+                        {armor.name} · {armor.category}
+                      </option>
+                    ))}
                   </select>
                 </label>
                 <label className="shield-check">
                   <span>
-                    Shield{shieldBlocked ? " (hand not free)" : ""}
+                    Shield
+                    {shieldBlocked
+                      ? " (hand not free)"
+                      : !ownsShield
+                        ? " (none owned)"
+                        : ""}
                   </span>
                   <input
                     type="checkbox"
                     checked={!!selected.shield}
-                    disabled={shieldBlocked}
+                    disabled={shieldBlocked || !ownsShield}
                     onChange={(event) => update({ shield: event.target.checked })}
                   />
                 </label>

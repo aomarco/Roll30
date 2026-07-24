@@ -190,6 +190,18 @@ export function equipmentProblem(inventory, loadout, shield) {
   return null;
 }
 
+/**
+ * Clear equipped armor/shield that the entity does not own. Equipping requires
+ * owning the item (like weapons); this is the armor analogue of normalizeLoadout.
+ */
+export function normalizeEquipment(inventory, { armor, shield } = {}) {
+  const counts = inventoryCounts(inventory);
+  return {
+    armor: armor && counts.get(armor) ? armor : null,
+    shield: shield && counts.get("shield") ? true : false,
+  };
+}
+
 export function isDualWieldLoadout(inventory, loadout) {
   return (
     !!loadout?.mainHand &&

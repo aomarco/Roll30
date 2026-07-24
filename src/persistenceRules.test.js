@@ -29,6 +29,34 @@ test("legacy characters gain size and normalized inventory", () => {
   });
 });
 
+test("migration strips equipped armor and shield that are not owned", () => {
+  const token = migrateTokenData({
+    id: 2,
+    dexterity: 14,
+    inventory: [{ itemId: "leather-armor", quantity: 1 }],
+    armor: "plate-armor",
+    shield: true,
+  });
+  // Unowned plate/shield are cleared; AC falls back to unarmored 10 + Dex.
+  assert.equal(token.armor, null);
+  assert.equal(token.shield, false);
+  assert.equal(token.ac, 12);
+
+  const owned = migrateTokenData({
+    id: 3,
+    dexterity: 14,
+    inventory: [
+      { itemId: "leather-armor", quantity: 1 },
+      { itemId: "shield", quantity: 1 },
+    ],
+    armor: "leather-armor",
+    shield: true,
+  });
+  assert.equal(owned.armor, "leather-armor");
+  assert.equal(owned.shield, true);
+  assert.equal(owned.ac, 15); // 11 + 2 Dex + 2 shield
+});
+
 test("legacy battles reopen in Setup while versioned battles restore items", () => {
   const tokens = [migrateTokenData({ id: 1, speed: 30 })];
   assert.equal(

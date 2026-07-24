@@ -1,6 +1,7 @@
 import { normalizeInventory } from "./items.js";
 import {
   computeArmorClass,
+  normalizeEquipment,
   normalizeLoadout,
   normalizeTurnResources,
 } from "./combatRules.js";
@@ -12,8 +13,10 @@ export function migrateTokenData(token = {}) {
   const dexterity = Number.isFinite(Number(token.dexterity))
     ? Number(token.dexterity)
     : 10;
-  const armor = token.armor || null;
-  const shield = !!token.shield;
+  const { armor, shield } = normalizeEquipment(inventory, {
+    armor: token.armor || null,
+    shield: !!token.shield,
+  });
   return {
     ...token,
     hp: Number.isFinite(Number(token.hp)) ? Number(token.hp) : 10,
@@ -38,11 +41,15 @@ export function migrateTokenData(token = {}) {
 
 export function migrateCharacterData(character = {}) {
   const inventory = normalizeInventory(character.inventory);
+  const { armor, shield } = normalizeEquipment(inventory, {
+    armor: character.armor || null,
+    shield: !!character.shield,
+  });
   return {
     ...character,
     size: character.size || "medium",
-    armor: character.armor || null,
-    shield: !!character.shield,
+    armor,
+    shield,
     inventory,
     loadout: normalizeLoadout(inventory, character.loadout),
   };

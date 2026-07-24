@@ -10,6 +10,7 @@ import {
   createTurnResources,
   effectiveSpeed,
   equipmentProblem,
+  normalizeEquipment,
   isDualWieldLoadout,
   loadoutProblem,
   movementMaximum,
@@ -72,6 +73,36 @@ test("a shield needs a free off hand", () => {
     equipmentProblem(inventory, { mainHand: "greatsword" }, false),
     null,
   );
+});
+
+test("equipment can only be equipped when owned", () => {
+  const inventory = [
+    { itemId: "leather-armor", quantity: 1 },
+    { itemId: "shield", quantity: 1 },
+  ];
+  // Owned armor + shield are kept.
+  assert.deepEqual(
+    normalizeEquipment(inventory, { armor: "leather-armor", shield: true }),
+    { armor: "leather-armor", shield: true },
+  );
+  // Unowned armor is cleared.
+  assert.deepEqual(
+    normalizeEquipment(inventory, { armor: "plate-armor", shield: true }),
+    { armor: null, shield: true },
+  );
+  // Shield cleared when no shield item is owned.
+  assert.deepEqual(
+    normalizeEquipment([{ itemId: "leather-armor", quantity: 1 }], {
+      armor: "leather-armor",
+      shield: true,
+    }),
+    { armor: "leather-armor", shield: false },
+  );
+  // Unarmored / no shield stays clean.
+  assert.deepEqual(normalizeEquipment([], { armor: null, shield: false }), {
+    armor: null,
+    shield: false,
+  });
 });
 
 test("turn resources begin fresh at the token's speed", () => {

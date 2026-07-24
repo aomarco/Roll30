@@ -26,7 +26,6 @@ import CharactersPage from "./CharactersPage.jsx";
 import { deriveCharacter } from "./characterRules.js";
 import {
   ammunitionById,
-  ARMOR,
   armorById,
   effectiveDamageDice,
   resolveWeaponAttack,
@@ -60,6 +59,7 @@ import {
   distanceFeet,
   effectiveSpeed,
   equipmentProblem,
+  normalizeEquipment,
   isDualWieldLoadout,
   loadoutProblem,
   movementMaximum,
@@ -357,6 +357,11 @@ function App() {
   const selectedOwnedWeapons = selectedInventory
     .map((entry) => ({ ...entry, weapon: weaponById(entry.itemId) }))
     .filter((entry) => entry.weapon);
+  const selectedOwnedArmor = selectedInventory
+    .map((entry) => ({ ...entry, armor: armorById(entry.itemId) }))
+    .filter((entry) => entry.armor && entry.armor.category !== "Shield");
+  const selectedOwnsShield =
+    inventoryQuantity(selectedInventory, "shield") > 0;
   const quickCatalogResults = filterCatalog(quickItemQuery, quickItemType);
   const activeLoadout = active
     ? normalizeLoadout(active.inventory, active.loadout)
@@ -465,11 +470,12 @@ function App() {
     setTokens((items) =>
       items.map((token) =>
         token.id === selected.id
-          ? {
+          ? withDerivedAc({
               ...token,
               inventory: nextInventory,
               loadout: normalizeLoadout(nextInventory, token.loadout),
-            }
+              ...normalizeEquipment(nextInventory, token),
+            })
           : token,
       ),
     );
@@ -2423,9 +2429,7 @@ function App() {
                             }
                           >
                             <option value="">None (unarmored)</option>
-                            {ARMOR.filter(
-                              (armor) => armor.category !== "Shield",
-                            ).map((armor) => (
+                            {selectedOwnedArmor.map(({ armor }) => (
                               <option key={armor.id} value={armor.id}>
                                 {armor.name} · {armor.category}
                               </option>
@@ -2438,14 +2442,18 @@ function App() {
                             {weaponById(selectedLoadout.mainHand)?.hands ===
                               "two" || selectedLoadout.offHand
                               ? " (hand not free)"
-                              : ""}
+                              : !selectedOwnsShield
+                                ? " (none owned)"
+                                : ""}
                           </span>
                           <input
                             type="checkbox"
                             checked={!!selected.shield}
                             disabled={
                               weaponById(selectedLoadout.mainHand)?.hands ===
-                                "two" || !!selectedLoadout.offHand
+                                "two" ||
+                              !!selectedLoadout.offHand ||
+                              !selectedOwnsShield
                             }
                             onChange={(event) =>
                               setSelectedShield(event.target.checked)
