@@ -890,6 +890,75 @@ The current suite contains **42 tests** covering:
 - Positive and negative off-hand modifiers.
 - Fixed damage definitions.
 
+## UI Layout and Anti-Clipping Practices
+
+Several rounds of bugs in the combat dock came from the same family of layout
+mistakes: text and controls being clipped, overflowing their panel, or
+collapsing to nothing. This section is the standing guidance for any UI work.
+Follow it whenever you add or change a panel, button, row, or menu.
+
+### Why clipping keeps happening
+
+The root cause is almost always **a flex or grid child that refuses to shrink**.
+By default, flex and grid items have `min-width: auto`, which means they will
+not shrink below their content's intrinsic size. A long label, a wide button,
+or a fixed-size child then forces its container wider than the available space.
+When an ancestor has `overflow: hidden` (or `overflow-x: hidden`), the excess is
+sliced off — that is the "clipping." When the ancestor scrolls, you get an
+unwanted scrollbar (the stray orange bar seen in the dock was exactly this).
+
+### Rules to prevent it
+
+1. **Constrain grid tracks.** Use `grid-template-columns: minmax(0, 1fr)` rather
+   than bare `1fr` or an implicit `auto` column. A bare `1fr` still has an
+   `auto` minimum and can be forced wide; `minmax(0, 1fr)` can actually shrink.
+   The combat dock (`.map-actions`) must keep its single `minmax(0, 1fr)` column
+   with `min-width: 0` on its direct children.
+
+2. **Add `min-width: 0` to flex and grid children that contain text.** This
+   overrides the `min-width: auto` default and lets the child shrink so its text
+   can ellipsize instead of pushing the layout wide. The same applies to
+   `min-height: 0` for vertical cases.
+
+3. **Any text that can be long must have an explicit overflow behavior.** Either
+   truncate — `overflow: hidden; text-overflow: ellipsis; white-space: nowrap` —
+   or allow it to wrap on purpose. Never leave a `white-space: nowrap` element
+   without `overflow`/`text-overflow`, or it will spill and clip. Status strings
+   ("Unavailable · attack spent", weapon names, loadout messages) are the usual
+   offenders.
+
+4. **Do not rely on implicit auto-stretch to size a control full width.** Grid
+   and flex "stretch" behavior is subtle and did not fire reliably here. For a
+   control that must fill its container, set it explicitly: `width: 100%`, or a
+   deterministic `grid-template-columns` (e.g. `18px minmax(0, 1fr)` for an
+   icon + label row) with `justify-items: start` so content hugs the left.
+
+5. **Icon + label buttons follow one pattern.** A fixed icon column and a
+   flexible text column: pin the icon (fixed size, do not let it shrink or grow),
+   give the text column `minmax(0, 1fr)` / `min-width: 0`, and let the label
+   ellipsize. This is how the Attack/Bonus/End-turn and Bonus-option buttons are
+   built; copy it rather than inventing a new layout.
+
+6. **Scroll on purpose, clip deliberately.** A panel that should never scroll
+   sideways gets `overflow-x: hidden`; a panel meant to scroll gets
+   `overflow-y: auto` with `overscroll-behavior: contain`. Do not add
+   `overflow: hidden` to "fix" a spill without also fixing the child that is
+   causing it — otherwise you have only hidden the symptom.
+
+7. **Test at more than one width.** The workspace reflows at documented
+   breakpoints and under browser zoom. Check a narrow width (or zoom in) so a
+   control that fits at desktop width does not clip when the column shrinks.
+
+### Verify by rendering, not by reasoning
+
+CSS layout bugs are easy to reason about incorrectly. When a layout fix is not
+obviously correct, **render it and look** rather than trusting the reasoning. A
+lightweight way that needs no project dependencies: build (`npm run build`),
+then load the compiled CSS with the affected DOM in headless Chrome via
+`playwright-core` pointed at the system Chrome executable, screenshot the
+element, and measure its box. Confirm the control is the width you expect and
+the text is visible before committing.
+
 ## Completion Checklist for Changes
 
 A combat, inventory, or persistence change is complete only when:
@@ -904,6 +973,7 @@ A combat, inventory, or persistence change is complete only when:
 - `git diff --check` passes.
 - Desktop and constrained layouts remain readable.
 - Internal scroll areas do not clip controls.
+- Any new or changed UI follows the **UI Layout and Anti-Clipping Practices** section (constrained tracks, `min-width: 0`, text overflow behavior, explicit full-width sizing), and non-obvious layout changes are verified by rendering, not just reasoning.
 - Reduced-motion behavior remains usable.
 - GitHub Pages deploys successfully.
 - The live build and asset paths are verified.
