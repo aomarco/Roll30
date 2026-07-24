@@ -84,6 +84,12 @@ export function inventoryItemIds(inventory) {
   return normalizeInventory(inventory).map((entry) => entry.itemId);
 }
 
+/** Ammunition is bought and adjusted a bundle at a time; weapons step by one. */
+export function bundleSize(itemId) {
+  const item = ITEM_CATALOG.find((candidate) => candidate.id === itemId);
+  return item?.kind === "ammunition" ? item.bundle : 1;
+}
+
 export function filterCatalog(query = "", type = "all") {
   const needle = query.trim().toLowerCase();
   return ITEM_CATALOG.filter(

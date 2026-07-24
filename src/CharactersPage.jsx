@@ -13,6 +13,7 @@ import {
 import {
   ITEM_CATALOG,
   ITEM_TYPES,
+  bundleSize,
   changeInventoryQuantity,
   filterCatalog,
   normalizeInventory,
@@ -67,7 +68,11 @@ export default function CharactersPage({ characters, setCharacters, onBack }) {
   });
   const changeItemQuantity = (itemId, amount) => {
     if (!selected) return;
-    const nextInventory = changeInventoryQuantity(inventory, itemId, amount);
+    const nextInventory = changeInventoryQuantity(
+      inventory,
+      itemId,
+      amount * bundleSize(itemId),
+    );
     update({
       inventory: nextInventory,
       loadout: normalizeLoadout(nextInventory, loadout),

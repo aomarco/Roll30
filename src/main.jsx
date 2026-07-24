@@ -32,6 +32,7 @@ import {
 } from "./weapons.js";
 import {
   ITEM_TYPES,
+  bundleSize,
   changeInventoryQuantity,
   filterCatalog,
   inventoryQuantity,
@@ -420,7 +421,7 @@ function App() {
     const nextInventory = changeInventoryQuantity(
       selected.inventory,
       itemId,
-      amount,
+      amount * bundleSize(itemId),
     );
     setTokens((items) =>
       items.map((token) =>
@@ -2040,26 +2041,42 @@ function App() {
               active &&
               selectedWeapon &&
               boardRef.current &&
-              weaponRangeCells(selectedWeapon).map((offset) => {
-                const c = cell(
-                    active,
-                    boardRef.current.getBoundingClientRect(),
-                  ),
-                  distance = Math.abs(offset.x) + Math.abs(offset.y);
-                return (
-                  <i
-                    key={`attack-${offset.x}-${offset.y}`}
-                    className={`attack-cell ${offset.color}`}
-                    style={{
-                      left: (c.x + offset.x) * gridSize,
-                      top: (c.y + offset.y) * gridSize,
-                      width: gridSize,
-                      height: gridSize,
-                      "--attack-delay": `${distance * 55}ms`,
-                    }}
-                  />
-                );
-              })}
+              (() => {
+                const rect = boardRef.current.getBoundingClientRect();
+                const c = cell(active, rect);
+                const columns = Math.floor(rect.width / gridSize);
+                const rows = Math.floor(rect.height / gridSize);
+                // Only build and render cells that land on the visible board.
+                // columns + rows covers the far corner from any attacker cell.
+                return weaponRangeCells(selectedWeapon, columns + rows)
+                  .filter((offset) => {
+                    const bx = c.x + offset.x;
+                    const by = c.y + offset.y;
+                    return (
+                      offset.color &&
+                      bx >= 0 &&
+                      by >= 0 &&
+                      bx < columns &&
+                      by < rows
+                    );
+                  })
+                  .map((offset) => {
+                    const distance = Math.abs(offset.x) + Math.abs(offset.y);
+                    return (
+                      <i
+                        key={`attack-${offset.x}-${offset.y}`}
+                        className={`attack-cell ${offset.color}`}
+                        style={{
+                          left: (c.x + offset.x) * gridSize,
+                          top: (c.y + offset.y) * gridSize,
+                          width: gridSize,
+                          height: gridSize,
+                          "--attack-delay": `${distance * 55}ms`,
+                        }}
+                      />
+                    );
+                  });
+              })()}
             {attackMessage && (
               <div className="attack-error">{attackMessage}</div>
             )}

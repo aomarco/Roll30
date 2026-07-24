@@ -250,14 +250,17 @@ export function weaponRangeBand(selectedWeapon, feet) {
   return null;
 }
 
-export function weaponRangeCells(selectedWeapon) {
+export function weaponRangeCells(selectedWeapon, maxRadius = Infinity) {
   if (!selectedWeapon) return [];
   const maximumFeet = selectedWeapon.thrown
     ? selectedWeapon.thrown.longRange
     : selectedWeapon.rangeType === "ranged"
       ? selectedWeapon.longRange
       : selectedWeapon.meleeRange || 5;
-  return patternCells("diamond", Math.max(1, maximumFeet / 5)).map((cell) => ({
+  // Long-range weapons cover thousands of squares; callers can cap generation
+  // to the visible board so we never build cells that can't be seen.
+  const radius = Math.max(1, Math.min(maximumFeet / 5, maxRadius));
+  return patternCells("diamond", radius).map((cell) => ({
     ...cell,
     ...weaponRangeBand(
       selectedWeapon,
