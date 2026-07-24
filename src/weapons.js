@@ -637,8 +637,11 @@ export function resolveWeaponAttack(
   const proficiency = proficiencyBonus(attacker.level);
   const bonus = abilityModifier + proficiency;
   const attackTotal = naturalRoll + bonus;
-  const critical = naturalRoll === 20;
-  const hit = critical || (naturalRoll !== 1 && attackTotal >= target.ac);
+  const naturalCrit = naturalRoll === 20;
+  const hit = naturalCrit || (naturalRoll !== 1 && attackTotal >= target.ac);
+  // A hit is also a critical when the target's state forces it (e.g. a melee
+  // hit against a paralyzed or unconscious creature).
+  const critical = naturalCrit || (hit && !!options.autoCritical);
   const damageDefinition = selectedWeapon.damage || {
     type: "dice",
     notation: selectedWeapon.damageDice,

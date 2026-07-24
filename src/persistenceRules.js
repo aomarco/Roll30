@@ -5,6 +5,7 @@ import {
   normalizeLoadout,
   normalizeTurnResources,
 } from "./combatRules.js";
+import { normalizeConditions } from "./conditions.js";
 
 export const COMBAT_DATA_VERSION = 2;
 
@@ -34,6 +35,7 @@ export function migrateTokenData(token = {}) {
     size: token.size || "medium",
     armor,
     shield,
+    conditions: normalizeConditions(token.conditions),
     inventory,
     loadout: normalizeLoadout(inventory, token.loadout),
   };

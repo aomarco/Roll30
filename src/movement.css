@@ -588,6 +588,81 @@
 .ability-heading .points-left {
   flex: 0 0 auto;
 }
+.token-conditions {
+  position: absolute;
+  z-index: 4;
+  left: 50%;
+  top: -13px;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 2px;
+  pointer-events: none;
+}
+.token-conditions b {
+  min-width: 15px;
+  height: 15px;
+  padding: 0 2px;
+  border: 1px solid #0006;
+  border-radius: 4px;
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font: 700 8px "DM Mono";
+  font-style: normal;
+  text-shadow: 0 1px 1px #0008;
+  box-shadow: 0 1px 3px #0007;
+}
+.conditions-editor {
+  display: grid;
+  gap: 9px;
+  padding: 14px;
+  border: 1px solid #a85a4f40;
+  border-radius: 12px;
+  background: linear-gradient(145deg, #2c292b, #202126);
+}
+.conditions-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+.conditions-heading p {
+  margin: 0;
+  color: #d99170;
+  font: 10px "DM Mono";
+  letter-spacing: 1px;
+}
+.conditions-heading span {
+  color: #8f9197;
+  font: 10px "DM Mono";
+}
+.condition-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.condition-chips .chip {
+  min-height: 28px;
+  padding: 0 10px;
+  border: 1px solid #4a4c52;
+  border-radius: 14px;
+  background: #2b2c31;
+  color: #b6b4b1;
+  font: 600 10px "DM Sans";
+  cursor: pointer;
+  transition:
+    border-color 0.16s,
+    background 0.16s,
+    color 0.16s;
+}
+.condition-chips .chip:hover {
+  border-color: #df8a5e66;
+}
+.condition-chips .chip.on {
+  border-color: #ffffff33;
+  color: #fff;
+  text-shadow: 0 1px 1px #0007;
+}
 .languages-section {
   display: grid;
   gap: 10px;

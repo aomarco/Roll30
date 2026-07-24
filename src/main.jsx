@@ -42,6 +42,14 @@ import {
 } from "./items.js";
 import MapSettingsPage from "./MapSettingsPage.jsx";
 import {
+  CONDITIONS,
+  conditionById,
+  isImmobilized,
+  isIncapacitated,
+  normalizeConditions,
+  targetAutoCrit,
+} from "./conditions.js";
+import {
   COMBAT_DATA_VERSION,
   migrateCharacterData,
   migrateTokenData,
@@ -93,6 +101,7 @@ const makeToken = (id) => ({
   loadout: { mainHand: null, offHand: null },
   armor: null,
   shield: false,
+  conditions: [],
   size: "medium",
   color: ["#c96d58", "#769b79", "#7e83ba", "#bd9a52"][id % 4],
 });
@@ -346,7 +355,11 @@ function App() {
       : active
         ? createTurnResources(effectiveSpeed(active.speed, active))
         : null;
-  const movementLeft = movementRemaining(turnResources);
+  // An immobilized active token (grappled, restrained, stunned, …) has no
+  // movement; an incapacitated one cannot take actions or bonus actions.
+  const activeImmobilized = active ? isImmobilized(active.conditions) : false;
+  const activeIncapacitated = active ? isIncapacitated(active.conditions) : false;
+  const movementLeft = activeImmobilized ? 0 : movementRemaining(turnResources);
   const selectedInventory = normalizeInventory(selected?.inventory);
   const selectedInventoryQuantities = new Map(
     selectedInventory.map((entry) => [entry.itemId, entry.quantity]),
@@ -458,6 +471,19 @@ function App() {
           ? withDerivedAc({ ...token, shield: on })
           : token,
       ),
+    );
+  };
+  const toggleSelectedCondition = (conditionId) => {
+    if (!selected) return;
+    setTokens((items) =>
+      items.map((token) => {
+        if (token.id !== selected.id) return token;
+        const current = normalizeConditions(token.conditions);
+        const next = current.includes(conditionId)
+          ? current.filter((id) => id !== conditionId)
+          : [...current, conditionId];
+        return { ...token, conditions: next };
+      }),
     );
   };
   const changeSelectedItemQuantity = (itemId, amount) => {
@@ -789,6 +815,8 @@ function App() {
           ...makeToken(t.id),
           ...migrateTokenData(t),
           hp: t.maxHp,
+          // A freshly started/restarted battle clears prior conditions.
+          conditions: [],
           x: ((cx * gridSize + gridSize / 2) / rect.width) * 100,
           y: ((cy * gridSize + gridSize / 2) / rect.height) * 100,
           initiative:
@@ -908,6 +936,7 @@ function App() {
         : selectedWeapon;
     const rollDetails = attackRollMode({
       attacker: active,
+      target,
       selectedWeapon: attackWeapon,
       rangeBand,
       resources: turnResources,
@@ -917,6 +946,12 @@ function App() {
       resources: attackResources,
       log: `${active.name} attacks ${target.name} with ${selectedWeapon.name}${rollDetails.mode === "normal" ? "" : ` at ${rollDetails.mode}`}.`,
     }));
+    // Melee hits against a paralyzed/unconscious target are automatic crits.
+    const rangeTypeForCrit = rangeBand.id.startsWith("thrown-")
+      ? "ranged"
+      : attackWeapon.rangeType === "ranged"
+        ? "ranged"
+        : "melee";
     const result = resolveWeaponAttack(
       active,
       target,
@@ -925,6 +960,7 @@ function App() {
       {
         rollMode: rollDetails.mode,
         damageModifier: attackKind === "bonus" ? "off-hand" : "normal",
+        autoCritical: targetAutoCrit(target.conditions, rangeTypeForCrit),
       },
     );
     const reducedMotion = window.matchMedia(
@@ -1861,6 +1897,8 @@ function App() {
                     aria-label={dashStatus}
                     disabled={
                       !canDash(turnResources) ||
+                      activeIncapacitated ||
+                      activeImmobilized ||
                       !!attackCinematic ||
                       !!retrievalCinematic
                     }
@@ -1876,6 +1914,7 @@ function App() {
                     aria-label={swapStatus}
                     disabled={
                       !canSwapWeapons(turnResources) ||
+                      activeIncapacitated ||
                       !!attackCinematic ||
                       !!retrievalCinematic
                     }
@@ -1897,6 +1936,7 @@ function App() {
                     className={attackMode || weaponMenuOpen ? "armed" : ""}
                     disabled={
                       !canUseAttackAction(turnResources) ||
+                      activeIncapacitated ||
                       !availableWeapons.length ||
                       !!attackCinematic ||
                       !!retrievalCinematic
@@ -1929,6 +1969,7 @@ function App() {
                     disabled={
                       (!turnResources.offHandAttackAvailable &&
                         !retrievalOptions.length) ||
+                      activeIncapacitated ||
                       !!attackCinematic ||
                       !!retrievalCinematic
                     }
@@ -2250,6 +2291,22 @@ function App() {
               >
                 <span>{t.name.slice(0, 2).toUpperCase()}</span>
                 <small>{t.name}</small>
+                {normalizeConditions(t.conditions).length > 0 && (
+                  <i className="token-conditions">
+                    {normalizeConditions(t.conditions).map((id) => {
+                      const c = conditionById(id);
+                      return (
+                        <b
+                          key={id}
+                          style={{ background: c.color }}
+                          title={`${c.name}: ${c.note}`}
+                        >
+                          {c.abbr}
+                        </b>
+                      );
+                    })}
+                  </i>
+                )}
               </button>
             ))}
           </div>
@@ -2276,6 +2333,39 @@ function App() {
                   }
                 />
               </label>
+              {mode === "battle" && (
+                <div className="conditions-editor">
+                  <div className="conditions-heading">
+                    <p>CONDITIONS</p>
+                    <span>
+                      {normalizeConditions(selected.conditions).length || "None"}
+                      {normalizeConditions(selected.conditions).length
+                        ? " active"
+                        : ""}
+                    </span>
+                  </div>
+                  <div className="condition-chips">
+                    {CONDITIONS.map((condition) => {
+                      const on = normalizeConditions(selected.conditions).includes(
+                        condition.id,
+                      );
+                      return (
+                        <button
+                          key={condition.id}
+                          type="button"
+                          className={on ? "chip on" : "chip"}
+                          aria-pressed={on}
+                          title={condition.note}
+                          style={on ? { background: condition.color } : undefined}
+                          onClick={() => toggleSelectedCondition(condition.id)}
+                        >
+                          {condition.name}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
               {mode === "battle" &&
                 (!battle ? (
                   <section className="setup-stat-editor">

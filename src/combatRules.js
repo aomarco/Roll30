@@ -1,5 +1,9 @@
 import { patternCells } from "./patterns.js";
 import { armorById, modifier, weaponById } from "./weapons.js";
+import {
+  attackerConditionModes,
+  targetConditionModes,
+} from "./conditions.js";
 
 const safeSpeed = (speed) => Math.max(0, Math.floor(Number(speed) || 0));
 const inventoryCounts = (inventory = []) => {
@@ -331,14 +335,29 @@ export function weaponRangeCells(selectedWeapon, maxRadius = Infinity) {
 
 export function attackRollMode({
   attacker,
+  target,
   selectedWeapon,
   rangeBand,
   resources,
   advantages = [],
   disadvantages = [],
 }) {
+  const rangeType =
+    selectedWeapon?.rangeType === "ranged" ||
+    String(rangeBand?.id || "").startsWith("thrown-")
+      ? "ranged"
+      : "melee";
+  const attackerModes = attackerConditionModes(attacker?.conditions);
+  const targetModes = targetConditionModes(target?.conditions, rangeType);
+  const advantageSources = [
+    ...advantages,
+    ...attackerModes.advantages,
+    ...targetModes.advantages,
+  ].filter(Boolean);
   const disadvantageSources = [
     ...disadvantages,
+    ...attackerModes.disadvantages,
+    ...targetModes.disadvantages,
     rangeBand?.disadvantage && rangeBand.id,
     selectedWeapon?.properties.includes("Heavy") &&
       String(attacker?.size).toLowerCase() === "small" &&
@@ -347,8 +366,8 @@ export function attackRollMode({
     resources?.swapped && resources.swapChoice !== "movement" && "weapon-swap",
   ].filter(Boolean);
   return {
-    mode: resolveRollMode(advantages, disadvantageSources),
-    advantages: advantages.filter(Boolean),
+    mode: resolveRollMode(advantageSources, disadvantageSources),
+    advantages: advantageSources,
     disadvantages: disadvantageSources,
   };
 }
