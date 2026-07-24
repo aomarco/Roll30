@@ -585,6 +585,33 @@
   font: 10px "DM Mono";
 }
 
+.shield-check {
+  display: flex !important;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-width: 0;
+}
+
+.shield-check > span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.shield-check input[type="checkbox"] {
+  flex: 0 0 auto;
+  width: 20px;
+  height: 20px;
+  accent-color: #dd855e;
+  cursor: pointer;
+}
+
+.shield-check input[type="checkbox"]:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
 .token-loadout-editor output.loadout-error,
 .loadout-editor output.loadout-error {
   color: #f39a8e;

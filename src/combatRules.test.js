@@ -6,7 +6,10 @@ import {
   canSwapWeapons,
   canUseAttackAction,
   chooseLandingCell,
+  computeArmorClass,
   createTurnResources,
+  effectiveSpeed,
+  equipmentProblem,
   isDualWieldLoadout,
   loadoutProblem,
   movementMaximum,
@@ -24,6 +27,52 @@ import {
   weaponRangeCells,
 } from "./combatRules.js";
 import { weaponById } from "./weapons.js";
+
+test("armor class derives from armor category, Dex, and shield", () => {
+  // Unarmored: 10 + Dex.
+  assert.equal(computeArmorClass({ dexterity: 16 }), 13);
+  // Light (leather 11) adds full Dex.
+  assert.equal(computeArmorClass({ armor: "leather-armor", dexterity: 16 }), 14);
+  // Medium (hide 12) caps Dex at +2.
+  assert.equal(computeArmorClass({ armor: "hide-armor", dexterity: 18 }), 14);
+  // Heavy (plate 18) ignores Dex; shield adds +2.
+  assert.equal(
+    computeArmorClass({ armor: "plate-armor", dexterity: 18, shield: true }),
+    20,
+  );
+  assert.equal(computeArmorClass({ dexterity: 14, shield: true }), 14);
+});
+
+test("heavy armor below its Strength minimum reduces speed by 10", () => {
+  assert.equal(effectiveSpeed(30, { armor: "chain-mail", strength: 10 }), 20);
+  assert.equal(effectiveSpeed(30, { armor: "chain-mail", strength: 13 }), 30);
+  assert.equal(effectiveSpeed(30, { armor: "leather-armor", strength: 8 }), 30);
+  assert.equal(effectiveSpeed(30, {}), 30);
+});
+
+test("a shield needs a free off hand", () => {
+  const inventory = [
+    { itemId: "longsword", quantity: 1 },
+    { itemId: "greatsword", quantity: 1 },
+    { itemId: "scimitar", quantity: 2 },
+  ];
+  // One-handed / versatile main hand + shield is legal.
+  assert.equal(
+    equipmentProblem(inventory, { mainHand: "longsword" }, true),
+    null,
+  );
+  // Two-handed weapon + shield is illegal.
+  assert.ok(equipmentProblem(inventory, { mainHand: "greatsword" }, true));
+  // Dual-wield + shield is illegal.
+  assert.ok(
+    equipmentProblem(inventory, { mainHand: "scimitar", offHand: "scimitar" }, true),
+  );
+  // No shield leaves the weapon-only rules intact.
+  assert.equal(
+    equipmentProblem(inventory, { mainHand: "greatsword" }, false),
+    null,
+  );
+});
 
 test("turn resources begin fresh at the token's speed", () => {
   const resources = createTurnResources(30);

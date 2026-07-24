@@ -1,5 +1,5 @@
 import { patternCells } from "./patterns.js";
-import { modifier, weaponById } from "./weapons.js";
+import { armorById, modifier, weaponById } from "./weapons.js";
 
 const safeSpeed = (speed) => Math.max(0, Math.floor(Number(speed) || 0));
 const inventoryCounts = (inventory = []) => {
@@ -140,6 +140,54 @@ export function normalizeLoadout(inventory, loadout) {
   if (!counts.get(candidate.offHand)) candidate.offHand = null;
   if (loadoutProblem(inventory, candidate)) candidate.offHand = null;
   return candidate;
+}
+
+/**
+ * Derive Armor Class from equipped body armor, a shield, and Dexterity.
+ * Unarmored is 10 + Dex. Light adds full Dex, Medium caps Dex at its bonus,
+ * Heavy ignores Dex. A shield adds a flat +2.
+ */
+export function computeArmorClass({ armor, shield, dexterity } = {}) {
+  const dexMod = modifier(dexterity ?? 10);
+  const body = armorById(armor);
+  let base;
+  if (!body || body.category === "Shield") {
+    base = 10 + dexMod;
+  } else if (body.acDex) {
+    const cap = body.acMaxBonus == null ? dexMod : Math.min(dexMod, body.acMaxBonus);
+    base = body.acBase + cap;
+  } else {
+    base = body.acBase;
+  }
+  return base + (shield ? 2 : 0);
+}
+
+/**
+ * Effective speed after a heavy-armor Strength penalty: −10 ft when the wearer's
+ * Strength is below the equipped armor's minimum, otherwise the base speed.
+ */
+export function effectiveSpeed(baseSpeed, { armor, strength } = {}) {
+  const base = safeSpeed(baseSpeed);
+  const body = armorById(armor);
+  if (body && Number(strength ?? 10) < (body.strMinimum || 0))
+    return Math.max(0, base - 10);
+  return base;
+}
+
+/**
+ * Full equipment legality: weapon loadout plus shield. A shield needs a free off
+ * hand, so it is illegal with a truly two-handed weapon or while dual wielding.
+ */
+export function equipmentProblem(inventory, loadout, shield) {
+  const weaponIssue = loadoutProblem(inventory, loadout);
+  if (weaponIssue) return weaponIssue;
+  if (!shield) return null;
+  const mainWeapon = weaponById(loadout?.mainHand);
+  if (mainWeapon?.hands === "two")
+    return `${mainWeapon.name} needs both hands, leaving none for a shield.`;
+  if (loadout?.offHand)
+    return "A shield cannot be held while dual wielding.";
+  return null;
 }
 
 export function isDualWieldLoadout(inventory, loadout) {

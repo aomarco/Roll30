@@ -239,8 +239,8 @@ Current character calculations are:
 - Level 1 Fighter HP: `10 + Constitution modifier`.
 - Later fixed-average Fighter levels: `6 + Constitution modifier` per additional level.
 - Initiative: Dexterity modifier.
-- Speed: 30 feet.
-- AC: simplified unarmoured `10 + Dexterity modifier`.
+- Speed: 30 feet, reduced by 10 when Strength is below equipped heavy armor's minimum.
+- AC: derived by `computeArmorClass` from equipped armor, Dexterity (category-capped), and shield; unarmoured is `10 + Dexterity modifier`.
 - Size: Medium.
 
 Race does not directly provide Fighter HP. Human can affect it indirectly through the Constitution increase.
@@ -727,16 +727,11 @@ Source-fidelity tests compare imported names, damage, types, ranges, properties,
 
 ## Deferred and Excluded Weapon Work
 
-### Versatile Batch
+### Versatile Batch — implemented
 
-Deferred until automatic one-hand/two-hand damage is implemented:
-
-- Quarterstaff.
-- Spear.
-- Battleaxe.
-- Longsword.
-- Trident.
-- Warhammer.
+Quarterstaff, Spear, Battleaxe, Longsword, Trident, and Warhammer are now in the
+catalog with `hands: "versatile"`: two-handed damage die when the off hand is
+free, one-handed die when a shield is equipped (see `effectiveDamageDice`).
 
 ### Ammunition Batch
 
@@ -996,6 +991,8 @@ A combat, inventory, or persistence change is complete only when:
 - Physical thrown items exist only inside an active versioned battle.
 
 ## To Be Updated
+
+- **Armor, shields, and true Versatile weapons (2026-07-24):** Added the 2014 SRD armor system. New source-backed `ARMOR` catalog in `src/weapons.js` (12 body armors + shield) and an "Armour" item type in `src/items.js`. **AC is now fully derived** via `computeArmorClass` in `src/combatRules.js` (unarmored 10+Dex; Light +full Dex; Medium +Dex capped at +2; Heavy no Dex; +2 for a shield) — the manual token AC input was removed and AC recomputes whenever armor/shield/Dexterity change. Tokens and characters gain `armor` and `shield` fields (defaulted in `migrateTokenData`/`migrateCharacterData`; **legacy manual AC values are discarded** in favor of the derived value). **Heavy-armor Strength penalty** is enforced through `effectiveSpeed` (−10 ft when Strength is below the armor's minimum), applied when building each turn's movement. A **shield occupies a hand**: `equipmentProblem` forbids it with a two-handed weapon or while dual wielding, and equipping such a loadout auto-clears the shield; a shield checkbox appears in the character sheet and token Setup. **Versatile weapons are now genuinely versatile** (reverting last week's always-two-handed behavior): `hands: "versatile"`, one-handed die in `damageDice` and two-handed die in `versatileDamageDice`; `effectiveDamageDice` returns the two-handed die when both hands are free and the one-handed die when a shield is equipped, used by the attack resolution and shown in the weapon picker. Str/stealth data is imported for fidelity but stealth is not enforced (no stealth system). Tests: armor source fidelity, AC across categories + shield, effective versatile die, Strength speed penalty, and shield legality — suite now 48, `npm run build` passes; new Setup armor block render-verified in headless Chrome.
 
 - **Bonus option button full width — verified (2026-07-24):** The Bonus Actions option button kept collapsing to a bare icon. Fixed in `src/premium.css` by giving the button a deterministic two-column grid (`grid-template-columns: 18px minmax(0, 1fr)`, `justify-items: start`, `width: 100%`) plus `width: 100%` on the label span, instead of relying on flex/grid auto-stretch that wasn't taking. The icon sits left with the title and subtitle beside it, full width. Verified by rendering the compiled CSS in headless Chrome (button 490px in a 518px panel) — not just reasoned. `npm run build` passes.
 

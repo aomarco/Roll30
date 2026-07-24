@@ -1,4 +1,4 @@
-import { AMMUNITION, WEAPONS } from "./weapons.js";
+import { AMMUNITION, ARMOR, WEAPONS } from "./weapons.js";
 
 /** Generic catalog shape. More SRD equipment can be appended without changing inventory UI. */
 const WEAPON_ITEMS = WEAPONS.map((weapon) => ({
@@ -31,12 +31,31 @@ const AMMUNITION_ITEMS = AMMUNITION.map((ammo) => ({
     .toLowerCase(),
 }));
 
-export const ITEM_CATALOG = [...WEAPON_ITEMS, ...AMMUNITION_ITEMS];
+const ARMOR_ITEMS = ARMOR.map((armor) => ({
+  ...armor,
+  kind: "armor",
+  typeLabel: armor.category === "Shield" ? "Shield" : "Armour",
+  searchText: [
+    armor.name,
+    "armour armor",
+    armor.category,
+    armor.cost && `${armor.cost.quantity} ${armor.cost.unit}`,
+  ]
+    .join(" ")
+    .toLowerCase(),
+}));
+
+export const ITEM_CATALOG = [
+  ...WEAPON_ITEMS,
+  ...AMMUNITION_ITEMS,
+  ...ARMOR_ITEMS,
+];
 
 export const ITEM_TYPES = [
   { id: "all", label: "All items" },
   { id: "weapon", label: "Weapons" },
   { id: "ammunition", label: "Ammunition" },
+  { id: "armor", label: "Armour" },
 ];
 
 export function normalizeInventory(inventory = []) {

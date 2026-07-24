@@ -1,25 +1,36 @@
 import { normalizeInventory } from "./items.js";
-import { normalizeLoadout, normalizeTurnResources } from "./combatRules.js";
+import {
+  computeArmorClass,
+  normalizeLoadout,
+  normalizeTurnResources,
+} from "./combatRules.js";
 
 export const COMBAT_DATA_VERSION = 2;
 
 export function migrateTokenData(token = {}) {
   const inventory = normalizeInventory(token.inventory);
+  const dexterity = Number.isFinite(Number(token.dexterity))
+    ? Number(token.dexterity)
+    : 10;
+  const armor = token.armor || null;
+  const shield = !!token.shield;
   return {
     ...token,
     hp: Number.isFinite(Number(token.hp)) ? Number(token.hp) : 10,
     maxHp: Number.isFinite(Number(token.maxHp)) ? Number(token.maxHp) : 10,
-    ac: Number.isFinite(Number(token.ac)) ? Number(token.ac) : 10,
+    // AC is fully derived from armor + Dex + shield; any legacy manual AC is
+    // discarded in favor of the computed value.
+    ac: computeArmorClass({ armor, shield, dexterity }),
     speed: Number.isFinite(Number(token.speed)) ? Number(token.speed) : 30,
     initiativeBonus: Number(token.initiativeBonus) || 0,
     strength: Number.isFinite(Number(token.strength))
       ? Number(token.strength)
       : 10,
-    dexterity: Number.isFinite(Number(token.dexterity))
-      ? Number(token.dexterity)
-      : 10,
+    dexterity,
     level: Math.max(1, Number(token.level) || 1),
     size: token.size || "medium",
+    armor,
+    shield,
     inventory,
     loadout: normalizeLoadout(inventory, token.loadout),
   };
@@ -30,6 +41,8 @@ export function migrateCharacterData(character = {}) {
   return {
     ...character,
     size: character.size || "medium",
+    armor: character.armor || null,
+    shield: !!character.shield,
     inventory,
     loadout: normalizeLoadout(inventory, character.loadout),
   };

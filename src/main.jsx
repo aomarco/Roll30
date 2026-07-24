@@ -26,6 +26,9 @@ import CharactersPage from "./CharactersPage.jsx";
 import { deriveCharacter } from "./characterRules.js";
 import {
   ammunitionById,
+  ARMOR,
+  armorById,
+  effectiveDamageDice,
   resolveWeaponAttack,
   weaponById,
   WEAPONS,
@@ -52,8 +55,11 @@ import {
   canSwapWeapons,
   canUseAttackAction,
   chooseLandingCell,
+  computeArmorClass,
   createTurnResources,
   distanceFeet,
+  effectiveSpeed,
+  equipmentProblem,
   isDualWieldLoadout,
   loadoutProblem,
   movementMaximum,
@@ -85,6 +91,8 @@ const makeToken = (id) => ({
   level: 1,
   inventory: [],
   loadout: { mainHand: null, offHand: null },
+  armor: null,
+  shield: false,
   size: "medium",
   color: ["#c96d58", "#769b79", "#7e83ba", "#bd9a52"][id % 4],
 });
@@ -334,9 +342,9 @@ function App() {
     active = tokens.find((t) => t.id === activeId);
   const turnResources =
     battle?.resources && active
-      ? normalizeTurnResources(battle.resources, active.speed)
+      ? normalizeTurnResources(battle.resources, effectiveSpeed(active.speed, active))
       : active
-        ? createTurnResources(active.speed)
+        ? createTurnResources(effectiveSpeed(active.speed, active))
         : null;
   const movementLeft = movementRemaining(turnResources);
   const selectedInventory = normalizeInventory(selected?.inventory);
@@ -403,6 +411,15 @@ function App() {
     );
     setAdjustment("");
   };
+  // AC is fully derived; recompute it whenever armor, shield, or Dexterity changes.
+  const withDerivedAc = (token) => ({
+    ...token,
+    ac: computeArmorClass({
+      armor: token.armor,
+      shield: token.shield,
+      dexterity: token.dexterity,
+    }),
+  });
   const setSelectedStat = (key, value) => {
     if (!selected) return;
     const parsed = Number(value);
@@ -411,8 +428,30 @@ function App() {
     const maximum = key === "level" ? 20 : Number.POSITIVE_INFINITY;
     const nextValue = Math.min(maximum, Math.max(minimum, parsed));
     setTokens((items) =>
+      items.map((token) => {
+        if (token.id !== selected.id) return token;
+        const next = { ...token, [key]: nextValue };
+        return key === "dexterity" ? withDerivedAc(next) : next;
+      }),
+    );
+  };
+  const setSelectedArmor = (armorId) => {
+    if (!selected) return;
+    setTokens((items) =>
       items.map((token) =>
-        token.id === selected.id ? { ...token, [key]: nextValue } : token,
+        token.id === selected.id
+          ? withDerivedAc({ ...token, armor: armorId || null })
+          : token,
+      ),
+    );
+  };
+  const setSelectedShield = (on) => {
+    if (!selected) return;
+    setTokens((items) =>
+      items.map((token) =>
+        token.id === selected.id
+          ? withDerivedAc({ ...token, shield: on })
+          : token,
       ),
     );
   };
@@ -441,13 +480,17 @@ function App() {
     if (!candidate.mainHand) candidate.offHand = null;
     if (weaponById(candidate.mainHand)?.hands === "two")
       candidate.offHand = null;
+    // A shield cannot coexist with a two-handed weapon or an off-hand weapon.
+    const dropShield =
+      weaponById(candidate.mainHand)?.hands === "two" || !!candidate.offHand;
     setTokens((items) =>
       items.map((token) =>
         token.id === selected.id
-          ? {
+          ? withDerivedAc({
               ...token,
               loadout: normalizeLoadout(token.inventory, candidate),
-            }
+              shield: dropShield ? false : token.shield,
+            })
           : token,
       ),
     );
@@ -709,13 +752,16 @@ function App() {
           hp: derived.hp,
           maxHp: derived.hp,
           ac: derived.ac,
-          speed: derived.speed,
+          // Store base speed; the heavy-armor penalty is applied per turn.
+          speed: 30,
           initiativeBonus: derived.initiative,
           strength: derived.finalAbilities.str,
           dexterity: derived.finalAbilities.dex,
           level: character.level,
           inventory: normalizeInventory(character.inventory),
           loadout: normalizeLoadout(character.inventory, character.loadout),
+          armor: character.armor || null,
+          shield: !!character.shield,
           size: character.size || "medium",
           characterId: character.id,
         }
@@ -752,7 +798,7 @@ function App() {
       initiatives: Object.fromEntries(order.map((t) => [t.id, t.initiative])),
       turn: 0,
       round: 1,
-      resources: createTurnResources(order[0].speed),
+      resources: createTurnResources(effectiveSpeed(order[0].speed, order[0])),
       items: [],
       ammoSpent: {},
       log: "Initiative rolled. Battle begins!",
@@ -772,7 +818,7 @@ function App() {
       ...battle,
       turn: n,
       round: n <= battle.turn ? battle.round + 1 : battle.round,
-      resources: createTurnResources(next.speed),
+      resources: createTurnResources(effectiveSpeed(next.speed, next)),
       log,
     });
     setSelectedId(next.id);
@@ -841,9 +887,22 @@ function App() {
             availableOffHandWeaponId ? otherHand : null,
           );
     if (!attackResources) return;
+    // Versatile weapons deal their two-handed die unless a shield frees only one
+    // hand; substitute the effective die for the resolution and cinematic.
+    const effDice = effectiveDamageDice(selectedWeapon, {
+      shield: active.shield,
+    });
+    const attackWeapon =
+      selectedWeapon.hands === "versatile"
+        ? {
+            ...selectedWeapon,
+            damageDice: effDice,
+            damage: { type: "dice", notation: effDice },
+          }
+        : selectedWeapon;
     const rollDetails = attackRollMode({
       attacker: active,
-      selectedWeapon,
+      selectedWeapon: attackWeapon,
       rangeBand,
       resources: turnResources,
     });
@@ -855,7 +914,7 @@ function App() {
     const result = resolveWeaponAttack(
       active,
       target,
-      selectedWeapon,
+      attackWeapon,
       Math.random,
       {
         rollMode: rollDetails.mode,
@@ -878,7 +937,7 @@ function App() {
         target: target.name,
         targetAc: target.ac,
         weapon: selectedWeapon.name,
-        weaponDice: selectedWeapon.damageDice,
+        weaponDice: attackWeapon.damageDice,
         rollReasons: rollDetails.disadvantages,
         displayRoll: 1,
         displayRolls: Array.from({ length: rollCount }, () => 1),
@@ -917,7 +976,7 @@ function App() {
       target: target.name,
       targetAc: target.ac,
       weapon: selectedWeapon.name,
-      weaponDice: selectedWeapon.damageDice,
+      weaponDice: attackWeapon.damageDice,
       rollReasons: rollDetails.disadvantages,
       displayRoll: result.naturalRoll,
       displayRolls: result.attackRolls,
@@ -929,7 +988,7 @@ function App() {
     if (result.hit) {
       beginSpin(
         "damage-roll",
-        Number(selectedWeapon.damageDice.split("d")[1]) ||
+        Number(attackWeapon.damageDice.split("d")[1]) ||
           Math.max(1, result.damage.diceTotal),
       );
       await pause(700);
@@ -1597,6 +1656,9 @@ function App() {
                             )
                           : null;
                         const outOfAmmo = ammoLeft === 0;
+                        const shownDie = effectiveDamageDice(weapon, {
+                          shield: active.shield,
+                        });
                         return (
                           <button
                             key={hand}
@@ -1617,7 +1679,7 @@ function App() {
                             }}
                           >
                             <strong>{weapon.name}</strong>
-                            <b>{weapon.damageDice}</b>
+                            <b>{shownDie}</b>
                             <span>
                               {weapon.damageType} · {weapon.rangeFeet} ft
                             </span>
@@ -2219,7 +2281,6 @@ function App() {
                       {[
                         ["hp", "HP"],
                         ["maxHp", "Max HP"],
-                        ["ac", "AC"],
                         ["speed", "Speed (ft)"],
                         ["strength", "Strength"],
                         ["dexterity", "Dexterity"],
@@ -2347,6 +2408,59 @@ function App() {
                               : "No weapon equipped.")}
                       </output>
                     </div>
+                    <div className="token-loadout-editor">
+                      <div className="quick-inventory-heading">
+                        <p>ARMOUR</p>
+                        <span>AC is derived from armor, Dexterity, and shield.</span>
+                      </div>
+                      <div className="loadout-fields">
+                        <label>
+                          Body armor
+                          <select
+                            value={selected.armor || ""}
+                            onChange={(event) =>
+                              setSelectedArmor(event.target.value || null)
+                            }
+                          >
+                            <option value="">None (unarmored)</option>
+                            {ARMOR.filter(
+                              (armor) => armor.category !== "Shield",
+                            ).map((armor) => (
+                              <option key={armor.id} value={armor.id}>
+                                {armor.name} · {armor.category}
+                              </option>
+                            ))}
+                          </select>
+                        </label>
+                        <label className="shield-check">
+                          <span>
+                            Shield
+                            {weaponById(selectedLoadout.mainHand)?.hands ===
+                              "two" || selectedLoadout.offHand
+                              ? " (hand not free)"
+                              : ""}
+                          </span>
+                          <input
+                            type="checkbox"
+                            checked={!!selected.shield}
+                            disabled={
+                              weaponById(selectedLoadout.mainHand)?.hands ===
+                                "two" || !!selectedLoadout.offHand
+                            }
+                            onChange={(event) =>
+                              setSelectedShield(event.target.checked)
+                            }
+                          />
+                        </label>
+                      </div>
+                      <output>
+                        AC {selected.ac}
+                        {selected.armor
+                          ? ` · ${armorById(selected.armor)?.name}`
+                          : " · unarmored"}
+                        {selected.shield ? " + shield" : ""}
+                      </output>
+                    </div>
                     <div className="quick-inventory">
                       <div className="quick-inventory-heading">
                         <p>QUICK INVENTORY</p>
@@ -2391,7 +2505,9 @@ function App() {
                                 <small>
                                   {item.kind === "ammunition"
                                     ? `${item.typeLabel} · bundle of ${item.bundle}`
-                                    : `${item.typeLabel} · ${item.damageDice}`}
+                                    : item.kind === "armor"
+                                      ? `${item.typeLabel} · AC ${item.acBase}${item.acDex ? "+Dex" : ""}`
+                                      : `${item.typeLabel} · ${item.damageDice}`}
                                 </small>
                               </span>
                               <div className="quantity-stepper">

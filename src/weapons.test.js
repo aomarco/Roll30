@@ -3,6 +3,8 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import {
   AMMUNITION,
+  ARMOR,
+  effectiveDamageDice,
   resolveWeaponAttack,
   WEAPONS,
   weaponModifier,
@@ -65,12 +67,13 @@ test("imported weapon records match their local SRD source", () => {
     const source = SRD_EQUIPMENT.find((item) => item.index === weapon.id);
     assert.ok(source, `${weapon.id} exists in the SRD equipment data`);
     assert.equal(weapon.name, source.name);
-    // Versatile weapons are wielded two-handed in Roll30, so they carry the
-    // two-handed damage die from the source record.
-    const expectedDice = weapon.properties.includes("Versatile")
-      ? source.two_handed_damage.damage_dice
-      : source.damage.damage_dice;
-    assert.equal(weapon.damageDice, expectedDice);
+    assert.equal(weapon.damageDice, source.damage.damage_dice);
+    // Versatile weapons also carry the two-handed die from the source record.
+    if (weapon.properties.includes("Versatile"))
+      assert.equal(
+        weapon.versatileDamageDice,
+        source.two_handed_damage.damage_dice,
+      );
     assert.equal(weapon.damageType, source.damage.damage_type.name);
     assert.equal(weapon.rangeFeet, source.range.normal);
     assert.deepEqual(
@@ -97,6 +100,31 @@ test("imported ammunition matches its local SRD source", () => {
       .every((id) => AMMUNITION.some((ammo) => ammo.id === id)),
     true,
   );
+});
+
+test("imported armor matches its local SRD source", () => {
+  assert.equal(ARMOR.length, 13);
+  for (const armor of ARMOR) {
+    const source = SRD_EQUIPMENT.find((item) => item.index === armor.id);
+    assert.ok(source, `${armor.id} exists in the SRD equipment data`);
+    // Display names are friendly labels ("Padded" vs SRD "Padded Armor"); the
+    // AC/cost/weight stats are what must stay faithful to the source.
+    assert.equal(armor.category, source.armor_category);
+    assert.equal(armor.acBase, source.armor_class.base);
+    assert.equal(armor.acDex, source.armor_class.dex_bonus);
+    assert.equal(armor.acMaxBonus, source.armor_class.max_bonus ?? null);
+    assert.equal(armor.strMinimum, source.str_minimum);
+    assert.deepEqual(armor.cost, source.cost);
+    assert.equal(armor.weight, source.weight);
+  }
+});
+
+test("versatile weapons use the two-handed die only when a hand is free", () => {
+  const longsword = WEAPONS.find((weapon) => weapon.id === "longsword");
+  assert.equal(effectiveDamageDice(longsword, { shield: false }), "1d10");
+  assert.equal(effectiveDamageDice(longsword, { shield: true }), "1d8");
+  const club = WEAPONS.find((weapon) => weapon.id === "club");
+  assert.equal(effectiveDamageDice(club, { shield: true }), "1d4");
 });
 
 test("finesse uses the better ability modifier", () => {

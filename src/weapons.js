@@ -16,6 +16,7 @@ const weapon = ({
   ability,
   ammunition = null,
   fixedDamage = null,
+  versatileDamageDice = null,
 }) => ({
   id,
   name,
@@ -31,6 +32,7 @@ const weapon = ({
       ? { type: "fixed", amount: fixedDamage }
       : { type: "dice", notation: damageDice },
   damageDice,
+  versatileDamageDice,
   damageType,
   ammunition,
   ability:
@@ -305,16 +307,17 @@ export const WEAPONS = [
     cost: { quantity: 2, unit: "gp" },
     weight: 3,
   }),
-  // Versatile weapons: Roll30 wields these two-handed by default and uses the
-  // two-handed damage die. The two-handed requirement blocks the off hand.
+  // Versatile weapons: wielded two-handed (larger die) when the other hand is
+  // free, or one-handed (smaller die) when a shield occupies the off hand.
   weapon({
     id: "quarterstaff",
     name: "Quarterstaff",
     weaponCategory: "Simple",
-    damageDice: "1d8",
+    damageDice: "1d6",
+    versatileDamageDice: "1d8",
     damageType: "Bludgeoning",
     properties: ["Versatile", "Monk"],
-    hands: "two",
+    hands: "versatile",
     cost: { quantity: 2, unit: "sp" },
     weight: 4,
   }),
@@ -322,10 +325,11 @@ export const WEAPONS = [
     id: "spear",
     name: "Spear",
     weaponCategory: "Simple",
-    damageDice: "1d8",
+    damageDice: "1d6",
+    versatileDamageDice: "1d8",
     damageType: "Piercing",
     properties: ["Thrown", "Versatile", "Monk"],
-    hands: "two",
+    hands: "versatile",
     normalRange: 20,
     longRange: 60,
     lodgesOnHit: true,
@@ -336,10 +340,11 @@ export const WEAPONS = [
     id: "battleaxe",
     name: "Battleaxe",
     weaponCategory: "Martial",
-    damageDice: "1d10",
+    damageDice: "1d8",
+    versatileDamageDice: "1d10",
     damageType: "Slashing",
     properties: ["Versatile"],
-    hands: "two",
+    hands: "versatile",
     cost: { quantity: 10, unit: "gp" },
     weight: 4,
   }),
@@ -347,10 +352,11 @@ export const WEAPONS = [
     id: "longsword",
     name: "Longsword",
     weaponCategory: "Martial",
-    damageDice: "1d10",
+    damageDice: "1d8",
+    versatileDamageDice: "1d10",
     damageType: "Slashing",
     properties: ["Versatile"],
-    hands: "two",
+    hands: "versatile",
     cost: { quantity: 15, unit: "gp" },
     weight: 3,
   }),
@@ -358,10 +364,11 @@ export const WEAPONS = [
     id: "trident",
     name: "Trident",
     weaponCategory: "Martial",
-    damageDice: "1d8",
+    damageDice: "1d6",
+    versatileDamageDice: "1d8",
     damageType: "Piercing",
     properties: ["Thrown", "Versatile"],
-    hands: "two",
+    hands: "versatile",
     normalRange: 20,
     longRange: 60,
     lodgesOnHit: true,
@@ -372,10 +379,11 @@ export const WEAPONS = [
     id: "warhammer",
     name: "Warhammer",
     weaponCategory: "Martial",
-    damageDice: "1d10",
+    damageDice: "1d8",
+    versatileDamageDice: "1d10",
     damageType: "Bludgeoning",
     properties: ["Versatile"],
-    hands: "two",
+    hands: "versatile",
     cost: { quantity: 15, unit: "gp" },
     weight: 2,
   }),
@@ -522,6 +530,62 @@ export const AMMUNITION = [
 
 export const ammunitionById = (id) =>
   AMMUNITION.find((candidate) => candidate.id === id) || null;
+
+/** Armor catalog. Source-backed 2014 SRD armor and shield. */
+const armor = ({
+  id,
+  name,
+  category,
+  acBase,
+  acDex = false,
+  acMaxBonus = null,
+  strMinimum = 0,
+  stealthDisadvantage = false,
+  cost,
+  weight,
+}) => ({
+  id,
+  name,
+  category,
+  acBase,
+  acDex,
+  acMaxBonus,
+  strMinimum,
+  stealthDisadvantage,
+  cost,
+  weight,
+  source: "5e-srd-2014",
+});
+
+export const ARMOR = [
+  armor({ id: "padded-armor", name: "Padded", category: "Light", acBase: 11, acDex: true, stealthDisadvantage: true, cost: { quantity: 5, unit: "gp" }, weight: 8 }),
+  armor({ id: "leather-armor", name: "Leather", category: "Light", acBase: 11, acDex: true, cost: { quantity: 10, unit: "gp" }, weight: 10 }),
+  armor({ id: "studded-leather-armor", name: "Studded leather", category: "Light", acBase: 12, acDex: true, cost: { quantity: 45, unit: "gp" }, weight: 13 }),
+  armor({ id: "hide-armor", name: "Hide", category: "Medium", acBase: 12, acDex: true, acMaxBonus: 2, cost: { quantity: 10, unit: "gp" }, weight: 12 }),
+  armor({ id: "chain-shirt", name: "Chain shirt", category: "Medium", acBase: 13, acDex: true, acMaxBonus: 2, cost: { quantity: 50, unit: "gp" }, weight: 20 }),
+  armor({ id: "scale-mail", name: "Scale mail", category: "Medium", acBase: 14, acDex: true, acMaxBonus: 2, stealthDisadvantage: true, cost: { quantity: 50, unit: "gp" }, weight: 45 }),
+  armor({ id: "breastplate", name: "Breastplate", category: "Medium", acBase: 14, acDex: true, acMaxBonus: 2, cost: { quantity: 400, unit: "gp" }, weight: 20 }),
+  armor({ id: "half-plate-armor", name: "Half plate", category: "Medium", acBase: 15, acDex: true, acMaxBonus: 2, stealthDisadvantage: true, cost: { quantity: 750, unit: "gp" }, weight: 40 }),
+  armor({ id: "ring-mail", name: "Ring mail", category: "Heavy", acBase: 14, stealthDisadvantage: true, cost: { quantity: 30, unit: "gp" }, weight: 40 }),
+  armor({ id: "chain-mail", name: "Chain mail", category: "Heavy", acBase: 16, strMinimum: 13, stealthDisadvantage: true, cost: { quantity: 75, unit: "gp" }, weight: 55 }),
+  armor({ id: "splint-armor", name: "Splint", category: "Heavy", acBase: 17, strMinimum: 15, stealthDisadvantage: true, cost: { quantity: 200, unit: "gp" }, weight: 60 }),
+  armor({ id: "plate-armor", name: "Plate", category: "Heavy", acBase: 18, strMinimum: 15, stealthDisadvantage: true, cost: { quantity: 1500, unit: "gp" }, weight: 65 }),
+  armor({ id: "shield", name: "Shield", category: "Shield", acBase: 2, cost: { quantity: 10, unit: "gp" }, weight: 6 }),
+];
+
+export const armorById = (id) =>
+  ARMOR.find((candidate) => candidate.id === id) || null;
+
+/**
+ * Effective damage die for a weapon given hand state. Versatile weapons deal
+ * their two-handed die when the other hand is free, and their one-handed die
+ * when a shield occupies it. All other weapons return their normal die.
+ */
+export function effectiveDamageDice(weapon, { shield = false } = {}) {
+  if (weapon?.hands === "versatile" && weapon.versatileDamageDice)
+    return shield ? weapon.damageDice : weapon.versatileDamageDice;
+  return weapon?.damageDice;
+}
 
 export const weaponById = (id) =>
   WEAPONS.find((candidate) => candidate.id === id) || null;

@@ -1,3 +1,5 @@
+import { computeArmorClass, effectiveSpeed } from "./combatRules.js";
+
 export const ABILITIES = ["str", "dex", "con", "int", "wis", "cha"];
 export const POINT_BUY_COST = {
   8: 0,
@@ -30,9 +32,16 @@ export function deriveCharacter(character) {
   return {
     finalAbilities,
     hp,
-    ac: 10 + dexModifier,
+    ac: computeArmorClass({
+      armor: character.armor,
+      shield: character.shield,
+      dexterity: finalAbilities.dex,
+    }),
     initiative: dexModifier,
-    speed: 30,
+    speed: effectiveSpeed(30, {
+      armor: character.armor,
+      strength: finalAbilities.str,
+    }),
   };
 }
 
@@ -47,6 +56,8 @@ export function newCharacter() {
     background: "Soldier",
     inventory: [],
     loadout: { mainHand: null, offHand: null },
+    armor: null,
+    shield: false,
     abilities: { str: 15, dex: 14, con: 13, int: 8, wis: 12, cha: 10 },
   };
 }

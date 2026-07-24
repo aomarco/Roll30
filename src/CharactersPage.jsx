@@ -20,7 +20,7 @@ import {
   removeInventoryItem,
 } from "./items.js";
 import { loadoutProblem, normalizeLoadout } from "./combatRules.js";
-import { weaponById } from "./weapons.js";
+import { ARMOR, armorById, weaponById } from "./weapons.js";
 
 export default function CharactersPage({ characters, setCharacters, onBack }) {
   const [itemPickerOpen, setItemPickerOpen] = useState(false);
@@ -90,8 +90,16 @@ export default function CharactersPage({ characters, setCharacters, onBack }) {
     if (!candidate.mainHand) candidate.offHand = null;
     if (weaponById(candidate.mainHand)?.hands === "two")
       candidate.offHand = null;
-    update({ loadout: normalizeLoadout(inventory, candidate) });
+    // A shield needs a free off hand; drop it for two-handed or dual-wield.
+    const dropShield =
+      weaponById(candidate.mainHand)?.hands === "two" || !!candidate.offHand;
+    update({
+      loadout: normalizeLoadout(inventory, candidate),
+      ...(dropShield ? { shield: false } : {}),
+    });
   };
+  const shieldBlocked =
+    weaponById(loadout.mainHand)?.hands === "two" || !!loadout.offHand;
 
   return (
     <div className="characters-page">
@@ -235,7 +243,13 @@ export default function CharactersPage({ characters, setCharacters, onBack }) {
                   <Shield size={17} />
                   {derived.ac}
                 </strong>
-                <small>Unarmoured: 10 + DEX</small>
+                <small>
+                  {selected.armor
+                    ? `${armorById(selected.armor)?.name}${selected.shield ? " + shield" : ""}`
+                    : selected.shield
+                      ? "Unarmoured + shield"
+                      : "Unarmoured: 10 + DEX"}
+                </small>
               </div>
               <div>
                 <span>INITIATIVE</span>
@@ -245,7 +259,11 @@ export default function CharactersPage({ characters, setCharacters, onBack }) {
               <div>
                 <span>SPEED</span>
                 <strong>{derived.speed} ft</strong>
-                <small>Human walking speed</small>
+                <small>
+                  {derived.speed < 30
+                    ? "−10 ft: Strength below armor minimum"
+                    : "Human walking speed"}
+                </small>
               </div>
             </div>
             <section className="inventory-section">
@@ -335,7 +353,9 @@ export default function CharactersPage({ characters, setCharacters, onBack }) {
                                     <small>
                                       {item.kind === "ammunition"
                                         ? `${item.typeLabel} · bundle of ${item.bundle}`
-                                        : `${item.typeLabel} · ${item.category} · ${item.rangeFeet} ft`}
+                                        : item.kind === "armor"
+                                          ? `${item.typeLabel} · ${item.category} · AC ${item.acBase}${item.acDex ? "+Dex" : ""}`
+                                          : `${item.typeLabel} · ${item.category} · ${item.rangeFeet} ft`}
                                     </small>
                                   </span>
                                   <em>{owned ? `${owned} owned` : "+ Add"}</em>
@@ -417,6 +437,48 @@ export default function CharactersPage({ characters, setCharacters, onBack }) {
                       : "One weapon equipped.")}
                 </output>
               </div>
+              <div className="loadout-editor">
+                <div>
+                  <p>ARMOUR</p>
+                  <span>AC is derived from armor, Dexterity, and shield.</span>
+                </div>
+                <label>
+                  Body armor
+                  <select
+                    value={selected.armor || ""}
+                    onChange={(event) =>
+                      update({ armor: event.target.value || null })
+                    }
+                  >
+                    <option value="">None (unarmored)</option>
+                    {ARMOR.filter((armor) => armor.category !== "Shield").map(
+                      (armor) => (
+                        <option key={armor.id} value={armor.id}>
+                          {armor.name} · {armor.category}
+                        </option>
+                      ),
+                    )}
+                  </select>
+                </label>
+                <label className="shield-check">
+                  <span>
+                    Shield{shieldBlocked ? " (hand not free)" : ""}
+                  </span>
+                  <input
+                    type="checkbox"
+                    checked={!!selected.shield}
+                    disabled={shieldBlocked}
+                    onChange={(event) => update({ shield: event.target.checked })}
+                  />
+                </label>
+                <output>
+                  AC {derived.ac}
+                  {selected.armor
+                    ? ` · ${armorById(selected.armor)?.name}`
+                    : " · unarmored"}
+                  {selected.shield ? " + shield" : ""}
+                </output>
+              </div>
               {inventory.length ? (
                 <>
                   <label className="inventory-search inventory-list-search">
@@ -445,7 +507,9 @@ export default function CharactersPage({ characters, setCharacters, onBack }) {
                             <small>
                               {item.kind === "ammunition"
                                 ? `Ammunition · bundle of ${item.bundle}`
-                                : `${item.damageDice} ${item.damageType.toLowerCase()} · ${item.rangeFeet} ft`}
+                                : item.kind === "armor"
+                                  ? `${item.category} armour · AC ${item.acBase}${item.acDex ? "+Dex" : ""}`
+                                  : `${item.damageDice} ${item.damageType.toLowerCase()} · ${item.rangeFeet} ft`}
                             </small>
                           </div>
                           <div className="quantity-stepper">
