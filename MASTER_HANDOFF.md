@@ -46,7 +46,7 @@ Roll30 currently provides:
 - Character identity fields: alignment, languages, and background.
 - Local browser persistence and GitHub Pages deployment.
 
-Roll30 is still a single-browser local application. It does not provide accounts, multiplayer synchronization, cloud saves, monsters, spells, conditions/status effects, class features, magic-item effects, skills/saving throws, or a complete D&D rules engine. Only Fighter class derivation exists, though all nine SRD races (numeric traits only) are selectable.
+Roll30 is still a single-browser local application. It does not provide accounts, multiplayer synchronization, cloud saves, monsters, spells, conditions/status effects, class features, magic-item effects, in-combat skill/save checks, or a complete D&D rules engine. Only Fighter class derivation exists, though all nine SRD races (numeric traits only) are selectable.
 
 ## Live Application and Repository
 
@@ -222,6 +222,7 @@ Each simplified sheet currently contains:
 - Languages (16 SRD languages as toggle chips).
 - Six ability scores.
 - Point-buy controls.
+- Saving throws (6) and skills (18) with computed modifiers and proficiency toggles.
 - AC.
 - Initiative bonus.
 - Speed.
@@ -229,6 +230,10 @@ Each simplified sheet currently contains:
 - Size.
 - Inventory.
 - Pre-equipped loadout, armor, and shield.
+
+### Skills and Saving Throws
+
+`src/skills.js` holds the 18 SRD skills (each with its governing ability), the six saving throws (one per ability), Fighter proficiency data (`FIGHTER_SAVES`, `FIGHTER_SKILL_OPTIONS`, `FIGHTER_SKILL_COUNT`), and the pure helpers `skillModifier`/`saveModifier` (`ability modifier + proficiency bonus when proficient`, reusing `modifier`/`proficiencyBonus` from `src/weapons.js`). The sheet's Skills & Saves panel lists every save and skill with its live modifier and a proficiency toggle; Fighter defaults STR/CON saves on, the skill count shows `n / 2 chosen` and flags (without blocking) going over. Characters store `saveProficiencies` and `skillProficiencies` arrays. This is **display + data scaffolding only** — there is no skill/save roller in combat yet; the data exists so future spells/monsters can consume it. Tokens do not yet carry proficiencies (deferred until something in combat uses them).
 
 Alignment, background, and languages are identity/flavor fields with no mechanical effect. Feats are intentionally omitted: the SRD contains only Grappler, which requires grappling/conditions rules that do not exist yet.
 
@@ -884,6 +889,7 @@ Storage failures are surfaced in the UI. A failed image or state save must not s
 | `src/persistenceRules.js` | Versioned token, character, and battle migration |
 | `src/characterRules.js` | Point buy and simplified character derivation |
 | `src/races.js` | SRD race/subrace numeric traits (ability bonuses, speed, size, languages) |
+| `src/skills.js` | SRD skills, saving throws, Fighter proficiencies, and modifier helpers |
 | `src/gear.js` | Generated mundane SRD equipment catalog (inert gear) |
 | `src/CharactersPage.jsx` | Character workspace, inventory, and pre-equipped loadout UI |
 | `src/patterns.js` | Infinite mathematical Square, Diamond, Plus, and Star cell generators |
@@ -1039,7 +1045,7 @@ A combat, inventory, or persistence change is complete only when:
 - Only Fighter class derivation exists. All nine SRD races are selectable, but only their numeric traits (ability bonuses, speed, size, languages) apply — other racial traits are deferred to the future feature/effect engine.
 - Armor AC is simplified (base + capped Dex + shield); no per-item AC exceptions.
 - No spells, conditions/status effects, reactions, class features, or monsters.
-- No skills, saving throws, or proficiency-based checks.
+- Skills and saving throws are display + data only (modifiers and proficiency toggles on the sheet); there is no in-combat check/save roller yet, and tokens do not carry proficiencies.
 - The Loading property is imported but not enforced (no per-turn shot limit).
 - Alignment, languages, and background are flavor only (no mechanical effect).
 - No Net (needs the Restrained condition).
@@ -1053,3 +1059,4 @@ A combat, inventory, or persistence change is complete only when:
 - **Conditions/status-effect engine (2026-07-25):** Added a backend-first conditions system so future features (spells, monster abilities, feats) can apply a condition by id and have combat react automatically. New `src/conditions.js` holds the 15 SRD conditions, each with structured flags (`selfAttack`, `vsMelee`, `vsRanged`, `incapacitated`, `immobile`, `autoCritMelee`) plus pure helpers: `normalizeConditions`, `isIncapacitated`, `isImmobilized`, `attackerConditionModes`, `targetConditionModes`, `targetAutoCrit`, and `conditionById`. Effects wired in: `attackRollMode` (`src/combatRules.js`) now folds attacker and target condition roll-modes into the existing advantage/disadvantage engine (prone melee-vs-ranged, restrained/blinded/etc. grant advantage, poisoned/frightened/invisible bias the attacker); `resolveWeaponAttack` (`src/weapons.js`) gains an `autoCritical` option for melee hits on paralyzed/unconscious targets; tokens carry a `conditions: []` array (defaulted in `makeToken` and `migrateTokenData`, cleared on battle start); the combat dock disables Attack/Bonus/Dash/Swap when the active token is incapacitated and zeroes movement when immobilized. Visual indicators: colored abbreviation badges float above each affected token, and the token inspector has a Conditions section of toggle chips (active chips take the condition's color). Tests in `src/conditions.test.js` cover normalization, incapacitated/immobilized detection, attacker/target roll-mode folding, and auto-crit (suite now 57). Verified by rendering badges + editor in headless Chrome; `npm run build` passes. Net remains excluded but its blocker (Restrained) now exists.
 - **Mundane equipment import (2026-07-25):** Imported the remaining 183 non-weapon/non-armor SRD equipment items (excluding the 4 already-imported ammunition types) into a new generated `src/gear.js` (`GEAR` array of `{ id, name, gearCategory, cost, weight, source }`, plus `gearById`). `src/items.js` maps them to `kind: "gear"` catalog entries with a human `typeLabel` (Gear/Tool/Pack/Mount·Vehicle/Holy Symbol/Arcane Focus/Druidic Focus/Kit), adds a "Gear" item type, exposes `GEAR_CLASSES` (the distinct labels) for the class filter, and extends `itemClass` so gear filters by its label. The three inventory `<small>` render sites (item picker + owned list in `src/CharactersPage.jsx`, quick-item row in `src/main.jsx`) gained a gear branch showing `typeLabel · cost`. Gear is inert — no persistence, encumbrance, tool, or mount mechanics; it reuses the existing generic inventory model with no migration needed. New `src/gear.test.js` (6 tests: count/fidelity against the SRD JSON, mount category derivation, `gearById` miss, gear-type filtering, and category narrowing); suite now 63. `npm test` and `npm run build` pass.
 - **Races + subraces (2026-07-25):** Replaced the hardcoded "Human +1 to all" derivation with a data-driven race system. New `src/races.js` holds the 9 SRD races and 4 subraces (`RACES`, `raceById`, `subraceById`, `raceAbilitySummary`) with numeric traits only — ability bonuses, base speed, size, and granted languages. `deriveCharacter` (`src/characterRules.js`) now adds race + subrace ability bonuses to the point-buy base and returns `baseSpeed` and `size` from the race; `newCharacter` seeds `race: "human"`, `subrace: null`. The character sheet's Race select is enabled (a Subrace select appears for races that have one), Size is a derived read-only display, the ability-score caption uses `raceAbilitySummary`, the speed caption names the race, and changing race unions-in its granted languages. Token creation in `add()` (`src/main.jsx`) now copies the derived race speed and size so a Small/slow race flows onto the board. `migrateCharacterData` backfills `race`/`subrace`, mapping a legacy `species` string to a race id (unknown → human). Tests added to `src/characterRules.test.js` (raceById/subraceById, race bonuses, subrace stacking, Small-race speed/size); suite now 67. Racial non-numeric traits remain deferred. `npm test` and `npm run build` pass.
+- **Skills + saving throws (2026-07-25):** Added a display/data layer for the 18 SRD skills and 6 saving throws. New `src/skills.js` exports `SKILLS` (id/name/governing ability), `SAVING_THROWS`, Fighter proficiency constants (`FIGHTER_SAVES` = STR/CON, `FIGHTER_SKILL_OPTIONS`, `FIGHTER_SKILL_COUNT` = 2), and pure `skillModifier`/`saveModifier` helpers (ability modifier + proficiency bonus, reusing `modifier`/`proficiencyBonus` from `src/weapons.js`). `newCharacter` seeds `saveProficiencies: ["str","con"]` and `skillProficiencies: []`; `migrateCharacterData` array-guards both. A new Skills & Saves panel on the sheet (below the derived grid) lists each save/skill with its live modifier and a proficiency toggle, shows `n / 2 chosen`, and flags going over the Fighter allotment without blocking. New `.proficiency-section` CSS in `src/movement.css` follows the anti-clipping rules (constrained `minmax(0,1fr)` tracks, `min-width: 0`, ellipsized names, fixed modifier column) and collapses to one column under 900px. Display + data only — no in-combat roller, and tokens do not carry proficiencies yet (deferred). New `src/skills.test.js` (5 tests: counts, proficiency add, save mirror, level scaling, unknown-id); suite now 72. Verified the panel in headless Chrome (no clipping). `npm test` and `npm run build` pass.

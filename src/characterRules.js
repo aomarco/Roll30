@@ -100,6 +100,8 @@ export function newCharacter() {
     background: "Soldier",
     alignment: "Neutral",
     languages: ["Common"],
+    saveProficiencies: ["str", "con"],
+    skillProficiencies: [],
     inventory: [],
     loadout: { mainHand: null, offHand: null },
     armor: null,

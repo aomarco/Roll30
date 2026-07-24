@@ -14,8 +14,28 @@ import {
   pointsSpent,
 } from "./characterRules.js";
 import { RACES, raceAbilitySummary, raceById } from "./races.js";
+import {
+  FIGHTER_SKILL_COUNT,
+  SAVING_THROWS,
+  SKILLS,
+  saveModifier,
+  skillModifier,
+} from "./skills.js";
 
 const SIZE_LABELS = { small: "Small", medium: "Medium", large: "Large" };
+const ABILITY_NAMES = {
+  str: "Strength",
+  dex: "Dexterity",
+  con: "Constitution",
+  int: "Intelligence",
+  wis: "Wisdom",
+  cha: "Charisma",
+};
+
+const toggleInArray = (list, value) =>
+  list.includes(value)
+    ? list.filter((item) => item !== value)
+    : [...list, value];
 import {
   ARMOR_CLASSES,
   GEAR_CLASSES,
@@ -82,6 +102,12 @@ export default function CharactersPage({ characters, setCharacters, onBack }) {
     ];
     update({ race: raceId, subrace: null, languages });
   };
+  const saveProficiencies = selected?.saveProficiencies || [];
+  const skillProficiencies = selected?.skillProficiencies || [];
+  const toggleSave = (ability) =>
+    update({ saveProficiencies: toggleInArray(saveProficiencies, ability) });
+  const toggleSkill = (skillId) =>
+    update({ skillProficiencies: toggleInArray(skillProficiencies, skillId) });
   const derived = selected && deriveCharacter(selected);
   const remaining = selected
     ? POINT_BUY_TOTAL - pointsSpent(selected.abilities)
@@ -391,6 +417,81 @@ export default function CharactersPage({ characters, setCharacters, onBack }) {
                 </small>
               </div>
             </div>
+            <section className="proficiency-section">
+              <div className="proficiency-block">
+                <div className="proficiency-heading">
+                  <p>SAVING THROWS</p>
+                  <span>Fighter is proficient in Strength and Constitution.</span>
+                </div>
+                <div className="proficiency-grid">
+                  {SAVING_THROWS.map((ability) => {
+                    const proficient = saveProficiencies.includes(ability);
+                    const value = saveModifier(
+                      derived.finalAbilities,
+                      selected.level,
+                      ability,
+                      proficient,
+                    );
+                    return (
+                      <button
+                        key={ability}
+                        type="button"
+                        className={proficient ? "prof-row on" : "prof-row"}
+                        aria-pressed={proficient}
+                        onClick={() => toggleSave(ability)}
+                      >
+                        <span className="prof-dot" aria-hidden="true" />
+                        <span className="prof-name">
+                          {ABILITY_NAMES[ability]}
+                        </span>
+                        <em>{formatModifier(value)}</em>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+              <div className="proficiency-block">
+                <div className="proficiency-heading">
+                  <p>SKILLS</p>
+                  <span
+                    className={
+                      skillProficiencies.length > FIGHTER_SKILL_COUNT
+                        ? "prof-over"
+                        : ""
+                    }
+                  >
+                    {skillProficiencies.length} / {FIGHTER_SKILL_COUNT} chosen
+                  </span>
+                </div>
+                <div className="proficiency-grid skills">
+                  {SKILLS.map((skill) => {
+                    const proficient = skillProficiencies.includes(skill.id);
+                    const value = skillModifier(
+                      derived.finalAbilities,
+                      selected.level,
+                      skill.id,
+                      proficient,
+                    );
+                    return (
+                      <button
+                        key={skill.id}
+                        type="button"
+                        className={proficient ? "prof-row on" : "prof-row"}
+                        aria-pressed={proficient}
+                        onClick={() => toggleSkill(skill.id)}
+                      >
+                        <span className="prof-dot" aria-hidden="true" />
+                        <span className="prof-name">
+                          {skill.name}
+                          <small>{skill.ability.toUpperCase()}</small>
+                        </span>
+                        <em>{formatModifier(value)}</em>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            </section>
             <section className="inventory-section">
               <div className="inventory-heading">
                 <div>

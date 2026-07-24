@@ -67,6 +67,12 @@ export function migrateCharacterData(character = {}) {
     languages: Array.isArray(character.languages)
       ? character.languages
       : ["Common"],
+    saveProficiencies: Array.isArray(character.saveProficiencies)
+      ? character.saveProficiencies
+      : ["str", "con"],
+    skillProficiencies: Array.isArray(character.skillProficiencies)
+      ? character.skillProficiencies
+      : [],
     armor,
     shield,
     inventory,

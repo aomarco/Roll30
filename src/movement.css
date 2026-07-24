@@ -712,6 +712,113 @@
   background: linear-gradient(135deg, #efaa7b, #c9694d);
   color: #281a15;
 }
+.proficiency-section {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  gap: 20px;
+  padding-top: 16px;
+  border-top: 1px solid #3d3e43;
+}
+.proficiency-block {
+  display: grid;
+  gap: 10px;
+  min-width: 0;
+  align-content: start;
+}
+.proficiency-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+.proficiency-heading p {
+  margin: 0;
+  color: #d99170;
+  font: 10px "DM Mono";
+  letter-spacing: 1px;
+}
+.proficiency-heading span {
+  color: #8f9197;
+  font: 10px "DM Mono";
+}
+.proficiency-heading span.prof-over {
+  color: #e5824f;
+}
+.proficiency-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 6px;
+}
+.proficiency-grid.skills {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.prof-row {
+  display: grid;
+  grid-template-columns: 14px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  min-height: 34px;
+  padding: 0 11px;
+  border: 1px solid #45474d;
+  border-radius: 9px;
+  background: #2b2c31;
+  color: #b6b4b1;
+  cursor: pointer;
+  text-align: left;
+  transition:
+    border-color 0.16s,
+    background 0.16s;
+}
+.prof-row:hover {
+  border-color: #df8a5e66;
+}
+.prof-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  border: 1px solid #6a6c72;
+  background: transparent;
+}
+.prof-row.on {
+  border-color: #df8a5e;
+  background: #38302b;
+  color: #f0ded1;
+}
+.prof-row.on .prof-dot {
+  border-color: #efaa7b;
+  background: linear-gradient(135deg, #efaa7b, #c9694d);
+}
+.prof-name {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font: 600 12px "DM Sans";
+}
+.prof-name small {
+  flex: 0 0 auto;
+  color: #85878d;
+  font: 9px "DM Mono";
+  letter-spacing: 0.5px;
+}
+.prof-row.on .prof-name small {
+  color: #d1a184;
+}
+.prof-row em {
+  flex: 0 0 auto;
+  font: 600 13px "DM Mono";
+  font-style: normal;
+  color: inherit;
+}
+@media (max-width: 900px) {
+  .proficiency-section {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
 .ability-grid {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
