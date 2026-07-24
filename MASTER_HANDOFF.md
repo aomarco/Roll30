@@ -6,6 +6,8 @@ This is the authoritative technical and product handoff for **Roll30**, a browse
 
 It describes what the application does **now**, how the custom Roll30 combat rules work, where data is stored, how older saves migrate, and how to verify and release changes.
 
+Roll30 is a **private D&D app built for the owner and their friends**, created out of dissatisfaction with the existing public options. It is not intended as a commercial or general-audience product; design and scope decisions should favour this small, private group rather than broad public use.
+
 The local `DND 5E Data` folder is reference source data. Preserve it unless the user explicitly requests its removal.
 
 ## Maintenance Protocol
@@ -924,3 +926,5 @@ A combat, inventory, or persistence change is complete only when:
 - Physical thrown items exist only inside an active versioned battle.
 
 ## To Be Updated
+
+- **Combat dock utility buttons fix (2026-07-24):** The compact **Dash** and **Swap** controls in `.combat-utility-row` were collapsing to tiny squares that truncated their icons and labels. They now use `flex: 1 1 0` with `min-width: 0`, centered content, and a non-shrinking icon (`.combat-utility-row > button svg { flex: 0 0 auto }`) so each button fills half the row and shows its icon plus status text. CSS-only change in `src/premium.css`; `npm run build` and `git diff --check` pass.

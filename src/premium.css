@@ -697,6 +697,8 @@ header > strong:before {
 }
 
 .combat-utility-row > button {
+  flex: 1 1 0;
+  min-width: 0;
   min-height: 30px;
   padding: 0 10px;
   border: 1px solid #ffffff16;
@@ -705,9 +707,14 @@ header > strong:before {
   color: #b9b7b5;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 6px;
   font: 700 9px "DM Sans";
   cursor: pointer;
+}
+
+.combat-utility-row > button svg {
+  flex: 0 0 auto;
 }
 
 .combat-utility-row > button:hover:not(:disabled) {
