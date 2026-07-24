@@ -109,11 +109,30 @@ export function bundleSize(itemId) {
   return item?.kind === "ammunition" ? item.bundle : 1;
 }
 
-export function filterCatalog(query = "", type = "all") {
+/** Filter option lists for the item catalog UI. */
+export const WEAPON_CLASSES = ["Simple", "Martial"];
+export const ARMOR_CLASSES = ["Light", "Medium", "Heavy", "Shield"];
+export const WEAPON_PROPERTIES = [
+  ...new Set(WEAPONS.flatMap((weapon) => weapon.properties || [])),
+].sort();
+
+/** The class/category a catalog item belongs to, for filtering. */
+const itemClass = (item) =>
+  item.kind === "weapon"
+    ? item.weaponCategory
+    : item.kind === "armor"
+      ? item.category
+      : null;
+
+export function filterCatalog(query = "", type = "all", filters = {}) {
   const needle = query.trim().toLowerCase();
-  return ITEM_CATALOG.filter(
-    (item) =>
-      (type === "all" || item.kind === type) &&
-      (!needle || item.searchText.includes(needle)),
-  );
+  const { category = "all", property = "all" } = filters;
+  return ITEM_CATALOG.filter((item) => {
+    if (type !== "all" && item.kind !== type) return false;
+    if (needle && !item.searchText.includes(needle)) return false;
+    if (category !== "all" && itemClass(item) !== category) return false;
+    if (property !== "all" && !(item.properties || []).includes(property))
+      return false;
+    return true;
+  });
 }

@@ -11,8 +11,11 @@ import {
   pointsSpent,
 } from "./characterRules.js";
 import {
+  ARMOR_CLASSES,
   ITEM_CATALOG,
   ITEM_TYPES,
+  WEAPON_CLASSES,
+  WEAPON_PROPERTIES,
   bundleSize,
   changeInventoryQuantity,
   filterCatalog,
@@ -31,6 +34,8 @@ export default function CharactersPage({ characters, setCharacters, onBack }) {
   const [itemPickerOpen, setItemPickerOpen] = useState(false);
   const [itemQuery, setItemQuery] = useState("");
   const [itemType, setItemType] = useState("all");
+  const [itemClassFilter, setItemClassFilter] = useState("all");
+  const [itemProperty, setItemProperty] = useState("all");
   const [inventoryQuery, setInventoryQuery] = useState("");
   useEffect(() => {
     if (!itemPickerOpen) return undefined;
@@ -68,7 +73,18 @@ export default function CharactersPage({ characters, setCharacters, onBack }) {
     .map((entry) => ({ ...entry, armor: armorById(entry.itemId) }))
     .filter((entry) => entry.armor && entry.armor.category !== "Shield");
   const ownsShield = inventoryQuantity(inventory, "shield") > 0;
-  const catalogResults = filterCatalog(itemQuery, itemType);
+  const catalogResults = filterCatalog(itemQuery, itemType, {
+    category: itemClassFilter,
+    property: itemProperty,
+  });
+  // Class options adapt to the selected type; properties apply to weapons.
+  const classOptions =
+    itemType === "armor"
+      ? ARMOR_CLASSES
+      : itemType === "ammunition"
+        ? []
+        : WEAPON_CLASSES;
+  const propertyEnabled = itemType === "weapon" || itemType === "all";
   const visibleInventory = inventory.filter((entry) => {
     const item = ITEM_CATALOG.find(
       (candidate) => candidate.id === entry.itemId,
@@ -290,100 +306,6 @@ export default function CharactersPage({ characters, setCharacters, onBack }) {
                     items · {inventory.length} unique
                   </span>
                 </div>
-                <div className="inventory-add-wrap">
-                  <button
-                    className="button inventory-add"
-                    onClick={() => setItemPickerOpen((open) => !open)}
-                    aria-expanded={itemPickerOpen}
-                  >
-                    <Plus size={16} /> Add Item
-                  </button>
-                  {itemPickerOpen &&
-                    createPortal(
-                      <div
-                        className="item-picker-backdrop"
-                        onPointerDown={() => setItemPickerOpen(false)}
-                      >
-                        <div
-                          className="item-picker"
-                          role="dialog"
-                          aria-modal="true"
-                          aria-label="Add an inventory item"
-                          onPointerDown={(event) => event.stopPropagation()}
-                        >
-                          <div className="item-picker-title">
-                            <span>ITEM CATALOG</span>
-                            <button
-                              onClick={() => setItemPickerOpen(false)}
-                              aria-label="Close item list"
-                            >
-                              <X size={14} />
-                            </button>
-                          </div>
-                          <div className="item-browser-tools">
-                            <label className="inventory-search">
-                              <Search size={15} />
-                              <input
-                                value={itemQuery}
-                                onChange={(event) =>
-                                  setItemQuery(event.target.value)
-                                }
-                                placeholder="Search name, type, damage…"
-                                autoFocus
-                              />
-                            </label>
-                            <select
-                              value={itemType}
-                              onChange={(event) =>
-                                setItemType(event.target.value)
-                              }
-                              aria-label="Filter item type"
-                            >
-                              {ITEM_TYPES.map((type) => (
-                                <option key={type.id} value={type.id}>
-                                  {type.label}
-                                </option>
-                              ))}
-                            </select>
-                          </div>
-                          <div className="item-picker-results">
-                            <small>{catalogResults.length} results</small>
-                            {catalogResults.map((item) => {
-                              const owned =
-                                inventory.find(
-                                  (entry) => entry.itemId === item.id,
-                                )?.quantity || 0;
-                              return (
-                                <button
-                                  key={item.id}
-                                  className="item-picker-option"
-                                  onClick={() => changeItemQuantity(item.id, 1)}
-                                >
-                                  <span>
-                                    <strong>{item.name}</strong>
-                                    <small>
-                                      {item.kind === "ammunition"
-                                        ? `${item.typeLabel} · bundle of ${item.bundle}`
-                                        : item.kind === "armor"
-                                          ? `${item.typeLabel} · ${item.category} · AC ${item.acBase}${item.acDex ? "+Dex" : ""}`
-                                          : `${item.typeLabel} · ${item.category} · ${item.rangeFeet} ft`}
-                                    </small>
-                                  </span>
-                                  <em>{owned ? `${owned} owned` : "+ Add"}</em>
-                                </button>
-                              );
-                            })}
-                            {!catalogResults.length && (
-                              <p className="catalog-empty">
-                                No catalog items match that search.
-                              </p>
-                            )}
-                          </div>
-                        </div>
-                      </div>,
-                      document.body,
-                    )}
-                </div>
               </div>
               <div className="loadout-editor">
                 <div>
@@ -492,6 +414,136 @@ export default function CharactersPage({ characters, setCharacters, onBack }) {
                     : " · unarmored"}
                   {selected.shield ? " + shield" : ""}
                 </output>
+              </div>
+              <div className="inventory-add-wrap">
+                <button
+                  className="button inventory-add"
+                  onClick={() => setItemPickerOpen((open) => !open)}
+                  aria-expanded={itemPickerOpen}
+                >
+                  <Plus size={16} /> Add Item
+                </button>
+                {itemPickerOpen &&
+                  createPortal(
+                    <div
+                      className="item-picker-backdrop"
+                      onPointerDown={() => setItemPickerOpen(false)}
+                    >
+                      <div
+                        className="item-picker"
+                        role="dialog"
+                        aria-modal="true"
+                        aria-label="Add an inventory item"
+                        onPointerDown={(event) => event.stopPropagation()}
+                      >
+                        <div className="item-picker-title">
+                          <span>ITEM CATALOG</span>
+                          <button
+                            onClick={() => setItemPickerOpen(false)}
+                            aria-label="Close item list"
+                          >
+                            <X size={14} />
+                          </button>
+                        </div>
+                        <div className="item-browser-tools">
+                          <label className="inventory-search">
+                            <Search size={15} />
+                            <input
+                              value={itemQuery}
+                              onChange={(event) =>
+                                setItemQuery(event.target.value)
+                              }
+                              placeholder="Search name, type, damage…"
+                              autoFocus
+                            />
+                          </label>
+                          <select
+                            value={itemType}
+                            onChange={(event) => {
+                              setItemType(event.target.value);
+                              setItemClassFilter("all");
+                              setItemProperty("all");
+                            }}
+                            aria-label="Filter item type"
+                          >
+                            {ITEM_TYPES.map((type) => (
+                              <option key={type.id} value={type.id}>
+                                {type.label}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                        <div className="item-filter-row">
+                          <select
+                            value={itemClassFilter}
+                            onChange={(event) =>
+                              setItemClassFilter(event.target.value)
+                            }
+                            disabled={!classOptions.length}
+                            aria-label="Filter class"
+                          >
+                            <option value="all">
+                              {itemType === "armor" ? "All classes" : "All types"}
+                            </option>
+                            {classOptions.map((option) => (
+                              <option key={option} value={option}>
+                                {option}
+                              </option>
+                            ))}
+                          </select>
+                          <select
+                            value={itemProperty}
+                            onChange={(event) =>
+                              setItemProperty(event.target.value)
+                            }
+                            disabled={!propertyEnabled}
+                            aria-label="Filter property"
+                          >
+                            <option value="all">Any property</option>
+                            {WEAPON_PROPERTIES.map((property) => (
+                              <option key={property} value={property}>
+                                {property}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                        <div className="item-picker-results">
+                          <small>{catalogResults.length} results</small>
+                          {catalogResults.map((item) => {
+                            const owned =
+                              inventory.find(
+                                (entry) => entry.itemId === item.id,
+                              )?.quantity || 0;
+                            return (
+                              <button
+                                key={item.id}
+                                className="item-picker-option"
+                                onClick={() => changeItemQuantity(item.id, 1)}
+                              >
+                                <span>
+                                  <strong>{item.name}</strong>
+                                  <small>
+                                    {item.kind === "ammunition"
+                                      ? `${item.typeLabel} · bundle of ${item.bundle}`
+                                      : item.kind === "armor"
+                                        ? `${item.typeLabel} · ${item.category} · AC ${item.acBase}${item.acDex ? "+Dex" : ""}`
+                                        : `${item.typeLabel} · ${item.category} · ${item.rangeFeet} ft`}
+                                  </small>
+                                </span>
+                                <em>{owned ? `${owned} owned` : "+ Add"}</em>
+                              </button>
+                            );
+                          })}
+                          {!catalogResults.length && (
+                            <p className="catalog-empty">
+                              No catalog items match that search.
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                    </div>,
+                    document.body,
+                  )}
               </div>
               {inventory.length ? (
                 <>

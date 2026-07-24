@@ -341,14 +341,32 @@
 }
 
 .quick-inventory-tools select,
-.item-browser-tools select {
+.item-browser-tools select,
+.item-filter-row select {
   min-width: 104px;
+  min-height: 34px;
   border: 1px solid #ffffff13;
   border-radius: 9px;
   background: #202126;
   color: #c9c7c4;
   padding: 0 8px;
   font: 9px "DM Mono";
+}
+
+.item-filter-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 7px;
+  margin-top: 7px;
+}
+
+.item-filter-row select {
+  min-width: 0;
+}
+
+.item-filter-row select:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
 }
 
 .quick-item-row {
