@@ -1035,7 +1035,56 @@
   background: #3a2f2ae0;
 }
 /* Map adjust cluster (bottom-left), shown only while adjusting the map. */
-.board-map-controls {
+/* Wall overlay: polylines in world space, above the map/grid, below tokens.
+   Non-scaling strokes keep line width even despite the non-uniform viewBox. */
+.wall-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+  overflow: visible;
+}
+.wall-layer .wall {
+  fill: none;
+  vector-effect: non-scaling-stroke;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 3px;
+}
+.wall-layer .wall.full {
+  stroke: #e8654f;
+}
+.wall-layer .wall.half {
+  stroke: #e6b24d;
+  stroke-dasharray: 7 5;
+}
+.wall-layer .wall.draft {
+  stroke-width: 2.5px;
+  opacity: 0.85;
+  stroke-dasharray: 5 4;
+}
+.board.wall-editing {
+  cursor: crosshair;
+}
+.wall-type-switch {
+  display: flex;
+  gap: 2px;
+}
+.wall-type-switch button {
+  width: auto !important;
+  height: 30px !important;
+  padding: 0 10px;
+  font: 600 11px "DM Sans";
+}
+.wall-type-switch button.on {
+  border-color: #e0a37f;
+  color: #f6d9c6;
+  background: #3a2f2ae0;
+}
+.board-map-controls,
+.board-wall-controls {
   position: absolute;
   bottom: 12px;
   left: 12px;
@@ -1049,13 +1098,15 @@
   background: #26262be0;
   backdrop-filter: blur(4px);
 }
-.board-map-controls span {
+.board-map-controls > span,
+.board-wall-controls > span {
   color: #e0a37f;
   font: 10px "DM Mono";
   letter-spacing: 1px;
   margin-right: 2px;
 }
-.board-map-controls button {
+.board-map-controls button,
+.board-wall-controls button {
   width: 32px;
   height: 32px;
   display: grid;
@@ -1069,9 +1120,19 @@
     border-color 0.15s,
     color 0.15s;
 }
-.board-map-controls button:hover {
+.board-map-controls button:hover,
+.board-wall-controls button:hover {
   border-color: #e0a37f66;
   color: #fff;
+}
+.board-wall-controls button.on {
+  border-color: #e0a37f;
+  color: #f6d9c6;
+  background: #3a2f2ae0;
+}
+.board-wall-controls button:disabled {
+  opacity: 0.4;
+  cursor: default;
 }
 /* The blank-canvas hint never blocks panning. */
 .empty-message {

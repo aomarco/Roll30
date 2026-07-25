@@ -2,6 +2,9 @@ import { useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import {
   ArrowLeftRight,
+  Check,
+  Eye,
+  EyeOff,
   Hand,
   Grid3X3,
   ImageUp,
@@ -12,8 +15,10 @@ import {
   Search,
   Settings2,
   SkipForward,
+  Spline,
   Swords,
   Trash2,
+  Undo2,
   Users,
   Zap,
 } from "lucide-react";
@@ -33,6 +38,8 @@ import {
   clampZoom,
   zoomToPoint,
 } from "./viewRules.js";
+import { lineOfSight, segmentHitsWalls } from "./geometry.js";
+import { findPath } from "./pathfinding.js";
 import {
   ammunitionById,
   armorById,
@@ -270,6 +277,14 @@ function App() {
   const [mapEditing, setMapEditing] = useState(false);
   const [mapDragging, setMapDragging] = useState(false);
   const mapDragRef = useRef(null);
+  const [walls, setWalls] = useState(INITIAL_DATA.walls || []);
+  const [wallsVisible, setWallsVisible] = useState(
+    INITIAL_DATA.wallsVisible !== false,
+  );
+  const [wallEditing, setWallEditing] = useState(false);
+  const [wallType, setWallType] = useState("full");
+  const [wallDraft, setWallDraft] = useState([]);
+  const [wallCursor, setWallCursor] = useState(null);
   useEffect(() => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
     const animateInteraction = (event) => {
@@ -358,6 +373,8 @@ function App() {
                 mode,
                 gridSize,
                 mapView,
+                walls,
+                wallsVisible,
                 tokens,
                 battle,
                 combatVersion: COMBAT_DATA_VERSION,
@@ -366,7 +383,19 @@ function App() {
           : item,
       ),
     );
-  }, [map, noMap, mode, gridSize, mapView, tokens, battle, activeMapId, mapName]);
+  }, [
+    map,
+    noMap,
+    mode,
+    gridSize,
+    mapView,
+    walls,
+    wallsVisible,
+    tokens,
+    battle,
+    activeMapId,
+    mapName,
+  ]);
   const selected = tokens.find((t) => t.id === selectedId),
     activeId = battle?.order[battle.turn],
     active = tokens.find((t) => t.id === activeId);
@@ -563,6 +592,10 @@ function App() {
     setGridSize(data.gridSize || 48);
     setMapView(data.mapView || DEFAULT_MAP_VIEW);
     setMapEditing(false);
+    setWalls(data.walls || []);
+    setWallsVisible(data.wallsVisible !== false);
+    setWallEditing(false);
+    setWallDraft([]);
     setTokens(migratedTokens);
     setBattle(restoredBattle);
     setSelectedId(null);
@@ -830,15 +863,50 @@ function App() {
       window.removeEventListener("pointerup", up);
     };
   }, [mapDragging, camera.zoom]);
+  // Escape finishes the current wall run while drawing.
+  useEffect(() => {
+    if (!wallEditing) return undefined;
+    const onKey = (e) => {
+      if (e.key === "Escape") finishWall();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [wallEditing, wallType]);
+  // Cursor position as world percentages (invariant to pan/zoom because the
+  // world rect already reflects the camera transform).
+  const boardPointToPercent = (e) => {
+    const rect = boardRef.current?.getBoundingClientRect();
+    if (!rect) return null;
+    return {
+      x: ((e.clientX - rect.left) / rect.width) * 100,
+      y: ((e.clientY - rect.top) / rect.height) * 100,
+    };
+  };
+  const finishWall = () => {
+    setWallDraft((draft) => {
+      if (draft.length >= 2)
+        setWalls((list) => [
+          ...list,
+          { id: Date.now().toString(), type: wallType, points: draft },
+        ]);
+      return [];
+    });
+  };
   const onBoardPointerDown = (e) => {
     // Never start from a token or a HUD control (dock, turn order, counters,
     // zoom/map buttons).
     if (
       e.target.closest(
-        ".token, .map-actions, .turn-order-float, .move-counter, .attack-error, .retrieval-cinematic, .board-zoom-controls, .board-map-controls, .empty-message, button",
+        ".token, .map-actions, .turn-order-float, .move-counter, .attack-error, .retrieval-cinematic, .board-zoom-controls, .board-map-controls, .board-wall-controls, .empty-message, button",
       )
     )
       return;
+    // While drawing walls, a click places a polyline point (no pan/map drag).
+    if (wallEditing) {
+      const point = boardPointToPercent(e);
+      if (point) setWallDraft((draft) => [...draft, point]);
+      return;
+    }
     // In adjust mode, dragging moves the map image; otherwise it pans the camera.
     if (mapEditing && map) {
       mapDragRef.current = {
@@ -1675,8 +1743,26 @@ function App() {
           </div>
           <div
             ref={viewportRef}
-            className={"board" + (panning ? " panning" : "")}
+            className={
+              "board" +
+              (panning ? " panning" : "") +
+              (wallEditing ? " wall-editing" : "")
+            }
             onPointerDown={onBoardPointerDown}
+            onPointerMove={
+              wallEditing
+                ? (e) => setWallCursor(boardPointToPercent(e))
+                : undefined
+            }
+            onDoubleClick={wallEditing ? finishWall : undefined}
+            onContextMenu={
+              wallEditing
+                ? (e) => {
+                    e.preventDefault();
+                    finishWall();
+                  }
+                : undefined
+            }
             onWheel={onBoardWheel}
             style={{
               "--grid-size": `${gridSize}px`,
@@ -2248,6 +2334,32 @@ function App() {
                 transformOrigin: "0 0",
               }}
             >
+              {(wallsVisible || wallEditing) && (walls.length || wallEditing) ? (
+                <svg
+                  className="wall-layer"
+                  viewBox="0 0 100 100"
+                  preserveAspectRatio="none"
+                >
+                  {walls.map((wall) => (
+                    <polyline
+                      key={wall.id}
+                      className={`wall ${wall.type}`}
+                      points={wall.points
+                        .map((p) => `${p.x},${p.y}`)
+                        .join(" ")}
+                    />
+                  ))}
+                  {wallDraft.length > 0 && (
+                    <polyline
+                      className={`wall draft ${wallType}`}
+                      points={[...wallDraft, wallCursor]
+                        .filter(Boolean)
+                        .map((p) => `${p.x},${p.y}`)
+                        .join(" ")}
+                    />
+                  )}
+                </svg>
+              ) : null}
               {drag?.battle &&
                 drag.cursor &&
                 boardRef.current &&
@@ -2474,7 +2586,10 @@ function App() {
               {map && (
                 <button
                   className={mapEditing ? "on" : ""}
-                  onClick={() => setMapEditing((v) => !v)}
+                  onClick={() => {
+                    setMapEditing((v) => !v);
+                    setWallEditing(false);
+                  }}
                   aria-pressed={mapEditing}
                   aria-label="Adjust map image"
                   title="Adjust map image (scale & move)"
@@ -2482,6 +2597,21 @@ function App() {
                   <Move size={15} />
                 </button>
               )}
+              <button
+                className={wallEditing ? "on" : ""}
+                onClick={() => {
+                  setWallEditing((v) => {
+                    if (v) finishWall();
+                    return !v;
+                  });
+                  setMapEditing(false);
+                }}
+                aria-pressed={wallEditing}
+                aria-label="Draw walls"
+                title="Draw walls & half-walls"
+              >
+                <Spline size={15} />
+              </button>
             </div>
             {mapEditing && map && (
               <div className="board-map-controls">
@@ -2506,6 +2636,62 @@ function App() {
                   title="Reset map"
                 >
                   <Locate size={15} />
+                </button>
+              </div>
+            )}
+            {wallEditing && (
+              <div className="board-wall-controls">
+                <span>Draw walls</span>
+                <div className="wall-type-switch">
+                  <button
+                    className={wallType === "full" ? "on" : ""}
+                    onClick={() => setWallType("full")}
+                    title="Full wall — blocks movement and shots"
+                  >
+                    Full
+                  </button>
+                  <button
+                    className={wallType === "half" ? "on" : ""}
+                    onClick={() => setWallType("half")}
+                    title="Half wall — blocks movement, shots at disadvantage"
+                  >
+                    Half
+                  </button>
+                </div>
+                <button
+                  onClick={() => setWallDraft((d) => d.slice(0, -1))}
+                  disabled={!wallDraft.length}
+                  aria-label="Undo last point"
+                  title="Undo last point"
+                >
+                  <Undo2 size={15} />
+                </button>
+                <button
+                  onClick={finishWall}
+                  disabled={wallDraft.length < 2}
+                  aria-label="Finish wall"
+                  title="Finish this wall (Esc / right-click / double-click)"
+                >
+                  <Check size={16} />
+                </button>
+                <button
+                  onClick={() => setWallsVisible((v) => !v)}
+                  className={wallsVisible ? "on" : ""}
+                  aria-label="Toggle wall visibility"
+                  title={wallsVisible ? "Hide walls" : "Show walls"}
+                >
+                  {wallsVisible ? <Eye size={15} /> : <EyeOff size={15} />}
+                </button>
+                <button
+                  onClick={() => {
+                    setWalls([]);
+                    setWallDraft([]);
+                  }}
+                  disabled={!walls.length && !wallDraft.length}
+                  aria-label="Clear all walls"
+                  title="Clear all walls"
+                >
+                  <Trash2 size={15} />
                 </button>
               </div>
             )}
