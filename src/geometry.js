@@ -47,3 +47,37 @@ export function lineOfSight(walls, from, to) {
   const { full, half } = segmentHitsWalls(walls, from, to);
   return { blocked: full, disadvantage: half && !full };
 }
+
+/**
+ * Count the unit grid cells a segment passes through (points given in cell
+ * units). Grid DDA (Amanatides–Woo), 4-connected so it never cuts corners —
+ * it counts every square the line actually crosses. Used by the ruler.
+ */
+export function cellsCrossed(p1, p2) {
+  let cx = Math.floor(p1.x);
+  let cy = Math.floor(p1.y);
+  const ex = Math.floor(p2.x);
+  const ey = Math.floor(p2.y);
+  const dx = p2.x - p1.x;
+  const dy = p2.y - p1.y;
+  const sx = dx > 0 ? 1 : -1;
+  const sy = dy > 0 ? 1 : -1;
+  let tMaxX = dx !== 0 ? ((sx > 0 ? cx + 1 : cx) - p1.x) / dx : Infinity;
+  let tMaxY = dy !== 0 ? ((sy > 0 ? cy + 1 : cy) - p1.y) / dy : Infinity;
+  const tDeltaX = dx !== 0 ? sx / dx : Infinity;
+  const tDeltaY = dy !== 0 ? sy / dy : Infinity;
+  let count = 1;
+  let guard = 0;
+  while ((cx !== ex || cy !== ey) && guard < 1e6) {
+    if (tMaxX < tMaxY) {
+      tMaxX += tDeltaX;
+      cx += sx;
+    } else {
+      tMaxY += tDeltaY;
+      cy += sy;
+    }
+    count += 1;
+    guard += 1;
+  }
+  return count;
+}

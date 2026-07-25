@@ -13,6 +13,7 @@ import {
   Move,
   Package,
   Plus,
+  Ruler,
   Search,
   Settings2,
   SkipForward,
@@ -40,7 +41,7 @@ import {
   clampZoom,
   zoomToPoint,
 } from "./viewRules.js";
-import { lineOfSight, segmentHitsWalls } from "./geometry.js";
+import { cellsCrossed, lineOfSight, segmentHitsWalls } from "./geometry.js";
 import { findPath } from "./pathfinding.js";
 import {
   ammunitionById,
@@ -289,6 +290,10 @@ function App() {
   const [wallType, setWallType] = useState("full");
   const [wallDraft, setWallDraft] = useState([]);
   const [wallCursor, setWallCursor] = useState(null);
+  const [rulerActive, setRulerActive] = useState(false);
+  const [ruler, setRuler] = useState(null);
+  const [rulerDragging, setRulerDragging] = useState(false);
+  const rulerRef = useRef(null);
   const [chests, setChests] = useState(INITIAL_DATA.chests || []);
   const [fillChestId, setFillChestId] = useState(null);
   const [lootChestId, setLootChestId] = useState(null);
@@ -936,6 +941,21 @@ function App() {
       window.removeEventListener("pointerup", up);
     };
   }, [mapDragging, camera.zoom]);
+  // Ruler: drag to stretch a measured line.
+  useEffect(() => {
+    if (!rulerDragging) return undefined;
+    const move = (e) => {
+      const b = boardPointToPercent(e);
+      if (b) setRuler((r) => (r ? { ...r, b } : r));
+    };
+    const up = () => setRulerDragging(false);
+    window.addEventListener("pointermove", move);
+    window.addEventListener("pointerup", up);
+    return () => {
+      window.removeEventListener("pointermove", move);
+      window.removeEventListener("pointerup", up);
+    };
+  }, [rulerDragging]);
   // Escape finishes the current wall run while drawing.
   useEffect(() => {
     if (!wallEditing) return undefined;
@@ -1030,6 +1050,15 @@ function App() {
       )
     )
       return;
+    // Ruler: drag from here to measure distance in feet.
+    if (rulerActive) {
+      const point = boardPointToPercent(e);
+      if (point) {
+        setRuler({ a: point, b: point });
+        setRulerDragging(true);
+      }
+      return;
+    }
     // While drawing walls, a click places a polyline point (no pan/map drag).
     if (wallEditing) {
       const point = boardPointToPercent(e);
@@ -1914,7 +1943,8 @@ function App() {
             className={
               "board" +
               (panning ? " panning" : "") +
-              (wallEditing ? " wall-editing" : "")
+              (wallEditing ? " wall-editing" : "") +
+              (rulerActive ? " ruler-active" : "")
             }
             onPointerDown={onBoardPointerDown}
             onPointerMove={
@@ -2528,6 +2558,47 @@ function App() {
                   )}
                 </svg>
               ) : null}
+              {ruler &&
+                boardRef.current &&
+                (() => {
+                  const rect = boardRef.current.getBoundingClientRect();
+                  const worldW = rect.width / camera.zoom;
+                  const worldH = rect.height / camera.zoom;
+                  const toCell = (p) => ({
+                    x: ((p.x / 100) * worldW) / gridSize,
+                    y: ((p.y / 100) * worldH) / gridSize,
+                  });
+                  const feet =
+                    Math.max(0, cellsCrossed(toCell(ruler.a), toCell(ruler.b)) - 1) *
+                    5;
+                  const mid = {
+                    x: (ruler.a.x + ruler.b.x) / 2,
+                    y: (ruler.a.y + ruler.b.y) / 2,
+                  };
+                  return (
+                    <>
+                      <svg
+                        className="ruler-layer"
+                        viewBox="0 0 100 100"
+                        preserveAspectRatio="none"
+                      >
+                        <line
+                          className="ruler-line"
+                          x1={ruler.a.x}
+                          y1={ruler.a.y}
+                          x2={ruler.b.x}
+                          y2={ruler.b.y}
+                        />
+                      </svg>
+                      <div
+                        className="ruler-label"
+                        style={{ left: `${mid.x}%`, top: `${mid.y}%` }}
+                      >
+                        {feet} ft
+                      </div>
+                    </>
+                  );
+                })()}
               {drag?.battle &&
                 drag.cursor &&
                 boardRef.current &&
@@ -2851,12 +2922,29 @@ function App() {
                     return !v;
                   });
                   setMapEditing(false);
+                  setRulerActive(false);
                 }}
                 aria-pressed={wallEditing}
                 aria-label="Draw walls"
                 title="Draw walls & half-walls"
               >
                 <Spline size={15} />
+              </button>
+              <button
+                className={rulerActive ? "on" : ""}
+                onClick={() => {
+                  setRulerActive((v) => {
+                    if (v) setRuler(null);
+                    return !v;
+                  });
+                  setMapEditing(false);
+                  setWallEditing(false);
+                }}
+                aria-pressed={rulerActive}
+                aria-label="Ruler"
+                title="Ruler — drag to measure distance"
+              >
+                <Ruler size={15} />
               </button>
             </div>
             {mapEditing && map && (

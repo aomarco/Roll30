@@ -629,6 +629,17 @@ distinct from tokens (gold-bordered box, `Package` icon).
 
 Chests persist depleted across a battle (no auto-refill on restart).
 
+## Ruler
+
+A ruler tool (the `Ruler` toggle in the board control cluster) measures
+distance: drag on the board to stretch a dashed line, and a label at its
+midpoint shows the distance in feet. The distance is the number of grid squares
+the line passes through (`cellsCrossed` in `src/geometry.js`, a 4-connected grid
+DDA) minus the starting square, times 5 ft — i.e. squares crossed × 5. The line
+and label live in the world layer (percentage endpoints) so they pan/zoom with
+the board; toggling the tool off clears the line. The ruler is view-only and not
+persisted.
+
 ## Attack and Damage Rules
 
 Attack rolls use:
@@ -983,7 +994,7 @@ Storage failures are surfaced in the UI. A failed image or state save must not s
 | `src/main.jsx` | Application navigation, map workspace, combat presentation, browser persistence wiring |
 | `src/combatRules.js` | Pure turn, loadout, swap, range, roll-mode, retrieval, and landing rules |
 | `src/viewRules.js` | Pure map-camera math (pan/zoom clamp, zoom-to-cursor) |
-| `src/geometry.js` | Pure segment-intersection and wall line-of-sight |
+| `src/geometry.js` | Pure segment-intersection, wall line-of-sight, and ruler square-counting |
 | `src/pathfinding.js` | Pure A* grid routing (auto-route around walls) |
 | `src/weapons.js` | Weapon catalog, modifiers, dice, and attack resolution |
 | `src/items.js` | Generic catalog and quantity-based inventory helpers |
@@ -1172,3 +1183,4 @@ A combat, inventory, or persistence change is complete only when:
 - **Walls: collision + line of sight (2026-07-25):** Third walls commit — wiring the geometry into gameplay (see the "Walls and Line of Sight" section). Movement: `routedPath` in `src/main.jsx` tests the straight drag path against walls (converted to world-local px) and, when blocked, reroutes with `findPath` (also avoiding occupied cells); the routed path flows through the existing `farthestReachableIndex` drop logic, so detours are capped by remaining movement. Ranged/thrown attacks: `attack()` computes `lineOfSight` — a full wall refuses the shot (message, no action spent) and `canAttackTarget` returns false so the target doesn't highlight; a half wall adds a `half-cover` disadvantage to `attackRollMode`. Melee is unaffected. Reuses `cellCenterPx`/`wallsInPx` helpers. `npm test` (86) / `npm run build` pass.
 - **Chests (2026-07-25):** Final walls/chests commit (see the "Chests" section). `chests` (`[{id, x, y, inventory}]`) are per-map, persisted. Setup: an "Add chest" button places a chest (draggable via the free-drag `kind:"chest"` branch); clicking one opens a fill panel (item catalog via `filterCatalog`) to add/step contents. Battle: `canLootChest` gates on adjacency + an available Bonus Action; `openChest` spends the Bonus Action and opens a loot panel whose "Take" moves one unit to the active token and decrements the chest (shared, depleting). Chests occupy a cell and are added to the movement occupancy checks (auto-route `passable` + drop landing). Rendered in `.board-world` at one `--grid-size` cell with a `Package` icon; render-verified. `npm test` (86) / `npm run build` pass.
 - **Range-indicator perf — vector diamonds with a grid pattern (2026-07-25):** The attack-range highlight used to render one animated DOM `<i>` per in-range cell (hundreds–thousands of nodes, heavy lag even at normal zoom). Replaced entirely with a single `.range-layer` SVG (~5 nodes) that draws the range as nested **diamond bands** (Manhattan distance: green normal, yellow long, red thrown-long) centered on the attacker's actual position, then runs a grid `pattern` (aligned to the board cells, clipped to the outer diamond) through the fills so it reads as squares, with crisp per-tier outlines on top. Constant node count regardless of weapon range or zoom; polygon coords are world pixels so it scales with the world transform; light opacity `range-pop` fade (disabled under reduced motion). `src/main.jsx` `attackMode` block + `.range-layer`/`.range-band`/`.range-edge` CSS in `src/movement.css`; `weaponRangeCells` is no longer used by the UI. **Follow-up:** the band outline is the actual **stair-stepped** cell boundary (a `staircase(radius)` polygon, `O(radius)` vertices in one node) rather than a smooth diamond, so the ladder edges match the real in-range squares. The `.range-layer` SVG is anchored to the token with the **same `left/top` percentage** the token uses and the staircase is built symmetric around that origin (grid pattern offset by half a cell), so it stays pixel-centered on the token at **any zoom/pan** — no measured-pixel vs percentage drift. `npm test` (86) / `npm run build` pass; render-verified centered at zoom 1, zoomed-in+panned, and zoomed-out+panned.
+- **Ruler tool (2026-07-25):** Added a simple measuring ruler (see the "Ruler" section). A `Ruler` toggle in the board control cluster lets you drag a dashed line on the board; a midpoint label shows the distance in feet. Distance = grid squares the line passes through × 5, via a new pure `cellsCrossed(p1, p2)` in `src/geometry.js` (4-connected grid DDA, tested). The line/label are percentage-anchored in the world layer so they pan/zoom with the board; `.ruler-layer`/`.ruler-line`/`.ruler-label` CSS in `src/movement.css`. View-only, not persisted. `npm test` (87) / `npm run build` pass; render-verified.

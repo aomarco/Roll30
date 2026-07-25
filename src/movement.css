@@ -1122,8 +1122,41 @@
   opacity: 0.85;
   stroke-dasharray: 5 4;
 }
-.board.wall-editing {
+.board.wall-editing,
+.board.ruler-active {
   cursor: crosshair;
+}
+/* Ruler: a measured line + a feet label at its midpoint. */
+.ruler-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 4;
+  pointer-events: none;
+  overflow: visible;
+}
+.ruler-layer .ruler-line {
+  fill: none;
+  stroke: #f6dda2;
+  stroke-width: 2.5px;
+  stroke-dasharray: 6 4;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+}
+.ruler-label {
+  position: absolute;
+  z-index: 5;
+  transform: translate(-50%, -50%);
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: #23242ae8;
+  border: 1px solid #f6dda255;
+  color: #f6dda2;
+  font: 700 12px "DM Mono";
+  white-space: nowrap;
+  pointer-events: none;
+  box-shadow: 0 2px 6px #0007;
 }
 .wall-type-switch {
   display: flex;
