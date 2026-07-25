@@ -28,6 +28,8 @@ Roll30 currently provides:
 - Play maps and Battle maps.
 - Uploaded map artwork over a dark-gray canvas (a blank dark-gray board is the default).
 - Pan and zoom over an infinite canvas that extends past the map image.
+- Drawable walls and half-walls that block movement (auto-routing around them) and ranged line of sight.
+- Lootable chests filled in Setup and opened with a bonus action in battle.
 - Grid-snapped tokens and collision prevention.
 - Simplified persistent character sheets.
 - Searchable, quantity-based character and token inventories.
@@ -604,6 +606,29 @@ Wall/cell geometry is tested in world-local pixels: wall percentages and cell
 centers are both converted using the current board rect (`rect.width / zoom`),
 consistent with `snap`/`cell`.
 
+## Chests
+
+Chests are lootable objects (`chests`, per-map, persisted) that occupy one grid
+cell. Each is `{ id, x, y, inventory }` positioned like a token (world
+percentages) and rendered in `.board-world` at one `--grid-size` cell, visually
+distinct from tokens (gold-bordered box, `Package` icon).
+
+- **Setup:** an "Add chest" button (Setup only) drops a chest; drag it to place
+  (the non-battle free-drag branch handles `kind: "chest"`). Clicking a chest in
+  Setup opens a **fill panel** (the item catalog via `filterCatalog`) to add and
+  step contents with `changeInventoryQuantity`, or delete the chest.
+- **Battle:** a chest is lootable when the active token is adjacent
+  (`isAdjacentOrSame`) and still has its Bonus Action; it then highlights and is
+  clickable. Opening spends the Bonus Action (`spendBonusAction`) and shows a
+  **loot panel** of the contents; **Take** moves one unit into the active
+  token's inventory and removes it from the chest, so contents **deplete** and
+  remain for the next looter.
+- A chest blocks movement: it is included in every occupancy check (the
+  auto-route `passable` and the drop-landing test), so tokens can't route or
+  land on a chest's cell.
+
+Chests persist depleted across a battle (no auto-refill on restart).
+
 ## Attack and Damage Rules
 
 Attack rolls use:
@@ -890,6 +915,7 @@ The winner is reported. A completed battle can be started again, which:
 - Names and modes.
 - Grid settings and per-map map-image transform (`mapView`: scale + offset).
 - Walls (`walls`: polylines) and their visibility (`wallsVisible`).
+- Chests (`chests`: cell position + contents).
 - Tokens and positions.
 - Token stats, size, inventories, loadouts, armor, and shield.
 - Versioned battle state (including per-token ammunition spent).
@@ -1139,3 +1165,4 @@ A combat, inventory, or persistence change is complete only when:
 - **Walls/chests foundation — geometry + pathfinding (2026-07-25):** First of four commits for walls, half-walls, and chests. Added two pure, tested modules with no UI yet. `src/geometry.js`: `segmentsIntersect` (proper 2D crossing), `segmentHitsWalls(walls, p1, p2)` → `{full, half}` (walls are `{id, type:"full"|"half", points}` polylines), and `lineOfSight(walls, from, to)` → `{blocked, disadvantage}` (full wall blocks, else a half wall gives disadvantage). `src/pathfinding.js`: `findPath(start, goal, {passable, maxCells})` — 8-directional A* (Chebyshev heuristic, bounded) that auto-routes around blocked edges, returning a cell path or null. Tests in `src/geometry.test.js` + `src/pathfinding.test.js` (crossing truth table, LoS full/half/clear, straight/detour/unreachable); suite now 86. `npm test`/`npm run build` pass.
 - **Walls: data, rendering, draw editor (2026-07-25):** Second walls commit — drawing & display (collision/LoS come next). `walls` (`[{id, type:"full"|"half", points:[{x,y}%]}]`) and `wallsVisible` are per-map state, persisted in the map `data` and restored on load. Walls render as an SVG overlay inside `.board-world` (`viewBox 0 0 100 100`, `preserveAspectRatio=none`, `vector-effect: non-scaling-stroke`): full walls solid, half walls dashed, plus a live draft preview to the cursor. A `Spline` toggle in the board control cluster enters wall mode; a `.board-wall-controls` cluster offers Full/Half type, undo point, finish (also Esc / right-click / double-click), a visibility eye, and clear-all. In wall mode a board click adds a polyline point at the cursor's world-percentage. No behavior yet — walls don't block movement or shots until the next commit. `npm test`/`npm run build` pass; wall rendering render-verified in headless Chrome.
 - **Walls: collision + line of sight (2026-07-25):** Third walls commit — wiring the geometry into gameplay (see the "Walls and Line of Sight" section). Movement: `routedPath` in `src/main.jsx` tests the straight drag path against walls (converted to world-local px) and, when blocked, reroutes with `findPath` (also avoiding occupied cells); the routed path flows through the existing `farthestReachableIndex` drop logic, so detours are capped by remaining movement. Ranged/thrown attacks: `attack()` computes `lineOfSight` — a full wall refuses the shot (message, no action spent) and `canAttackTarget` returns false so the target doesn't highlight; a half wall adds a `half-cover` disadvantage to `attackRollMode`. Melee is unaffected. Reuses `cellCenterPx`/`wallsInPx` helpers. `npm test` (86) / `npm run build` pass.
+- **Chests (2026-07-25):** Final walls/chests commit (see the "Chests" section). `chests` (`[{id, x, y, inventory}]`) are per-map, persisted. Setup: an "Add chest" button places a chest (draggable via the free-drag `kind:"chest"` branch); clicking one opens a fill panel (item catalog via `filterCatalog`) to add/step contents. Battle: `canLootChest` gates on adjacency + an available Bonus Action; `openChest` spends the Bonus Action and opens a loot panel whose "Take" moves one unit to the active token and decrements the chest (shared, depleting). Chests occupy a cell and are added to the movement occupancy checks (auto-route `passable` + drop landing). Rendered in `.board-world` at one `--grid-size` cell with a `Package` icon; render-verified. `npm test` (86) / `npm run build` pass.

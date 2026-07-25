@@ -1134,6 +1134,51 @@
   opacity: 0.4;
   cursor: default;
 }
+/* Chests fill one grid cell and sit in the world with the tokens. */
+.chest {
+  position: absolute;
+  z-index: 3;
+  transform: translate(-50%, -50%);
+  width: var(--grid-size);
+  height: var(--grid-size);
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 2px solid #d9a441;
+  border-radius: 8px;
+  background: linear-gradient(150deg, #7a5326, #4a331a);
+  color: #f4e3c0;
+  cursor: pointer;
+  box-shadow: 0 3px 8px #0008;
+}
+.chest.lootable {
+  outline: 3px solid #f6d47d;
+  outline-offset: 3px;
+  animation: target-pulse 1s ease-in-out infinite;
+}
+.chest-contents {
+  display: grid;
+  gap: 5px;
+  padding: 8px 10px;
+  border-bottom: 1px solid #ffffff12;
+  max-height: 160px;
+  overflow-y: auto;
+}
+.chest-content-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-width: 0;
+}
+.chest-content-row > strong {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font: 600 12px "DM Sans";
+  color: #efe7d8;
+}
 /* The blank-canvas hint never blocks panning. */
 .empty-message {
   pointer-events: none;

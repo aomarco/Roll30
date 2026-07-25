@@ -11,6 +11,7 @@ import {
   Locate,
   Minus,
   Move,
+  Package,
   Plus,
   Search,
   Settings2,
@@ -20,6 +21,7 @@ import {
   Trash2,
   Undo2,
   Users,
+  X,
   Zap,
 } from "lucide-react";
 import "./styles.css";
@@ -49,6 +51,7 @@ import {
   WEAPONS,
 } from "./weapons.js";
 import {
+  ITEM_CATALOG,
   ITEM_TYPES,
   bundleSize,
   changeInventoryQuantity,
@@ -84,6 +87,7 @@ import {
   effectiveSpeed,
   equipmentProblem,
   farthestReachableIndex,
+  isAdjacentOrSame,
   normalizeEquipment,
   isDualWieldLoadout,
   loadoutProblem,
@@ -285,6 +289,10 @@ function App() {
   const [wallType, setWallType] = useState("full");
   const [wallDraft, setWallDraft] = useState([]);
   const [wallCursor, setWallCursor] = useState(null);
+  const [chests, setChests] = useState(INITIAL_DATA.chests || []);
+  const [fillChestId, setFillChestId] = useState(null);
+  const [lootChestId, setLootChestId] = useState(null);
+  const [chestQuery, setChestQuery] = useState("");
   useEffect(() => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
     const animateInteraction = (event) => {
@@ -375,6 +383,7 @@ function App() {
                 mapView,
                 walls,
                 wallsVisible,
+                chests,
                 tokens,
                 battle,
                 combatVersion: COMBAT_DATA_VERSION,
@@ -391,6 +400,7 @@ function App() {
     mapView,
     walls,
     wallsVisible,
+    chests,
     tokens,
     battle,
     activeMapId,
@@ -596,6 +606,9 @@ function App() {
     setWallsVisible(data.wallsVisible !== false);
     setWallEditing(false);
     setWallDraft([]);
+    setChests(data.chests || []);
+    setFillChestId(null);
+    setLootChestId(null);
     setTokens(migratedTokens);
     setBattle(restoredBattle);
     setSelectedId(null);
@@ -768,14 +781,18 @@ function App() {
       (c, i) => i > 0 && !edgeClear(straight[i - 1], c),
     );
     if (!straightBlocked) return straight;
-    const occupied = new Set(
-      tokens
+    const occupied = new Set([
+      ...tokens
         .filter((t) => t.id !== moverId && t.hp > 0)
         .map((t) => {
           const c = cell(t, rect);
           return `${c.x},${c.y}`;
         }),
-    );
+      ...chests.map((ch) => {
+        const c = cell(ch, rect);
+        return `${c.x},${c.y}`;
+      }),
+    ]);
     const passable = (from, to) =>
       edgeClear(from, to) && !occupied.has(`${to.x},${to.y}`);
     return (
@@ -800,9 +817,14 @@ function App() {
       } else {
         const x = ((e.clientX - rect.left) / rect.width) * 100,
           y = ((e.clientY - rect.top) / rect.height) * 100;
-        setTokens((items) =>
-          items.map((t) => (t.id === drag.id ? { ...t, x, y } : t)),
-        );
+        if (drag.kind === "chest")
+          setChests((items) =>
+            items.map((c) => (c.id === drag.id ? { ...c, x, y } : c)),
+          );
+        else
+          setTokens((items) =>
+            items.map((t) => (t.id === drag.id ? { ...t, x, y } : t)),
+          );
       }
     };
     const up = () => {
@@ -820,7 +842,11 @@ function App() {
               token.id !== drag.id &&
               cell(token, rect).x === c.x &&
               cell(token, rect).y === c.y,
-          );
+          ) ||
+          chests.some((ch) => {
+            const cc = cell(ch, rect);
+            return cc.x === c.x && cc.y === c.y;
+          });
         // Land on the farthest reachable square along the traced path (never
         // past the movement allowance). Dropping on a red square just spends
         // all movement toward the target; if the landing square is occupied,
@@ -938,6 +964,62 @@ function App() {
         ]);
       return [];
     });
+  };
+  // Chests: placed & filled in Setup, looted in battle with a bonus action.
+  const isSetup = mode === "battle" && !battle;
+  const addChest = () =>
+    setChests((list) => [
+      ...list,
+      { id: Date.now().toString(), x: 50, y: 50, inventory: [] },
+    ]);
+  const removeChest = (id) => {
+    setChests((list) => list.filter((c) => c.id !== id));
+    setFillChestId((f) => (f === id ? null : f));
+    setLootChestId((l) => (l === id ? null : l));
+  };
+  const canLootChest = (ch) => {
+    if (!battle || battle.complete || !active || turnResources?.bonusActionSpent)
+      return false;
+    const rect = boardRef.current?.getBoundingClientRect();
+    if (!rect) return false;
+    return isAdjacentOrSame(cell(active, rect), cell(ch, rect));
+  };
+  const openChest = (ch) => {
+    const next = spendBonusAction(battle.resources, "open-chest");
+    if (!next) return;
+    setBattle((b) => ({
+      ...b,
+      resources: next,
+      log: `${active.name} opens a chest.`,
+    }));
+    setLootChestId(ch.id);
+  };
+  const chestDown = (e, ch) => {
+    e.stopPropagation();
+    if (attackCinematic || retrievalCinematic) return;
+    if (battle && !battle.complete) {
+      if (canLootChest(ch)) openChest(ch);
+      return;
+    }
+    if (isSetup) setDrag({ id: ch.id, battle: false, kind: "chest" });
+  };
+  const changeChestItem = (chestId, itemId, amount) =>
+    setChests((list) =>
+      list.map((c) =>
+        c.id === chestId
+          ? { ...c, inventory: changeInventoryQuantity(c.inventory, itemId, amount) }
+          : c,
+      ),
+    );
+  const takeFromChest = (chestId, itemId) => {
+    changeChestItem(chestId, itemId, -1);
+    setTokens((items) =>
+      items.map((t) =>
+        t.id === activeId
+          ? { ...t, inventory: changeInventoryQuantity(t.inventory, itemId, 1) }
+          : t,
+      ),
+    );
   };
   const onBoardPointerDown = (e) => {
     // Never start from a token or a HUD control (dock, turn order, counters,
@@ -1776,6 +1858,11 @@ function App() {
             <button className="button sidebar-add-token" onClick={add}>
               <Plus size={17} /> Add to map
             </button>
+            {isSetup && (
+              <button className="button sidebar-add-chest" onClick={addChest}>
+                <Package size={16} /> Add chest
+              </button>
+            )}
             <div className="token-roster">
               {tokens.map((token) => (
                 <button
@@ -2523,6 +2610,28 @@ function App() {
                     );
                   });
               })()}
+            {chests.map((ch) => (
+              <button
+                key={ch.id}
+                className={
+                  "chest" + (canLootChest(ch) ? " lootable" : "")
+                }
+                style={{ left: `${ch.x}%`, top: `${ch.y}%` }}
+                onPointerDown={(e) => chestDown(e, ch)}
+                onClick={() => {
+                  if (isSetup) setFillChestId(ch.id);
+                }}
+                title={
+                  isSetup
+                    ? "Chest — drag to place, click to fill"
+                    : canLootChest(ch)
+                      ? "Open chest (Bonus Action)"
+                      : "Chest"
+                }
+              >
+                <Package size={Math.round(gridSize * 0.5)} />
+              </button>
+            ))}
             {damagePopups.map((popup) => {
               const token = tokens.find((item) => item.id === popup.tokenId);
               return (
@@ -3197,6 +3306,154 @@ function App() {
           )}
         </aside>
       </main>
+      {fillChestId &&
+        isSetup &&
+        (() => {
+          const chestObj = chests.find((c) => c.id === fillChestId);
+          if (!chestObj) return null;
+          const results = filterCatalog(chestQuery, "all");
+          const contents = normalizeInventory(chestObj.inventory);
+          return (
+            <div
+              className="item-picker-backdrop"
+              onPointerDown={() => setFillChestId(null)}
+            >
+              <div
+                className="item-picker"
+                onPointerDown={(e) => e.stopPropagation()}
+              >
+                <div className="item-picker-title">
+                  <span>FILL CHEST</span>
+                  <button
+                    onClick={() => setFillChestId(null)}
+                    aria-label="Close"
+                  >
+                    <X size={14} />
+                  </button>
+                </div>
+                <div className="item-browser-tools">
+                  <label className="inventory-search">
+                    <Search size={15} />
+                    <input
+                      value={chestQuery}
+                      onChange={(e) => setChestQuery(e.target.value)}
+                      placeholder="Search items to add…"
+                      autoFocus
+                    />
+                  </label>
+                </div>
+                {contents.length > 0 && (
+                  <div className="chest-contents">
+                    {contents.map((entry) => {
+                      const item = ITEM_CATALOG.find(
+                        (i) => i.id === entry.itemId,
+                      );
+                      return (
+                        <div className="chest-content-row" key={entry.itemId}>
+                          <strong>{item?.name || entry.itemId}</strong>
+                          <div className="quantity-stepper">
+                            <button
+                              onClick={() =>
+                                changeChestItem(
+                                  fillChestId,
+                                  entry.itemId,
+                                  -bundleSize(entry.itemId),
+                                )
+                              }
+                            >
+                              <Minus size={13} />
+                            </button>
+                            <strong>{entry.quantity}</strong>
+                            <button
+                              onClick={() =>
+                                changeChestItem(
+                                  fillChestId,
+                                  entry.itemId,
+                                  bundleSize(entry.itemId),
+                                )
+                              }
+                            >
+                              <Plus size={13} />
+                            </button>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+                <div className="item-picker-results">
+                  <small>{results.length} items</small>
+                  {results.map((item) => (
+                    <button
+                      key={item.id}
+                      className="item-picker-option"
+                      onClick={() =>
+                        changeChestItem(fillChestId, item.id, bundleSize(item.id))
+                      }
+                    >
+                      <span>
+                        <strong>{item.name}</strong>
+                        <small>{item.typeLabel}</small>
+                      </span>
+                      <em>+ Add</em>
+                    </button>
+                  ))}
+                </div>
+                <button className="remove" onClick={() => removeChest(fillChestId)}>
+                  <Trash2 size={14} /> Delete chest
+                </button>
+              </div>
+            </div>
+          );
+        })()}
+      {lootChestId &&
+        (() => {
+          const chestObj = chests.find((c) => c.id === lootChestId);
+          if (!chestObj) return null;
+          const contents = normalizeInventory(chestObj.inventory);
+          return (
+            <div
+              className="item-picker-backdrop"
+              onPointerDown={() => setLootChestId(null)}
+            >
+              <div
+                className="item-picker"
+                onPointerDown={(e) => e.stopPropagation()}
+              >
+                <div className="item-picker-title">
+                  <span>CHEST · {active?.name} loots</span>
+                  <button
+                    onClick={() => setLootChestId(null)}
+                    aria-label="Close"
+                  >
+                    <X size={14} />
+                  </button>
+                </div>
+                <div className="item-picker-results">
+                  {contents.length === 0 && (
+                    <p className="catalog-empty">The chest is empty.</p>
+                  )}
+                  {contents.map((entry) => {
+                    const item = ITEM_CATALOG.find((i) => i.id === entry.itemId);
+                    return (
+                      <button
+                        key={entry.itemId}
+                        className="item-picker-option"
+                        onClick={() => takeFromChest(lootChestId, entry.itemId)}
+                      >
+                        <span>
+                          <strong>{item?.name || entry.itemId}</strong>
+                          <small>{entry.quantity} available</small>
+                        </span>
+                        <em>Take</em>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          );
+        })()}
     </div>
   );
 }
