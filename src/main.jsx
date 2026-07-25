@@ -2574,41 +2574,49 @@ function App() {
               active &&
               selectedWeapon &&
               boardRef.current &&
+              viewportRef.current &&
               (() => {
                 const rect = boardRef.current.getBoundingClientRect();
+                const vp = viewportRef.current.getBoundingClientRect();
                 const c = cell(active, rect);
-                const columns = Math.floor(rect.width / camera.zoom / gridSize);
-                const rows = Math.floor(rect.height / camera.zoom / gridSize);
-                // Only build and render cells that land on the visible board.
-                // columns + rows covers the far corner from any attacker cell.
-                return weaponRangeCells(selectedWeapon, columns + rows)
-                  .filter((offset) => {
-                    const bx = c.x + offset.x;
-                    const by = c.y + offset.y;
-                    return (
-                      offset.color &&
-                      bx >= 0 &&
-                      by >= 0 &&
-                      bx < columns &&
-                      by < rows
+                // Iterate only the cells inside the on-screen viewport (mapped
+                // into world-local cell indices). This stays bounded no matter
+                // how large a ranged weapon's range is or how far you zoom out,
+                // instead of generating the weapon's full range diamond.
+                const cellPx = gridSize * camera.zoom;
+                const minX = Math.floor(-camera.x / cellPx) - 1;
+                const maxX = Math.ceil((vp.width - camera.x) / cellPx) + 1;
+                const minY = Math.floor(-camera.y / cellPx) - 1;
+                const maxY = Math.ceil((vp.height - camera.y) / cellPx) + 1;
+                const CAP = 1800; // hard safety limit for extreme zoom-out
+                const cells = [];
+                for (let bx = minX; bx <= maxX && cells.length < CAP; bx += 1)
+                  for (let by = minY; by <= maxY && cells.length < CAP; by += 1) {
+                    const ox = bx - c.x,
+                      oy = by - c.y;
+                    if (ox === 0 && oy === 0) continue;
+                    const band = weaponRangeBand(
+                      selectedWeapon,
+                      (Math.abs(ox) + Math.abs(oy)) * 5,
                     );
-                  })
-                  .map((offset) => {
-                    const distance = Math.abs(offset.x) + Math.abs(offset.y);
-                    return (
-                      <i
-                        key={`attack-${offset.x}-${offset.y}`}
-                        className={`attack-cell ${offset.color}`}
-                        style={{
-                          left: (c.x + offset.x) * gridSize,
-                          top: (c.y + offset.y) * gridSize,
-                          width: gridSize,
-                          height: gridSize,
-                          "--attack-delay": `${distance * 55}ms`,
-                        }}
-                      />
-                    );
-                  });
+                    if (band?.color) cells.push({ bx, by, ox, oy, color: band.color });
+                  }
+                return cells.map(({ bx, by, ox, oy, color }) => {
+                  const distance = Math.abs(ox) + Math.abs(oy);
+                  return (
+                    <i
+                      key={`attack-${bx}-${by}`}
+                      className={`attack-cell ${color}`}
+                      style={{
+                        left: bx * gridSize,
+                        top: by * gridSize,
+                        width: gridSize,
+                        height: gridSize,
+                        "--attack-delay": `${Math.min(distance, 12) * 55}ms`,
+                      }}
+                    />
+                  );
+                });
               })()}
             {chests.map((ch) => (
               <button
