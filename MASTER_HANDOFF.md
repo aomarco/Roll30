@@ -874,6 +874,8 @@ Roll30 contains **36 source-backed 2014 SRD weapons**: 23 melee/thrown, 6 Versat
 
 Versatile damage is shown as `one-handed / two-handed`. Source-fidelity tests compare imported names, damage (including the two-handed die), types, ranges, properties, price, and weight with the local SRD data.
 
+**House-ruled ranges:** the bows are deliberately nerfed from the SRD to a video-game/battle-map scale (Roll30 is a fun game, not a realistic simulator). Shortbow is **40/80 ft** (8/16 squares) and Longbow is **80/160 ft** (16/32 squares) for normal/long range, instead of the SRD's 80/320 and 150/600. The weapon source-fidelity test exempts these two ids from its range assertion.
+
 ### Ammunition
 
 Four source-backed ammunition types back the ranged weapons: **Arrow** (bundle 20), **Crossbow bolt** (20), **Sling bullet** (20), and **Blowgun needle** (50). A ranged weapon at 0 ammo cannot fire; each shot consumes one unit; `battle.ammoSpent` tracks per-token expenditure and **50% (floored) of ammunition fired is returned** to each token when the battle ends.

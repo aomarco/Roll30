@@ -412,8 +412,9 @@ export const WEAPONS = [
     damageType: "Piercing",
     properties: ["Ammunition", "Two-Handed"],
     hands: "two",
-    normalRange: 80,
-    longRange: 320,
+    // House-ruled to video-game scale (SRD is 80/320): 8/16 squares.
+    normalRange: 40,
+    longRange: 80,
     ammunition: "arrow",
     cost: { quantity: 25, unit: "gp" },
     weight: 2,
@@ -488,8 +489,9 @@ export const WEAPONS = [
     damageType: "Piercing",
     properties: ["Ammunition", "Heavy", "Two-Handed"],
     hands: "two",
-    normalRange: 150,
-    longRange: 600,
+    // House-ruled to video-game scale (SRD is 150/600): 16/32 squares.
+    normalRange: 80,
+    longRange: 160,
     ammunition: "arrow",
     cost: { quantity: 50, unit: "gp" },
     weight: 2,
