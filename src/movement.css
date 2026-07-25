@@ -948,13 +948,6 @@
 .board.panning {
   cursor: grabbing;
 }
-.board.gridded {
-  background-image:
-    linear-gradient(#ffffff1e 1px, transparent 1px),
-    linear-gradient(90deg, #ffffff1e 1px, transparent 1px);
-  background-size: var(--cell) var(--cell);
-  background-position: var(--cam-x) var(--cam-y);
-}
 /* Transformed world layer: holds the map image, tokens, and move/attack cells.
    Panned/zoomed via inline transform; sized to the viewport at zoom 1. */
 .board-world {
@@ -963,6 +956,20 @@
   z-index: 1;
   background: center / contain no-repeat;
   will-change: transform;
+}
+/* Grid lives inside the world (so it pans/zooms and aligns with cells) and
+   overlays both the map image and the blank canvas, below tokens. It spans a
+   huge multiple of the cell size in every direction so it reads as infinite,
+   with its origin on a cell boundary so lines pass through world (0,0). */
+.world-grid {
+  position: absolute;
+  inset: calc(var(--grid-size) * -4000);
+  z-index: 2;
+  pointer-events: none;
+  background-image:
+    linear-gradient(#ffffff26 1px, transparent 1px),
+    linear-gradient(90deg, #ffffff26 1px, transparent 1px);
+  background-size: var(--grid-size) var(--grid-size);
 }
 .board-zoom-controls {
   position: absolute;

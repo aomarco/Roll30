@@ -674,20 +674,9 @@ function App() {
       h = rect.height / z,
       lx = (event.clientX - rect.left) / z,
       ly = (event.clientY - rect.top) / z;
-    const px = Math.max(
-        gridSize / 2,
-        Math.min(
-          w - gridSize / 2,
-          Math.round((lx - gridSize / 2) / gridSize) * gridSize + gridSize / 2,
-        ),
-      ),
-      py = Math.max(
-        gridSize / 2,
-        Math.min(
-          h - gridSize / 2,
-          Math.round((ly - gridSize / 2) / gridSize) * gridSize + gridSize / 2,
-        ),
-      );
+    // Unbounded: snap to the nearest cell anywhere on the infinite canvas.
+    const px = Math.round((lx - gridSize / 2) / gridSize) * gridSize + gridSize / 2,
+      py = Math.round((ly - gridSize / 2) / gridSize) * gridSize + gridSize / 2;
     return {
       x: (px / w) * 100,
       y: (py / h) * 100,
@@ -712,14 +701,8 @@ function App() {
           cursor: { x: e.clientX - rect.left, y: e.clientY - rect.top },
         }));
       } else {
-        const x = Math.max(
-            3,
-            Math.min(97, ((e.clientX - rect.left) / rect.width) * 100),
-          ),
-          y = Math.max(
-            3,
-            Math.min(97, ((e.clientY - rect.top) / rect.height) * 100),
-          );
+        const x = ((e.clientX - rect.left) / rect.width) * 100,
+          y = ((e.clientY - rect.top) / rect.height) * 100;
         setTokens((items) =>
           items.map((t) => (t.id === drag.id ? { ...t, x, y } : t)),
         );
@@ -1632,10 +1615,7 @@ function App() {
           </div>
           <div
             ref={viewportRef}
-            className={
-              "board" + (mode === "battle" ? " gridded" : "") +
-              (panning ? " panning" : "")
-            }
+            className={"board" + (panning ? " panning" : "")}
             onPointerDown={onBoardPointerDown}
             onWheel={onBoardWheel}
             style={{
@@ -2191,6 +2171,7 @@ function App() {
                 backgroundImage: map ? `url(${map})` : undefined,
               }}
             >
+              <div className="world-grid" />
               {drag?.battle &&
                 drag.cursor &&
                 boardRef.current &&
