@@ -7,6 +7,7 @@ import {
   ImageUp,
   Locate,
   Minus,
+  Move,
   Plus,
   Search,
   Settings2,
@@ -25,7 +26,13 @@ import "./studio.css";
 import "./readability.css";
 import CharactersPage from "./CharactersPage.jsx";
 import { deriveCharacter } from "./characterRules.js";
-import { DEFAULT_CAMERA, clampZoom, zoomToPoint } from "./viewRules.js";
+import {
+  DEFAULT_CAMERA,
+  DEFAULT_MAP_VIEW,
+  clampMapScale,
+  clampZoom,
+  zoomToPoint,
+} from "./viewRules.js";
 import {
   ammunitionById,
   armorById,
@@ -257,6 +264,12 @@ function App() {
   const [camera, setCamera] = useState(DEFAULT_CAMERA);
   const [panning, setPanning] = useState(false);
   const panRef = useRef(null);
+  const [mapView, setMapView] = useState(
+    INITIAL_DATA.mapView || DEFAULT_MAP_VIEW,
+  );
+  const [mapEditing, setMapEditing] = useState(false);
+  const [mapDragging, setMapDragging] = useState(false);
+  const mapDragRef = useRef(null);
   useEffect(() => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
     const animateInteraction = (event) => {
@@ -344,6 +357,7 @@ function App() {
                 noMap,
                 mode,
                 gridSize,
+                mapView,
                 tokens,
                 battle,
                 combatVersion: COMBAT_DATA_VERSION,
@@ -352,7 +366,7 @@ function App() {
           : item,
       ),
     );
-  }, [map, noMap, mode, gridSize, tokens, battle, activeMapId, mapName]);
+  }, [map, noMap, mode, gridSize, mapView, tokens, battle, activeMapId, mapName]);
   const selected = tokens.find((t) => t.id === selectedId),
     activeId = battle?.order[battle.turn],
     active = tokens.find((t) => t.id === activeId);
@@ -547,6 +561,8 @@ function App() {
     setNoMap(!!data.noMap);
     setMode(entry.mode || data.mode || "play");
     setGridSize(data.gridSize || 48);
+    setMapView(data.mapView || DEFAULT_MAP_VIEW);
+    setMapEditing(false);
     setTokens(migratedTokens);
     setBattle(restoredBattle);
     setSelectedId(null);
@@ -790,21 +806,56 @@ function App() {
       window.removeEventListener("pointerup", up);
     };
   }, [panning]);
+  // Drag the map image itself while in adjust mode (independent of the camera).
+  useEffect(() => {
+    if (!mapDragging) return undefined;
+    const move = (e) => {
+      const start = mapDragRef.current;
+      if (!start) return;
+      // Divide by zoom so the map tracks the cursor 1:1 on screen.
+      setMapView({
+        ...start.view,
+        x: start.view.x + (e.clientX - start.pointer.x) / camera.zoom,
+        y: start.view.y + (e.clientY - start.pointer.y) / camera.zoom,
+      });
+    };
+    const up = () => {
+      mapDragRef.current = null;
+      setMapDragging(false);
+    };
+    window.addEventListener("pointermove", move);
+    window.addEventListener("pointerup", up);
+    return () => {
+      window.removeEventListener("pointermove", move);
+      window.removeEventListener("pointerup", up);
+    };
+  }, [mapDragging, camera.zoom]);
   const onBoardPointerDown = (e) => {
-    // Only start a pan from empty board space, never from a token or a HUD
-    // control (dock, turn order, counters, zoom buttons).
+    // Never start from a token or a HUD control (dock, turn order, counters,
+    // zoom/map buttons).
     if (
       e.target.closest(
-        ".token, .map-actions, .turn-order-float, .move-counter, .attack-error, .retrieval-cinematic, .board-zoom-controls, .empty-message, button",
+        ".token, .map-actions, .turn-order-float, .move-counter, .attack-error, .retrieval-cinematic, .board-zoom-controls, .board-map-controls, .empty-message, button",
       )
     )
       return;
+    // In adjust mode, dragging moves the map image; otherwise it pans the camera.
+    if (mapEditing && map) {
+      mapDragRef.current = {
+        pointer: { x: e.clientX, y: e.clientY },
+        view: mapView,
+      };
+      setMapDragging(true);
+      return;
+    }
     panRef.current = {
       pointer: { x: e.clientX, y: e.clientY },
       camera,
     };
     setPanning(true);
   };
+  const scaleMap = (factor) =>
+    setMapView((v) => ({ ...v, scale: clampMapScale(v.scale * factor) }));
   const onBoardWheel = (e) => {
     const rect = viewportRef.current?.getBoundingClientRect();
     if (!rect) return;
@@ -2176,9 +2227,18 @@ function App() {
               style={{
                 transform: `translate(${camera.x}px, ${camera.y}px) scale(${camera.zoom})`,
                 transformOrigin: "0 0",
-                backgroundImage: map ? `url(${map})` : undefined,
               }}
-            />
+            >
+              {map && (
+                <div
+                  className={"map-inner" + (mapEditing ? " editing" : "")}
+                  style={{
+                    backgroundImage: `url(${map})`,
+                    transform: `translate(${mapView.x}px, ${mapView.y}px) scale(${mapView.scale})`,
+                  }}
+                />
+              )}
+            </div>
             <div className="board-grid" />
             <div
               className="board-world"
@@ -2411,7 +2471,44 @@ function App() {
               >
                 <Locate size={15} />
               </button>
+              {map && (
+                <button
+                  className={mapEditing ? "on" : ""}
+                  onClick={() => setMapEditing((v) => !v)}
+                  aria-pressed={mapEditing}
+                  aria-label="Adjust map image"
+                  title="Adjust map image (scale & move)"
+                >
+                  <Move size={15} />
+                </button>
+              )}
             </div>
+            {mapEditing && map && (
+              <div className="board-map-controls">
+                <span>Adjust map</span>
+                <button
+                  onClick={() => scaleMap(1.1)}
+                  aria-label="Enlarge map"
+                  title="Enlarge map"
+                >
+                  <Plus size={16} />
+                </button>
+                <button
+                  onClick={() => scaleMap(1 / 1.1)}
+                  aria-label="Shrink map"
+                  title="Shrink map"
+                >
+                  <Minus size={16} />
+                </button>
+                <button
+                  onClick={() => setMapView(DEFAULT_MAP_VIEW)}
+                  aria-label="Reset map size and position"
+                  title="Reset map"
+                >
+                  <Locate size={15} />
+                </button>
+              </div>
+            )}
           </div>
         </section>
         <aside className="inspector">

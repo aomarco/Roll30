@@ -24,6 +24,18 @@ export function zoomToPoint(camera, point, nextZoom) {
   };
 }
 
+export const MIN_MAP_SCALE = 0.2;
+export const MAX_MAP_SCALE = 5;
+
+/** Clamp an independent map-image scale (separate from the camera zoom). */
+export const clampMapScale = (scale) => {
+  const n = Number(scale);
+  if (!Number.isFinite(n)) return 1;
+  return Math.min(MAX_MAP_SCALE, Math.max(MIN_MAP_SCALE, n));
+};
+
+export const DEFAULT_MAP_VIEW = { scale: 1, x: 0, y: 0 };
+
 export const panBy = (camera, dx, dy) => ({
   ...camera,
   x: camera.x + dx,

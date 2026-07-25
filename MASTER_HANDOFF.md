@@ -150,6 +150,21 @@ pixels by the zoom before applying `gridSize`. The camera is **view-only state**
 Pure camera math lives in `src/viewRules.js` (`clampZoom`, `zoomToPoint`,
 `panBy`).
 
+### Map image: independent scale & position
+
+The map image has its own transform, separate from the camera, so it can be
+resized and nudged to line its own printed grid up with Roll30's grid. It lives
+on a `.map-inner` element (inside the camera-transformed `.board-map` layer)
+carrying `translate(mapView.x, mapView.y) scale(mapView.scale)` about its
+center. `mapView` (`{ scale, x, y }`, default `{1, 0, 0}`) is **persisted per
+map** (unlike the camera). An "Adjust map" toggle (the `Move` button in the
+zoom-control cluster, shown only when a map image is loaded) enters adjust mode:
+a bottom-left cluster gives map scale `−` / `＋` / reset, and **dragging the
+board moves the map image** instead of panning the camera (screen delta ÷ camera
+zoom, so it tracks the cursor). The grid and tokens are unaffected, so the map
+aligns against them. Scale is clamped to `[0.2, 5]` (`clampMapScale` in
+`src/viewRules.js`); offsets are unbounded.
+
 ## Play Maps
 
 Play maps are lightweight freeform boards:
@@ -848,7 +863,7 @@ The winner is reported. A completed battle can be started again, which:
 
 - Map records.
 - Names and modes.
-- Grid settings.
+- Grid settings and per-map map-image transform (`mapView`: scale + offset).
 - Tokens and positions.
 - Token stats, size, inventories, loadouts, armor, and shield.
 - Versioned battle state (including per-token ammunition spent).
@@ -1092,3 +1107,4 @@ A combat, inventory, or persistence change is complete only when:
 - **Grid alignment fix (2026-07-25):** The in-world `.world-grid` overlay (a giant `±4000-cell` transformed element) drew its lines half a cell off from the movement/attack cells — a browser background-tiling drift at very large offsets (confirmed in headless Chrome: origin-anchored grids align, the giant offset does not). Replaced it with three stacked camera layers over the fixed viewport: `.board-map` (transformed map image, z1) → `.board-grid` (z2) → `.board-world` (transformed tokens + cells, z3, `boardRef`). The grid is now a **viewport overlay** driven by the camera CSS vars (`background-size: var(--cell)`, `background-position: var(--cam-x) var(--cam-y)`), so its offsets stay pan-sized and precise while still tiling infinitely and sitting above the map but below tokens. Render-verified pixel-aligned with move/attack cells at zoom 1 and 1.6 with pan; `npm test`/`npm run build` pass.
 - **Send-to-last-green movement (2026-07-25):** Dropping a token on an out-of-range (red) square no longer snaps back to origin — it now travels as far along the traced path as movement allows and stops on the last reachable green square, spending that movement (occupied landing squares step back to the nearest free one behind). New pure helper `farthestReachableIndex(pathLength, allowanceFeet, isOccupied)` in `src/combatRules.js` drives the drop handler in `src/main.jsx`; 2 tests added (allowance cap + occupied step-back), suite now 78. `npm test`/`npm run build` pass.
 - **Tokens scale with the grid (2026-07-25):** Tokens were a fixed 48px, so they only matched a cell at the default grid size. They now size to `var(--grid-size)` (width/height, with the initials font and name-label offset scaled off the same var) in `src/movement.css`, so a token always fills exactly one cell and grows/shrinks with the grid-size setting (and pans/zooms with the world as before). Render-verified filling one cell at grid 48 and 72. `npm run build` passes.
+- **Resize & reposition the map image (2026-07-25):** The map image now has an independent transform (scale + offset) separate from the camera, so it can be sized and moved to line up with the grid. New `.map-inner` element (inside `.board-map`) carries `translate(mapView.x, mapView.y) scale(mapView.scale)` about its center; `mapView` (`{scale, x, y}`, default `{1,0,0}`) is persisted per map in the saved `data` and restored on load (camera still resets). An "Adjust map" `Move` toggle in the zoom-control cluster (only when a map is loaded) enters adjust mode: a bottom-left `.board-map-controls` cluster provides scale `−`/`＋`/reset, and dragging the board moves the map (a new map-drag `useEffect` mirroring the camera-pan one, screen delta ÷ zoom) instead of panning — grid/tokens unaffected. New `clampMapScale` (`[0.2, 5]`) + `DEFAULT_MAP_VIEW` in `src/viewRules.js` with a test (suite now 79). `npm test`/`npm run build` pass.

@@ -2,8 +2,11 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {
   DEFAULT_CAMERA,
+  MAX_MAP_SCALE,
   MAX_ZOOM,
+  MIN_MAP_SCALE,
   MIN_ZOOM,
+  clampMapScale,
   clampZoom,
   panBy,
   zoomToPoint,
@@ -42,4 +45,11 @@ test("zoomToPoint respects the zoom clamp", () => {
 test("panBy offsets the camera without touching zoom", () => {
   const moved = panBy({ x: 10, y: 20, zoom: 1.5 }, 5, -8);
   assert.deepEqual(moved, { x: 15, y: 12, zoom: 1.5 });
+});
+
+test("clampMapScale keeps the map scale within bounds", () => {
+  assert.equal(clampMapScale(1), 1);
+  assert.equal(clampMapScale(99), MAX_MAP_SCALE);
+  assert.equal(clampMapScale(0), MIN_MAP_SCALE);
+  assert.equal(clampMapScale(NaN), 1);
 });

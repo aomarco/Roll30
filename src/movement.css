@@ -969,8 +969,21 @@
   position: absolute;
   inset: 0;
   z-index: 1;
-  background: center / contain no-repeat;
   will-change: transform;
+}
+/* The image itself carries an independent transform (scale + offset) so it can
+   be resized/repositioned to line up with the grid, separate from the camera. */
+.map-inner {
+  position: absolute;
+  inset: 0;
+  background: center / contain no-repeat;
+  transform-origin: center;
+  will-change: transform;
+}
+.map-inner.editing {
+  outline: 2px dashed #e0a37fcc;
+  outline-offset: -2px;
+  cursor: move;
 }
 .board-grid {
   position: absolute;
@@ -1013,6 +1026,50 @@
     color 0.15s;
 }
 .board-zoom-controls button:hover {
+  border-color: #e0a37f66;
+  color: #fff;
+}
+.board-zoom-controls button.on {
+  border-color: #e0a37f;
+  color: #f6d9c6;
+  background: #3a2f2ae0;
+}
+/* Map adjust cluster (bottom-left), shown only while adjusting the map. */
+.board-map-controls {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  z-index: 12;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 6px 6px 12px;
+  border: 1px solid #e0a37f55;
+  border-radius: 11px;
+  background: #26262be0;
+  backdrop-filter: blur(4px);
+}
+.board-map-controls span {
+  color: #e0a37f;
+  font: 10px "DM Mono";
+  letter-spacing: 1px;
+  margin-right: 2px;
+}
+.board-map-controls button {
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #ffffff1f;
+  border-radius: 8px;
+  background: #2b2b30;
+  color: #d7d4cf;
+  cursor: pointer;
+  transition:
+    border-color 0.15s,
+    color 0.15s;
+}
+.board-map-controls button:hover {
   border-color: #e0a37f66;
   color: #fff;
 }
