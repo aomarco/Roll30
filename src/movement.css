@@ -1009,6 +1009,17 @@
 /* Viewport: a comfortable dark-gray canvas by default. In battle it also
    carries the infinite grid, driven by the camera CSS vars so the grid tiles
    forever yet stays aligned with the transformed world. */
+/* The map workspace is a drag surface — never let dragging select text.
+   Inputs/textareas re-enable selection so fields still work. */
+.app {
+  user-select: none;
+  -webkit-user-select: none;
+}
+.app input,
+.app textarea {
+  user-select: text;
+  -webkit-user-select: text;
+}
 .board {
   background-color: #26282c !important;
   cursor: grab;

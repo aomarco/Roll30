@@ -75,9 +75,9 @@ test("imported weapon records match their local SRD source", () => {
         source.two_handed_damage.damage_dice,
       );
     assert.equal(weapon.damageType, source.damage.damage_type.name);
-    // Bow ranges are intentionally house-ruled down to a video-game scale, so
-    // they deviate from the SRD normal range on purpose.
-    if (!["shortbow", "longbow"].includes(weapon.id))
+    // Ranged-weapon ranges are intentionally house-ruled down to a battle-map
+    // scale, so they deviate from the SRD normal range on purpose.
+    if (weapon.rangeType !== "ranged")
       assert.equal(weapon.rangeFeet, source.range.normal);
     assert.deepEqual(
       weapon.properties,
