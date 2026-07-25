@@ -97,37 +97,47 @@
   pointer-events: none;
   z-index: 2;
 }
+.range-layer {
+  animation: range-pop 240ms ease-out both;
+}
+/* Translucent colored fills (grid lines are drawn over these). */
 .range-band {
-  stroke-width: 2px;
-  vector-effect: non-scaling-stroke;
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: range-pop 280ms cubic-bezier(0.16, 1.1, 0.32, 1) both;
+  stroke: none;
 }
 .range-band.green {
-  fill: #54b8793a;
-  stroke: #8fe5aa;
+  fill: #54b87933;
 }
 .range-band.yellow {
-  fill: #d5aa3f30;
-  stroke: #ffe08a;
+  fill: #d5aa3f2b;
 }
 .range-band.red {
-  fill: #d9555530;
+  fill: #d955552b;
+}
+/* Crisp tier outlines. */
+.range-edge {
+  fill: none;
+  stroke-width: 2px;
+  vector-effect: non-scaling-stroke;
+}
+.range-edge.green {
+  stroke: #8fe5aa;
+}
+.range-edge.yellow {
+  stroke: #ffe08a;
+}
+.range-edge.red {
   stroke: #ff9a8e;
 }
 @keyframes range-pop {
   from {
     opacity: 0;
-    transform: scale(0.85);
   }
   to {
     opacity: 1;
-    transform: scale(1);
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .range-band {
+  .range-layer {
     animation: none;
   }
 }

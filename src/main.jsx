@@ -2594,21 +2594,69 @@ function App() {
                         { color: "green", cells: w.normalRange / 5 },
                       ]
                     : [{ color: "green", cells: (w.meleeRange || 5) / 5 }];
-                const cx = (c.x + 0.5) * gridSize;
-                const cy = (c.y + 0.5) * gridSize;
+                // Center on the attacker's actual position so it's always under
+                // the token, and mark the cell center for grid alignment.
+                const worldW = rect.width / camera.zoom;
+                const worldH = rect.height / camera.zoom;
+                const cx = (active.x / 100) * worldW;
+                const cy = (active.y / 100) * worldH;
+                const diamond = (cellsR) => {
+                  const r = (cellsR + 0.5) * gridSize;
+                  return `${cx},${cy - r} ${cx + r},${cy} ${cx},${cy + r} ${cx - r},${cy}`;
+                };
+                const rOuter = (bands[0].cells + 0.5) * gridSize;
+                // Align the grid pattern to the board's cells (multiples of the
+                // grid size from world origin), independent of the diamond.
+                const gx = c.x * gridSize;
+                const gy = c.y * gridSize;
                 return (
                   <svg className="range-layer" overflow="visible">
-                    {bands.map((band) => {
-                      // Half-cell padding so the diamond encloses whole cells.
-                      const r = (band.cells + 0.5) * gridSize;
-                      return (
-                        <polygon
-                          key={band.color}
-                          className={`range-band ${band.color}`}
-                          points={`${cx},${cy - r} ${cx + r},${cy} ${cx},${cy + r} ${cx - r},${cy}`}
+                    <defs>
+                      <pattern
+                        id="range-grid"
+                        patternUnits="userSpaceOnUse"
+                        x={gx}
+                        y={gy}
+                        width={gridSize}
+                        height={gridSize}
+                      >
+                        <path
+                          d={`M${gridSize} 0 H0 V${gridSize}`}
+                          fill="none"
+                          stroke="#ffffff66"
+                          strokeWidth="1"
+                          vectorEffect="non-scaling-stroke"
                         />
-                      );
-                    })}
+                      </pattern>
+                      <clipPath id="range-clip">
+                        <polygon points={diamond(bands[0].cells)} />
+                      </clipPath>
+                    </defs>
+                    {/* translucent colored bands, outer -> inner */}
+                    {bands.map((band) => (
+                      <polygon
+                        key={band.color}
+                        className={`range-band ${band.color}`}
+                        points={diamond(band.cells)}
+                      />
+                    ))}
+                    {/* real grid lines, but only inside the range diamond */}
+                    <rect
+                      clipPath="url(#range-clip)"
+                      x={cx - rOuter}
+                      y={cy - rOuter}
+                      width={rOuter * 2}
+                      height={rOuter * 2}
+                      fill="url(#range-grid)"
+                    />
+                    {/* crisp colored tier outlines on top */}
+                    {bands.map((band) => (
+                      <polygon
+                        key={`edge-${band.color}`}
+                        className={`range-edge ${band.color}`}
+                        points={diamond(band.cells)}
+                      />
+                    ))}
                   </svg>
                 );
               })()}
