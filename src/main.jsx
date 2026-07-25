@@ -5,6 +5,7 @@ import {
   Hand,
   Grid3X3,
   ImageUp,
+  Locate,
   Minus,
   Plus,
   Search,
@@ -24,6 +25,7 @@ import "./studio.css";
 import "./readability.css";
 import CharactersPage from "./CharactersPage.jsx";
 import { deriveCharacter } from "./characterRules.js";
+import { DEFAULT_CAMERA, clampZoom, zoomToPoint } from "./viewRules.js";
 import {
   ammunitionById,
   armorById,
@@ -250,6 +252,10 @@ function App() {
   const selectedWeapon =
     WEAPONS.find((weapon) => weapon.id === selectedWeaponId) || null;
   const boardRef = useRef(null);
+  const viewportRef = useRef(null);
+  const [camera, setCamera] = useState(DEFAULT_CAMERA);
+  const [panning, setPanning] = useState(false);
+  const panRef = useRef(null);
   useEffect(() => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
     const animateInteraction = (event) => {
@@ -543,6 +549,7 @@ function App() {
     setTokens(migratedTokens);
     setBattle(restoredBattle);
     setSelectedId(null);
+    setCamera(DEFAULT_CAMERA);
     if (!data.map && data.hasImage) {
       try {
         setMap(await loadMapImage(entry.id));
@@ -659,34 +666,37 @@ function App() {
       </main>
     </div>
   );
+  // boardRef measures the zoom-scaled world layer, so convert screen pixels and
+  // rect dimensions to world-local pixels (divide by zoom) before gridSize math.
   const snap = (event, rect) => {
+    const z = camera.zoom;
+    const w = rect.width / z,
+      h = rect.height / z,
+      lx = (event.clientX - rect.left) / z,
+      ly = (event.clientY - rect.top) / z;
     const px = Math.max(
         gridSize / 2,
         Math.min(
-          rect.width - gridSize / 2,
-          Math.round((event.clientX - rect.left - gridSize / 2) / gridSize) *
-            gridSize +
-            gridSize / 2,
+          w - gridSize / 2,
+          Math.round((lx - gridSize / 2) / gridSize) * gridSize + gridSize / 2,
         ),
       ),
       py = Math.max(
         gridSize / 2,
         Math.min(
-          rect.height - gridSize / 2,
-          Math.round((event.clientY - rect.top - gridSize / 2) / gridSize) *
-            gridSize +
-            gridSize / 2,
+          h - gridSize / 2,
+          Math.round((ly - gridSize / 2) / gridSize) * gridSize + gridSize / 2,
         ),
       );
     return {
-      x: (px / rect.width) * 100,
-      y: (py / rect.height) * 100,
+      x: (px / w) * 100,
+      y: (py / h) * 100,
       cell: { x: Math.floor(px / gridSize), y: Math.floor(py / gridSize) },
     };
   };
   const cell = (token, rect) => ({
-    x: Math.floor(((token.x / 100) * rect.width) / gridSize),
-    y: Math.floor(((token.y / 100) * rect.height) / gridSize),
+    x: Math.floor(((token.x / 100) * (rect.width / camera.zoom)) / gridSize),
+    y: Math.floor(((token.y / 100) * (rect.height / camera.zoom)) / gridSize),
   });
   useEffect(() => {
     const move = (e) => {
@@ -764,6 +774,69 @@ function App() {
       window.removeEventListener("pointerup", up);
     };
   }, [drag, active, battle]);
+  // Pan the camera by dragging empty board space (mirrors the token-drag
+  // window-listener pattern above).
+  useEffect(() => {
+    if (!panning) return undefined;
+    const move = (e) => {
+      const start = panRef.current;
+      if (!start) return;
+      setCamera({
+        ...start.camera,
+        x: start.camera.x + (e.clientX - start.pointer.x),
+        y: start.camera.y + (e.clientY - start.pointer.y),
+      });
+    };
+    const up = () => {
+      panRef.current = null;
+      setPanning(false);
+    };
+    window.addEventListener("pointermove", move);
+    window.addEventListener("pointerup", up);
+    return () => {
+      window.removeEventListener("pointermove", move);
+      window.removeEventListener("pointerup", up);
+    };
+  }, [panning]);
+  const onBoardPointerDown = (e) => {
+    // Only start a pan from empty board space, never from a token or a HUD
+    // control (dock, turn order, counters, zoom buttons).
+    if (
+      e.target.closest(
+        ".token, .map-actions, .turn-order-float, .move-counter, .attack-error, .retrieval-cinematic, .board-zoom-controls, .empty-message, button",
+      )
+    )
+      return;
+    panRef.current = {
+      pointer: { x: e.clientX, y: e.clientY },
+      camera,
+    };
+    setPanning(true);
+  };
+  const onBoardWheel = (e) => {
+    const rect = viewportRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    e.preventDefault();
+    const nextZoom = camera.zoom * (e.deltaY < 0 ? 1.1 : 1 / 1.1);
+    setCamera(
+      zoomToPoint(
+        camera,
+        { x: e.clientX - rect.left, y: e.clientY - rect.top },
+        nextZoom,
+      ),
+    );
+  };
+  const zoomFromCenter = (factor) => {
+    const rect = viewportRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    setCamera(
+      zoomToPoint(
+        camera,
+        { x: rect.width / 2, y: rect.height / 2 },
+        camera.zoom * factor,
+      ),
+    );
+  };
   const reset = () => {
     setBattle(null);
     setAttackMode(false);
@@ -805,20 +878,19 @@ function App() {
   const start = () => {
     if (tokens.length < 2 || !boardRef.current) return;
     const rect = boardRef.current.getBoundingClientRect(),
+      worldW = rect.width / camera.zoom,
+      worldH = rect.height / camera.zoom,
       snapped = tokens.map((t) => {
-        const cx = Math.max(
-            0,
-            Math.floor(((t.x / 100) * rect.width) / gridSize),
-          ),
-          cy = Math.max(0, Math.floor(((t.y / 100) * rect.height) / gridSize));
+        const cx = Math.max(0, Math.floor(((t.x / 100) * worldW) / gridSize)),
+          cy = Math.max(0, Math.floor(((t.y / 100) * worldH) / gridSize));
         return {
           ...makeToken(t.id),
           ...migrateTokenData(t),
           hp: t.maxHp,
           // A freshly started/restarted battle clears prior conditions.
           conditions: [],
-          x: ((cx * gridSize + gridSize / 2) / rect.width) * 100,
-          y: ((cy * gridSize + gridSize / 2) / rect.height) * 100,
+          x: ((cx * gridSize + gridSize / 2) / worldW) * 100,
+          y: ((cy * gridSize + gridSize / 2) / worldH) * 100,
           initiative:
             Math.floor(Math.random() * 20) +
             1 +
@@ -1559,24 +1631,25 @@ function App() {
             )}
           </div>
           <div
-            ref={boardRef}
+            ref={viewportRef}
             className={
-              "board " +
-              (!map && !noMap ? "empty" : "") +
-              (noMap ? " no-map" : "")
+              "board" + (mode === "battle" ? " gridded" : "") +
+              (panning ? " panning" : "")
             }
+            onPointerDown={onBoardPointerDown}
+            onWheel={onBoardWheel}
             style={{
-              backgroundImage: map ? `url(${map})` : undefined,
               "--grid-size": `${gridSize}px`,
+              "--cam-x": `${camera.x}px`,
+              "--cam-y": `${camera.y}px`,
+              "--cell": `${gridSize * camera.zoom}px`,
             }}
           >
-            {!map && !noMap && (
+            {!map && mode !== "battle" && (
               <div className="empty-message">
                 <ImageUp size={28} />
-                <strong>Choose a map background</strong>
-                <span>
-                  Upload artwork or use a white canvas in Map Settings.
-                </span>
+                <strong>Blank canvas</strong>
+                <span>Drag to pan · scroll to zoom.</span>
                 <button
                   className="button"
                   onClick={() => {
@@ -1584,71 +1657,29 @@ function App() {
                     setShowSettings(true);
                   }}
                 >
-                  <Settings2 size={16} /> Open map settings
+                  <Settings2 size={16} /> Add a map image
                 </button>
               </div>
             )}
-            {mode === "battle" && <div className="grid" />}
             {battle && (
               <TurnOrder battle={battle} tokens={tokens} activeId={activeId} />
             )}
             {drag?.battle && (
-              <>
-                <div
-                  className={
-                    "move-counter " +
-                    (((drag.path?.length ?? 1) - 1) * 5 > drag.allowanceFeet
-                      ? "over"
-                      : "walk")
-                  }
-                >
-                  Move {((drag.path?.length ?? 1) - 1) * 5} ft ·{" "}
-                  {Math.max(
-                    0,
-                    drag.allowanceFeet - ((drag.path?.length ?? 1) - 1) * 5,
-                  )}{" "}
-                  ft remaining
-                </div>
-                {drag.cursor &&
-                  boardRef.current &&
-                  (() => {
-                    const rect = boardRef.current.getBoundingClientRect(),
-                      x = (drag.origin.x / 100) * rect.width,
-                      y = (drag.origin.y / 100) * rect.height,
-                      dx = drag.cursor.x - x,
-                      dy = drag.cursor.y - y;
-                    return (
-                      <i
-                        className="move-arrow"
-                        style={{
-                          left: x,
-                          top: y,
-                          width: Math.hypot(dx, dy),
-                          transform: `rotate(${Math.atan2(dy, dx)}rad)`,
-                        }}
-                      />
-                    );
-                  })()}
-                {drag.path?.map((p, i) => (
-                  <i
-                    key={`${p.x}-${p.y}`}
-                    className={
-                      "move-cell " +
-                      (i === 0
-                        ? "origin"
-                        : i > Math.floor(drag.allowanceFeet / 5)
-                          ? "over"
-                          : "")
-                    }
-                    style={{
-                      left: p.x * gridSize,
-                      top: p.y * gridSize,
-                      width: gridSize,
-                      height: gridSize,
-                    }}
-                  />
-                ))}
-              </>
+              <div
+                className={
+                  "move-counter " +
+                  (((drag.path?.length ?? 1) - 1) * 5 > drag.allowanceFeet
+                    ? "over"
+                    : "walk")
+                }
+              >
+                Move {((drag.path?.length ?? 1) - 1) * 5} ft ·{" "}
+                {Math.max(
+                  0,
+                  drag.allowanceFeet - ((drag.path?.length ?? 1) - 1) * 5,
+                )}{" "}
+                ft remaining
+              </div>
             )}
             {battle && !battle.complete && active && (
               <div className="map-actions">
@@ -2151,6 +2182,57 @@ function App() {
                 {selectedWeapon?.name} ready · choose a highlighted target
               </div>
             )}
+            <div
+              className="board-world"
+              ref={boardRef}
+              style={{
+                transform: `translate(${camera.x}px, ${camera.y}px) scale(${camera.zoom})`,
+                transformOrigin: "0 0",
+                backgroundImage: map ? `url(${map})` : undefined,
+              }}
+            >
+              {drag?.battle &&
+                drag.cursor &&
+                boardRef.current &&
+                (() => {
+                  const rect = boardRef.current.getBoundingClientRect(),
+                    z = camera.zoom,
+                    x = (drag.origin.x / 100) * (rect.width / z),
+                    y = (drag.origin.y / 100) * (rect.height / z),
+                    dx = drag.cursor.x / z - x,
+                    dy = drag.cursor.y / z - y;
+                  return (
+                    <i
+                      className="move-arrow"
+                      style={{
+                        left: x,
+                        top: y,
+                        width: Math.hypot(dx, dy),
+                        transform: `rotate(${Math.atan2(dy, dx)}rad)`,
+                      }}
+                    />
+                  );
+                })()}
+              {drag?.battle &&
+                drag.path?.map((p, i) => (
+                  <i
+                    key={`${p.x}-${p.y}`}
+                    className={
+                      "move-cell " +
+                      (i === 0
+                        ? "origin"
+                        : i > Math.floor(drag.allowanceFeet / 5)
+                          ? "over"
+                          : "")
+                    }
+                    style={{
+                      left: p.x * gridSize,
+                      top: p.y * gridSize,
+                      width: gridSize,
+                      height: gridSize,
+                    }}
+                  />
+                ))}
             {attackMode &&
               active &&
               selectedWeapon &&
@@ -2158,8 +2240,8 @@ function App() {
               (() => {
                 const rect = boardRef.current.getBoundingClientRect();
                 const c = cell(active, rect);
-                const columns = Math.floor(rect.width / gridSize);
-                const rows = Math.floor(rect.height / gridSize);
+                const columns = Math.floor(rect.width / camera.zoom / gridSize);
+                const rows = Math.floor(rect.height / camera.zoom / gridSize);
                 // Only build and render cells that land on the visible board.
                 // columns + rows covers the far corner from any attacker cell.
                 return weaponRangeCells(selectedWeapon, columns + rows)
@@ -2191,9 +2273,6 @@ function App() {
                     );
                   });
               })()}
-            {attackMessage && (
-              <div className="attack-error">{attackMessage}</div>
-            )}
             {damagePopups.map((popup) => {
               const token = tokens.find((item) => item.id === popup.tokenId);
               return (
@@ -2215,28 +2294,6 @@ function App() {
                 )
               );
             })}
-            {retrievalCinematic && (
-              <div
-                className={`retrieval-cinematic ${retrievalCinematic.phase}`}
-                role="status"
-                aria-live="polite"
-              >
-                <span>RETRIEVAL · DC 15</span>
-                <strong>{retrievalCinematic.displayRoll}</strong>
-                <small>
-                  d20 + {retrievalCinematic.result.strengthModifier} STR +{" "}
-                  {retrievalCinematic.result.dexterityModifier} DEX ={" "}
-                  {retrievalCinematic.result.total}
-                </small>
-                {retrievalCinematic.phase !== "rolling" && (
-                  <em>
-                    {retrievalCinematic.result.success
-                      ? `${retrievalCinematic.weapon} recovered`
-                      : `${retrievalCinematic.weapon} stays embedded`}
-                  </em>
-                )}
-              </div>
-            )}
             {(battle?.items || []).map((item) => {
               const itemWeapon = weaponById(item.weaponId);
               const carrier = item.embeddedInTokenId
@@ -2309,6 +2366,55 @@ function App() {
                 )}
               </button>
             ))}
+            </div>
+            {attackMessage && (
+              <div className="attack-error">{attackMessage}</div>
+            )}
+            {retrievalCinematic && (
+              <div
+                className={`retrieval-cinematic ${retrievalCinematic.phase}`}
+                role="status"
+                aria-live="polite"
+              >
+                <span>RETRIEVAL · DC 15</span>
+                <strong>{retrievalCinematic.displayRoll}</strong>
+                <small>
+                  d20 + {retrievalCinematic.result.strengthModifier} STR +{" "}
+                  {retrievalCinematic.result.dexterityModifier} DEX ={" "}
+                  {retrievalCinematic.result.total}
+                </small>
+                {retrievalCinematic.phase !== "rolling" && (
+                  <em>
+                    {retrievalCinematic.result.success
+                      ? `${retrievalCinematic.weapon} recovered`
+                      : `${retrievalCinematic.weapon} stays embedded`}
+                  </em>
+                )}
+              </div>
+            )}
+            <div className="board-zoom-controls">
+              <button
+                onClick={() => zoomFromCenter(1.2)}
+                aria-label="Zoom in"
+                title="Zoom in"
+              >
+                <Plus size={16} />
+              </button>
+              <button
+                onClick={() => zoomFromCenter(1 / 1.2)}
+                aria-label="Zoom out"
+                title="Zoom out"
+              >
+                <Minus size={16} />
+              </button>
+              <button
+                onClick={() => setCamera(DEFAULT_CAMERA)}
+                aria-label="Reset view"
+                title="Reset view"
+              >
+                <Locate size={15} />
+              </button>
+            </div>
           </div>
         </section>
         <aside className="inspector">

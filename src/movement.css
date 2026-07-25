@@ -938,11 +938,63 @@
     grid-template-columns: repeat(2, 1fr);
   }
 }
-.board.no-map {
-  background: #fff;
+/* Viewport: a comfortable dark-gray canvas by default. In battle it also
+   carries the infinite grid, driven by the camera CSS vars so the grid tiles
+   forever yet stays aligned with the transformed world. */
+.board {
+  background-color: #26282c !important;
+  cursor: grab;
 }
-.board.no-map .grid {
+.board.panning {
+  cursor: grabbing;
+}
+.board.gridded {
   background-image:
-    linear-gradient(#24304424 1px, transparent 1px),
-    linear-gradient(90deg, #24304424 1px, transparent 1px);
+    linear-gradient(#ffffff1e 1px, transparent 1px),
+    linear-gradient(90deg, #ffffff1e 1px, transparent 1px);
+  background-size: var(--cell) var(--cell);
+  background-position: var(--cam-x) var(--cam-y);
+}
+/* Transformed world layer: holds the map image, tokens, and move/attack cells.
+   Panned/zoomed via inline transform; sized to the viewport at zoom 1. */
+.board-world {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: center / contain no-repeat;
+  will-change: transform;
+}
+.board-zoom-controls {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 12;
+  display: grid;
+  gap: 6px;
+}
+.board-zoom-controls button {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #ffffff1f;
+  border-radius: 9px;
+  background: #26262be0;
+  color: #d7d4cf;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+  transition:
+    border-color 0.15s,
+    color 0.15s;
+}
+.board-zoom-controls button:hover {
+  border-color: #e0a37f66;
+  color: #fff;
+}
+/* The blank-canvas hint never blocks panning. */
+.empty-message {
+  pointer-events: none;
+}
+.empty-message .button {
+  pointer-events: auto;
 }

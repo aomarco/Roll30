@@ -26,7 +26,8 @@ Roll30 currently provides:
 
 - A persistent home page containing multiple named maps.
 - Play maps and Battle maps.
-- Uploaded map artwork or a white no-map canvas.
+- Uploaded map artwork over a dark-gray canvas (a blank dark-gray board is the default).
+- Pan and zoom over an infinite canvas that extends past the map image.
 - Grid-snapped tokens and collision prevention.
 - Simplified persistent character sheets.
 - Searchable, quantity-based character and token inventories.
@@ -107,8 +108,7 @@ Map Settings is reachable from both the home page and an open map. It edits:
 
 - Map name.
 - Play or Battle type.
-- Uploaded background artwork.
-- White no-map canvas.
+- Uploaded background artwork (optional — a map with no image is a valid blank canvas).
 - Grid size.
 
 Settings write back to the same persistent map record.
@@ -124,6 +124,31 @@ The desktop workspace uses three columns:
 The browser document is viewport-locked. Content-heavy regions scroll internally rather than forcing the whole page to scroll.
 
 At narrower effective widths—including browser zoom—the workspace reflows before its columns become unusably narrow.
+
+### Camera: Pan and Zoom
+
+The board is a **camera over an infinite canvas**, not a fixed rectangle. It is
+split into two layers: a fixed `.board` **viewport** (holds the fixed HUD —
+combat dock, turn order, move counter, error/retrieval toasts, and the zoom
+controls) and a transformed `.board-world` **content layer** (holds the map
+image, tokens, and movement/attack cells). The camera is `{ x, y, zoom }` and
+is applied as `translate(x, y) scale(zoom)` on the world layer.
+
+- **Pan:** drag empty board space (never a token or a HUD control).
+- **Zoom:** mouse wheel toward the cursor, or the on-screen `+` / `−` buttons
+  (zoom about the viewport center); a reset button recenters to `{0, 0, 1}`.
+- Zoom is clamped to `[0.35, 3]` (`src/viewRules.js`). You can **pan out past
+  the edges of the map image** — the dark-gray canvas and grid extend infinitely
+  around it.
+
+Because `boardRef` is on the transformed world layer, its
+`getBoundingClientRect()` already reflects the camera, so percentage-based token
+positions stay correct automatically. The cell-index helpers (`snap`, `cell`,
+`start`, attack-range extent) divide the scaled rect back to **world-local**
+pixels by the zoom before applying `gridSize`. The camera is **view-only state**
+— it is not persisted and resets to centered/zoom 1 whenever a map is opened.
+Pure camera math lives in `src/viewRules.js` (`clampZoom`, `zoomToPoint`,
+`panBy`).
 
 ## Play Maps
 
@@ -884,6 +909,7 @@ Storage failures are surfaced in the UI. A failed image or state save must not s
 | --- | --- |
 | `src/main.jsx` | Application navigation, map workspace, combat presentation, browser persistence wiring |
 | `src/combatRules.js` | Pure turn, loadout, swap, range, roll-mode, retrieval, and landing rules |
+| `src/viewRules.js` | Pure map-camera math (pan/zoom clamp, zoom-to-cursor) |
 | `src/weapons.js` | Weapon catalog, modifiers, dice, and attack resolution |
 | `src/items.js` | Generic catalog and quantity-based inventory helpers |
 | `src/persistenceRules.js` | Versioned token, character, and battle migration |
@@ -1060,3 +1086,4 @@ A combat, inventory, or persistence change is complete only when:
 - **Mundane equipment import (2026-07-25):** Imported the remaining 183 non-weapon/non-armor SRD equipment items (excluding the 4 already-imported ammunition types) into a new generated `src/gear.js` (`GEAR` array of `{ id, name, gearCategory, cost, weight, source }`, plus `gearById`). `src/items.js` maps them to `kind: "gear"` catalog entries with a human `typeLabel` (Gear/Tool/Pack/Mount·Vehicle/Holy Symbol/Arcane Focus/Druidic Focus/Kit), adds a "Gear" item type, exposes `GEAR_CLASSES` (the distinct labels) for the class filter, and extends `itemClass` so gear filters by its label. The three inventory `<small>` render sites (item picker + owned list in `src/CharactersPage.jsx`, quick-item row in `src/main.jsx`) gained a gear branch showing `typeLabel · cost`. Gear is inert — no persistence, encumbrance, tool, or mount mechanics; it reuses the existing generic inventory model with no migration needed. New `src/gear.test.js` (6 tests: count/fidelity against the SRD JSON, mount category derivation, `gearById` miss, gear-type filtering, and category narrowing); suite now 63. `npm test` and `npm run build` pass.
 - **Races + subraces (2026-07-25):** Replaced the hardcoded "Human +1 to all" derivation with a data-driven race system. New `src/races.js` holds the 9 SRD races and 4 subraces (`RACES`, `raceById`, `subraceById`, `raceAbilitySummary`) with numeric traits only — ability bonuses, base speed, size, and granted languages. `deriveCharacter` (`src/characterRules.js`) now adds race + subrace ability bonuses to the point-buy base and returns `baseSpeed` and `size` from the race; `newCharacter` seeds `race: "human"`, `subrace: null`. The character sheet's Race select is enabled (a Subrace select appears for races that have one), Size is a derived read-only display, the ability-score caption uses `raceAbilitySummary`, the speed caption names the race, and changing race unions-in its granted languages. Token creation in `add()` (`src/main.jsx`) now copies the derived race speed and size so a Small/slow race flows onto the board. `migrateCharacterData` backfills `race`/`subrace`, mapping a legacy `species` string to a race id (unknown → human). Tests added to `src/characterRules.test.js` (raceById/subraceById, race bonuses, subrace stacking, Small-race speed/size); suite now 67. Racial non-numeric traits remain deferred. `npm test` and `npm run build` pass.
 - **Skills + saving throws (2026-07-25):** Added a display/data layer for the 18 SRD skills and 6 saving throws. New `src/skills.js` exports `SKILLS` (id/name/governing ability), `SAVING_THROWS`, Fighter proficiency constants (`FIGHTER_SAVES` = STR/CON, `FIGHTER_SKILL_OPTIONS`, `FIGHTER_SKILL_COUNT` = 2), and pure `skillModifier`/`saveModifier` helpers (ability modifier + proficiency bonus, reusing `modifier`/`proficiencyBonus` from `src/weapons.js`). `newCharacter` seeds `saveProficiencies: ["str","con"]` and `skillProficiencies: []`; `migrateCharacterData` array-guards both. A new Skills & Saves panel on the sheet (below the derived grid) lists each save/skill with its live modifier and a proficiency toggle, shows `n / 2 chosen`, and flags going over the Fighter allotment without blocking. New `.proficiency-section` CSS in `src/movement.css` follows the anti-clipping rules (constrained `minmax(0,1fr)` tracks, `min-width: 0`, ellipsized names, fixed modifier column) and collapses to one column under 900px. Display + data only — no in-combat roller, and tokens do not carry proficiencies yet (deferred). New `src/skills.test.js` (5 tests: counts, proficiency add, save mirror, level scaling, unknown-id); suite now 72. Verified the panel in headless Chrome (no clipping). `npm test` and `npm run build` pass.
+- **Map pan/zoom + dark-gray default canvas (2026-07-25):** Turned the fixed board into a VTT camera. The board is now a fixed `.board` viewport wrapping a transformed `.board-world` content layer (`transform: translate(cam) scale(zoom)`); tokens, the map image, and move/attack cells live in the world, while the combat dock, turn order, move counter, error/retrieval toasts, and new zoom controls stay fixed in the viewport. New `src/viewRules.js` (`clampZoom` [0.35–3], `zoomToPoint` keeping the cursor's world point fixed, `panBy`, `DEFAULT_CAMERA`) with `src/viewRules.test.js` (4 tests). In `src/main.jsx`: `camera` state + `viewportRef`; drag-empty-space pans (guarded so tokens/HUD don't start a pan), wheel zooms toward the cursor, `+`/`−`/reset buttons; camera resets on map open. The cell-index helpers (`snap`, `cell`, `start`, attack-range extent) now divide the scaled board rect back to world-local pixels by the zoom, and the move-arrow is computed in world-local units — so combat math is unchanged under any camera. You can pan past the map image; the dark-gray canvas (`#26282c`) and battle grid tile infinitely via viewport-background CSS vars (`--cam-x/--cam-y/--cell`). Removed the white no-map canvas and the blocking "choose a map" gate: a blank board is a valid dark-gray canvas by default; map upload stays in Settings. Camera is view-only (not persisted); `noMap` field kept but inert (no migration). Suite now 76. Render-verified pan/zoom states in headless Chrome; `npm test` and `npm run build` pass.
