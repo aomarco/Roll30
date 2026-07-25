@@ -433,3 +433,22 @@ export function chooseLandingCell(targetCell, occupiedCells = [], bounds = {}) {
     ) || targetCell
   );
 }
+
+/**
+ * Index of the farthest square a token can stop on along a traced move path.
+ * The path is [origin, ...steps]; each step costs 5 ft. A drop beyond the
+ * movement allowance stops on the last reachable square ("send to last green").
+ * If that square is occupied, step back to the nearest free one behind it.
+ * `isOccupied(index)` reports whether the square at that path index is taken.
+ */
+export function farthestReachableIndex(
+  pathLength,
+  allowanceFeet,
+  isOccupied = () => false,
+) {
+  const distance = Math.max(0, pathLength - 1);
+  const allowance = Math.floor((Number(allowanceFeet) || 0) / 5);
+  let index = Math.min(distance, allowance);
+  while (index > 0 && isOccupied(index)) index -= 1;
+  return index;
+}

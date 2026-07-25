@@ -10,6 +10,7 @@ import {
   createTurnResources,
   effectiveSpeed,
   equipmentProblem,
+  farthestReachableIndex,
   normalizeEquipment,
   isDualWieldLoadout,
   loadoutProblem,
@@ -342,5 +343,27 @@ test("retrieval adjacency and nearby landing squares are deterministic", () => {
       rows: 10,
     }),
     { x: 3, y: 4 },
+  );
+});
+
+test("farthestReachableIndex stops at the movement allowance (send to last green)", () => {
+  // Path of 8 steps (indices 0..8); 30 ft allowance = 6 cells.
+  assert.equal(farthestReachableIndex(9, 30), 6);
+  // Fully in range: land on the exact target.
+  assert.equal(farthestReachableIndex(4, 30), 3);
+  // No movement / zero-length path.
+  assert.equal(farthestReachableIndex(1, 30), 0);
+});
+
+test("farthestReachableIndex steps back past an occupied landing square", () => {
+  // 30 ft = 6 cells, but cell 6 and 5 are occupied → land on 4.
+  assert.equal(
+    farthestReachableIndex(9, 30, (i) => i === 6 || i === 5),
+    4,
+  );
+  // Every reachable square blocked → cannot move.
+  assert.equal(
+    farthestReachableIndex(3, 30, () => true),
+    0,
   );
 });

@@ -69,6 +69,7 @@ import {
   distanceFeet,
   effectiveSpeed,
   equipmentProblem,
+  farthestReachableIndex,
   normalizeEquipment,
   isDualWieldLoadout,
   loadoutProblem,
@@ -711,41 +712,49 @@ function App() {
     const up = () => {
       if (!drag) return;
       if (drag.battle) {
-        const distance = (drag.path?.length ?? 1) - 1,
-          feet = distance * 5,
-          allowance = Math.floor(drag.allowanceFeet / 5);
-        const occupied =
-          drag.target &&
+        const rect = boardRef.current.getBoundingClientRect();
+        const worldW = rect.width / camera.zoom,
+          worldH = rect.height / camera.zoom;
+        const path = drag.path || [];
+        const distance = path.length - 1;
+        const allowance = Math.floor(drag.allowanceFeet / 5);
+        const cellOccupied = (c) =>
           tokens.some(
             (token) =>
               token.id !== drag.id &&
-              cell(token, boardRef.current.getBoundingClientRect()).x ===
-                drag.target.cell.x &&
-              cell(token, boardRef.current.getBoundingClientRect()).y ===
-                drag.target.cell.y,
+              cell(token, rect).x === c.x &&
+              cell(token, rect).y === c.y,
           );
-        if (distance <= allowance && distance > 0 && !occupied) {
+        // Land on the farthest reachable square along the traced path (never
+        // past the movement allowance). Dropping on a red square just spends
+        // all movement toward the target; if the landing square is occupied,
+        // step back to the nearest free one behind it.
+        const landIndex = farthestReachableIndex(
+          path.length,
+          drag.allowanceFeet,
+          (i) => cellOccupied(path[i]),
+        );
+        if (landIndex > 0) {
+          const dest = path[landIndex];
+          const spent = landIndex * 5;
+          const x = ((dest.x * gridSize + gridSize / 2) / worldW) * 100,
+            y = ((dest.y * gridSize + gridSize / 2) / worldH) * 100;
           setTokens((items) =>
-            items.map((t) =>
-              t.id === drag.id
-                ? { ...t, x: drag.target.x, y: drag.target.y }
-                : t,
-            ),
+            items.map((t) => (t.id === drag.id ? { ...t, x, y } : t)),
           );
+          const remaining = Math.max(0, drag.allowanceFeet - spent);
           setBattle((b) => ({
             ...b,
-            resources: spendMovement(b.resources, feet),
-            log: `${active?.name} moved ${feet} ft. ${Math.max(0, drag.allowanceFeet - feet)} ft remains.`,
+            resources: spendMovement(b.resources, spent),
+            log:
+              distance > allowance
+                ? `${active?.name} moved ${spent} ft — as far as movement allowed. ${remaining} ft remains.`
+                : `${active?.name} moved ${spent} ft. ${remaining} ft remains.`,
           }));
-        } else if (occupied)
+        } else if (distance > 0)
           setBattle((b) => ({
             ...b,
             log: "That square is occupied.",
-          }));
-        else if (distance > allowance)
-          setBattle((b) => ({
-            ...b,
-            log: `${active?.name} only has ${drag.allowanceFeet} ft of movement remaining.`,
           }));
       }
       setDrag(null);
