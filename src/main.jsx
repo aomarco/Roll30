@@ -2577,46 +2577,49 @@ function App() {
               (() => {
                 const rect = boardRef.current.getBoundingClientRect();
                 const c = cell(active, rect);
-                // Draw the range as a few nested diamonds (Manhattan-distance
-                // bands) instead of thousands of per-cell squares — a constant
-                // handful of DOM nodes, so it never lags regardless of range or
-                // zoom.
+                // The range is the set of whole cells within a Manhattan
+                // distance of the attacker's cell. We draw its true stair-
+                // stepped outline as ONE polygon per band (constant DOM nodes,
+                // grid-true edges), and run the board grid through it so it
+                // reads as squares. Built around the attacker cell, so it is
+                // centered on the (cell-snapped) token.
                 const w = selectedWeapon;
+                const R = (feet) => Math.max(1, Math.round(feet / 5));
                 const bands = w.thrown
                   ? [
-                      { color: "red", cells: w.thrown.longRange / 5 },
-                      { color: "yellow", cells: w.thrown.normalRange / 5 },
-                      { color: "green", cells: (w.meleeRange || 5) / 5 },
+                      { color: "red", r: R(w.thrown.longRange) },
+                      { color: "yellow", r: R(w.thrown.normalRange) },
+                      { color: "green", r: R(w.meleeRange || 5) },
                     ]
                   : w.rangeType === "ranged"
                     ? [
-                        { color: "yellow", cells: w.longRange / 5 },
-                        { color: "green", cells: w.normalRange / 5 },
+                        { color: "yellow", r: R(w.longRange) },
+                        { color: "green", r: R(w.normalRange) },
                       ]
-                    : [{ color: "green", cells: (w.meleeRange || 5) / 5 }];
-                // Center on the attacker's actual position so it's always under
-                // the token, and mark the cell center for grid alignment.
-                const worldW = rect.width / camera.zoom;
-                const worldH = rect.height / camera.zoom;
-                const cx = (active.x / 100) * worldW;
-                const cy = (active.y / 100) * worldH;
-                const diamond = (cellsR) => {
-                  const r = (cellsR + 0.5) * gridSize;
-                  return `${cx},${cy - r} ${cx + r},${cy} ${cx},${cy + r} ${cx - r},${cy}`;
+                    : [{ color: "green", r: R(w.meleeRange || 5) }];
+                // Stair-stepped outline of the diamond of cells within radius R.
+                const staircase = (radius) => {
+                  const rowTop = (j) => (c.y + j) * gridSize;
+                  const pts = [];
+                  for (let j = -radius; j <= radius; j += 1) {
+                    const rx = (c.x + (radius - Math.abs(j)) + 1) * gridSize;
+                    pts.push(`${rx},${rowTop(j)}`, `${rx},${rowTop(j) + gridSize}`);
+                  }
+                  for (let j = radius; j >= -radius; j -= 1) {
+                    const lx = (c.x - (radius - Math.abs(j))) * gridSize;
+                    pts.push(`${lx},${rowTop(j) + gridSize}`, `${lx},${rowTop(j)}`);
+                  }
+                  return pts.join(" ");
                 };
-                const rOuter = (bands[0].cells + 0.5) * gridSize;
-                // Align the grid pattern to the board's cells (multiples of the
-                // grid size from world origin), independent of the diamond.
-                const gx = c.x * gridSize;
-                const gy = c.y * gridSize;
+                const outer = bands[0].r;
                 return (
                   <svg className="range-layer" overflow="visible">
                     <defs>
                       <pattern
                         id="range-grid"
                         patternUnits="userSpaceOnUse"
-                        x={gx}
-                        y={gy}
+                        x={c.x * gridSize}
+                        y={c.y * gridSize}
                         width={gridSize}
                         height={gridSize}
                       >
@@ -2629,32 +2632,29 @@ function App() {
                         />
                       </pattern>
                       <clipPath id="range-clip">
-                        <polygon points={diamond(bands[0].cells)} />
+                        <polygon points={staircase(outer)} />
                       </clipPath>
                     </defs>
-                    {/* translucent colored bands, outer -> inner */}
                     {bands.map((band) => (
                       <polygon
                         key={band.color}
                         className={`range-band ${band.color}`}
-                        points={diamond(band.cells)}
+                        points={staircase(band.r)}
                       />
                     ))}
-                    {/* real grid lines, but only inside the range diamond */}
                     <rect
                       clipPath="url(#range-clip)"
-                      x={cx - rOuter}
-                      y={cy - rOuter}
-                      width={rOuter * 2}
-                      height={rOuter * 2}
+                      x={(c.x - outer) * gridSize}
+                      y={(c.y - outer) * gridSize}
+                      width={(outer * 2 + 1) * gridSize}
+                      height={(outer * 2 + 1) * gridSize}
                       fill="url(#range-grid)"
                     />
-                    {/* crisp colored tier outlines on top */}
                     {bands.map((band) => (
                       <polygon
                         key={`edge-${band.color}`}
                         className={`range-edge ${band.color}`}
-                        points={diamond(band.cells)}
+                        points={staircase(band.r)}
                       />
                     ))}
                   </svg>
