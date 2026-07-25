@@ -576,8 +576,33 @@ Implemented disadvantage sources:
 - Heavy weapons used by Small creatures.
 - Lance attacks against a target 5 feet away.
 - An attack immediately following a weapon swap.
+- A ranged/thrown shot whose line crosses a half-wall (partial cover).
 
 The cinematic displays both d20s, dims the rejected die, and emphasizes the selected result.
+
+## Walls and Line of Sight
+
+Walls and half-walls are invisible geometry drawn over the map to match its art
+(`walls`, per-map, persisted; drawn via the `Spline` toggle — see Persistence and
+the walls "To Be Updated" entries). Each is a polyline of world-percentage
+points with a `type` of `full` or `half`. Visibility is toggleable
+(`wallsVisible`); hidden walls still function.
+
+- **Movement:** both full and half walls block movement. During a battle drag,
+  if the straight path between origin and destination crosses any wall, the
+  route auto-detours around it via `findPath` (`src/pathfinding.js`, 8-directional
+  A* that also avoids occupied squares). The detour still costs its full length
+  and is capped by remaining movement (`farthestReachableIndex`), so the token
+  stops on the last reachable square; an unreachable destination doesn't move.
+- **Ranged/thrown line of sight:** the line from attacker cell-center to target
+  cell-center is tested with `lineOfSight` (`src/geometry.js`). A **full** wall
+  blocks the shot entirely — the attack is refused with a message and no action
+  is spent, and the target does not highlight as targetable. A **half** wall
+  imposes **disadvantage** (`half-cover`) instead. Melee attacks ignore walls.
+
+Wall/cell geometry is tested in world-local pixels: wall percentages and cell
+centers are both converted using the current board rect (`rect.width / zoom`),
+consistent with `snap`/`cell`.
 
 ## Attack and Damage Rules
 
@@ -1113,3 +1138,4 @@ A combat, inventory, or persistence change is complete only when:
 - **Resize & reposition the map image (2026-07-25):** The map image now has an independent transform (scale + offset) separate from the camera, so it can be sized and moved to line up with the grid. New `.map-inner` element (inside `.board-map`) carries `translate(mapView.x, mapView.y) scale(mapView.scale)` about its center; `mapView` (`{scale, x, y}`, default `{1,0,0}`) is persisted per map in the saved `data` and restored on load (camera still resets). An "Adjust map" `Move` toggle in the zoom-control cluster (only when a map is loaded) enters adjust mode: a bottom-left `.board-map-controls` cluster provides scale `−`/`＋`/reset, and dragging the board moves the map (a new map-drag `useEffect` mirroring the camera-pan one, screen delta ÷ zoom) instead of panning — grid/tokens unaffected. New `clampMapScale` (`[0.2, 5]`) + `DEFAULT_MAP_VIEW` in `src/viewRules.js` with a test (suite now 79). `npm test`/`npm run build` pass.
 - **Walls/chests foundation — geometry + pathfinding (2026-07-25):** First of four commits for walls, half-walls, and chests. Added two pure, tested modules with no UI yet. `src/geometry.js`: `segmentsIntersect` (proper 2D crossing), `segmentHitsWalls(walls, p1, p2)` → `{full, half}` (walls are `{id, type:"full"|"half", points}` polylines), and `lineOfSight(walls, from, to)` → `{blocked, disadvantage}` (full wall blocks, else a half wall gives disadvantage). `src/pathfinding.js`: `findPath(start, goal, {passable, maxCells})` — 8-directional A* (Chebyshev heuristic, bounded) that auto-routes around blocked edges, returning a cell path or null. Tests in `src/geometry.test.js` + `src/pathfinding.test.js` (crossing truth table, LoS full/half/clear, straight/detour/unreachable); suite now 86. `npm test`/`npm run build` pass.
 - **Walls: data, rendering, draw editor (2026-07-25):** Second walls commit — drawing & display (collision/LoS come next). `walls` (`[{id, type:"full"|"half", points:[{x,y}%]}]`) and `wallsVisible` are per-map state, persisted in the map `data` and restored on load. Walls render as an SVG overlay inside `.board-world` (`viewBox 0 0 100 100`, `preserveAspectRatio=none`, `vector-effect: non-scaling-stroke`): full walls solid, half walls dashed, plus a live draft preview to the cursor. A `Spline` toggle in the board control cluster enters wall mode; a `.board-wall-controls` cluster offers Full/Half type, undo point, finish (also Esc / right-click / double-click), a visibility eye, and clear-all. In wall mode a board click adds a polyline point at the cursor's world-percentage. No behavior yet — walls don't block movement or shots until the next commit. `npm test`/`npm run build` pass; wall rendering render-verified in headless Chrome.
+- **Walls: collision + line of sight (2026-07-25):** Third walls commit — wiring the geometry into gameplay (see the "Walls and Line of Sight" section). Movement: `routedPath` in `src/main.jsx` tests the straight drag path against walls (converted to world-local px) and, when blocked, reroutes with `findPath` (also avoiding occupied cells); the routed path flows through the existing `farthestReachableIndex` drop logic, so detours are capped by remaining movement. Ranged/thrown attacks: `attack()` computes `lineOfSight` — a full wall refuses the shot (message, no action spent) and `canAttackTarget` returns false so the target doesn't highlight; a half wall adds a `half-cover` disadvantage to `attackRollMode`. Melee is unaffected. Reuses `cellCenterPx`/`wallsInPx` helpers. `npm test` (86) / `npm run build` pass.

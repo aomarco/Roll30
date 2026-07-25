@@ -737,13 +737,60 @@ function App() {
     x: Math.floor(((token.x / 100) * (rect.width / camera.zoom)) / gridSize),
     y: Math.floor(((token.y / 100) * (rect.height / camera.zoom)) / gridSize),
   });
+  // World-local pixel center of a grid cell (matches move-cell placement).
+  const cellCenterPx = (c) => ({
+    x: c.x * gridSize + gridSize / 2,
+    y: c.y * gridSize + gridSize / 2,
+  });
+  // Walls (stored as world percentages) converted to world-local pixels.
+  const wallsInPx = (rect) => {
+    const worldW = rect.width / camera.zoom,
+      worldH = rect.height / camera.zoom;
+    return walls.map((wall) => ({
+      type: wall.type,
+      points: wall.points.map((p) => ({
+        x: (p.x / 100) * worldW,
+        y: (p.y / 100) * worldH,
+      })),
+    }));
+  };
+  // Straight path, auto-routed around walls (and blocking tokens/chests) when
+  // the direct line would cross one. Falls back to no move if unreachable.
+  const routedPath = (originCell, targetCell, rect, moverId) => {
+    const straight = cellsBetween(originCell, targetCell);
+    if (!walls.length) return straight;
+    const wallsPx = wallsInPx(rect);
+    const edgeClear = (a, b) => {
+      const hit = segmentHitsWalls(wallsPx, cellCenterPx(a), cellCenterPx(b));
+      return !hit.full && !hit.half;
+    };
+    const straightBlocked = straight.some(
+      (c, i) => i > 0 && !edgeClear(straight[i - 1], c),
+    );
+    if (!straightBlocked) return straight;
+    const occupied = new Set(
+      tokens
+        .filter((t) => t.id !== moverId && t.hp > 0)
+        .map((t) => {
+          const c = cell(t, rect);
+          return `${c.x},${c.y}`;
+        }),
+    );
+    const passable = (from, to) =>
+      edgeClear(from, to) && !occupied.has(`${to.x},${to.y}`);
+    return (
+      findPath(originCell, targetCell, { passable, maxCells: 3000 }) || [
+        originCell,
+      ]
+    );
+  };
   useEffect(() => {
     const move = (e) => {
       if (!drag || !boardRef.current) return;
       const rect = boardRef.current.getBoundingClientRect();
       if (drag.battle) {
         const next = snap(e, rect),
-          path = cellsBetween(drag.originCell, next.cell);
+          path = routedPath(drag.originCell, next.cell, rect, drag.id);
         setDrag((d) => ({
           ...d,
           path,
@@ -1060,6 +1107,23 @@ function App() {
       );
       return;
     }
+    // Ranged/thrown line of sight: a full wall blocks the shot, a half wall
+    // (partial cover) imposes disadvantage. Melee attacks ignore walls.
+    const isRangedShot =
+      selectedWeapon.rangeType === "ranged" ||
+      String(rangeBand?.id || "").startsWith("thrown-");
+    const shotLos =
+      isRangedShot && origin && targetCell && rect && walls.length
+        ? lineOfSight(
+            wallsInPx(rect),
+            cellCenterPx(origin),
+            cellCenterPx(targetCell),
+          )
+        : { blocked: false, disadvantage: false };
+    if (shotLos.blocked) {
+      setAttackMessage(`A wall blocks your shot at ${target?.name}.`);
+      return;
+    }
     if (
       active &&
       selectedWeapon.ammunition &&
@@ -1123,6 +1187,7 @@ function App() {
       selectedWeapon: attackWeapon,
       rangeBand,
       resources: turnResources,
+      disadvantages: shotLos.disadvantage ? ["half-cover"] : [],
     });
     setBattle((current) => ({
       ...current,
@@ -1576,10 +1641,26 @@ function App() {
     const rect = boardRef.current?.getBoundingClientRect();
     if (!rect || !active || !selectedWeapon || t.id === active.id || t.hp <= 0)
       return false;
-    return !!weaponRangeBand(
+    const originCell = cell(active, rect);
+    const targetCell = cell(t, rect);
+    const rangeBand = weaponRangeBand(
       selectedWeapon,
-      distanceFeet(cell(active, rect), cell(t, rect)),
+      distanceFeet(originCell, targetCell),
     );
+    if (!rangeBand) return false;
+    // A full wall on the line hides a ranged/thrown target entirely.
+    const isRangedShot =
+      selectedWeapon.rangeType === "ranged" ||
+      String(rangeBand.id || "").startsWith("thrown-");
+    if (isRangedShot && walls.length) {
+      const { blocked } = lineOfSight(
+        wallsInPx(rect),
+        cellCenterPx(originCell),
+        cellCenterPx(targetCell),
+      );
+      if (blocked) return false;
+    }
+    return true;
   };
   if (showCharacters)
     return (
