@@ -948,28 +948,35 @@
 .board.panning {
   cursor: grabbing;
 }
-/* Transformed world layer: holds the map image, tokens, and move/attack cells.
-   Panned/zoomed via inline transform; sized to the viewport at zoom 1. */
-.board-world {
+/* The camera is applied as three stacked layers over the fixed viewport:
+   map image (bottom) → grid overlay → world content (tokens + cells, top).
+   Map and world share the same transform; the grid is a viewport overlay
+   driven by the camera CSS vars so it tiles infinitely yet stays precisely
+   aligned (small pan-sized offsets avoid the tiling drift a giant transformed
+   element suffers). */
+.board-map {
   position: absolute;
   inset: 0;
   z-index: 1;
   background: center / contain no-repeat;
   will-change: transform;
 }
-/* Grid lives inside the world (so it pans/zooms and aligns with cells) and
-   overlays both the map image and the blank canvas, below tokens. It spans a
-   huge multiple of the cell size in every direction so it reads as infinite,
-   with its origin on a cell boundary so lines pass through world (0,0). */
-.world-grid {
+.board-grid {
   position: absolute;
-  inset: calc(var(--grid-size) * -4000);
+  inset: 0;
   z-index: 2;
   pointer-events: none;
   background-image:
     linear-gradient(#ffffff26 1px, transparent 1px),
     linear-gradient(90deg, #ffffff26 1px, transparent 1px);
-  background-size: var(--grid-size) var(--grid-size);
+  background-size: var(--cell) var(--cell);
+  background-position: var(--cam-x) var(--cam-y);
+}
+.board-world {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  will-change: transform;
 }
 .board-zoom-controls {
   position: absolute;

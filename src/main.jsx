@@ -2163,15 +2163,22 @@ function App() {
               </div>
             )}
             <div
-              className="board-world"
-              ref={boardRef}
+              className="board-map"
               style={{
                 transform: `translate(${camera.x}px, ${camera.y}px) scale(${camera.zoom})`,
                 transformOrigin: "0 0",
                 backgroundImage: map ? `url(${map})` : undefined,
               }}
+            />
+            <div className="board-grid" />
+            <div
+              className="board-world"
+              ref={boardRef}
+              style={{
+                transform: `translate(${camera.x}px, ${camera.y}px) scale(${camera.zoom})`,
+                transformOrigin: "0 0",
+              }}
             >
-              <div className="world-grid" />
               {drag?.battle &&
                 drag.cursor &&
                 boardRef.current &&
