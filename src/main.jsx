@@ -2575,15 +2575,17 @@ function App() {
               selectedWeapon &&
               boardRef.current &&
               (() => {
-                const rect = boardRef.current.getBoundingClientRect();
-                const c = cell(active, rect);
                 // The range is the set of whole cells within a Manhattan
-                // distance of the attacker's cell. We draw its true stair-
-                // stepped outline as ONE polygon per band (constant DOM nodes,
-                // grid-true edges), and run the board grid through it so it
-                // reads as squares. Built around the attacker cell, so it is
-                // centered on the (cell-snapped) token.
+                // distance of the attacker. We draw its true stair-stepped
+                // outline as ONE polygon per band (constant DOM nodes,
+                // grid-true edges) and run the board grid through it so it reads
+                // as squares. The SVG is positioned on the token with the SAME
+                // percentage mechanism the token uses, and the shape is built
+                // symmetric around that origin, so it stays perfectly centered
+                // at any zoom/pan.
                 const w = selectedWeapon;
+                const g = gridSize;
+                const half = g / 2;
                 const R = (feet) => Math.max(1, Math.round(feet / 5));
                 const bands = w.thrown
                   ? [
@@ -2597,34 +2599,38 @@ function App() {
                         { color: "green", r: R(w.normalRange) },
                       ]
                     : [{ color: "green", r: R(w.meleeRange || 5) }];
-                // Stair-stepped outline of the diamond of cells within radius R.
+                // Stepped outline of the cell-diamond, centered on (0,0) = the
+                // attacker's cell center.
                 const staircase = (radius) => {
-                  const rowTop = (j) => (c.y + j) * gridSize;
                   const pts = [];
                   for (let j = -radius; j <= radius; j += 1) {
-                    const rx = (c.x + (radius - Math.abs(j)) + 1) * gridSize;
-                    pts.push(`${rx},${rowTop(j)}`, `${rx},${rowTop(j) + gridSize}`);
+                    const rx = (radius - Math.abs(j) + 0.5) * g;
+                    pts.push(`${rx},${(j - 0.5) * g}`, `${rx},${(j + 0.5) * g}`);
                   }
                   for (let j = radius; j >= -radius; j -= 1) {
-                    const lx = (c.x - (radius - Math.abs(j))) * gridSize;
-                    pts.push(`${lx},${rowTop(j) + gridSize}`, `${lx},${rowTop(j)}`);
+                    const lx = -(radius - Math.abs(j) + 0.5) * g;
+                    pts.push(`${lx},${(j + 0.5) * g}`, `${lx},${(j - 0.5) * g}`);
                   }
                   return pts.join(" ");
                 };
                 const outer = bands[0].r;
                 return (
-                  <svg className="range-layer" overflow="visible">
+                  <svg
+                    className="range-layer"
+                    overflow="visible"
+                    style={{ left: `${active.x}%`, top: `${active.y}%` }}
+                  >
                     <defs>
                       <pattern
                         id="range-grid"
                         patternUnits="userSpaceOnUse"
-                        x={c.x * gridSize}
-                        y={c.y * gridSize}
-                        width={gridSize}
-                        height={gridSize}
+                        x={half}
+                        y={half}
+                        width={g}
+                        height={g}
                       >
                         <path
-                          d={`M${gridSize} 0 H0 V${gridSize}`}
+                          d={`M${g} 0 H0 V${g}`}
                           fill="none"
                           stroke="#ffffff66"
                           strokeWidth="1"
@@ -2644,10 +2650,10 @@ function App() {
                     ))}
                     <rect
                       clipPath="url(#range-clip)"
-                      x={(c.x - outer) * gridSize}
-                      y={(c.y - outer) * gridSize}
-                      width={(outer * 2 + 1) * gridSize}
-                      height={(outer * 2 + 1) * gridSize}
+                      x={-(outer + 0.5) * g}
+                      y={-(outer + 0.5) * g}
+                      width={(outer * 2 + 1) * g}
+                      height={(outer * 2 + 1) * g}
                       fill="url(#range-grid)"
                     />
                     {bands.map((band) => (
