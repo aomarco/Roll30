@@ -39,6 +39,17 @@
 .token.dragging {
   transition: none;
 }
+/* Tokens fill one grid cell, so they resize when the grid size changes. */
+.token {
+  width: var(--grid-size);
+  height: var(--grid-size);
+}
+.token span {
+  font-size: calc(var(--grid-size) * 0.27);
+}
+.token small {
+  top: calc(var(--grid-size) + 5px);
+}
 .attack-cell {
   position: absolute;
   z-index: 2;
