@@ -2561,9 +2561,12 @@ function App() {
               {ruler &&
                 boardRef.current &&
                 (() => {
-                  const rect = boardRef.current.getBoundingClientRect();
-                  const worldW = rect.width / camera.zoom;
-                  const worldH = rect.height / camera.zoom;
+                  // Use the untransformed layout size (offsetWidth/Height) so
+                  // the measurement never depends on the current zoom — a
+                  // getBoundingClientRect here would read the pre-commit
+                  // transform and drift the distance when zooming.
+                  const worldW = boardRef.current.offsetWidth;
+                  const worldH = boardRef.current.offsetHeight;
                   const toCell = (p) => ({
                     x: ((p.x / 100) * worldW) / gridSize,
                     y: ((p.y / 100) * worldH) / gridSize,
