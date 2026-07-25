@@ -84,6 +84,53 @@
     inset 0 0 14px #ff766888,
     0 0 10px #e0525244;
 }
+/* Range indicator drawn as a few nested diamonds (one SVG, O(1) nodes). The
+   SVG is a zero-size anchor at world (0,0); polygon coordinates are world px
+   (1 user unit = 1px, no viewBox), and it scales with the world transform. */
+.range-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 1px;
+  overflow: visible;
+  pointer-events: none;
+  z-index: 2;
+}
+.range-band {
+  stroke-width: 2px;
+  vector-effect: non-scaling-stroke;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: range-pop 280ms cubic-bezier(0.16, 1.1, 0.32, 1) both;
+}
+.range-band.green {
+  fill: #54b8793a;
+  stroke: #8fe5aa;
+}
+.range-band.yellow {
+  fill: #d5aa3f30;
+  stroke: #ffe08a;
+}
+.range-band.red {
+  fill: #d9555530;
+  stroke: #ff9a8e;
+}
+@keyframes range-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .range-band {
+    animation: none;
+  }
+}
 @keyframes attack-cell-pop {
   0% {
     opacity: 0;

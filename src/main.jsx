@@ -2574,49 +2574,43 @@ function App() {
               active &&
               selectedWeapon &&
               boardRef.current &&
-              viewportRef.current &&
               (() => {
                 const rect = boardRef.current.getBoundingClientRect();
-                const vp = viewportRef.current.getBoundingClientRect();
                 const c = cell(active, rect);
-                // Iterate only the cells inside the on-screen viewport (mapped
-                // into world-local cell indices). This stays bounded no matter
-                // how large a ranged weapon's range is or how far you zoom out,
-                // instead of generating the weapon's full range diamond.
-                const cellPx = gridSize * camera.zoom;
-                const minX = Math.floor(-camera.x / cellPx) - 1;
-                const maxX = Math.ceil((vp.width - camera.x) / cellPx) + 1;
-                const minY = Math.floor(-camera.y / cellPx) - 1;
-                const maxY = Math.ceil((vp.height - camera.y) / cellPx) + 1;
-                const CAP = 1800; // hard safety limit for extreme zoom-out
-                const cells = [];
-                for (let bx = minX; bx <= maxX && cells.length < CAP; bx += 1)
-                  for (let by = minY; by <= maxY && cells.length < CAP; by += 1) {
-                    const ox = bx - c.x,
-                      oy = by - c.y;
-                    if (ox === 0 && oy === 0) continue;
-                    const band = weaponRangeBand(
-                      selectedWeapon,
-                      (Math.abs(ox) + Math.abs(oy)) * 5,
-                    );
-                    if (band?.color) cells.push({ bx, by, ox, oy, color: band.color });
-                  }
-                return cells.map(({ bx, by, ox, oy, color }) => {
-                  const distance = Math.abs(ox) + Math.abs(oy);
-                  return (
-                    <i
-                      key={`attack-${bx}-${by}`}
-                      className={`attack-cell ${color}`}
-                      style={{
-                        left: bx * gridSize,
-                        top: by * gridSize,
-                        width: gridSize,
-                        height: gridSize,
-                        "--attack-delay": `${Math.min(distance, 12) * 55}ms`,
-                      }}
-                    />
-                  );
-                });
+                // Draw the range as a few nested diamonds (Manhattan-distance
+                // bands) instead of thousands of per-cell squares — a constant
+                // handful of DOM nodes, so it never lags regardless of range or
+                // zoom.
+                const w = selectedWeapon;
+                const bands = w.thrown
+                  ? [
+                      { color: "red", cells: w.thrown.longRange / 5 },
+                      { color: "yellow", cells: w.thrown.normalRange / 5 },
+                      { color: "green", cells: (w.meleeRange || 5) / 5 },
+                    ]
+                  : w.rangeType === "ranged"
+                    ? [
+                        { color: "yellow", cells: w.longRange / 5 },
+                        { color: "green", cells: w.normalRange / 5 },
+                      ]
+                    : [{ color: "green", cells: (w.meleeRange || 5) / 5 }];
+                const cx = (c.x + 0.5) * gridSize;
+                const cy = (c.y + 0.5) * gridSize;
+                return (
+                  <svg className="range-layer" overflow="visible">
+                    {bands.map((band) => {
+                      // Half-cell padding so the diamond encloses whole cells.
+                      const r = (band.cells + 0.5) * gridSize;
+                      return (
+                        <polygon
+                          key={band.color}
+                          className={`range-band ${band.color}`}
+                          points={`${cx},${cy - r} ${cx + r},${cy} ${cx},${cy + r} ${cx - r},${cy}`}
+                        />
+                      );
+                    })}
+                  </svg>
+                );
               })()}
             {chests.map((ch) => (
               <button
