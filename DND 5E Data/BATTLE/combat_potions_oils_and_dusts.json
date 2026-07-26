@@ -1,0 +1,753 @@
+[
+  {
+    "index": "bead-of-force",
+    "name": "Bead of Force",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, rare",
+      "This small black Sphere measures 3/4 of an inch in diameter and weighs an ounce. Typically, 1d4 + 4 beads of force are found together.",
+      "You can use an action to throw the bead up to 60 feet. The bead explodes on impact and is destroyed. Each creature within a 10-foot radius of where the bead landed must succeed on a DC 15 Dexterity saving throw or take 5d4 force damage. A Sphere of transparent force then encloses the area for 1 minute. Any creature that failed the save and is completely within the area is trapped inside this Sphere. Creatures that succeeded on the save, or are partially within the area, are pushed away from the center of the Sphere until they are no longer inside it. Only breathable air can pass through the sphere's wall. No Attack or other Effect can.",
+      "An enclosed creature can use its action to push against the sphere's wall, moving the Sphere up to half the creature's walking speed. The Sphere can be picked up, and its magic causes it to weigh only 1 pound, regardless of the weight of creatures inside."
+    ],
+    "image": "/api/images/magic-items/bead-of-force.png",
+    "url": "/api/2014/magic-items/bead-of-force"
+  },
+  {
+    "index": "dust-of-sneezing-and-choking",
+    "name": "Dust of Sneezing and Choking",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, uncommon",
+      "Found in a small container, this powder resembles very fine sand. It appears to be dust of disappearance, and an identify spell reveals it to be such. There is enough of it for one use.",
+      "When you use an action to throw a handful of the dust into the air, you and each creature that needs to breathe within 30 feet of you must succeed on a DC 15 Constitution saving throw or become unable to breathe, while sneezing uncontrollably. A creature affected in this way is incapacitated and suffocating. As long as it is conscious, a creature can repeat the saving throw at the end of each of its turns, ending the effect on it on a success. The lesser restoration spell can also end the effect on a creature."
+    ],
+    "image": "/api/images/magic-items/dust-of-sneezing-and-choking.png",
+    "url": "/api/2014/magic-items/dust-of-sneezing-and-choking"
+  },
+  {
+    "index": "oil-of-sharpness",
+    "name": "Oil of Sharpness",
+    "equipment_category": {
+      "index": "potion",
+      "name": "Potion",
+      "url": "/api/2014/equipment-categories/potion"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Potion, very rare",
+      "This clear, gelatinous oil sparkles with tiny, ultrathin silver shards. The oil can coat one slashing or piercing weapon or up to 5 pieces of slashing or piercing ammunition. Applying the oil takes 1 minute. For 1 hour, the coated item is magical and has a +3 bonus to attack and damage rolls."
+    ],
+    "url": "/api/2014/magic-items/oil-of-sharpness"
+  },
+  {
+    "index": "oil-of-slipperiness",
+    "name": "Oil of Slipperiness",
+    "equipment_category": {
+      "index": "potion",
+      "name": "Potion",
+      "url": "/api/2014/equipment-categories/potion"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Potion, uncommon",
+      "This sticky black unguent is thick and heavy in the container, but it flows quickly when poured. The oil can cover a Medium or smaller creature, along with the equipment it's wearing and carrying (one additional vial is required for each size category above Medium). Applying the oil takes 10 minutes. The affected creature then gains the effect of a freedom of movement spell for 8 hours.",
+      "Alternatively, the oil can be poured on the ground as an action, where it covers a 10-foot square, duplicating the effect of the grease spell in that area for 8 hours."
+    ],
+    "url": "/api/2014/magic-items/oil-of-slipperiness"
+  },
+  {
+    "index": "potion-of-diminution",
+    "name": "Potion of Diminution",
+    "equipment_category": {
+      "index": "potion",
+      "name": "Potion",
+      "url": "/api/2014/equipment-categories/potion"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Potion, rare",
+      "When you drink this potion, you gain the \"reduce\" effect of the enlarge/reduce spell for 1d4 hours (no concentration required). The red in the potion's liquid continuously contracts to a tiny bead and then expands to color the clear liquid around it. Shaking the bottle fails to interrupt this process."
+    ],
+    "url": "/api/2014/magic-items/potion-of-diminution"
+  },
+  {
+    "index": "potion-of-giant-strength",
+    "name": "Potion of Giant Strength",
+    "equipment_category": {
+      "index": "potion",
+      "name": "Potion",
+      "url": "/api/2014/equipment-categories/potion"
+    },
+    "rarity": {
+      "name": "Varies"
+    },
+    "variants": [
+      {
+        "index": "potion-of-giant-strength-hill",
+        "name": "Potion of Hill Giant Strength",
+        "url": "/api/2014/magic-items/potion-of-giant-strength-hill"
+      },
+      {
+        "index": "potion-of-giant-strength-frost",
+        "name": "Potion of Frost Giant Strength",
+        "url": "/api/2014/magic-items/potion-of-giant-strength-frost"
+      },
+      {
+        "index": "potion-of-giant-strength-stone",
+        "name": "Potion of Stone Giant Strength",
+        "url": "/api/2014/magic-items/potion-of-giant-strength-stone"
+      },
+      {
+        "index": "potion-of-giant-strength-fire",
+        "name": "Potion of Fire Giant Strength",
+        "url": "/api/2014/magic-items/potion-of-giant-strength-fire"
+      },
+      {
+        "index": "potion-of-giant-strength-cloud",
+        "name": "Potion of Cloud Giant Strength",
+        "url": "/api/2014/magic-items/potion-of-giant-strength-cloud"
+      },
+      {
+        "index": "potion-of-giant-strength-storm",
+        "name": "Potion of Storm Giant Strength",
+        "url": "/api/2014/magic-items/potion-of-giant-strength-storm"
+      }
+    ],
+    "variant": false,
+    "desc": [
+      "Potion, varies",
+      "When you drink this potion, your Strength score changes for 1 hour. The type of giant determines the score (see the table below). The potion has no effect on you if your Strength is equal to or greater than that score.",
+      "This potion's transparent liquid has floating in it a sliver of fingernail from a giant of the appropriate type. The potion of frost giant strength and the potion of stone giant strength have the same effect.",
+      "| Type of Giant | Strength | Rarity |",
+      "|---|---|---|",
+      "| Hill giant | 21 | Uncommon |",
+      "| Frost/stone giant | 23 | Rare |",
+      "| Fire giant | 25 | Rare |",
+      "| Cloud giant | 27 | Very rare |",
+      "| Storm giant | 29 | Legendary |"
+    ],
+    "url": "/api/2014/magic-items/potion-of-giant-strength"
+  },
+  {
+    "index": "potion-of-giant-strength-hill",
+    "name": "Potion of Hill Giant Strength",
+    "equipment_category": {
+      "index": "potion",
+      "name": "Potion",
+      "url": "/api/2014/equipment-categories/potion"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Potion, uncommon",
+      "When you drink this potion, your Strength score changes to 21 for 1 hour. The potion has no effect on you if your Strength is equal to or greater than that score.",
+      "This potion's transparent liquid has floating in it a sliver of fingernail from a hill giant."
+    ],
+    "url": "/api/2014/magic-items/potion-of-giant-strength-hill"
+  },
+  {
+    "index": "potion-of-giant-strength-frost",
+    "name": "Potion of Frost Giant Strength",
+    "equipment_category": {
+      "index": "potion",
+      "name": "Potion",
+      "url": "/api/2014/equipment-categories/potion"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Potion, rare",
+      "When you drink this potion, your Strength score changes to 23 for 1 hour. The potion has no effect on you if your Strength is equal to or greater than that score.",
+      "This potion's transparent liquid has floating in it a sliver of fingernail from a frost giant."
+    ],
+    "url": "/api/2014/magic-items/potion-of-giant-strength-frost"
+  },
+  {
+    "index": "potion-of-giant-strength-stone",
+    "name": "Potion of Stone Giant Strength",
+    "equipment_category": {
+      "index": "potion",
+      "name": "Potion",
+      "url": "/api/2014/equipment-categories/potion"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Potion, rare",
+      "When you drink this potion, your Strength score changes to 23 for 1 hour. The potion has no effect on you if your Strength is equal to or greater than that score.",
+      "This potion's transparent liquid has floating in it a sliver of fingernail from a stone giant."
+    ],
+    "url": "/api/2014/magic-items/potion-of-giant-strength-stone"
+  },
+  {
+    "index": "potion-of-giant-strength-fire",
+    "name": "Potion of Fire Giant Strength",
+    "equipment_category": {
+      "index": "potion",
+      "name": "Potion",
+      "url": "/api/2014/equipment-categories/potion"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Potion, rare",
+      "When you drink this potion, your Strength score changes to 25 for 1 hour. The potion has no effect on you if your Strength is equal to or greater than that score.",
+      "This potion's transparent liquid has floating in it a sliver of fingernail from a fire giant."
+    ],
+    "url": "/api/2014/magic-items/potion-of-giant-strength-fire"
+  },
+  {
+    "index": "potion-of-giant-strength-cloud",
+    "name": "Potion of Cloud Giant Strength",
+    "equipment_category": {
+      "index": "potion",
+      "name": "Potion",
+      "url": "/api/2014/equipment-categories/potion"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Potion, very rare",
+      "When you drink this potion, your Strength score changes to 27 for 1 hour. The potion has no effect on you if your Strength is equal to or greater than that score.",
+      "This potion's transparent liquid has floating in it a sliver of fingernail from a cloud giant."
+    ],
+    "url": "/api/2014/magic-items/potion-of-giant-strength-cloud"
+  },
+  {
+    "index": "potion-of-giant-strength-storm",
+    "name": "Potion of Storm Giant Strength",
+    "equipment_category": {
+      "index": "potion",
+      "name": "Potion",
+      "url": "/api/2014/equipment-categories/potion"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Potion, legendary",
+      "When you drink this potion, your Strength score changes to 29 for 1 hour. The potion has no effect on you if your Strength is equal to or greater than that score.",
+      "This potion's transparent liquid has floating in it a sliver of fingernail from a storm giant."
+    ],
+    "url": "/api/2014/magic-items/potion-of-giant-strength-storm"
+  },
+  {
+    "index": "potion-of-growth",
+    "name": "Potion of Growth",
+    "equipment_category": {
+      "index": "potion",
+      "name": "Potion",
+      "url": "/api/2014/equipment-categories/potion"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Potion, uncommon",
+      "When you drink this potion, you gain the \"enlarge\" effect of the enlarge/reduce spell for 1d4 hours (no concentration required). The red in the potion's liquid continuously expands from a tiny bead to color the clear liquid around it and then contracts. Shaking the bottle fails to interrupt this process."
+    ],
+    "url": "/api/2014/magic-items/potion-of-growth"
+  },
+  {
+    "index": "potion-of-healing",
+    "name": "Potion of Healing",
+    "equipment_category": {
+      "index": "potion",
+      "name": "Potion",
+      "url": "/api/2014/equipment-categories/potion"
+    },
+    "rarity": {
+      "name": "Varies"
+    },
+    "variants": [
+      {
+        "index": "potion-of-healing-common",
+        "name": "Potion of Healing",
+        "url": "/api/2014/magic-items/potion-of-healing-common"
+      },
+      {
+        "index": "potion-of-healing-greater",
+        "name": "Potion of Greater Healing",
+        "url": "/api/2014/magic-items/potion-of-healing-greater"
+      },
+      {
+        "index": "potion-of-healing-superior",
+        "name": "Potion of Superior Healing",
+        "url": "/api/2014/magic-items/potion-of-healing-superior"
+      },
+      {
+        "index": "potion-of-healing-supreme",
+        "name": "Potion of Supreme Healing",
+        "url": "/api/2014/magic-items/potion-of-healing-supreme"
+      }
+    ],
+    "variant": false,
+    "desc": [
+      "Potion, varies",
+      "You regain hit points when you drink this potion. The number of hit points depends on the potion's rarity, as shown in the Potions of Healing table. Whatever its potency, the potion's red liquid glimmers when agitated.",
+      "Potions of Healing (table)",
+      "| Potion of ... | Rarity | HP Regained |",
+      "|---|---|---|",
+      "| Healing | Common | 2d4 + 2 |",
+      "| Greater healing | Uncommon | 4d4 + 4 |",
+      "| Superior healing | Rare | 8d4 + 8 |",
+      "| Supreme healing | Very rare | 10d4 + 20 |"
+    ],
+    "url": "/api/2014/magic-items/potion-of-healing"
+  },
+  {
+    "index": "potion-of-healing-common",
+    "name": "Potion of Healing",
+    "equipment_category": {
+      "index": "potion",
+      "name": "Potion",
+      "url": "/api/2014/equipment-categories/potion"
+    },
+    "rarity": {
+      "name": "Common"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Potion, common",
+      "You regain 2d4 + 2 hit points when you drink this potion. The potion's red liquid glimmers when agitated."
+    ],
+    "url": "/api/2014/magic-items/potion-of-healing-common"
+  },
+  {
+    "index": "potion-of-healing-greater",
+    "name": "Potion of Greater Healing",
+    "equipment_category": {
+      "index": "potion",
+      "name": "Potion",
+      "url": "/api/2014/equipment-categories/potion"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Potion, uncommon",
+      "You regain 4d4 + 4 hit points when you drink this potion. The potion's red liquid glimmers when agitated."
+    ],
+    "url": "/api/2014/magic-items/potion-of-healing-greater"
+  },
+  {
+    "index": "potion-of-healing-superior",
+    "name": "Potion of Superior Healing",
+    "equipment_category": {
+      "index": "potion",
+      "name": "Potion",
+      "url": "/api/2014/equipment-categories/potion"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Potion, rare",
+      "You regain 8d4 + 8 hit points when you drink this potion. The potion's red liquid glimmers when agitated."
+    ],
+    "url": "/api/2014/magic-items/potion-of-healing-superior"
+  },
+  {
+    "index": "potion-of-healing-supreme",
+    "name": "Potion of Supreme Healing",
+    "equipment_category": {
+      "index": "potion",
+      "name": "Potion",
+      "url": "/api/2014/equipment-categories/potion"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Potion, very rare",
+      "You regain 10d4 + 20 hit points when you drink this potion. The potion's red liquid glimmers when agitated."
+    ],
+    "url": "/api/2014/magic-items/potion-of-healing-supreme"
+  },
+  {
+    "index": "potion-of-heroism",
+    "name": "Potion of Heroism",
+    "equipment_category": {
+      "index": "potion",
+      "name": "Potion",
+      "url": "/api/2014/equipment-categories/potion"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Potion, rare",
+      "For 1 hour after drinking it, you gain 10 temporary hit points that last for 1 hour. For the same duration, you are under the effect of the bless spell (no concentration required). This blue potion bubbles and steams as if boiling."
+    ],
+    "url": "/api/2014/magic-items/potion-of-heroism"
+  },
+  {
+    "index": "potion-of-invisibility",
+    "name": "Potion of Invisibility",
+    "equipment_category": {
+      "index": "potion",
+      "name": "Potion",
+      "url": "/api/2014/equipment-categories/potion"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Potion, very rare",
+      "This potion's container looks empty but feels as though it holds liquid. When you drink it, you become invisible for 1 hour. Anything you wear or carry is invisible with you. The effect ends early if you attack or cast a spell."
+    ],
+    "url": "/api/2014/magic-items/potion-of-invisibility"
+  },
+  {
+    "index": "potion-of-resistance",
+    "name": "Potion of Resistance",
+    "equipment_category": {
+      "index": "potion",
+      "name": "Potion",
+      "url": "/api/2014/equipment-categories/potion"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [
+      {
+        "index": "potion-of-resistance-acid",
+        "name": "Potion of Acid Resistance",
+        "url": "/api/2014/magic-items/potion-of-resistance-acid"
+      },
+      {
+        "index": "potion-of-resistance-cold",
+        "name": "Potion of Cold Resistance",
+        "url": "/api/2014/magic-items/potion-of-resistance-cold"
+      },
+      {
+        "index": "potion-of-resistance-fire",
+        "name": "Potion of Fire Resistance",
+        "url": "/api/2014/magic-items/potion-of-resistance-fire"
+      },
+      {
+        "index": "potion-of-resistance-force",
+        "name": "Potion of Force Resistance",
+        "url": "/api/2014/magic-items/potion-of-resistance-force"
+      },
+      {
+        "index": "potion-of-resistance-lightning",
+        "name": "Potion of Lightning Resistance",
+        "url": "/api/2014/magic-items/potion-of-resistance-lightning"
+      },
+      {
+        "index": "potion-of-resistance-necrotic",
+        "name": "Potion of Necrotic Resistance",
+        "url": "/api/2014/magic-items/potion-of-resistance-necrotic"
+      },
+      {
+        "index": "potion-of-resistance-poison",
+        "name": "Potion of Poison Resistance",
+        "url": "/api/2014/magic-items/potion-of-resistance-poison"
+      },
+      {
+        "index": "potion-of-resistance-psychic",
+        "name": "Potion of Psychic Resistance",
+        "url": "/api/2014/magic-items/potion-of-resistance-psychic"
+      },
+      {
+        "index": "potion-of-resistance-radiant",
+        "name": "Potion of Radiant Resistance",
+        "url": "/api/2014/magic-items/potion-of-resistance-radiant"
+      },
+      {
+        "index": "potion-of-resistance-thunder",
+        "name": "Potion of Thunder Resistance",
+        "url": "/api/2014/magic-items/potion-of-resistance-thunder"
+      }
+    ],
+    "variant": false,
+    "desc": [
+      "Potion, uncommon",
+      "When you drink this potion, you gain resistance to one type of damage for 1 hour. The GM chooses the type or determines it randomly from the options below.",
+      "| d10 | Damage Type |",
+      "|---|---|",
+      "| 1 | Acid |",
+      "| 2 | Cold |",
+      "| 3 | Fire |",
+      "| 4 | Force |",
+      "| 5 | Lightning |",
+      "| 6 | Necrotic |",
+      "| 7 | Poison |",
+      "| 8 | Psychic |",
+      "| 9 | Radiant |",
+      "| 10 | Thunder |"
+    ],
+    "url": "/api/2014/magic-items/potion-of-resistance"
+  },
+  {
+    "index": "potion-of-resistance-acid",
+    "name": "Potion of Acid Resistance",
+    "equipment_category": {
+      "index": "potion",
+      "name": "Potion",
+      "url": "/api/2014/equipment-categories/potion"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Potion, uncommon",
+      "When you drink this potion, you gain resistance to acid damage for 1 hour."
+    ],
+    "url": "/api/2014/magic-items/potion-of-resistance-acid"
+  },
+  {
+    "index": "potion-of-resistance-cold",
+    "name": "Potion of Cold Resistance",
+    "equipment_category": {
+      "index": "potion",
+      "name": "Potion",
+      "url": "/api/2014/equipment-categories/potion"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Potion, uncommon",
+      "When you drink this potion, you gain resistance to cold damage for 1 hour."
+    ],
+    "url": "/api/2014/magic-items/potion-of-resistance-cold"
+  },
+  {
+    "index": "potion-of-resistance-fire",
+    "name": "Potion of Fire Resistance",
+    "equipment_category": {
+      "index": "potion",
+      "name": "Potion",
+      "url": "/api/2014/equipment-categories/potion"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Potion, uncommon",
+      "When you drink this potion, you gain resistance to fire damage for 1 hour."
+    ],
+    "image": "/api/2014/magic-items/potion-of-resistance-fire.png",
+    "url": "/api/2014/magic-items/potion-of-resistance-fire"
+  },
+  {
+    "index": "potion-of-resistance-force",
+    "name": "Potion of Force Resistance",
+    "equipment_category": {
+      "index": "potion",
+      "name": "Potion",
+      "url": "/api/2014/equipment-categories/potion"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Potion, uncommon",
+      "When you drink this potion, you gain resistance to force damage for 1 hour."
+    ],
+    "url": "/api/2014/magic-items/potion-of-resistance-force"
+  },
+  {
+    "index": "potion-of-resistance-lightning",
+    "name": "Potion of Lightning Resistance",
+    "equipment_category": {
+      "index": "potion",
+      "name": "Potion",
+      "url": "/api/2014/equipment-categories/potion"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Potion, uncommon",
+      "When you drink this potion, you gain resistance to lightning damage for 1 hour."
+    ],
+    "url": "/api/2014/magic-items/potion-of-resistance-lightning"
+  },
+  {
+    "index": "potion-of-resistance-necrotic",
+    "name": "Potion of Necrotic Resistance",
+    "equipment_category": {
+      "index": "potion",
+      "name": "Potion",
+      "url": "/api/2014/equipment-categories/potion"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Potion, uncommon",
+      "When you drink this potion, you gain resistance to necrotic damage for 1 hour."
+    ],
+    "url": "/api/2014/magic-items/potion-of-resistance-necrotic"
+  },
+  {
+    "index": "potion-of-resistance-poison",
+    "name": "Potion of Poison Resistance",
+    "equipment_category": {
+      "index": "potion",
+      "name": "Potion",
+      "url": "/api/2014/equipment-categories/potion"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Potion, uncommon",
+      "When you drink this potion, you gain resistance to poison damage for 1 hour."
+    ],
+    "url": "/api/2014/magic-items/potion-of-resistance-poison"
+  },
+  {
+    "index": "potion-of-resistance-psychic",
+    "name": "Potion of Psychic Resistance",
+    "equipment_category": {
+      "index": "potion",
+      "name": "Potion",
+      "url": "/api/2014/equipment-categories/potion"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Potion, uncommon",
+      "When you drink this potion, you gain resistance to psychic damage for 1 hour."
+    ],
+    "url": "/api/2014/magic-items/potion-of-resistance-psychic"
+  },
+  {
+    "index": "potion-of-resistance-radiant",
+    "name": "Potion of Radiant Resistance",
+    "equipment_category": {
+      "index": "potion",
+      "name": "Potion",
+      "url": "/api/2014/equipment-categories/potion"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Potion, uncommon",
+      "When you drink this potion, you gain resistance to radiant damage for 1 hour."
+    ],
+    "url": "/api/2014/magic-items/potion-of-resistance-radiant"
+  },
+  {
+    "index": "potion-of-resistance-thunder",
+    "name": "Potion of Thunder Resistance",
+    "equipment_category": {
+      "index": "potion",
+      "name": "Potion",
+      "url": "/api/2014/equipment-categories/potion"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Potion, uncommon",
+      "When you drink this potion, you gain resistance to thunder damage for 1 hour."
+    ],
+    "url": "/api/2014/magic-items/potion-of-resistance-thunder"
+  },
+  {
+    "index": "potion-of-speed",
+    "name": "Potion of Speed",
+    "equipment_category": {
+      "index": "potion",
+      "name": "Potion",
+      "url": "/api/2014/equipment-categories/potion"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Potion, very rare",
+      "When you drink this potion, you gain the effect of the haste spell for 1 minute (no concentration required). The potion's yellow fluid is streaked with black and swirls on its own."
+    ],
+    "url": "/api/2014/magic-items/potion-of-speed"
+  }
+]

@@ -1,0 +1,130 @@
+[
+  {
+    "index": "feather-token-tree",
+    "name": "Tree Feather Token",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, rare",
+      "This tiny object looks like a feather.",
+      "You must be outdoors to use this token. You can use an action to touch it to an unoccupied space on the ground. The token disappears, and in its place a nonmagical oak tree springs into existence. The tree is 60 feet tall and has a 5-foot-diameter trunk, and its branches at the top spread out in a 20-foot radius."
+    ],
+    "url": "/api/2014/magic-items/feather-token-tree"
+  },
+  {
+    "index": "folding-boat",
+    "name": "Folding Boat",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, rare",
+      "This object appears as a wooden box that measures 12 inches long, 6 inches wide, and 6 inches deep. It weighs 4 pounds and floats. It can be opened to store items inside. This item also has three command words, each requiring you to use an action to speak it.",
+      "One command word causes the box to unfold into a boat 10 feet long, 4 feet wide, and 2 feet deep. The boat has one pair of oars, an anchor, a mast, and a lateen sail. The boat can hold up to four Medium creatures comfortably.",
+      "The second command word causes the box to unfold into a ship 24 feet long, 8 feet wide, and 6 feet deep. The ship has a deck, rowing seats, five sets of oars, a steering oar, an anchor, a deck cabin, and a mast with a square sail. The ship can hold fifteen Medium creatures comfortably.",
+      "When the box becomes a vessel, its weight becomes that of a normal vessel its size, and anything that was stored in the box remains in the boat.",
+      "The third command word causes the folding boat to fold back into a box, provided that no creatures are aboard. Any objects in the vessel that can't fit inside the box remain outside the box as it folds. Any objects in the vessel that can fit inside the box do so."
+    ],
+    "url": "/api/2014/magic-items/folding-boat"
+  },
+  {
+    "index": "marvelous-pigments",
+    "name": "Marvelous Pigments",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, very rare",
+      "Typically found in 1d4 pots inside a fine wooden box with a brush (weighing 1 pound in total), these pigments allow you to create three-dimensional objects by painting them in two dimensions. The paint flows from the brush to form the desired object as you concentrate on its image.",
+      "Each pot of paint is sufficient to cover 1,000 square feet of a surface, which lets you create inanimate objects or terrain features-such as a door, a pit, flowers, trees, cells, rooms, or weapons- that are up to 10,000 cubic feet. It takes 10 minutes to cover 100 square feet.",
+      "When you complete the painting, the object or terrain feature depicted becomes a real, nonmagical object. Thus, painting a door on a wall creates an actual door that can be opened to whatever is beyond. Painting a pit on a floor creates a real pit, and its depth counts against the total area of objects you create.",
+      "Nothing created by the pigments can have a value greater than 25 gp. If you paint an object of greater value (such as a diamond or a pile of gold), the object looks authentic, but close inspection reveals it is made from paste, bone, or some other worthless material.",
+      "If you paint a form of energy such as fire or lightning, the energy appears but dissipates as soon as you complete the painting, doing no harm to anything."
+    ],
+    "url": "/api/2014/magic-items/marvelous-pigments"
+  },
+  {
+    "index": "robe-of-useful-items",
+    "name": "Robe of Useful Items",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, uncommon",
+      "This robe has cloth patches of various shapes and colors covering it. While wearing the robe, you can use an action to detach one of the patches, causing it to become the object or creature it represents. Once the last patch is removed, the robe becomes an ordinary garment.",
+      "The robe has two of each of the following patches:",
+      "Dagger",
+      "Bullseye lantern (filled and lit)",
+      "Steel mirror",
+      "10-foot pole",
+      "Hempen rope (50 feet, coiled)",
+      "Sack",
+      "In addition, the robe has 4d4 other patches. The GM chooses the patches or determines them randomly.",
+      "| d100 | Patch |",
+      "|---|---|",
+      "| 01-08 | Bag of 100 gp |",
+      "| 09-15 | Silver coffer (1 foot long, 6 inches wide and deep) worth 500 gp |",
+      "| 16-22 | Iron door (up to 10 feet wide and 10 feet high, barred on one side of your choice), which you can place in an opening you can reach; it conforms to fit the opening, attaching and hinging itself |",
+      "| 23-30 | 10 gems worth 100 gp each |",
+      "| 31-44 | Wooden ladder (24 feet long) 45-51 A riding horse with saddle bags |",
+      "| 52-59 | Pit (a cube 10 feet on a side), which you can place on the ground within 10 feet of you |",
+      "| 60-68 | 4 potions of healing |",
+      "| 69-75 | Rowboat (12 feet long) |",
+      "| 76-83 | Spell scroll containing one spell of 1st to 3rd level |",
+      "| 84-90 | 2 mastiffs |",
+      "| 91-96 | Window (2 feet by 4 feet, up to 2 feet deep), which you can place on a vertical surface you can reach |",
+      "| 97-100 | Portable ram |"
+    ],
+    "url": "/api/2014/magic-items/robe-of-useful-items"
+  },
+  {
+    "index": "rod-of-security",
+    "name": "Rod of Security",
+    "equipment_category": {
+      "index": "rod",
+      "name": "Rod",
+      "url": "/api/2014/equipment-categories/rod"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Rod, very rare",
+      "While holding this rod, you can use an action to activate it. The rod then instantly transports you and up to 199 other willing creatures you can see to a paradise that exists in an extraplanar space. You choose the form that the paradise takes. It could be a tranquil garden, lovely glade, cheery tavern, immense palace, tropical island, fantastic carnival, or whatever else you can imagine. Regardless of its nature, the paradise contains enough water and food to sustain its visitors. Everything else that can be interacted with inside the extraplanar space can exist only there. For example, a flower picked from a garden in the paradise disappears if it is taken outside the extraplanar space.",
+      "For each hour spent in the paradise, a visitor regains hit points as if it had spent 1 Hit Die. Also, creatures don't age while in the paradise, although time passes normally. Visitors can remain in the paradise for up to 200 days divided by the number of creatures present (round down).",
+      "When the time runs out or you use an action to end it, all visitors reappear in the location they occupied when you activated the rod, or an unoccupied space nearest that location. The rod can't be used again until ten days have passed."
+    ],
+    "url": "/api/2014/magic-items/rod-of-security"
+  }
+]

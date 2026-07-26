@@ -1,0 +1,666 @@
+[
+  {
+    "index": "rod-of-absorption",
+    "name": "Rod of Absorption",
+    "equipment_category": {
+      "index": "rod",
+      "name": "Rod",
+      "url": "/api/2014/equipment-categories/rod"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Rod, very rare (requires attunement)",
+      "While holding this rod, you can use your reaction to absorb a spell that is targeting only you and not with an area of effect. The absorbed spell's effect is canceled, and the spell's energy-not the spell itself-is stored in the rod. The energy has the same level as the spell when it was cast. The rod can absorb and store up to 50 levels of energy over the course of its existence. Once the rod absorbs 50 levels of energy, it can't absorb more. If you are targeted by a spell that the rod can't store, the rod has no effect on that spell.",
+      "When you become attuned to the rod, you know how many levels of energy the rod has absorbed over the course of its existence, and how many levels of spell energy it currently has stored.",
+      "If you are a spellcaster holding the rod, you can convert energy stored in it into spell slots to cast spells you have prepared or know. You can create spell slots only of a level equal to or lower than your own spell slots, up to a maximum of 5th level. You use the stored levels in place of your slots, but otherwise cast the spell as normal. For example, you can use 3 levels stored in the rod as a 3rd-level spell slot.",
+      "A newly found rod has 1d10 levels of spell energy stored in it already. A rod that can no longer absorb spell energy and has no energy remaining becomes nonmagical."
+    ],
+    "url": "/api/2014/magic-items/rod-of-absorption"
+  },
+  {
+    "index": "rod-of-alertness",
+    "name": "Rod of Alertness",
+    "equipment_category": {
+      "index": "rod",
+      "name": "Rod",
+      "url": "/api/2014/equipment-categories/rod"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Rod, very rare (requires attunement)",
+      "This rod has a flanged head and the following properties.",
+      "***Alertness.*** While holding the rod, you have advantage on Wisdom (Perception) checks and on rolls for initiative.",
+      "***Spells.*** While holding the rod, you can use an action to cast one of the following spells from it: detect evil and good, detect magic, detect poison and disease, or see invisibility.",
+      "***Protective Aura.*** As an action, you can plant the haft end of the rod in the ground, whereupon the rod's head sheds bright light in a 60-foot radius and dim light for an additional 60 feet. While in that bright light, you and any creature that is friendly to you gain a +1 bonus to AC and saving throws and can sense the location of any invisible hostile creature that is also in the bright light.",
+      "The rod's head stops glowing and the effect ends after 10 minutes, or when a creature uses an action to pull the rod from the ground. This property can't be used again until the next dawn."
+    ],
+    "url": "/api/2014/magic-items/rod-of-alertness"
+  },
+  {
+    "index": "rod-of-lordly-might",
+    "name": "Rod of Lordly Might",
+    "equipment_category": {
+      "index": "rod",
+      "name": "Rod",
+      "url": "/api/2014/equipment-categories/rod"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Rod, legendary (requires attunement)",
+      "This rod has a flanged head, and it functions as a magic mace that grants a +3 bonus to attack and damage rolls made with it. The rod has properties associated with six different buttons that are set in a row along the haft. It has three other properties as well, detailed below.",
+      "***Six Buttons.*** You can press one of the rod's six buttons as a bonus action. A button's effect lasts until you push a different button or until you push the same button again, which causes the rod to revert to its normal form.",
+      "If you press **button 1**, the rod becomes a flame tongue, as a fiery blade sprouts from the end opposite the rod's flanged head.",
+      "If you press **button 2**, the rod's flanged head folds down and two crescent-shaped blades spring out, transforming the rod into a magic battleaxe that grants a +3 bonus to attack and damage rolls made with it.",
+      "If you press **button 3**, the rod's flanged head folds down, a spear point springs from the rod's tip, and the rod's handle lengthens into a 6-foot haft, transforming the rod into a magic spear that grants a +3 bonus to attack and damage rolls made with it.",
+      "If you press **button 4**, the rod transforms into a climbing pole up to 50 feet long, as you specify. In surfaces as hard as granite, a spike at the bottom and three hooks at the top anchor the pole. Horizontal bars 3 inches long fold out from the sides, 1 foot apart, forming a ladder. The pole can bear up to 4,000 pounds. More weight or lack of solid anchoring causes the rod to revert to its normal form.",
+      "If you press **button 5**, the rod transforms into a handheld battering ram and grants its user a +10 bonus to Strength checks made to break through doors, barricades, and other barriers.",
+      "If you press **button 6**, the rod assumes or remains in its normal form and indicates magnetic north. (Nothing happens if this function of the rod is used in a location that has no magnetic north.) The rod also gives you knowledge of your approximate depth beneath the ground or your height above it.",
+      "***Drain Life.*** When you hit a creature with a melee attack using the rod, you can force the target to make a DC 17 Constitution saving throw. On a failure, the target takes an extra 4d6 necrotic damage, and you regain a number of hit points equal to half that necrotic damage. This property can't be used again until the next dawn.",
+      "***Paralyze.*** When you hit a creature with a melee attack using the rod, you can force the target to make a DC 17 Strength saving throw. On a failure, the target is paralyzed for 1 minute. The target can repeat the saving throw at the end of each of its turns, ending the effect on a success. This property can't be used again until the next dawn.",
+      "***Terrify.*** While holding the rod, you can use an action to force each creature you can see within 30 feet of you to make a DC 17 Wisdom saving throw. On a failure, a target is frightened of you for 1 minute. A frightened target can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success. This property can't be used again until the next dawn."
+    ],
+    "url": "/api/2014/magic-items/rod-of-lordly-might"
+  },
+  {
+    "index": "staff-of-charming",
+    "name": "Staff of Charming",
+    "equipment_category": {
+      "index": "staff",
+      "name": "Staff",
+      "url": "/api/2014/equipment-categories/staff"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Staff, rare (requires attunement by a bard, cleric, druid, sorcerer, warlock, or wizard)",
+      "While holding this staff, you can use an action to expend 1 of its 10 charges to cast charm person, command, or comprehend languages from it using your spell save DC. The staff can also be used as a magic quarterstaff.",
+      "If you are holding the staff and fail a saving throw against an enchantment spell that targets only you, you can turn your failed save into a successful one. You can't use this property of the staff again until the next dawn. If you succeed on a save against an enchantment spell that targets only you, with or without the staff's intervention, you can use your reaction to expend 1 charge from the staff and turn the spell back on its caster as if you had cast the spell.",
+      "The staff regains 1d8 + 2 expended charges daily at dawn. If you expend the last charge, roll a d20. On a 1, the staff becomes a nonmagical quarterstaff."
+    ],
+    "url": "/api/2014/magic-items/staff-of-charming"
+  },
+  {
+    "index": "staff-of-fire",
+    "name": "Staff of Fire",
+    "equipment_category": {
+      "index": "staff",
+      "name": "Staff",
+      "url": "/api/2014/equipment-categories/staff"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Staff, very rare (requires attunement by a druid, sorcerer, warlock, or wizard)",
+      "You have resistance to fire damage while you hold this staff.",
+      "The staff has 10 charges. While holding it, you can use an action to expend 1 or more of its charges to cast one of the following spells from it, using your spell save DC: burning hands (1 charge), fireball (3 charges), or wall of fire (4 charges).",
+      "The staff regains 1d6 + 4 expended charges daily at dawn. If you expend the last charge, roll a d20. On a 1, the staff blackens, crumbles into cinders, and is destroyed."
+    ],
+    "url": "/api/2014/magic-items/staff-of-fire"
+  },
+  {
+    "index": "staff-of-frost",
+    "name": "Staff of Frost",
+    "equipment_category": {
+      "index": "staff",
+      "name": "Staff",
+      "url": "/api/2014/equipment-categories/staff"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Staff, very rare (requires attunement by a druid, sorcerer, warlock, or wizard)",
+      "You have resistance to cold damage while you hold this staff.",
+      "The staff has 10 charges. While holding it, you can use an action to expend 1 or more of its charges to cast one of the following spells from it, using your spell save DC: cone of cold (5 charges), fog cloud (1 charge), ice storm (4 charges), or wall of ice (4 charges).",
+      "The staff regains 1d6 + 4 expended charges daily at dawn. If you expend the last charge, roll a d20. On a 1, the staff turns to water and is destroyed."
+    ],
+    "url": "/api/2014/magic-items/staff-of-frost"
+  },
+  {
+    "index": "staff-of-healing",
+    "name": "Staff of Healing",
+    "equipment_category": {
+      "index": "staff",
+      "name": "Staff",
+      "url": "/api/2014/equipment-categories/staff"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Staff, rare (requires attunement by a bard, cleric, or druid)",
+      "This staff has 10 charges. While holding it, you can use an action to expend 1 or more of its charges to cast one of the following spells from it, using your spell save DC and spellcasting ability modifier: cure wounds (1 charge per spell level, up to 4th), lesser restoration (2 charges), or mass cure wounds (5 charges).",
+      "The staff regains 1d6 + 4 expended charges daily at dawn. If you expend the last charge, roll a d20. On a 1, the staff vanishes in a flash of light, lost forever."
+    ],
+    "url": "/api/2014/magic-items/staff-of-healing"
+  },
+  {
+    "index": "staff-of-power",
+    "name": "Staff of Power",
+    "equipment_category": {
+      "index": "staff",
+      "name": "Staff",
+      "url": "/api/2014/equipment-categories/staff"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Staff, very rare (requires attunement by a sorcerer, warlock, or wizard)",
+      "This staff can be wielded as a magic quarterstaff that grants a +2 bonus to attack and damage rolls made with it. While holding it, you gain a +2 bonus to Armor Class, saving throws, and spell attack rolls.",
+      "The staff has 20 charges for the following properties. The staff regains 2d8 + 4 expended charges daily at dawn. If you expend the last charge, roll a d20. On a 1, the staff retains its +2 bonus to attack and damage rolls but loses all other properties. On a 20, the staff regains 1d8 + 2 charges.",
+      "***Power Strike.*** When you hit with a melee attack using the staff, you can expend 1 charge to deal an extra 1d6 force damage to the target.",
+      "***Spells.*** While holding this staff, you can use an action to expend 1 or more of its charges to cast one of the following spells from it, using your spell save DC and spell attack bonus: cone of cold (5 charges), fireball (5th-level version, 5 charges), globe of invulnerability (6 charges), hold monster (5 charges), levitate (2 charges), lightning bolt (5th-level version, 5 charges), magic missile (1 charge), ray of enfeeblement (1 charge), or wall of force (5 charges).",
+      "***Retributive Strike.*** You can use an action to break the staff over your knee or against a solid surface, performing a retributive strike. The staff is destroyed and releases its remaining magic in an explosion that expands to fill a 30-foot-radius sphere centered on it.",
+      "You have a 50 percent chance to instantly travel to a random plane of existence, avoiding the explosion. If you fail to avoid the effect, you take force damage equal to 16 × the number of charges in the staff. Every other creature in the area must make a DC 17 Dexterity saving throw. On a failed save, a creature takes an amount of damage based on how far away it is from the point of origin, as shown in the following table. On a successful save, a creature takes half as much damage.",
+      "| Distance from Origin | Damage |",
+      "|---|---|",
+      "| 10 ft. away or closer | 8 × the number of charges in the staff |",
+      "| 11 to 20 ft. away | 6 × the number of charges in the staff |",
+      "| 21 to 30 ft. away | 4 × the number of charges in the staff |"
+    ],
+    "url": "/api/2014/magic-items/staff-of-power"
+  },
+  {
+    "index": "staff-of-striking",
+    "name": "Staff of Striking",
+    "equipment_category": {
+      "index": "staff",
+      "name": "Staff",
+      "url": "/api/2014/equipment-categories/staff"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Staff, very rare (requires attunement)",
+      "This staff can be wielded as a magic quarterstaff that grants a +3 bonus to attack and damage rolls made with it.",
+      "The staff has 10 charges. When you hit with a melee attack using it, you can expend up to 3 of its charges. For each charge you expend, the target takes an extra 1d6 force damage. The staff regains 1d6 + 4 expended charges daily at dawn. If you expend the last charge, roll a d20. On a 1, the staff becomes a nonmagical quarterstaff."
+    ],
+    "url": "/api/2014/magic-items/staff-of-striking"
+  },
+  {
+    "index": "staff-of-swarming-insects",
+    "name": "Staff of Swarming Insects",
+    "equipment_category": {
+      "index": "staff",
+      "name": "Staff",
+      "url": "/api/2014/equipment-categories/staff"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Staff, very rare (requires attunement by a bard, cleric, druid, sorcerer, warlock, or wizard)",
+      "This staff has 10 charges and regains 1d6 + 4 expended charges daily at dawn. If you expend the last charge, roll a d20. On a 1, a swarm of insects consumes and destroys the staff, then disperses.",
+      "***Spells.*** While holding the staff, you can use an action to expend some of its charges to cast one of the following spells from it, using your spell save DC: giant insect (4 charges) or insect plague (5 charges).",
+      "***Insect Cloud.*** While holding the staff, you can use an action and expend 1 charge to cause a swarm of harmless flying insects to spread out in a 30-foot radius from you. The insects remain for 10 minutes, making the area heavily obscured for creatures other than you. The swarm moves with you, remaining centered on you. A wind of at least 10 miles per hour disperses the swarm and ends the effect."
+    ],
+    "url": "/api/2014/magic-items/staff-of-swarming-insects"
+  },
+  {
+    "index": "staff-of-the-magi",
+    "name": "Staff of the Magi",
+    "equipment_category": {
+      "index": "staff",
+      "name": "Staff",
+      "url": "/api/2014/equipment-categories/staff"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Staff, legendary (requires attunement by a sorcerer, warlock, or wizard)",
+      "This staff can be wielded as a magic quarterstaff that grants a +2 bonus to attack and damage rolls made with it. While you hold it, you gain a +2 bonus to spell attack rolls.",
+      "The staff has 50 charges for the following properties. It regains 4d6 + 2 expended charges daily at dawn. If you expend the last charge, roll a d20. On a 20, the staff regains 1d12 + 1 charges.",
+      "***Spell Absorption.*** While holding the staff, you have advantage on saving throws against spells. In addition, you can use your reaction when another creature casts a spell that targets only you. If you do, the staff absorbs the magic of the spell, canceling its effect and gaining a number of charges equal to the absorbed spell's level. However, if doing so brings the staff's total number of charges above 50, the staff explodes as if you activated its retributive strike (see below).",
+      "***Spells.*** While holding the staff, you can use an action to expend some of its charges to cast one of the following spells from it, using your spell save DC and spellcasting ability: conjure elemental (7 charges), dispel magic (3 charges), fireball (7th-level version, 7 charges), flaming sphere (2 charges), ice storm (4 charges), invisibility (2 charges), knock (2 charges), lightning bolt (7th-level version, 7 charges), passwall (5 charges), plane shift (7 charges), telekinesis (5 charges), wall of fire (4 charges), or web (2 charges).",
+      "You can also use an action to cast one of the following spells from the staff without using any charges: arcane lock, detect magic, enlarge/reduce, light, mage hand, or protection from evil and good.",
+      "***Retributive Strike.*** You can use an action to break the staff over your knee or against a solid surface, performing a retributive strike. The staff is destroyed and releases its remaining magic in an explosion that expands to fill a 30-foot-radius sphere centered on it.",
+      "You have a 50 percent chance to instantly travel to a random plane of existence, avoiding the explosion. If you fail to avoid the effect, you take force damage equal to 16 × the number of charges in the staff. Every other creature in the area must make a DC 17 Dexterity saving throw. On a failed save, a creature takes an amount of damage based on how far away it is from the point of origin, as shown in the following table. On a successful save, a creature takes half as much damage.",
+      "| Distance from Origin | Damage |",
+      "|---|---|",
+      "| 10 ft. away or closer | 8 × the number of charges in the staff |",
+      "| 11 to 20 ft. away | 6 × the number of charges in the staff |",
+      "| 21 to 30 ft. away | 4 × the number of charges in the staff |"
+    ],
+    "url": "/api/2014/magic-items/staff-of-the-magi"
+  },
+  {
+    "index": "staff-of-the-python",
+    "name": "Staff of the Python",
+    "equipment_category": {
+      "index": "staff",
+      "name": "Staff",
+      "url": "/api/2014/equipment-categories/staff"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Staff, very rare (requires attunement by a cleric, druid, or warlock)",
+      "You can use an action to speak this staff's command word and throw the staff on the ground within 10 feet of you. The staff becomes a giant constrictor snake under your control and acts on its own initiative count. By using a bonus action to speak the command word again, you return the staff to its normal form in a space formerly occupied by the snake.",
+      "On your turn, you can mentally command the snake if it is within 60 feet of you and you aren't incapacitated. You decide what action the snake takes and where it moves during its next turn, or you can issue it a general command, such as to attack your enemies or guard a location.",
+      "If the snake is reduced to 0 hit points, it dies and reverts to its staff form. The staff then shatters and is destroyed. If the snake reverts to staff form before losing all its hit points, it regains all of them."
+    ],
+    "url": "/api/2014/magic-items/staff-of-the-python"
+  },
+  {
+    "index": "staff-of-the-woodlands",
+    "name": "Staff of the Woodlands",
+    "equipment_category": {
+      "index": "staff",
+      "name": "Staff",
+      "url": "/api/2014/equipment-categories/staff"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Staff, rare (requires attunement by a druid)",
+      "This staff can be wielded as a magic quarterstaff that grants a +2 bonus to attack and damage rolls made with it. While holding it, you have a +2 bonus to spell attack rolls.",
+      "The staff has 10 charges for the following properties. It regains 1d6 + 4 expended charges daily at dawn. If you expend the last charge, roll a d20. On a 1, the staff loses its properties and becomes a nonmagical quarterstaff.",
+      "***Spells.*** You can use an action to expend 1 or more of the staff's charges to cast one of the following spells from it, using your spell save DC: animal friendship (1 charge), awaken (5 charges), barkskin (2 charges), locate animals or plants (2 charges), speak with animals (1 charge), speak with plants (3 charges), or wall of thorns (6 charges).",
+      "You can also use an action to cast the pass without trace spell from the staff without using any charges. Tree Form. You can use an action to plant one end of the staff in fertile earth and expend 1 charge to transform the staff into a healthy tree. The tree is 60 feet tall and has a 5-foot-diameter trunk, and its branches at the top spread out in a 20-foot radius.",
+      "The tree appears ordinary but radiates a faint aura of transmutation magic if targeted by detect magic. While touching the tree and using another action to speak its command word, you return the staff to its normal form. Any creature in the tree falls when it reverts to a staff."
+    ],
+    "url": "/api/2014/magic-items/staff-of-the-woodlands"
+  },
+  {
+    "index": "staff-of-thunder-and-lightning",
+    "name": "Staff of Thunder and Lightning",
+    "equipment_category": {
+      "index": "staff",
+      "name": "Staff",
+      "url": "/api/2014/equipment-categories/staff"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Staff, very rare (requires attunement)",
+      "This staff can be wielded as a magic quarterstaff that grants a +2 bonus to attack and damage rolls made with it. It also has the following additional properties. When one of these properties is used, it can't be used again until the next dawn.",
+      "***Lightning.*** When you hit with a melee attack using the staff, you can cause the target to take an extra 2d6 lightning damage.",
+      "***Thunder.*** When you hit with a melee attack using the staff, you can cause the staff to emit a crack of thunder, audible out to 300 feet. The target you hit must succeed on a DC 17 Constitution saving throw or become stunned until the end of your next turn.",
+      "***Lightning Strike.*** You can use an action to cause a bolt of lightning to leap from the staff's tip in a line that is 5 feet wide and 120 feet long. Each creature in that line must make a DC 17 Dexterity saving throw, taking 9d6 lightning damage on a failed save, or half as much damage on a successful one.",
+      "***Thunderclap.*** You can use an action to cause the staff to issue a deafening thunderclap, audible out to 600 feet. Each creature within 60 feet of you (not including you) must make a DC 17 Constitution saving throw. On a failed save, a creature takes 2d6 thunder damage and becomes deafened for 1 minute. On a successful save, a creature takes half damage and isn't deafened.",
+      "***Thunder and Lightning.*** You can use an action to use the Lightning Strike and Thunderclap properties at the same time. Doing so doesn't expend the daily use of those properties, only the use of this one."
+    ],
+    "url": "/api/2014/magic-items/staff-of-thunder-and-lightning"
+  },
+  {
+    "index": "staff-of-withering",
+    "name": "Staff of Withering",
+    "equipment_category": {
+      "index": "staff",
+      "name": "Staff",
+      "url": "/api/2014/equipment-categories/staff"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Staff, rare (requires attunement by a cleric, druid, or warlock)",
+      "This staff has 3 charges and regains 1d3 expended charges daily at dawn.",
+      "The staff can be wielded as a magic quarterstaff. On a hit, it deals damage as a normal quarterstaff, and you can expend 1 charge to deal an extra 2d10 necrotic damage to the target. In addition, the target must succeed on a DC 15 Constitution saving throw or have disadvantage for 1 hour on any ability check or saving throw that uses Strength or Constitution."
+    ],
+    "url": "/api/2014/magic-items/staff-of-withering"
+  },
+  {
+    "index": "wand-of-binding",
+    "name": "Wand of Binding",
+    "equipment_category": {
+      "index": "wand",
+      "name": "Wand",
+      "url": "/api/2014/equipment-categories/wand"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wand, rare (requires attunement by a spellcaster)",
+      "This wand has 7 charges for the following properties. It regains 1d6 + 1 expended charges daily at dawn. If you expend the wand's last charge, roll a d20. On a 1, the wand crumbles into ashes and is destroyed.",
+      "***Spells.*** While holding the wand, you can use an action to expend some of its charges to cast one of the following spells (save DC 17): hold monster (5 charges) or hold person (2 charges).",
+      "***Assisted Escape.*** While holding the wand, you can use your reaction to expend 1 charge and gain advantage on a saving throw you make to avoid being paralyzed or restrained, or you can expend 1 charge and gain advantage on any check you make to escape a grapple."
+    ],
+    "url": "/api/2014/magic-items/wand-of-binding"
+  },
+  {
+    "index": "wand-of-enemy-detection",
+    "name": "Wand of Enemy Detection",
+    "equipment_category": {
+      "index": "wand",
+      "name": "Wand",
+      "url": "/api/2014/equipment-categories/wand"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wand, rare (requires attunement)",
+      "This wand has 7 charges. While holding it, you can use an action and expend 1 charge to speak its command word. For the next minute, you know the direction of the nearest creature hostile to you within 60 feet, but not its distance from you. The wand can sense the presence of hostile creatures that are ethereal, invisible, disguised, or hidden, as well as those in plain sight. The effect ends if you stop holding the wand.",
+      "The wand regains 1d6 + 1 expended charges daily at dawn. If you expend the wand's last charge, roll a d20. On a 1, the wand crumbles into ashes and is destroyed."
+    ],
+    "url": "/api/2014/magic-items/wand-of-enemy-detection"
+  },
+  {
+    "index": "wand-of-fear",
+    "name": "Wand of Fear",
+    "equipment_category": {
+      "index": "wand",
+      "name": "Wand",
+      "url": "/api/2014/equipment-categories/wand"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wand, rare (requires attunement)",
+      "This wand has 7 charges for the following properties. It regains 1d6 + 1 expended charges daily at dawn. If you expend the wand's last charge, roll a d20. On a 1, the wand crumbles into ashes and is destroyed.",
+      "***Command.*** While holding the wand, you can use an action to expend 1 charge and command another creature to flee or grovel, as with the command spell (save DC 15).",
+      "***Cone of Fear.*** While holding the wand, you can use an action to expend 2 charges, causing the wand's tip to emit a 60-foot cone of amber light. Each creature in the cone must succeed on a DC 15 Wisdom saving throw or become frightened of you for 1 minute. While it is frightened in this way, a creature must spend its turns trying to move as far away from you as it can, and it can't willingly move to a space within 30 feet of you. It also can't take reactions. For its action, it can use only the Dash action or try to escape from an effect that prevents it from moving. If it has nowhere it can move, the creature can use the Dodge action. At the end of each of its turns, a creature can repeat the saving throw, ending the effect on itself on a success."
+    ],
+    "url": "/api/2014/magic-items/wand-of-fear"
+  },
+  {
+    "index": "wand-of-fireballs",
+    "name": "Wand of Fireballs",
+    "equipment_category": {
+      "index": "wand",
+      "name": "Wand",
+      "url": "/api/2014/equipment-categories/wand"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wand, rare (requires attunement by a spellcaster)",
+      "This wand has 7 charges. While holding it, you can use an action to expend 1 or more of its charges to cast the fireball spell (save DC 15) from it. For 1 charge, you cast the 3rd-level version of the spell. You can increase the spell slot level by one for each additional charge you expend.",
+      "The wand regains 1d6 + 1 expended charges daily at dawn. If you expend the wand's last charge, roll a d20. On a 1, the wand crumbles into ashes and is destroyed."
+    ],
+    "url": "/api/2014/magic-items/wand-of-fireballs"
+  },
+  {
+    "index": "wand-of-lightning-bolts",
+    "name": "Wand of Lightning Bolts",
+    "equipment_category": {
+      "index": "wand",
+      "name": "Wand",
+      "url": "/api/2014/equipment-categories/wand"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wand, rare (requires attunement by a spellcaster)",
+      "This wand has 7 charges. While holding it, you can use an action to expend 1 or more of its charges to cast the lightning bolt spell (save DC 15) from it. For 1 charge, you cast the 3rd-level version of the spell. You can increase the spell slot level by one for each additional charge you expend.",
+      "The wand regains 1d6 + 1 expended charges daily at dawn. If you expend the wand's last charge, roll a d20. On a 1, the wand crumbles into ashes and is destroyed."
+    ],
+    "url": "/api/2014/magic-items/wand-of-lightning-bolts"
+  },
+  {
+    "index": "wand-of-magic-missiles",
+    "name": "Wand of Magic Missiles",
+    "equipment_category": {
+      "index": "wand",
+      "name": "Wand",
+      "url": "/api/2014/equipment-categories/wand"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wand, uncommon",
+      "This wand has 7 charges. While holding it, you can use an action to expend 1 or more of its charges to cast the magic missile spell from it. For 1 charge, you cast the 1st-level version of the spell. You can increase the spell slot level by one for each additional charge you expend.",
+      "The wand regains 1d6 + 1 expended charges daily at dawn. If you expend the wand's last charge, roll a d20. On a 1, the wand crumbles into ashes and is destroyed."
+    ],
+    "url": "/api/2014/magic-items/wand-of-magic-missiles"
+  },
+  {
+    "index": "wand-of-paralysis",
+    "name": "Wand of Paralysis",
+    "equipment_category": {
+      "index": "wand",
+      "name": "Wand",
+      "url": "/api/2014/equipment-categories/wand"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wand, rare (requires attunement by a spellcaster)",
+      "This wand has 7 charges. While holding it, you can use an action to expend 1 of its charges to cause a thin blue ray to streak from the tip toward a creature you can see within 60 feet of you. The target must succeed on a DC 15 Constitution saving throw or be paralyzed for 1 minute. At the end of each of the target's turns, it can repeat the saving throw, ending the effect on itself on a success.",
+      "The wand regains 1d6 + 1 expended charges daily at dawn. If you expend the wand's last charge, roll a d20. On a 1, the wand crumbles into ashes and is destroyed."
+    ],
+    "url": "/api/2014/magic-items/wand-of-paralysis"
+  },
+  {
+    "index": "wand-of-polymorph",
+    "name": "Wand of Polymorph",
+    "equipment_category": {
+      "index": "wand",
+      "name": "Wand",
+      "url": "/api/2014/equipment-categories/wand"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wand, very rare (requires attunement by a spellcaster)",
+      "This wand has 7 charges. While holding it, you can use an action to expend 1 of its charges to cast the polymorph spell (save DC 15) from it.",
+      "The wand regains 1d6 + 1 expended charges daily at dawn. If you expend the wand's last charge, roll a d20. On a 1, the wand crumbles into ashes and is destroyed."
+    ],
+    "url": "/api/2014/magic-items/wand-of-polymorph"
+  },
+  {
+    "index": "wand-of-the-war-mage",
+    "name": "Wand of the War Mage, +1, +2, or +3",
+    "equipment_category": {
+      "index": "wand",
+      "name": "Wand",
+      "url": "/api/2014/equipment-categories/wand"
+    },
+    "rarity": {
+      "name": "Varies"
+    },
+    "variants": [
+      {
+        "index": "wand-of-the-war-mage-1",
+        "name": "Wand of the War Mage, +1",
+        "url": "/api/2014/magic-items/wand-of-the-war-mage-1"
+      },
+      {
+        "index": "wand-of-the-war-mage-2",
+        "name": "Wand of the War Mage, +2",
+        "url": "/api/2014/magic-items/wand-of-the-war-mage-2"
+      },
+      {
+        "index": "wand-of-the-war-mage-3",
+        "name": "Wand of the War Mage, +3",
+        "url": "/api/2014/magic-items/wand-of-the-war-mage-3"
+      }
+    ],
+    "variant": false,
+    "desc": [
+      "Wand, uncommon (+1), rare (+2), or very rare (+3) (requires attunement by a spellcaster)",
+      "While holding this wand, you gain a bonus to spell attack rolls determined by the wand's rarity. In addition, you ignore half cover when making a spell attack."
+    ],
+    "url": "/api/2014/magic-items/wand-of-the-war-mage"
+  },
+  {
+    "index": "wand-of-the-war-mage-1",
+    "name": "Wand of the War Mage, +1",
+    "equipment_category": {
+      "index": "wand",
+      "name": "Wand",
+      "url": "/api/2014/equipment-categories/wand"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wand, uncommon (requires attunement by a spellcaster)",
+      "While holding this wand, you gain a +1 bonus to spell attack rolls. In addition, you ignore half cover when making a spell attack."
+    ],
+    "url": "/api/2014/magic-items/wand-of-the-war-mage-1"
+  },
+  {
+    "index": "wand-of-the-war-mage-2",
+    "name": "Wand of the War Mage, +2",
+    "equipment_category": {
+      "index": "wand",
+      "name": "Wand",
+      "url": "/api/2014/equipment-categories/wand"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wand, rare (requires attunement by a spellcaster)",
+      "While holding this wand, you gain a +2 bonus to spell attack rolls. In addition, you ignore half cover when making a spell attack."
+    ],
+    "url": "/api/2014/magic-items/wand-of-the-war-mage-2"
+  },
+  {
+    "index": "wand-of-the-war-mage-3",
+    "name": "Wand of the War Mage, +3",
+    "equipment_category": {
+      "index": "wand",
+      "name": "Wand",
+      "url": "/api/2014/equipment-categories/wand"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wand, very rare (requires attunement by a spellcaster)",
+      "While holding this wand, you gain a +3 bonus to spell attack rolls. In addition, you ignore half cover when making a spell attack."
+    ],
+    "url": "/api/2014/magic-items/wand-of-the-war-mage-3"
+  },
+  {
+    "index": "wand-of-web",
+    "name": "Wand of Web",
+    "equipment_category": {
+      "index": "wand",
+      "name": "Wand",
+      "url": "/api/2014/equipment-categories/wand"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wand, uncommon (requires attunement by a spellcaster)",
+      "This wand has 7 charges. While holding it, you can use an action to expend 1 of its charges to cast the web spell (save DC 15) from it.",
+      "The wand regains 1d6 + 1 expended charges daily at dawn. If you expend the wand's last charge, roll a d20. On a 1, the wand crumbles into ashes and is destroyed."
+    ],
+    "url": "/api/2014/magic-items/wand-of-web"
+  },
+  {
+    "index": "wand-of-wonder",
+    "name": "Wand of Wonder",
+    "equipment_category": {
+      "index": "wand",
+      "name": "Wand",
+      "url": "/api/2014/equipment-categories/wand"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wand, rare (requires attunement by a spellcaster)",
+      "This wand has 7 charges. While holding it, you can use an action to expend 1 of its charges and choose a target within 120 feet of you. The target can be a creature, an object, or a point in space. Roll d100 and consult the following table to discover what happens.",
+      "If the effect causes you to cast a spell from the wand, the spell's save DC is 15. If the spell normally has a range expressed in feet, its range becomes 120 feet if it isn't already.",
+      "If an effect covers an area, you must center the spell on and include the target. If an effect has multiple possible subjects, the GM randomly determines which ones are affected.",
+      "The wand regains 1d6 + 1 expended charges daily at dawn. If you expend the wand's last charge, roll a d20. On a 1, the wand crumbles into dust and is destroyed.",
+      "| d100 | Effect |",
+      "|---|---|",
+      "| 01-05 | You cast slow. |",
+      "| 06-10 | You cast faerie fire. |",
+      "| 11-15 | You are stunned until the start of your next turn, believing something awesome just happened. 16-20 You cast gust of wind. |",
+      "| 21-25 | You cast detect thoughts on the target you chose. If you didn't target a creature, you instead take 1d6 psychic damage. |",
+      "| 26-30 | You cast stinking cloud. |",
+      "| 31-33 | Heavy rain falls in a 60-foot radius centered on the target. The area becomes lightly obscured. The rain falls until the start of your next turn. |",
+      "| 34-36 | An animal appears in the unoccupied space nearest the target. The animal isn't under your control and acts as it normally would. Roll a d100 to determine which animal appears. On a 01-25, a rhinoceros appears; on a 26-50, an elephant appears; and on a 51-100, a rat appears. |",
+      "| 37-46 | You cast lightning bolt. |",
+      "| 47-49 | A cloud of 600 oversized butterflies fills a 30-foot radius centered on the target. The area becomes heavily obscured. The butterflies remain for 10 minutes. |",
+      "| 50-53 | You enlarge the target as if you had cast enlarge/reduce. If the target can't be affected by that spell, or if you didn't target a creature, you become the target. |",
+      "| 54-58 | You cast darkness. |",
+      "| 59-62 | Grass grows on the ground in a 60-foot radius centered on the target. If grass is already there, it grows to ten times its normal size and remains overgrown for 1 minute. |",
+      "| 63-65 | An object of the GM's choice disappears into the Ethereal Plane. The object must be neither worn nor carried, within 120 feet of the target, and no larger than 10 feet in any dimension. |",
+      "| 66-69 | You shrink yourself as if you had cast enlarge/reduce on yourself. |",
+      "| 70-79 | You cast fireball. |",
+      "| 80-84 | You cast invisibility on yourself. |",
+      "| 85-87 | Leaves grow from the target. If you chose a point in space as the target, leaves sprout from the creature nearest to that point. Unless they are picked off, the leaves turn brown and fall off after 24 hours. |",
+      "| 88-90 | A stream of 1d4 × 10 gems, each worth 1 gp, shoots from the wand's tip in a line 30 feet long and 5 feet wide. Each gem deals 1 bludgeoning damage, and the total damage of the gems is divided equally among all creatures in the line. |",
+      "| 91-95 | A burst of colorful shimmering light extends from you in a 30-foot radius. You and each creature in the area that can see must succeed on a DC 15 Constitution saving throw or become blinded for 1 minute. A creature can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success. |",
+      "| 96-97 | The target's skin turns bright blue for 1d10 days. If you chose a point in space, the creature nearest to that point is affected. |",
+      "| 98-100 | If you targeted a creature, it must make a DC 15 Constitution saving throw. If you didn't target a creature, you become the target and must make the saving throw. If the saving throw fails by 5 or more, the target is instantly petrified. On any other failed save, the target is restrained and begins to turn to stone. While restrained in this way, the target must repeat the saving throw at the end of its next turn, becoming petrified on a failure or ending the effect on a success. The petrification lasts until the target is freed by the greater restoration spell or similar magic. |"
+    ],
+    "url": "/api/2014/magic-items/wand-of-wonder"
+  }
+]

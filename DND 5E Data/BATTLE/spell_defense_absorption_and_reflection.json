@@ -1,0 +1,269 @@
+[
+  {
+    "index": "cube-of-force",
+    "name": "Cube of Force",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, rare (requires attunement)",
+      "This cube is about an inch across. Each face has a distinct marking on it that can be pressed. The cube starts with 36 charges, and it regains 1d20 expended charges daily at dawn.",
+      "You can use an action to press one of the cube's faces, expending a number of charges based on the chosen face, as shown in the Cube of Force Faces table. Each face has a different effect. If the cube has insufficient charges remaining, nothing happens. Otherwise, a barrier of invisible force springs into existence, forming a cube 15 feet on a side. The barrier is centered on you, moves with you, and lasts for 1 minute, until you use an action to press the cube's sixth face, or the cube runs out of charges. You can change the barrier's effect by pressing a different face of the cube and expending the requisite number of charges, resetting the duration.",
+      "If your movement causes the barrier to come into contact with a solid object that can't pass through the cube, you can't move any closer to that object as long as the barrier remains.",
+      "Cube of Force Faces",
+      "| Face | Charges | Effect |",
+      "|---|---|---|",
+      "| 1 | 1 | Gases, wind, and fog can't pass through the barrier.",
+      "| 2 | 2 | Nonliving matter can't pass through the barrier. Walls, floors, and ceilings can pass through at your discretion.",
+      "| 3 | 3 | Living matter can't pass through the barrier.",
+      "| 4 | 4 | Spell effects can't pass through the barrier.",
+      "| 5 | 5 | Nothing can pass through the barrier. Walls, floors, and ceilings can pass through at your discretion.",
+      "| 6 | 0 | The barrier deactivates.",
+      "The cube loses charges when the barrier is targeted by certain spells or comes into contact with certain spell or magic item effects, as shown in the table below.",
+      "| Spell or Item | Charges Lost |",
+      "|---|---|",
+      "| Disintegrate | 1d12 |",
+      "| Horn of blasting | 1d10 |",
+      "| Passwall | 1d6 |",
+      "| Prismatic spray | 1d20 |",
+      "| Wall of fire | 1d4 |"
+    ],
+    "image": "/api/images/magic-items/cube-of-force.png",
+    "url": "/api/2014/magic-items/cube-of-force"
+  },
+  {
+    "index": "ioun-stone-of-absorption",
+    "name": "Ioun Stone of Absorption",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, very rare (requires attunement)",
+      "An Ioun stone is named after Ioun, a god of knowledge and prophecy revered on some worlds. Many types of Ioun stone exist, each type a distinct combination of shape and color.",
+      "When you use an action to toss one of these stones into the air, the stone orbits your head at a distance of 1d3 feet and confers a benefit to you. Thereafter, another creature must use an action to grasp or net the stone to separate it from you, either by making a successful attack roll against AC 24 or a successful DC 24 Dexterity (Acrobatics) check. You can use an action to seize and stow the stone, ending its effect.",
+      "A stone has AC 24, 10 hit points, and resistance to all damage. It is considered to be an object that is being worn while it orbits your head.",
+      "***Absorption.*** While this pale lavender ellipsoid orbits your head, you can use your reaction to cancel a spell of 4th level or lower cast by a creature you can see and targeting only you.",
+      "Once the stone has canceled 20 levels of spells, it burns out and turns dull gray, losing its magic. If you are targeted by a spell whose level is higher than the number of spell levels the stone has left, the stone can't cancel it."
+    ],
+    "url": "/api/2014/magic-items/ioun-stone-of-absorption"
+  },
+  {
+    "index": "ioun-stone-of-greater-absorption",
+    "name": "Ioun Stone of Greater Absorption",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, legendary (requires attunement)",
+      "An Ioun stone is named after Ioun, a god of knowledge and prophecy revered on some worlds. Many types of Ioun stone exist, each type a distinct combination of shape and color.",
+      "When you use an action to toss one of these stones into the air, the stone orbits your head at a distance of 1d3 feet and confers a benefit to you. Thereafter, another creature must use an action to grasp or net the stone to separate it from you, either by making a successful attack roll against AC 24 or a successful DC 24 Dexterity (Acrobatics) check. You can use an action to seize and stow the stone, ending its effect.",
+      "A stone has AC 24, 10 hit points, and resistance to all damage. It is considered to be an object that is being worn while it orbits your head.",
+      "***Greater Absorption.*** While this marbled lavender and green ellipsoid orbits your head, you can use your reaction to cancel a spell of 8th level or lower cast by a creature you can see and targeting only you.",
+      "Once the stone has canceled 50 levels of spells, it burns out and turns dull gray, losing its magic. If you are targeted by a spell whose level is higher than the number of spell levels the stone has left, the stone can't cancel it."
+    ],
+    "url": "/api/2014/magic-items/ioun-stone-of-greater-absorption"
+  },
+  {
+    "index": "mantle-of-spell-resistance",
+    "name": "Mantle of Spell Resistance",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, rare (requires attunement)",
+      "You have advantage on saving throws against spells while you wear this cloak."
+    ],
+    "url": "/api/2014/magic-items/mantle-of-spell-resistance"
+  },
+  {
+    "index": "ring-of-spell-turning",
+    "name": "Ring of Spell Turning",
+    "equipment_category": {
+      "index": "ring",
+      "name": "Ring",
+      "url": "/api/2014/equipment-categories/ring"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Ring, legendary (requires attunement)",
+      "While wearing this ring, you have advantage on saving throws against any spell that targets only you (not in an area of effect). In addition, if you roll a 20 for the save and the spell is 7th level or lower, the spell has no effect on you and instead targets the caster, using the slot level, spell save DC, attack bonus, and spellcasting ability of the caster."
+    ],
+    "url": "/api/2014/magic-items/ring-of-spell-turning"
+  },
+  {
+    "index": "robe-of-the-archmagi",
+    "name": "Robe of the Archmagi",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, legendary (requires attunement by a sorcerer, warlock, or wizard)",
+      "This elegant garment is made from exquisite cloth of white, gray, or black and adorned with silvery runes. The robe's color corresponds to the alignment for which the item was created. A white robe was made for good, gray for neutral, and black for evil. You can't attune to a robe of the archmagi that doesn't correspond to your alignment.",
+      "You gain these benefits while wearing the robe:",
+      "If you aren't wearing armor, your base Armor Class is 15 + your Dexterity modifier.",
+      "You have advantage on saving throws against spells and other magical effects.",
+      "Your spell save DC and spell attack bonus each increase by 2."
+    ],
+    "url": "/api/2014/magic-items/robe-of-the-archmagi"
+  },
+  {
+    "index": "rod-of-absorption",
+    "name": "Rod of Absorption",
+    "equipment_category": {
+      "index": "rod",
+      "name": "Rod",
+      "url": "/api/2014/equipment-categories/rod"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Rod, very rare (requires attunement)",
+      "While holding this rod, you can use your reaction to absorb a spell that is targeting only you and not with an area of effect. The absorbed spell's effect is canceled, and the spell's energy-not the spell itself-is stored in the rod. The energy has the same level as the spell when it was cast. The rod can absorb and store up to 50 levels of energy over the course of its existence. Once the rod absorbs 50 levels of energy, it can't absorb more. If you are targeted by a spell that the rod can't store, the rod has no effect on that spell.",
+      "When you become attuned to the rod, you know how many levels of energy the rod has absorbed over the course of its existence, and how many levels of spell energy it currently has stored.",
+      "If you are a spellcaster holding the rod, you can convert energy stored in it into spell slots to cast spells you have prepared or know. You can create spell slots only of a level equal to or lower than your own spell slots, up to a maximum of 5th level. You use the stored levels in place of your slots, but otherwise cast the spell as normal. For example, you can use 3 levels stored in the rod as a 3rd-level spell slot.",
+      "A newly found rod has 1d10 levels of spell energy stored in it already. A rod that can no longer absorb spell energy and has no energy remaining becomes nonmagical."
+    ],
+    "url": "/api/2014/magic-items/rod-of-absorption"
+  },
+  {
+    "index": "scarab-of-protection",
+    "name": "Scarab of Protection",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, legendary (requires attunement)",
+      "If you hold this beetle-shaped medallion in your hand for 1 round, an inscription appears on its surface revealing its magical nature. It provides two benefits while it is on your person:",
+      "You have advantage on saving throws against spells.",
+      "The scarab has 12 charges. If you fail a saving throw against a necromancy spell or a harmful effect originating from an undead creature, you can use your reaction to expend 1 charge and turn the failed save into a successful one. The scarab crumbles into powder and is destroyed when its last charge is expended."
+    ],
+    "url": "/api/2014/magic-items/scarab-of-protection"
+  },
+  {
+    "index": "spellguard-shield",
+    "name": "Spellguard Shield",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Armor (shield), very rare (requires attunement)",
+      "While holding this shield, you have advantage on saving throws against spells and other magical effects, and spell attacks have disadvantage against you."
+    ],
+    "url": "/api/2014/magic-items/spellguard-shield"
+  },
+  {
+    "index": "staff-of-power",
+    "name": "Staff of Power",
+    "equipment_category": {
+      "index": "staff",
+      "name": "Staff",
+      "url": "/api/2014/equipment-categories/staff"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Staff, very rare (requires attunement by a sorcerer, warlock, or wizard)",
+      "This staff can be wielded as a magic quarterstaff that grants a +2 bonus to attack and damage rolls made with it. While holding it, you gain a +2 bonus to Armor Class, saving throws, and spell attack rolls.",
+      "The staff has 20 charges for the following properties. The staff regains 2d8 + 4 expended charges daily at dawn. If you expend the last charge, roll a d20. On a 1, the staff retains its +2 bonus to attack and damage rolls but loses all other properties. On a 20, the staff regains 1d8 + 2 charges.",
+      "***Power Strike.*** When you hit with a melee attack using the staff, you can expend 1 charge to deal an extra 1d6 force damage to the target.",
+      "***Spells.*** While holding this staff, you can use an action to expend 1 or more of its charges to cast one of the following spells from it, using your spell save DC and spell attack bonus: cone of cold (5 charges), fireball (5th-level version, 5 charges), globe of invulnerability (6 charges), hold monster (5 charges), levitate (2 charges), lightning bolt (5th-level version, 5 charges), magic missile (1 charge), ray of enfeeblement (1 charge), or wall of force (5 charges).",
+      "***Retributive Strike.*** You can use an action to break the staff over your knee or against a solid surface, performing a retributive strike. The staff is destroyed and releases its remaining magic in an explosion that expands to fill a 30-foot-radius sphere centered on it.",
+      "You have a 50 percent chance to instantly travel to a random plane of existence, avoiding the explosion. If you fail to avoid the effect, you take force damage equal to 16 × the number of charges in the staff. Every other creature in the area must make a DC 17 Dexterity saving throw. On a failed save, a creature takes an amount of damage based on how far away it is from the point of origin, as shown in the following table. On a successful save, a creature takes half as much damage.",
+      "| Distance from Origin | Damage |",
+      "|---|---|",
+      "| 10 ft. away or closer | 8 × the number of charges in the staff |",
+      "| 11 to 20 ft. away | 6 × the number of charges in the staff |",
+      "| 21 to 30 ft. away | 4 × the number of charges in the staff |"
+    ],
+    "url": "/api/2014/magic-items/staff-of-power"
+  },
+  {
+    "index": "staff-of-the-magi",
+    "name": "Staff of the Magi",
+    "equipment_category": {
+      "index": "staff",
+      "name": "Staff",
+      "url": "/api/2014/equipment-categories/staff"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Staff, legendary (requires attunement by a sorcerer, warlock, or wizard)",
+      "This staff can be wielded as a magic quarterstaff that grants a +2 bonus to attack and damage rolls made with it. While you hold it, you gain a +2 bonus to spell attack rolls.",
+      "The staff has 50 charges for the following properties. It regains 4d6 + 2 expended charges daily at dawn. If you expend the last charge, roll a d20. On a 20, the staff regains 1d12 + 1 charges.",
+      "***Spell Absorption.*** While holding the staff, you have advantage on saving throws against spells. In addition, you can use your reaction when another creature casts a spell that targets only you. If you do, the staff absorbs the magic of the spell, canceling its effect and gaining a number of charges equal to the absorbed spell's level. However, if doing so brings the staff's total number of charges above 50, the staff explodes as if you activated its retributive strike (see below).",
+      "***Spells.*** While holding the staff, you can use an action to expend some of its charges to cast one of the following spells from it, using your spell save DC and spellcasting ability: conjure elemental (7 charges), dispel magic (3 charges), fireball (7th-level version, 7 charges), flaming sphere (2 charges), ice storm (4 charges), invisibility (2 charges), knock (2 charges), lightning bolt (7th-level version, 7 charges), passwall (5 charges), plane shift (7 charges), telekinesis (5 charges), wall of fire (4 charges), or web (2 charges).",
+      "You can also use an action to cast one of the following spells from the staff without using any charges: arcane lock, detect magic, enlarge/reduce, light, mage hand, or protection from evil and good.",
+      "***Retributive Strike.*** You can use an action to break the staff over your knee or against a solid surface, performing a retributive strike. The staff is destroyed and releases its remaining magic in an explosion that expands to fill a 30-foot-radius sphere centered on it.",
+      "You have a 50 percent chance to instantly travel to a random plane of existence, avoiding the explosion. If you fail to avoid the effect, you take force damage equal to 16 × the number of charges in the staff. Every other creature in the area must make a DC 17 Dexterity saving throw. On a failed save, a creature takes an amount of damage based on how far away it is from the point of origin, as shown in the following table. On a successful save, a creature takes half as much damage.",
+      "| Distance from Origin | Damage |",
+      "|---|---|",
+      "| 10 ft. away or closer | 8 × the number of charges in the staff |",
+      "| 11 to 20 ft. away | 6 × the number of charges in the staff |",
+      "| 21 to 30 ft. away | 4 × the number of charges in the staff |"
+    ],
+    "url": "/api/2014/magic-items/staff-of-the-magi"
+  }
+]

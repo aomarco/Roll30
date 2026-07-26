@@ -1,0 +1,81 @@
+[
+  {
+    "index": "animated-shield",
+    "name": "Animated Shield",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Armor (shield), very rare (requires attunement)",
+      "While holding this shield, you can speak its command word as a bonus action to cause it to animate. The shield leaps into the air and hovers in your space to protect you as if you were wielding it, leaving your hands free. The shield remains animated for 1 minute, until you use a bonus action to end this effect, or until you are incapacitated or die, at which point the shield falls to the ground or into your hand if you have one free."
+    ],
+    "image": "/api/images/magic-items/animated-shield.png",
+    "url": "/api/2014/magic-items/animated-shield"
+  },
+  {
+    "index": "arrow-catching-shield",
+    "name": "Arrow-Catching Shield",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Armor (shield), rare (requires attunement)",
+      "You gain a +2 bonus to AC against ranged attacks while you wield this shield. This bonus is in addition to the shield's normal bonus to AC. In addition, whenever an attacker makes a ranged attack against a target within 5 feet of you, you can use your reaction to become the target of the attack instead."
+    ],
+    "image": "/api/images/magic-items/arrow-catching-shield.png",
+    "url": "/api/2014/magic-items/arrow-catching-shield"
+  },
+  {
+    "index": "shield-of-missile-attraction",
+    "name": "Shield of Missile Attraction",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Armor (shield), rare (requires attunement)",
+      "While holding this shield, you have resistance to damage from ranged weapon attacks.",
+      "***Curse.*** This shield is cursed. Attuning to it curses you until you are targeted by the remove curse spell or similar magic. Removing the shield fails to end the curse on you. Whenever a ranged weapon attack is made against a target within 10 feet of you, the curse causes you to become the target instead."
+    ],
+    "url": "/api/2014/magic-items/shield-of-missile-attraction"
+  },
+  {
+    "index": "spellguard-shield",
+    "name": "Spellguard Shield",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Armor (shield), very rare (requires attunement)",
+      "While holding this shield, you have advantage on saving throws against spells and other magical effects, and spell attacks have disadvantage against you."
+    ],
+    "url": "/api/2014/magic-items/spellguard-shield"
+  }
+]

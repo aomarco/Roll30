@@ -1,0 +1,102 @@
+[
+  {
+    "index": "armor-of-invulnerability",
+    "name": "Armor of Invulnerability",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Armor (plate), legendary (requires attunement)",
+      "You have resistance to nonmagical damage while you wear this armor. Additionally, you can use an action to make yourself immune to nonmagical damage for 10 minutes or until you are no longer wearing the armor. Once this special action is used, it can't be used again until the next dawn."
+    ],
+    "image": "/api/images/magic-items/armor-of-invulnerability.png",
+    "url": "/api/2014/magic-items/armor-of-invulnerability"
+  },
+  {
+    "index": "ioun-stone-of-regeneration",
+    "name": "Ioun Stone of Regeneration",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, legendary (requires attunement)",
+      "An Ioun stone is named after Ioun, a god of knowledge and prophecy revered on some worlds. Many types of Ioun stone exist, each type a distinct combination of shape and color.",
+      "When you use an action to toss one of these stones into the air, the stone orbits your head at a distance of 1d3 feet and confers a benefit to you. Thereafter, another creature must use an action to grasp or net the stone to separate it from you, either by making a successful attack roll against AC 24 or a successful DC 24 Dexterity (Acrobatics) check. You can use an action to seize and stow the stone, ending its effect.",
+      "A stone has AC 24, 10 hit points, and resistance to all damage. It is considered to be an object that is being worn while it orbits your head.",
+      "***Regeneration.*** You regain 15 hit points at the end of each hour this pearly white spindle orbits your head, provided that you have at least 1 hit point."
+    ],
+    "url": "/api/2014/magic-items/ioun-stone-of-regeneration"
+  },
+  {
+    "index": "nine-lives-stealer",
+    "name": "Nine Lives Stealer",
+    "equipment_category": {
+      "index": "weapon",
+      "name": "Weapon",
+      "url": "/api/2014/equipment-categories/weapon"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Weapon (any sword), very rare (requires attunement)",
+      "You gain a +2 bonus to attack and damage rolls made with this magic weapon.",
+      "The sword has 1d8 + 1 charges. If you score a critical hit against a creature that has fewer than 100 hit points, it must succeed on a DC 15 Constitution saving throw or be slain instantly as the sword tears its life force from its body (a construct or an undead is immune). The sword loses 1 charge if the creature is slain. When the sword has no charges remaining, it loses this property."
+    ],
+    "url": "/api/2014/magic-items/nine-lives-stealer"
+  },
+  {
+    "index": "periapt-of-wound-closure",
+    "name": "Periapt of Wound Closure",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, uncommon (requires attunement)",
+      "While you wear this pendant, you stabilize whenever you are dying at the start of your turn. In addition, whenever you roll a Hit Die to regain hit points, double the number of hit points it restores."
+    ],
+    "url": "/api/2014/magic-items/periapt-of-wound-closure"
+  },
+  {
+    "index": "ring-of-regeneration",
+    "name": "Ring of Regeneration",
+    "equipment_category": {
+      "index": "ring",
+      "name": "Ring",
+      "url": "/api/2014/equipment-categories/ring"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Ring, very rare (requires attunement)",
+      "While wearing this ring, you regain 1d6 hit points every 10 minutes, provided that you have at least 1 hit point. If you lose a body part, the ring causes the missing part to regrow and return to full functionality after 1d6 + 1 days if you have at least 1 hit point the whole time."
+    ],
+    "url": "/api/2014/magic-items/ring-of-regeneration"
+  }
+]

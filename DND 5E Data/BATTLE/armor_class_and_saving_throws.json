@@ -1,0 +1,1051 @@
+[
+  {
+    "index": "adamantine-armor",
+    "name": "Adamantine Armor",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Armor (medium or heavy, but not hide), uncommon",
+      "This suit of armor is reinforced with adamantine, one of the hardest substances in existence. While you're wearing it, any critical hit against you becomes a normal hit."
+    ],
+    "image": "/api/images/magic-items/adamantine-armor.png",
+    "url": "/api/2014/magic-items/adamantine-armor"
+  },
+  {
+    "index": "animated-shield",
+    "name": "Animated Shield",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Armor (shield), very rare (requires attunement)",
+      "While holding this shield, you can speak its command word as a bonus action to cause it to animate. The shield leaps into the air and hovers in your space to protect you as if you were wielding it, leaving your hands free. The shield remains animated for 1 minute, until you use a bonus action to end this effect, or until you are incapacitated or die, at which point the shield falls to the ground or into your hand if you have one free."
+    ],
+    "image": "/api/images/magic-items/animated-shield.png",
+    "url": "/api/2014/magic-items/animated-shield"
+  },
+  {
+    "index": "armor",
+    "name": "Armor, +1, +2, or +3",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Varies"
+    },
+    "variants": [
+      {
+        "index": "armor-1",
+        "name": "Armor, +1",
+        "url": "/api/2014/magic-items/armor-1"
+      },
+      {
+        "index": "armor-2",
+        "name": "Armor, +2",
+        "url": "/api/2014/magic-items/armor-2"
+      },
+      {
+        "index": "armor-3",
+        "name": "Armor, +3",
+        "url": "/api/2014/magic-items/armor-3"
+      }
+    ],
+    "variant": false,
+    "desc": [
+      "Armor (light, medium, or heavy), rare (+1), very rare (+2), or legendary (+3)",
+      "You have a bonus to AC while wearing this armor. The bonus is determined by its rarity."
+    ],
+    "image": "/api/images/magic-items/armor.png",
+    "url": "/api/2014/magic-items/armor"
+  },
+  {
+    "index": "armor-1",
+    "name": "Armor, +1",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Armor (light, medium, or heavy), rare",
+      "You have a +1 bonus to AC while wearing this armor."
+    ],
+    "image": "/api/images/magic-items/armor.png",
+    "url": "/api/2014/magic-items/armor-1"
+  },
+  {
+    "index": "armor-2",
+    "name": "Armor, +2",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Armor (light, medium, or heavy), very rare",
+      "You have a +2 bonus to AC while wearing this armor."
+    ],
+    "image": "/api/images/magic-items/armor-2.png",
+    "url": "/api/2014/magic-items/armor-2"
+  },
+  {
+    "index": "armor-3",
+    "name": "Armor, +3",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Armor (light, medium, or heavy), legendary",
+      "You have a +3 bonus to AC while wearing this armor."
+    ],
+    "image": "/api/images/magic-items/armor-3.png",
+    "url": "/api/2014/magic-items/armor-3"
+  },
+  {
+    "index": "armor-of-invulnerability",
+    "name": "Armor of Invulnerability",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Armor (plate), legendary (requires attunement)",
+      "You have resistance to nonmagical damage while you wear this armor. Additionally, you can use an action to make yourself immune to nonmagical damage for 10 minutes or until you are no longer wearing the armor. Once this special action is used, it can't be used again until the next dawn."
+    ],
+    "image": "/api/images/magic-items/armor-of-invulnerability.png",
+    "url": "/api/2014/magic-items/armor-of-invulnerability"
+  },
+  {
+    "index": "armor-of-resistance",
+    "name": "Armor of Resistance",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Armor (light, medium, or heavy), rare (requires attunement)",
+      "You have resistance to one type of damage while you wear this armor. The GM chooses the type or determines it randomly from the options below.",
+      "| d10 | Damage Type |",
+      "|---|---|",
+      "| 1 | Acid |",
+      "| 2 | Cold |",
+      "| 3 | Fire |",
+      "| 4 | Force |",
+      "| 5 | Lightning |",
+      "| 6 | Necrotic |",
+      "| 7 | Poison |",
+      "| 8 | Psychic |",
+      "| 9 | Radiant |",
+      "| 10 | Thunder |"
+    ],
+    "image": "/api/images/magic-items/armor-of-resistance.png",
+    "url": "/api/2014/magic-items/armor-of-resistance"
+  },
+  {
+    "index": "armor-of-vulnerability",
+    "name": "Armor of Vulnerability",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Armor (plate), rare (requires attunement)",
+      "While wearing this armor, you have resistance to  one of the following damage types: bludgeoning, piercing, or slashing. The GM chooses the type or determines it randomly.",
+      "***Curse.*** This armor is cursed, a fact that is revealed only when an identify spell is cast on the armor or you attune to it. Attuning to the armor curses you until you are targeted by the remove curse spell or similar magic; removing the armor fails to end the curse. While cursed, you have vulnerability to two of the three damage types associated with the armor (not the one to which it grants resistance)."
+    ],
+    "image": "/api/images/magic-items/armor-of-vulnerability.png",
+    "url": "/api/2014/magic-items/armor-of-vulnerability"
+  },
+  {
+    "index": "arrow-catching-shield",
+    "name": "Arrow-Catching Shield",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Armor (shield), rare (requires attunement)",
+      "You gain a +2 bonus to AC against ranged attacks while you wield this shield. This bonus is in addition to the shield's normal bonus to AC. In addition, whenever an attacker makes a ranged attack against a target within 5 feet of you, you can use your reaction to become the target of the attack instead."
+    ],
+    "image": "/api/images/magic-items/arrow-catching-shield.png",
+    "url": "/api/2014/magic-items/arrow-catching-shield"
+  },
+  {
+    "index": "bracers-of-defense",
+    "name": "Bracers of Defense",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondous item, rare (requires attunement)",
+      "While wearing these bracers, you gain a +2 bonus to AC if you are wearing no armor and using no shield."
+    ],
+    "image": "/api/images/magic-items/bracers-of-defense.png",
+    "url": "/api/2014/magic-items/bracers-of-defense"
+  },
+  {
+    "index": "cloak-of-protection",
+    "name": "Cloak of Protection",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, uncommon (requires attunement)",
+      "You gain a +1 bonus to AC and saving throws while you wear this cloak."
+    ],
+    "image": "/api/images/magic-items/cloak-of-protection.png",
+    "url": "/api/2014/magic-items/cloak-of-protection"
+  },
+  {
+    "index": "defender",
+    "name": "Defender",
+    "equipment_category": {
+      "index": "weapon",
+      "name": "Weapon",
+      "url": "/api/2014/equipment-categories/weapon"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Weapon (any sword), legendary (requires attunement)",
+      "You gain a +3 bonus to attack and damage rolls made with this magic weapon.",
+      "The first time you attack with the sword on each of your turns, you can transfer some or all of the sword's bonus to your Armor Class, instead of using the bonus on any attacks that turn. For example, you could reduce the bonus to your attack and damage rolls to +1 and gain a +2 bonus to AC. The adjusted bonuses remain in effect until the start of your next turn, although you must hold the sword to gain a bonus to AC from it."
+    ],
+    "image": "/api/images/magic-items/defender.png",
+    "url": "/api/2014/magic-items/defender"
+  },
+  {
+    "index": "demon-armor",
+    "name": "Demon Armor",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Armor (plate), very rare (requires attunement)",
+      "While wearing this armor, you gain a +1 bonus to AC, and you can understand and speak Abyssal. In addition, the armor's clawed gauntlets turn unarmed strikes with your hands into magic weapons that deal slashing damage, with a +1 bonus to attack rolls and damage rolls and a damage die of 1d8.",
+      "***Curse.*** Once you don this cursed armor, you can't doff it unless you are targeted by the remove curse spell or similar magic. While wearing the armor, you have disadvantage on attack rolls against demons and on saving throws against their spells and special abilities."
+    ],
+    "image": "/api/images/magic-items/demon-armor.png",
+    "url": "/api/2014/magic-items/demon-armor"
+  },
+  {
+    "index": "dragon-scale-mail",
+    "name": "Dragon Scale Mail",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [
+      {
+        "index": "dragon-scale-mail-black",
+        "name": "Black Dragon Scale Mail",
+        "url": "/api/2014/magic-items/dragon-scale-mail-black"
+      },
+      {
+        "index": "dragon-scale-mail-blue",
+        "name": "Blue Dragon Scale Mail",
+        "url": "/api/2014/magic-items/dragon-scale-mail-blue"
+      },
+      {
+        "index": "dragon-scale-mail-brass",
+        "name": "Brass Dragon Scale Mail",
+        "url": "/api/2014/magic-items/dragon-scale-mail-brass"
+      },
+      {
+        "index": "dragon-scale-mail-bronze",
+        "name": "Bronze Dragon Scale Mail",
+        "url": "/api/2014/magic-items/dragon-scale-mail-bronze"
+      },
+      {
+        "index": "dragon-scale-mail-copper",
+        "name": "Copper Dragon Scale Mail",
+        "url": "/api/2014/magic-items/dragon-scale-mail-copper"
+      },
+      {
+        "index": "dragon-scale-mail-gold",
+        "name": "Gold Dragon Scale Mail",
+        "url": "/api/2014/magic-items/dragon-scale-mail-gold"
+      },
+      {
+        "index": "dragon-scale-mail-green",
+        "name": "Green Dragon Scale Mail",
+        "url": "/api/2014/magic-items/dragon-scale-mail-green"
+      },
+      {
+        "index": "dragon-scale-mail-red",
+        "name": "Red Dragon Scale Mail",
+        "url": "/api/2014/magic-items/dragon-scale-mail-red"
+      },
+      {
+        "index": "dragon-scale-mail-silver",
+        "name": "Silver Dragon Scale Mail",
+        "url": "/api/2014/magic-items/dragon-scale-mail-silver"
+      },
+      {
+        "index": "dragon-scale-mail-white",
+        "name": "White Dragon Scale Mail",
+        "url": "/api/2014/magic-items/dragon-scale-mail-white"
+      }
+    ],
+    "variant": false,
+    "desc": [
+      "Armor (scale mail), very rare (requires attunement)",
+      "Dragon scale mail is made of the scales of one kind of dragon. Sometimes dragons collect their cast-off scales and gift them to humanoids. Other times, hunters carefully skin and preserve the hide of a dead dragon. In either case, dragon scale mail is highly valued.",
+      "While wearing this armor, you gain a +1 bonus to AC, you have advantage on saving throws against the Frightful Presence and breath weapons of dragons, and you have resistance to one damage type that is determined by the kind of dragon that provided the scales (see the table).",
+      "Additionally, you can focus your senses as an action to magically discern the distance and direction to the closest dragon within 30 miles of you that is of the same type as the armor. This special action can't be used again until the next dawn.",
+      "| Dragon | Resistance |",
+      "|---|---|",
+      "| Black | Acid |",
+      "| Blue | Lightning |",
+      "| Brass | Fire |",
+      "| Bronze | Lightning |",
+      "| Copper | Acid |",
+      "| Gold | Fire |",
+      "| Green | Poison |",
+      "| Red | Fire |",
+      "| Silver | Cold |",
+      "| White | Cold |"
+    ],
+    "image": "/api/images/magic-items/dragon-scale-mail.png",
+    "url": "/api/2014/magic-items/dragon-scale-mail"
+  },
+  {
+    "index": "dragon-scale-mail-black",
+    "name": "Black Dragon Scale Mail",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Armor (scale mail), very rare (requires attunement)",
+      "Dragon scale mail is made of the scales of a black dragon. Sometimes dragons collect their cast-off scales and gift them to humanoids. Other times, hunters carefully skin and preserve the hide of a dead dragon. In either case, dragon scale mail is highly valued.",
+      "While wearing this armor, you gain a +1 bonus to AC, you have advantage on saving throws against the Frightful Presence and breath weapons of dragons, and you have resistance to acid damage.",
+      "Additionally, you can focus your senses as an action to magically discern the distance and direction to the closest black dragon within 30 miles of you. This special action can't be used again until the next dawn."
+    ],
+    "image": "/api/images/magic-items/dragon-scale-mail-black.png",
+    "url": "/api/2014/magic-items/dragon-scale-mail-black"
+  },
+  {
+    "index": "dragon-scale-mail-blue",
+    "name": "Blue Dragon Scale Mail",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Armor (scale mail), very rare (requires attunement)",
+      "Dragon scale mail is made of the scales of a blue dragon. Sometimes dragons collect their cast-off scales and gift them to humanoids. Other times, hunters carefully skin and preserve the hide of a dead dragon. In either case, dragon scale mail is highly valued.",
+      "While wearing this armor, you gain a +1 bonus to AC, you have advantage on saving throws against the Frightful Presence and breath weapons of dragons, and you have resistance to lightning damage.",
+      "Additionally, you can focus your senses as an action to magically discern the distance and direction to the closest blue dragon within 30 miles of you. This special action can't be used again until the next dawn."
+    ],
+    "image": "/api/images/magic-items/dragon-scale-mail-blue.png",
+    "url": "/api/2014/magic-items/dragon-scale-mail-blue"
+  },
+  {
+    "index": "dragon-scale-mail-brass",
+    "name": "Brass Dragon Scale Mail",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Armor (scale mail), very rare (requires attunement)",
+      "Dragon scale mail is made of the scales of a brass dragon. Sometimes dragons collect their cast-off scales and gift them to humanoids. Other times, hunters carefully skin and preserve the hide of a dead dragon. In either case, dragon scale mail is highly valued.",
+      "While wearing this armor, you gain a +1 bonus to AC, you have advantage on saving throws against the Frightful Presence and breath weapons of dragons, and you have resistance to fire damage.",
+      "Additionally, you can focus your senses as an action to magically discern the distance and direction to the closest brass dragon within 30 miles of you. This special action can't be used again until the next dawn."
+    ],
+    "image": "/api/images/magic-items/dragon-scale-mail-brass.png",
+    "url": "/api/2014/magic-items/dragon-scale-mail-brass"
+  },
+  {
+    "index": "dragon-scale-mail-bronze",
+    "name": "Bronze Dragon Scale Mail",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Armor (scale mail), very rare (requires attunement)",
+      "Dragon scale mail is made of the scales of a bronze dragon. Sometimes dragons collect their cast-off scales and gift them to humanoids. Other times, hunters carefully skin and preserve the hide of a dead dragon. In either case, dragon scale mail is highly valued.",
+      "While wearing this armor, you gain a +1 bonus to AC, you have advantage on saving throws against the Frightful Presence and breath weapons of dragons, and you have resistance to lightning damage.",
+      "Additionally, you can focus your senses as an action to magically discern the distance and direction to the closest bronze dragon within 30 miles of you. This special action can't be used again until the next dawn."
+    ],
+    "image": "/api/images/magic-items/dragon-scale-mail-bronze.png",
+    "url": "/api/2014/magic-items/dragon-scale-mail-bronze"
+  },
+  {
+    "index": "dragon-scale-mail-copper",
+    "name": "Copper Dragon Scale Mail",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Armor (scale mail), very rare (requires attunement)",
+      "Dragon scale mail is made of the scales of a copper dragon. Sometimes dragons collect their cast-off scales and gift them to humanoids. Other times, hunters carefully skin and preserve the hide of a dead dragon. In either case, dragon scale mail is highly valued.",
+      "While wearing this armor, you gain a +1 bonus to AC, you have advantage on saving throws against the Frightful Presence and breath weapons of dragons, and you have resistance to acid damage.",
+      "Additionally, you can focus your senses as an action to magically discern the distance and direction to the closest copper dragon within 30 miles of you. This special action can't be used again until the next dawn."
+    ],
+    "image": "/api/images/magic-items/dragon-scale-mail-copper.png",
+    "url": "/api/2014/magic-items/dragon-scale-mail-copper"
+  },
+  {
+    "index": "dragon-scale-mail-gold",
+    "name": "Gold Dragon Scale Mail",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Armor (scale mail), very rare (requires attunement)",
+      "Dragon scale mail is made of the scales of a gold dragon. Sometimes dragons collect their cast-off scales and gift them to humanoids. Other times, hunters carefully skin and preserve the hide of a dead dragon. In either case, dragon scale mail is highly valued.",
+      "While wearing this armor, you gain a +1 bonus to AC, you have advantage on saving throws against the Frightful Presence and breath weapons of dragons, and you have resistance to fire damage.",
+      "Additionally, you can focus your senses as an action to magically discern the distance and direction to the closest gold dragon within 30 miles of you. This special action can't be used again until the next dawn."
+    ],
+    "image": "/api/images/magic-items/dragon-scale-mail-gold.png",
+    "url": "/api/2014/magic-items/dragon-scale-mail-gold"
+  },
+  {
+    "index": "dragon-scale-mail-green",
+    "name": "Green Dragon Scale Mail",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Armor (scale mail), very rare (requires attunement)",
+      "Dragon scale mail is made of the scales of a green dragon. Sometimes dragons collect their cast-off scales and gift them to humanoids. Other times, hunters carefully skin and preserve the hide of a dead dragon. In either case, dragon scale mail is highly valued.",
+      "While wearing this armor, you gain a +1 bonus to AC, you have advantage on saving throws against the Frightful Presence and breath weapons of dragons, and you have resistance to poison damage.",
+      "Additionally, you can focus your senses as an action to magically discern the distance and direction to the closest green dragon within 30 miles of you. This special action can't be used again until the next dawn."
+    ],
+    "image": "/api/images/magic-items/dragon-scale-mail-green.png",
+    "url": "/api/2014/magic-items/dragon-scale-mail-green"
+  },
+  {
+    "index": "dragon-scale-mail-red",
+    "name": "Red Dragon Scale Mail",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Armor (scale mail), very rare (requires attunement)",
+      "Dragon scale mail is made of the scales of a red dragon. Sometimes dragons collect their cast-off scales and gift them to humanoids. Other times, hunters carefully skin and preserve the hide of a dead dragon. In either case, dragon scale mail is highly valued.",
+      "While wearing this armor, you gain a +1 bonus to AC, you have advantage on saving throws against the Frightful Presence and breath weapons of dragons, and you have resistance to fire damage.",
+      "Additionally, you can focus your senses as an action to magically discern the distance and direction to the closest red dragon within 30 miles of you. This special action can't be used again until the next dawn."
+    ],
+    "image": "/api/images/magic-items/dragon-scale-mail-red.png",
+    "url": "/api/2014/magic-items/dragon-scale-mail-red"
+  },
+  {
+    "index": "dragon-scale-mail-silver",
+    "name": "Silver Dragon Scale Mail",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Armor (scale mail), very rare (requires attunement)",
+      "Dragon scale mail is made of the scales of a silver dragon. Sometimes dragons collect their cast-off scales and gift them to humanoids. Other times, hunters carefully skin and preserve the hide of a dead dragon. In either case, dragon scale mail is highly valued.",
+      "While wearing this armor, you gain a +1 bonus to AC, you have advantage on saving throws against the Frightful Presence and breath weapons of dragons, and you have resistance to cold damage.",
+      "Additionally, you can focus your senses as an action to magically discern the distance and direction to the closest silver dragon within 30 miles of you. This special action can't be used again until the next dawn."
+    ],
+    "image": "/api/images/magic-items/dragon-scale-mail-silver.png",
+    "url": "/api/2014/magic-items/dragon-scale-mail-silver"
+  },
+  {
+    "index": "dragon-scale-mail-white",
+    "name": "White Dragon Scale Mail",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Armor (scale mail), very rare (requires attunement)",
+      "Dragon scale mail is made of the scales of a white dragon. Sometimes dragons collect their cast-off scales and gift them to humanoids. Other times, hunters carefully skin and preserve the hide of a dead dragon. In either case, dragon scale mail is highly valued.",
+      "While wearing this armor, you gain a +1 bonus to AC, you have advantage on saving throws against the Frightful Presence and breath weapons of dragons, and you have resistance to cold damage.",
+      "Additionally, you can focus your senses as an action to magically discern the distance and direction to the closest white dragon within 30 miles of you. This special action can't be used again until the next dawn."
+    ],
+    "image": "/api/images/magic-items/dragon-scale-mail-white.png",
+    "url": "/api/2014/magic-items/dragon-scale-mail-white"
+  },
+  {
+    "index": "dwarven-plate",
+    "name": "Dwarven Plate",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Armor (plate), very rare",
+      "While wearing this armor, you gain a +2 bonus to AC. In addition, if an effect moves you against your will along the ground, you can use your reaction to reduce the distance you are moved by up to 10 feet."
+    ],
+    "image": "/api/images/magic-items/dwarven-plate.png",
+    "url": "/api/2014/magic-items/dwarven-plate"
+  },
+  {
+    "index": "elven-chain",
+    "name": "Elven Chain",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Armor (chain shirt), rare",
+      "You gain a +1 bonus to AC while you wear this armor. You are considered proficient with this armor even if you lack proficiency with medium armor."
+    ],
+    "url": "/api/2014/magic-items/elven-chain"
+  },
+  {
+    "index": "glamoured-studded-leather-armor",
+    "name": "Glamoured Studded Leather Armor",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Armor (studded leather), rare",
+      "While wearing this armor, you gain a +1 bonus to AC. You can also use a bonus action to speak the armor's command word and cause the armor to assume the appearance of a normal set of clothing or some other kind of armor. You decide what it looks like, including color, style, and accessories, but the armor retains its normal bulk and weight. The illusory appearance lasts until you use this property again or remove the armor."
+    ],
+    "url": "/api/2014/magic-items/glamoured-studded-leather-armor"
+  },
+  {
+    "index": "ioun-stone",
+    "name": "Ioun Stone",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Varies"
+    },
+    "variants": [
+      {
+        "index": "ioun-stone-of-absorption",
+        "name": "Ioun Stone of Absorption",
+        "url": "/api/2014/magic-items/ioun-stone-of-absorption"
+      },
+      {
+        "index": "ioun-stone-of-agility",
+        "name": "Ioun Stone of Agility",
+        "url": "/api/2014/magic-items/ioun-stone-of-agility"
+      },
+      {
+        "index": "ioun-stone-of-awareness",
+        "name": "Ioun Stone of Awareness",
+        "url": "/api/2014/magic-items/ioun-stone-of-awareness"
+      },
+      {
+        "index": "ioun-stone-of-fortitude",
+        "name": "Ioun Stone of Fortitude",
+        "url": "/api/2014/magic-items/ioun-stone-of-fortitude"
+      },
+      {
+        "index": "ioun-stone-of-greater-absorption",
+        "name": "Ioun Stone of Greater Absorption",
+        "url": "/api/2014/magic-items/ioun-stone-of-greater-absorption"
+      },
+      {
+        "index": "ioun-stone-of-insight",
+        "name": "Ioun Stone of Insight",
+        "url": "/api/2014/magic-items/ioun-stone-of-insight"
+      },
+      {
+        "index": "ioun-stone-of-intellect",
+        "name": "Ioun Stone of Intellect",
+        "url": "/api/2014/magic-items/ioun-stone-of-intellect"
+      },
+      {
+        "index": "ioun-stone-of-leadership",
+        "name": "Ioun Stone of Leadership",
+        "url": "/api/2014/magic-items/ioun-stone-of-leadership"
+      },
+      {
+        "index": "ioun-stone-of-mastery",
+        "name": "Ioun Stone of Mastery",
+        "url": "/api/2014/magic-items/ioun-stone-of-mastery"
+      },
+      {
+        "index": "ioun-stone-of-protection",
+        "name": "Ioun Stone of Protection",
+        "url": "/api/2014/magic-items/ioun-stone-of-protection"
+      },
+      {
+        "index": "ioun-stone-of-regeneration",
+        "name": "Ioun Stone of Regeneration",
+        "url": "/api/2014/magic-items/ioun-stone-of-regeneration"
+      },
+      {
+        "index": "ioun-stone-of-reserve",
+        "name": "Ioun Stone of Reserve",
+        "url": "/api/2014/magic-items/ioun-stone-of-reserve"
+      },
+      {
+        "index": "ioun-stone-of-strength",
+        "name": "Ioun Stone of Strength",
+        "url": "/api/2014/magic-items/ioun-stone-of-strength"
+      },
+      {
+        "index": "ioun-stone-of-sustenance",
+        "name": "Ioun Stone of Sustenance",
+        "url": "/api/2014/magic-items/ioun-stone-of-sustenance"
+      }
+    ],
+    "variant": false,
+    "desc": [
+      "Wondrous item, varies (requires attunement)",
+      "An Ioun stone is named after Ioun, a god of knowledge and prophecy revered on some worlds. Many types of Ioun stone exist, each type a distinct combination of shape and color.",
+      "When you use an action to toss one of these stones into the air, the stone orbits your head at a distance of 1d3 feet and confers a benefit to you. Thereafter, another creature must use an action to grasp or net the stone to separate it from you, either by making a successful attack roll against AC 24 or a successful DC 24 Dexterity (Acrobatics) check. You can use an action to seize and stow the stone, ending its effect.",
+      "A stone has AC 24, 10 hit points, and resistance to all damage. It is considered to be an object that is being worn while it orbits your head.",
+      "***Absorption (Very Rare).*** While this pale lavender ellipsoid orbits your head, you can use your reaction to cancel a spell of 4th level or lower cast by a creature you can see and targeting only you.",
+      "Once the stone has canceled 20 levels of spells, it burns out and turns dull gray, losing its magic. If you are targeted by a spell whose level is higher than the number of spell levels the stone has left, the stone can't cancel it.",
+      "***Agility (Very Rare).*** Your Dexterity score increases by 2, to a maximum of 20, while this deep red sphere orbits your head.",
+      "***Awareness (Rare).*** You can't be surprised while this dark blue rhomboid orbits your head.",
+      "***Fortitude (Very Rare).*** Your Constitution score increases by 2, to a maximum of 20, while this pink rhomboid orbits your head.",
+      "***Greater Absorption (Legendary).*** While this marbled lavender and green ellipsoid orbits your head, you can use your reaction to cancel a spell of 8th level or lower cast by a creature you can see and targeting only you.",
+      "Once the stone has canceled 50 levels of spells, it burns out and turns dull gray, losing its magic. If you are targeted by a spell whose level is higher than the number of spell levels the stone has left, the stone can't cancel it.",
+      "***Insight (Very Rare).*** Your Wisdom score increases by 2, to a maximum of 20, while this incandescent blue sphere orbits your head.",
+      "***Intellect (Very Rare).*** Your Intelligence score increases by 2, to a maximum of 20, while this marbled scarlet and blue sphere orbits your head.",
+      "***Leadership (Very Rare).*** Your Charisma score increases by 2, to a maximum of 20, while this marbled pink and green sphere orbits your head.",
+      "***Mastery (Legendary).*** Your proficiency bonus increases by 1 while this pale green prism orbits your head.",
+      "***Protection (Rare).*** You gain a +1 bonus to AC while this dusty rose prism orbits your head.",
+      "***Regeneration (Legendary).*** You regain 15 hit points at the end of each hour this pearly white spindle orbits your head, provided that you have at least 1 hit point.",
+      "***Reserve (Rare).*** This vibrant purple prism stores spells cast into it, holding them until you use them. The stone can store up to 3 levels worth of spells at a time. When found, it contains 1d4 - 1 levels of stored spells chosen by the GM.",
+      "Any creature can cast a spell of 1st through 3rd level into the stone by touching it as the spell is cast. The spell has no effect, other than to be stored in the stone. If the stone can't hold the spell, the spell is expended without effect. The level of the slot used to cast the spell determines how much space it uses.",
+      "While this stone orbits your head, you can cast any spell stored in it. The spell uses the slot level, spell save DC, spell attack bonus, and spellcasting ability of the original caster, but is otherwise treated as if you cast the spell. The spell cast from the stone is no longer stored in it, freeing up space.",
+      "***Strength (Very Rare).*** Your Strength score increases by 2, to a maximum of 20, while this pale blue rhomboid orbits your head.",
+      "***Sustenance (Rare).*** You don't need to eat or drink while this clear spindle orbits your head."
+    ],
+    "url": "/api/2014/magic-items/ioun-stone"
+  },
+  {
+    "index": "ioun-stone-of-protection",
+    "name": "Ioun Stone of Protection",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, rare (requires attunement)",
+      "An Ioun stone is named after Ioun, a god of knowledge and prophecy revered on some worlds. Many types of Ioun stone exist, each type a distinct combination of shape and color.",
+      "When you use an action to toss one of these stones into the air, the stone orbits your head at a distance of 1d3 feet and confers a benefit to you. Thereafter, another creature must use an action to grasp or net the stone to separate it from you, either by making a successful attack roll against AC 24 or a successful DC 24 Dexterity (Acrobatics) check. You can use an action to seize and stow the stone, ending its effect.",
+      "A stone has AC 24, 10 hit points, and resistance to all damage. It is considered to be an object that is being worn while it orbits your head.",
+      "***Protection.*** You gain a +1 bonus to AC while this dusty rose prism orbits your head."
+    ],
+    "url": "/api/2014/magic-items/ioun-stone-of-protection"
+  },
+  {
+    "index": "luck-blade",
+    "name": "Luck Blade",
+    "equipment_category": {
+      "index": "weapon",
+      "name": "Weapon",
+      "url": "/api/2014/equipment-categories/weapon"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Weapon (any sword), legendary (requires attunement)",
+      "You gain a +1 bonus to attack and damage rolls made with this magic weapon. While the sword is on your person, you also gain a +1 bonus to saving throws.",
+      "***Luck.*** If the sword is on your person, you can call on its luck (no action required) to reroll one attack roll, ability check, or saving throw you dislike. You must use the second roll. This property can't be used again until the next dawn.",
+      "***Wish.*** The sword has 1d4 - 1 charges. While holding it, you can use an action to expend 1 charge and cast the wish spell from it. This property can't be used again until the next dawn. The sword loses this property if it has no charges."
+    ],
+    "url": "/api/2014/magic-items/luck-blade"
+  },
+  {
+    "index": "mithral-armor",
+    "name": "Mithral Armor",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Armor (medium or heavy), uncommon",
+      "Mithral is a light, flexible metal. A mithral chain shirt or breastplate can be worn under normal clothes. If the armor normally imposes disadvantage on Dexterity (Stealth) checks or has a Strength requirement, the mithral version of the armor doesn't."
+    ],
+    "url": "/api/2014/magic-items/mithral-armor"
+  },
+  {
+    "index": "plate-armor-of-etherealness",
+    "name": "Plate Armor of Etherealness",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Armor (plate), legendary (requires attunement)",
+      "While you're wearing this armor, you can speak its command word as an action to gain the effect of the etherealness spell, which last for 10 minutes or until you remove the armor or use an action to speak the command word again. This property of the armor can't be used again until the next dawn."
+    ],
+    "url": "/api/2014/magic-items/plate-armor-of-etherealness"
+  },
+  {
+    "index": "ring-of-protection",
+    "name": "Ring of Protection",
+    "equipment_category": {
+      "index": "ring",
+      "name": "Ring",
+      "url": "/api/2014/equipment-categories/ring"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Ring, rare (requires attunement)",
+      "You gain a +1 bonus to AC and saving throws while wearing this ring."
+    ],
+    "url": "/api/2014/magic-items/ring-of-protection"
+  },
+  {
+    "index": "robe-of-stars",
+    "name": "Robe of Stars",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, very rare (requires attunement)",
+      "This black or dark blue robe is embroidered with small white or silver stars. You gain a +1 bonus to saving throws while you wear it.",
+      "Six stars, located on the robe's upper front portion, are particularly large. While wearing this robe, you can use an action to pull off one of the stars and use it to cast magic missile as a 5th-level spell. Daily at dusk, 1d6 removed stars reappear on the robe.",
+      "While you wear the robe, you can use an action to enter the Astral Plane along with everything you are wearing and carrying. You remain there until you use an action to return to the plane you were on. You reappear in the last space you occupied, or if that space is occupied, the nearest unoccupied space."
+    ],
+    "url": "/api/2014/magic-items/robe-of-stars"
+  },
+  {
+    "index": "robe-of-the-archmagi",
+    "name": "Robe of the Archmagi",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, legendary (requires attunement by a sorcerer, warlock, or wizard)",
+      "This elegant garment is made from exquisite cloth of white, gray, or black and adorned with silvery runes. The robe's color corresponds to the alignment for which the item was created. A white robe was made for good, gray for neutral, and black for evil. You can't attune to a robe of the archmagi that doesn't correspond to your alignment.",
+      "You gain these benefits while wearing the robe:",
+      "If you aren't wearing armor, your base Armor Class is 15 + your Dexterity modifier.",
+      "You have advantage on saving throws against spells and other magical effects.",
+      "Your spell save DC and spell attack bonus each increase by 2."
+    ],
+    "url": "/api/2014/magic-items/robe-of-the-archmagi"
+  },
+  {
+    "index": "rod-of-alertness",
+    "name": "Rod of Alertness",
+    "equipment_category": {
+      "index": "rod",
+      "name": "Rod",
+      "url": "/api/2014/equipment-categories/rod"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Rod, very rare (requires attunement)",
+      "This rod has a flanged head and the following properties.",
+      "***Alertness.*** While holding the rod, you have advantage on Wisdom (Perception) checks and on rolls for initiative.",
+      "***Spells.*** While holding the rod, you can use an action to cast one of the following spells from it: detect evil and good, detect magic, detect poison and disease, or see invisibility.",
+      "***Protective Aura.*** As an action, you can plant the haft end of the rod in the ground, whereupon the rod's head sheds bright light in a 60-foot radius and dim light for an additional 60 feet. While in that bright light, you and any creature that is friendly to you gain a +1 bonus to AC and saving throws and can sense the location of any invisible hostile creature that is also in the bright light.",
+      "The rod's head stops glowing and the effect ends after 10 minutes, or when a creature uses an action to pull the rod from the ground. This property can't be used again until the next dawn."
+    ],
+    "url": "/api/2014/magic-items/rod-of-alertness"
+  },
+  {
+    "index": "shield-of-missile-attraction",
+    "name": "Shield of Missile Attraction",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Armor (shield), rare (requires attunement)",
+      "While holding this shield, you have resistance to damage from ranged weapon attacks.",
+      "***Curse.*** This shield is cursed. Attuning to it curses you until you are targeted by the remove curse spell or similar magic. Removing the shield fails to end the curse on you. Whenever a ranged weapon attack is made against a target within 10 feet of you, the curse causes you to become the target instead."
+    ],
+    "url": "/api/2014/magic-items/shield-of-missile-attraction"
+  },
+  {
+    "index": "spellguard-shield",
+    "name": "Spellguard Shield",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Armor (shield), very rare (requires attunement)",
+      "While holding this shield, you have advantage on saving throws against spells and other magical effects, and spell attacks have disadvantage against you."
+    ],
+    "url": "/api/2014/magic-items/spellguard-shield"
+  },
+  {
+    "index": "staff-of-power",
+    "name": "Staff of Power",
+    "equipment_category": {
+      "index": "staff",
+      "name": "Staff",
+      "url": "/api/2014/equipment-categories/staff"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Staff, very rare (requires attunement by a sorcerer, warlock, or wizard)",
+      "This staff can be wielded as a magic quarterstaff that grants a +2 bonus to attack and damage rolls made with it. While holding it, you gain a +2 bonus to Armor Class, saving throws, and spell attack rolls.",
+      "The staff has 20 charges for the following properties. The staff regains 2d8 + 4 expended charges daily at dawn. If you expend the last charge, roll a d20. On a 1, the staff retains its +2 bonus to attack and damage rolls but loses all other properties. On a 20, the staff regains 1d8 + 2 charges.",
+      "***Power Strike.*** When you hit with a melee attack using the staff, you can expend 1 charge to deal an extra 1d6 force damage to the target.",
+      "***Spells.*** While holding this staff, you can use an action to expend 1 or more of its charges to cast one of the following spells from it, using your spell save DC and spell attack bonus: cone of cold (5 charges), fireball (5th-level version, 5 charges), globe of invulnerability (6 charges), hold monster (5 charges), levitate (2 charges), lightning bolt (5th-level version, 5 charges), magic missile (1 charge), ray of enfeeblement (1 charge), or wall of force (5 charges).",
+      "***Retributive Strike.*** You can use an action to break the staff over your knee or against a solid surface, performing a retributive strike. The staff is destroyed and releases its remaining magic in an explosion that expands to fill a 30-foot-radius sphere centered on it.",
+      "You have a 50 percent chance to instantly travel to a random plane of existence, avoiding the explosion. If you fail to avoid the effect, you take force damage equal to 16 × the number of charges in the staff. Every other creature in the area must make a DC 17 Dexterity saving throw. On a failed save, a creature takes an amount of damage based on how far away it is from the point of origin, as shown in the following table. On a successful save, a creature takes half as much damage.",
+      "| Distance from Origin | Damage |",
+      "|---|---|",
+      "| 10 ft. away or closer | 8 × the number of charges in the staff |",
+      "| 11 to 20 ft. away | 6 × the number of charges in the staff |",
+      "| 21 to 30 ft. away | 4 × the number of charges in the staff |"
+    ],
+    "url": "/api/2014/magic-items/staff-of-power"
+  },
+  {
+    "index": "staff-of-the-magi",
+    "name": "Staff of the Magi",
+    "equipment_category": {
+      "index": "staff",
+      "name": "Staff",
+      "url": "/api/2014/equipment-categories/staff"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Staff, legendary (requires attunement by a sorcerer, warlock, or wizard)",
+      "This staff can be wielded as a magic quarterstaff that grants a +2 bonus to attack and damage rolls made with it. While you hold it, you gain a +2 bonus to spell attack rolls.",
+      "The staff has 50 charges for the following properties. It regains 4d6 + 2 expended charges daily at dawn. If you expend the last charge, roll a d20. On a 20, the staff regains 1d12 + 1 charges.",
+      "***Spell Absorption.*** While holding the staff, you have advantage on saving throws against spells. In addition, you can use your reaction when another creature casts a spell that targets only you. If you do, the staff absorbs the magic of the spell, canceling its effect and gaining a number of charges equal to the absorbed spell's level. However, if doing so brings the staff's total number of charges above 50, the staff explodes as if you activated its retributive strike (see below).",
+      "***Spells.*** While holding the staff, you can use an action to expend some of its charges to cast one of the following spells from it, using your spell save DC and spellcasting ability: conjure elemental (7 charges), dispel magic (3 charges), fireball (7th-level version, 7 charges), flaming sphere (2 charges), ice storm (4 charges), invisibility (2 charges), knock (2 charges), lightning bolt (7th-level version, 7 charges), passwall (5 charges), plane shift (7 charges), telekinesis (5 charges), wall of fire (4 charges), or web (2 charges).",
+      "You can also use an action to cast one of the following spells from the staff without using any charges: arcane lock, detect magic, enlarge/reduce, light, mage hand, or protection from evil and good.",
+      "***Retributive Strike.*** You can use an action to break the staff over your knee or against a solid surface, performing a retributive strike. The staff is destroyed and releases its remaining magic in an explosion that expands to fill a 30-foot-radius sphere centered on it.",
+      "You have a 50 percent chance to instantly travel to a random plane of existence, avoiding the explosion. If you fail to avoid the effect, you take force damage equal to 16 × the number of charges in the staff. Every other creature in the area must make a DC 17 Dexterity saving throw. On a failed save, a creature takes an amount of damage based on how far away it is from the point of origin, as shown in the following table. On a successful save, a creature takes half as much damage.",
+      "| Distance from Origin | Damage |",
+      "|---|---|",
+      "| 10 ft. away or closer | 8 × the number of charges in the staff |",
+      "| 11 to 20 ft. away | 6 × the number of charges in the staff |",
+      "| 21 to 30 ft. away | 4 × the number of charges in the staff |"
+    ],
+    "url": "/api/2014/magic-items/staff-of-the-magi"
+  }
+]

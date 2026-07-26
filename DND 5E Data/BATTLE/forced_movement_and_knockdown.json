@@ -1,0 +1,125 @@
+[
+  {
+    "index": "hammer-of-thunderbolts",
+    "name": "Hammer of Thunderbolts",
+    "equipment_category": {
+      "index": "weapon",
+      "name": "Weapon",
+      "url": "/api/2014/equipment-categories/weapon"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Weapon (maul), legendary",
+      "You gain a +1 bonus to attack and damage rolls made with this magic weapon.",
+      "Giant's Bane (Requires Attunement). You must be wearing a belt of giant strength (any variety) and gauntlets of ogre power to attune to this weapon. The attunement ends if you take off either of those items. While you are attuned to this weapon and holding it, your Strength score increases by 4 and can exceed 20, but not 30. When you roll a 20 on an attack roll made with this weapon against a giant, the giant must succeed on a DC 17 Constitution saving throw or die.",
+      "The hammer also has 5 charges. While attuned to it, you can expend 1 charge and make a ranged weapon attack with the hammer, hurling it as if it had the thrown property with a normal range of 20 feet and a long range of 60 feet. If the attack hits, the hammer unleashes a thunderclap audible out to 300 feet. The target and every creature within 30 feet of it must succeed on a DC 17 Constitution saving throw or be stunned until the end of your next turn. The hammer regains 1d4 + 1 expended charges daily at dawn."
+    ],
+    "url": "/api/2014/magic-items/hammer-of-thunderbolts"
+  },
+  {
+    "index": "horn-of-blasting",
+    "name": "Horn of Blasting",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, rare",
+      "You can use an action to speak the horn's command word and then blow the horn, which emits a thunderous blast in a 30-foot cone that is audible 600 feet away. Each creature in the cone must make a DC 15 Constitution saving throw. On a failed save, a creature takes 5d6 thunder damage and is deafened for 1 minute. On a successful save, a creature takes half as much damage and isn't deafened. Creatures and objects made of glass or crystal have disadvantage on the saving throw and take 10d6 thunder damage instead of 5d6.",
+      "Each use of the horn's magic has a 20 percent chance of causing the horn to explode. The explosion deals 10d6 fire damage to the blower and destroys the horn."
+    ],
+    "url": "/api/2014/magic-items/horn-of-blasting"
+  },
+  {
+    "index": "ring-of-telekinesis",
+    "name": "Ring of Telekinesis",
+    "equipment_category": {
+      "index": "ring",
+      "name": "Ring",
+      "url": "/api/2014/equipment-categories/ring"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Ring, very rare (requires attunement)",
+      "While wearing this ring, you can cast the telekinesis spell at will, but you can target only objects that aren't being worn or carried."
+    ],
+    "url": "/api/2014/magic-items/ring-of-telekinesis"
+  },
+  {
+    "index": "ring-of-the-ram",
+    "name": "Ring of the Ram",
+    "equipment_category": {
+      "index": "ring",
+      "name": "Ring",
+      "url": "/api/2014/equipment-categories/ring"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Ring, rare (requires attunement)",
+      "This ring has 3 charges, and it regains 1d3 expended charges daily at dawn. While wearing the ring, you can use an action to expend 1 to 3 of its charges to attack one creature you can see within 60 feet of you. The ring produces a spectral ram's head and makes its attack roll with a +7 bonus. On a hit, for each charge you spend, the target takes 2d10 force damage and is pushed 5 feet away from you.",
+      "Alternatively, you can expend 1 to 3 of the ring's charges as an action to try to break an object you can see within 60 feet of you that isn't being worn or carried. The ring makes a Strength check with a +5 bonus for each charge you spend."
+    ],
+    "url": "/api/2014/magic-items/ring-of-the-ram"
+  },
+  {
+    "index": "staff-of-thunder-and-lightning",
+    "name": "Staff of Thunder and Lightning",
+    "equipment_category": {
+      "index": "staff",
+      "name": "Staff",
+      "url": "/api/2014/equipment-categories/staff"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Staff, very rare (requires attunement)",
+      "This staff can be wielded as a magic quarterstaff that grants a +2 bonus to attack and damage rolls made with it. It also has the following additional properties. When one of these properties is used, it can't be used again until the next dawn.",
+      "***Lightning.*** When you hit with a melee attack using the staff, you can cause the target to take an extra 2d6 lightning damage.",
+      "***Thunder.*** When you hit with a melee attack using the staff, you can cause the staff to emit a crack of thunder, audible out to 300 feet. The target you hit must succeed on a DC 17 Constitution saving throw or become stunned until the end of your next turn.",
+      "***Lightning Strike.*** You can use an action to cause a bolt of lightning to leap from the staff's tip in a line that is 5 feet wide and 120 feet long. Each creature in that line must make a DC 17 Dexterity saving throw, taking 9d6 lightning damage on a failed save, or half as much damage on a successful one.",
+      "***Thunderclap.*** You can use an action to cause the staff to issue a deafening thunderclap, audible out to 600 feet. Each creature within 60 feet of you (not including you) must make a DC 17 Constitution saving throw. On a failed save, a creature takes 2d6 thunder damage and becomes deafened for 1 minute. On a successful save, a creature takes half damage and isn't deafened.",
+      "***Thunder and Lightning.*** You can use an action to use the Lightning Strike and Thunderclap properties at the same time. Doing so doesn't expend the daily use of those properties, only the use of this one."
+    ],
+    "url": "/api/2014/magic-items/staff-of-thunder-and-lightning"
+  },
+  {
+    "index": "wind-fan",
+    "name": "Wind Fan",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, uncommon",
+      "While holding this fan, you can use an action to cast the gust of wind spell (save DC 13) from it. Once used, the fan shouldn't be used again until the next dawn. Each time it is used again before then, it has a cumulative 20 percent chance of not working and tearing into useless, nonmagical tatters."
+    ],
+    "url": "/api/2014/magic-items/wind-fan"
+  }
+]

@@ -42,6 +42,7 @@ import {
   GEAR_CLASSES,
   ITEM_CATALOG,
   ITEM_TYPES,
+  MAGIC_ITEM_CLASSES,
   WEAPON_CLASSES,
   WEAPON_PROPERTIES,
   bundleSize,
@@ -146,9 +147,11 @@ export default function CharactersPage({ characters, setCharacters, onBack }) {
       ? ARMOR_CLASSES
       : itemType === "gear"
         ? GEAR_CLASSES
-        : itemType === "ammunition"
-          ? []
-          : WEAPON_CLASSES;
+        : itemType === "magic-item"
+          ? MAGIC_ITEM_CLASSES
+          : itemType === "ammunition"
+            ? []
+            : WEAPON_CLASSES;
   const propertyEnabled = itemType === "weapon" || itemType === "all";
   const visibleInventory = inventory.filter((entry) => {
     const item = ITEM_CATALOG.find(
@@ -784,7 +787,9 @@ export default function CharactersPage({ characters, setCharacters, onBack }) {
                                         ? `${item.typeLabel} · ${item.category} · AC ${item.acBase}${item.acDex ? "+Dex" : ""}`
                                         : item.kind === "gear"
                                           ? `${item.typeLabel}${item.cost ? ` · ${item.cost.quantity} ${item.cost.unit}` : ""}`
-                                          : `${item.typeLabel} · ${item.category} · ${item.rangeFeet} ft`}
+                                          : item.kind === "magic-item"
+                                            ? `${item.typeLabel} · ${item.rarity} · ${item.itemCategory}`
+                                            : `${item.typeLabel} · ${item.category} · ${item.rangeFeet} ft`}
                                   </small>
                                 </span>
                                 <em>{owned ? `${owned} owned` : "+ Add"}</em>
@@ -834,7 +839,9 @@ export default function CharactersPage({ characters, setCharacters, onBack }) {
                                   ? `${item.category} armour · AC ${item.acBase}${item.acDex ? "+Dex" : ""}`
                                   : item.kind === "gear"
                                     ? `${item.typeLabel}${item.cost ? ` · ${item.cost.quantity} ${item.cost.unit}` : ""}`
-                                    : `${item.damageDice} ${item.damageType.toLowerCase()} · ${item.rangeFeet} ft`}
+                                    : item.kind === "magic-item"
+                                      ? `${item.rarity} · ${item.itemCategory}`
+                                      : `${item.damageDice} ${item.damageType.toLowerCase()} · ${item.rangeFeet} ft`}
                             </small>
                           </div>
                           <div className="quantity-stepper">

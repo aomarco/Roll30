@@ -1,0 +1,286 @@
+MAGIC ITEM CATEGORY GUIDE
+
+CLASSIFICATION LOGIC
+
+Every magic-item record belongs to exactly one main category. BATTLE contains items whose dependable, defining, or most likely use is to attack, defend, recover, control opponents, summon battle allies, or improve tactical performance. NON BATTLE contains items whose dominant purpose is travel, storage, exploration, information, social interaction, crafting, survival, security, or broad utility.
+
+A possible edge-case use does not decide the main category. The item's normal and reliable purpose does. Generic spell-scroll records are placed in BATTLE because the source data does not identify a specific utility spell and scrolls are commonly held as tactical spell resources.
+
+Subcategories are multi-label filters. An item can appear in several subcategory files inside its one main folder whenever it genuinely satisfies each definition. Repetition between subcategory files is intentional. No item may appear in both main folders, and every source record must appear in at least one subcategory.
+
+Variant records remain separate records because the source file treats them separately. Category files retain the original objects, source ordering, field ordering, indentation, line endings, and final newline style.
+
+BATTLE
+
+ITEM FORMS
+
+MELEE WEAPONS
+Weapons whose normal or signature delivery method is a close-range weapon attack.
+
+RANGED AND THROWN WEAPONS
+Weapons designed to attack at range or to be thrown as a meaningful part of their combat use.
+
+AMMUNITION
+Magical arrows, bolts, and other ammunition used to modify or deliver ranged attacks.
+
+ARMOR
+Body armor whose principal magical function improves protection or changes how incoming attacks affect the wearer.
+
+SHIELDS
+Shields and shield-like defensive items used actively or passively during battle.
+
+OFFENSIVE WANDS STAVES AND RODS
+Wands, staves, and rods whose dependable primary functions attack, defend, disable, or otherwise influence battle.
+
+COMBAT RINGS AND WEARABLES
+Rings, clothing, jewelry, and other worn items whose primary benefits apply during battle.
+
+COMBAT POTIONS OILS AND DUSTS
+Consumable liquids, coatings, powders, and similar expendable items primarily used to prepare for or react to battle.
+
+SPELL SCROLLS AND STORED SPELLS
+Items that provide spell access or hold spells for later tactical use, including generic scroll records whose exact spell is unspecified.
+
+OFFENSE
+
+ATTACK ACCURACY
+Items that directly increase attack-roll accuracy or otherwise make successful attacks more reliable.
+
+BONUS DAMAGE
+Items that add damage to an existing attack rather than functioning only as a separate damaging effect.
+
+DIRECT DAMAGE
+Items whose effects directly deal damage to one or more targets.
+
+AREA DAMAGE
+Items that damage an area, line, cone, radius, or multiple nearby targets.
+
+ELEMENTAL DAMAGE
+Offensive items that deal acid, cold, fire, force, lightning, necrotic, poison, psychic, radiant, or thunder damage.
+
+CREATURE TYPE SPECIALISTS
+Items designed to be especially effective against a named creature family, alignment, size group, or supernatural type.
+
+CRITICAL HITS AND EXECUTION
+Items that improve critical hits, exploit exceptional attack rolls, sever targets, or provide finishing effects.
+
+POISON LIFE DRAIN AND WOUNDING
+Items that poison, drain vitality, reduce maximum health, prevent recovery, or inflict persistent wounds.
+
+EXTRA ATTACKS AND ACTION ECONOMY
+Items that create additional attacks, free a hand or action, or move a combat function into a bonus action or reaction.
+
+DEFENSE AND RECOVERY
+
+HEALING AND HIT POINT RECOVERY
+Items primarily used during battle to restore lost hit points.
+
+REGENERATION AND DEATH PREVENTION
+Items that provide ongoing regeneration, stabilization, exceptional survivability, or protection from dying.
+
+ARMOR CLASS AND SAVING THROWS
+Items that improve Armor Class, saving throws, or both.
+
+DAMAGE RESISTANCE AND IMMUNITY
+Items that reduce, resist, absorb, or temporarily negate one or more damage types.
+
+SPELL DEFENSE ABSORPTION AND REFLECTION
+Items that resist spells, absorb spell energy, turn magic back, or protect specifically against magical effects.
+
+PROJECTILE DEFENSE
+Items specialized in stopping, catching, redirecting, or weakening missiles and ranged attacks.
+
+CONDITION IMMUNITY AND RECOVERY
+Items that prevent or remove debilitating combat conditions or maintain freedom of action.
+
+COMBAT STEALTH INVISIBILITY AND EVASION
+Items whose concealment, invisibility, displacement, or evasive movement is primarily valuable during battle.
+
+CONTROL
+
+BATTLEFIELD CONTROL AND RESTRAINT
+Items that restrain movement, create barriers, alter combat space, or hold targets in place.
+
+FORCED MOVEMENT AND KNOCKDOWN
+Items that push, pull, throw, or knock targets prone.
+
+FEAR CHARM AND DOMINATION
+Items that frighten, charm, command, or dominate creatures as a battle tactic.
+
+PARALYSIS BLINDING AND OTHER DEBUFFS
+Items that paralyze, blind, stun, weaken, confuse, or impose other battle disadvantages.
+
+SUMMONING AND COMBAT ALLIES
+Items that call creatures, animate allies, or create independent forces expected to participate in battle.
+
+ELEMENTAL COMMAND AND NATURAL FORCES
+Items that summon, command, or weaponize elementals and destructive natural forces during battle.
+
+ENHANCEMENT AND TACTICS
+
+COMBAT MOBILITY SPEED AND FLIGHT
+Items whose speed, flight, teleportation, or unusual movement is primarily tactical in battle.
+
+INITIATIVE DETECTION AND AWARENESS
+Items that reveal enemies, prevent surprise, improve readiness, or enhance battle awareness.
+
+STRENGTH AND ABILITY ENHANCEMENT
+Items that improve Strength or another ability primarily to increase combat performance.
+
+SPELL ATTACK AND SPELLCASTING ENHANCEMENT
+Items that improve spell attacks, spell difficulty, caster defenses, or general battle spellcasting.
+
+TRANSFORMATION AND SIZE CHANGE
+Items that transform a combatant, change size, or assume a battle-relevant creature form.
+
+CURSED AND HIGH RISK COMBAT ITEMS
+Battle items whose curse, dangerous drawback, unstable result, or severe risk is central to using them.
+
+VERSATILE BATTLE MAGIC
+Broad tactical items with several major battle functions that cannot be represented accurately by one narrower effect category.
+
+NON BATTLE
+
+STORAGE AND ITEM FORMS
+
+EXTRADIMENSIONAL STORAGE
+Containers and spaces that store contents in an extradimensional or spatially unusual location.
+
+EQUIPMENT STORAGE AND CARRYING
+Items that organize, carry, retrieve, or reduce the practical burden of adventuring equipment.
+
+UTILITY POTIONS OILS AND DUSTS
+Consumable liquids, coatings, and powders whose dominant purpose is exploration, interaction, travel, or another non-battle task.
+
+UTILITY RINGS AND WEARABLES
+Rings, clothing, jewelry, lenses, and other worn items whose dominant purpose is outside battle.
+
+UTILITY WANDS STAVES AND RODS
+Wands, staves, and rods primarily used for discovery, access, social influence, safety, or general problem-solving.
+
+OBJECT CREATION AND DEPLOYMENT
+Items that create, unfold, place, or transform useful objects and terrain features.
+
+GENERAL TOOLS AND CONVENIENCE
+Practical magical tools whose primary benefit is broad utility and does not fit a more specialized task alone.
+
+TRAVEL
+
+TRAVEL AND TRANSPORT
+General-purpose items that move creatures or supplies between locations.
+
+FLIGHT AND LEVITATION
+Items primarily used to fly, hover, or levitate during travel and exploration.
+
+TELEPORTATION AND PLANAR TRAVEL
+Items used to teleport, cross planes, open dimensional routes, or reach distant destinations instantly.
+
+CLIMBING JUMPING AND OVERLAND MOBILITY
+Items that improve climbing, jumping, walking, running, or travel over difficult surfaces.
+
+AQUATIC TRAVEL AND BREATHING
+Items that enable swimming, underwater travel, water walking, or breathing in aquatic environments.
+
+VEHICLES MOUNTS AND CONVEYANCES
+Magical vehicles, mounts, and rideable objects intended primarily to transport travelers.
+
+SHELTER STRUCTURES AND FORTIFICATIONS
+Items that provide refuge, temporary structures, secure resting places, or deployable shelter.
+
+STEALTH AND INFORMATION
+
+STEALTH AND CONCEALMENT
+Items primarily used to remain unheard, unseen, hidden, or difficult to track outside direct battle.
+
+DISGUISE AND IDENTITY
+Items that change appearance, support impersonation, or conceal a creature's identity.
+
+ILLUMINATION AND DARKVISION
+Items that provide light, improve vision in darkness, or compensate for poor lighting.
+
+DETECTION REVELATION AND SECRET FINDING
+Items that detect magic, invisibility, hidden doors, traps, concealed objects, or other secrets.
+
+SCRYING AND REMOTE VIEWING
+Items that observe distant places, creatures, or events without normal physical proximity.
+
+TELEPATHY MIND READING AND COMMUNICATION
+Items that transmit thoughts, read minds, or enable communication beyond ordinary speech.
+
+LANGUAGES AND COMPREHENSION
+Items that translate, interpret, or grant understanding of languages.
+
+EXPLORATION PERCEPTION AND INVESTIGATION
+Items that improve careful observation, examination, reconnaissance, or environmental investigation.
+
+ANTI DIVINATION PRIVACY AND MIND PROTECTION
+Items that block divination, conceal thoughts, preserve privacy, or protect identity and location from supernatural discovery.
+
+SOCIAL AND SURVIVAL
+
+SOCIAL INFLUENCE AND PERSUASION
+Items whose primary function influences attitudes, attraction, trust, authority, or social decisions.
+
+ANIMAL INFLUENCE AND HANDLING
+Items used to befriend, communicate with, command, or safely interact with animals.
+
+FOOD WATER AND SUSTENANCE
+Items that provide food, water, nourishment, or freedom from ordinary eating and drinking needs.
+
+ENVIRONMENTAL ADAPTATION AND SURVIVAL
+Items that help creatures endure climate, altitude, air, temperature, pressure, or other environmental hazards.
+
+DISEASE POISON AND LONG TERM RECOVERY
+Items primarily used outside battle to cure, prevent, or recover from disease, poison, and lasting injury.
+
+LUCK FORTUNE AND PROBABILITY
+Items that influence luck, fortune, uncertain outcomes, or broad tests of skill and fate.
+
+KNOWLEDGE AND MENTAL ENHANCEMENT
+Items that increase knowledge, intellect, wisdom, memory, understanding, or other long-term mental capability.
+
+FORM SIZE AND APPEARANCE UTILITY
+Items that alter form, size, substance, or appearance primarily for travel, infiltration, access, or creative utility.
+
+CREATION AND UTILITY MAGIC
+
+CRAFTING CREATION AND MATERIAL MANIPULATION
+Items used to craft, construct, paint, bind, dissolve, reshape, or otherwise manipulate objects and materials.
+
+PERMANENT ABILITY IMPROVEMENT
+Books and manuals whose defining function is a lasting increase to a creature's ability score or capacity.
+
+UTILITY SPELLCASTING AND SPELL RESOURCES
+Items that provide broad spell access or magical resources primarily for utility, travel, ritual, or flexible problem-solving.
+
+HELPERS COMPANIONS AND CONSTRUCTS
+Items that create or call helpers, companions, mounts, or constructs whose dominant purpose is not immediate battle.
+
+ENVIRONMENTAL AND ELEMENTAL CONTROL
+Items that safely shape or control earth, air, fire, water, plants, and other environmental features for utility.
+
+WEATHER AIR AND WATER MANIPULATION
+Items specifically used to create, remove, redirect, or otherwise manipulate air, weather, and water.
+
+RITUAL RELIGIOUS AND ALIGNMENT MAGIC
+Items centered on ritual use, devotion, alignment, sacred authority, or long-form magical preparation.
+
+RANDOM MAGIC WISHES AND REALITY ALTERATION
+Items whose defining use involves wishes, unpredictable outcomes, major reality changes, or chance-driven magic.
+
+ACCESS, SAFETY, AND UNUSUAL MAGIC
+
+LOCKS OPENING AND ENTRY
+Items that open locks, bypass barriers, gain entry, or secure an access point.
+
+RESTRAINT IMPRISONMENT AND SECURITY
+Items primarily used to secure creatures, objects, rooms, or locations outside active battle.
+
+TRAPS CONTAINMENT AND CAPTURE
+Items used to trap, contain, capture, or hold creatures and dangerous forces.
+
+ILLUSIONS ENTERTAINMENT AND TRICKERY
+Items that produce illusions, spectacle, diversions, playful deception, or theatrical effects.
+
+HAZARDOUS CURSED AND DECEPTIVE ITEMS
+Non-battle items that are cursed, imitate beneficial objects, produce dangerous surprises, or pose major risks to their users.

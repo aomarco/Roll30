@@ -1,0 +1,278 @@
+[
+  {
+    "index": "decanter-of-endless-water",
+    "name": "Decanter of Endless Water",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, uncommon",
+      "This stoppered flask sloshes when shaken, as if it contains water. The decanter weighs 2 pounds.",
+      "You can use an action to remove the stopper and speak one of three command words, whereupon an amount of fresh water or salt water (your choice) pours out of the flask. The water stops pouring out at the start of your next turn. Choose from the following options:",
+      "\"Stream\" produces 1 gallon of water.",
+      "\"Fountain\" produces 5 gallons of water.",
+      "\"Geyser\" produces 30 gallons of water that gushes forth in a geyser 30 feet long and 1 foot wide. As a bonus action while holding the decanter, you can aim the geyser at a creature you can see within 30 feet of you. The target must succeed on a DC 13 Strength saving throw or take 1d4 bludgeoning damage and fall prone. Instead of a creature, you can target an object that isn't being worn or carried and that weighs no more than 200 pounds. The object is either knocked over or pushed up to 15 feet away from you."
+    ],
+    "image": "/api/images/magic-items/decanter-of-endless-water.png",
+    "url": "/api/2014/magic-items/decanter-of-endless-water"
+  },
+  {
+    "index": "feather-token",
+    "name": "Feather Token",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [
+      {
+        "index": "feather-token-anchor",
+        "name": "Anchor Feather Token",
+        "url": "/api/2014/magic-items/feather-token-anchor"
+      },
+      {
+        "index": "feather-token-bird",
+        "name": "Bird Feather Token",
+        "url": "/api/2014/magic-items/feather-token-bird"
+      },
+      {
+        "index": "feather-token-fan",
+        "name": "Fan Feather Token",
+        "url": "/api/2014/magic-items/feather-token-fan"
+      },
+      {
+        "index": "feather-token-swan-boat",
+        "name": "Swan Boat Feather Token",
+        "url": "/api/2014/magic-items/feather-token-swan-boat"
+      },
+      {
+        "index": "feather-token-tree",
+        "name": "Tree Feather Token",
+        "url": "/api/2014/magic-items/feather-token-tree"
+      },
+      {
+        "index": "feather-token-whip",
+        "name": "Whip Feather Token",
+        "url": "/api/2014/magic-items/feather-token-whip"
+      }
+    ],
+    "variant": false,
+    "desc": [
+      "Wondrous item, rare",
+      "This tiny object looks like a feather. Different types of feather tokens exist, each with a different single use effect. The GM chooses the kind of token or determines it randomly.",
+      "| d100 | Feather Token |",
+      "|---|---|",
+      "| 01-20 | Anchor |",
+      "| 21-35 | Bird |",
+      "| 36-50 | Fan |",
+      "| 51-65 | Swan boat |",
+      "| 66-90 | Tree |",
+      "| 91-100 | Whip |",
+      "***Anchor.*** You can use an action to touch the token to a boat or ship. For the next 24 hours, the vessel can't be moved by any means. Touching the token to the vessel again ends the effect. When the effect ends, the token disappears.",
+      "***Bird.*** You can use an action to toss the token 5 feet into the air. The token disappears and an enormous, multicolored bird takes its place. The bird has the statistics of a roc, but it obeys your simple commands and can't attack. It can carry up to 500 pounds while flying at its maximum speed (16 miles an hour for a maximum of 144 miles per day, with a one-hour rest for every 3 hours of flying), or 1,000 pounds at half that speed. The bird disappears after flying its maximum distance for a day or if it drops to 0 hit points. You can dismiss the bird as an action.",
+      "***Fan.*** If you are on a boat or ship, you can use an action to toss the token up to 10 feet in the air. The token disappears, and a giant flapping fan takes its place. The fan floats and creates a wind strong enough to fill the sails of one ship, increasing its speed by 5 miles per hour for 8 hours. You can dismiss the fan as an action.",
+      "***Swan Boat.*** You can use an action to touch the token to a body of water at least 60 feet in diameter. The token disappears, and a 50-foot-long, 20-foot wide boat shaped like a swan takes its place. The boat is self-propelled and moves across water at a speed of 6 miles per hour. You can use an action while on the boat to command it to move or to turn up to 90 degrees. The boat can carry up to thirty-two Medium or smaller creatures. A Large creature counts as four Medium creatures, while a Huge creature counts as nine. The boat remains for 24 hours and then disappears. You can dismiss the boat as an action.",
+      "***Tree.*** You must be outdoors to use this token. You can use an action to touch it to an unoccupied space on the ground. The token disappears, and in its place a nonmagical oak tree springs into existence. The tree is 60 feet tall and has a 5-foot-diameter trunk, and its branches at the top spread out in a 20-foot radius.",
+      "***Whip.*** You can use an action to throw the token to a point within 10 feet of you. The token disappears, and a floating whip takes its place. You can then use a bonus action to make a melee spell attack against a creature within 10 feet of the whip, with an attack bonus of +9. On a hit, the target takes 1d6 + 5 force damage.",
+      "As a bonus action on your turn, you can direct the whip to fly up to 20 feet and repeat the attack against a creature within 10 feet of it. The whip disappears after 1 hour, when you use an action to dismiss it, or when you are incapacitated or die."
+    ],
+    "url": "/api/2014/magic-items/feather-token"
+  },
+  {
+    "index": "feather-token-anchor",
+    "name": "Anchor Feather Token",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, rare",
+      "This tiny object looks like a feather.",
+      "You can use an action to touch the token to a boat or ship. For the next 24 hours, the vessel can't be moved by any means. Touching the token to the vessel again ends the effect. When the effect ends, the token disappears."
+    ],
+    "url": "/api/2014/magic-items/feather-token-anchor"
+  },
+  {
+    "index": "feather-token-bird",
+    "name": "Bird Feather Token",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, rare",
+      "This tiny object looks like a feather.",
+      "You can use an action to toss the token 5 feet into the air. The token disappears and an enormous, multicolored bird takes its place. The bird has the statistics of a roc, but it obeys your simple commands and can't attack. It can carry up to 500 pounds while flying at its maximum speed (16 miles an hour for a maximum of 144 miles per day, with a one-hour rest for every 3 hours of flying), or 1,000 pounds at half that speed. The bird disappears after flying its maximum distance for a day or if it drops to 0 hit points. You can dismiss the bird as an action."
+    ],
+    "url": "/api/2014/magic-items/feather-token-bird"
+  },
+  {
+    "index": "feather-token-fan",
+    "name": "Fan Feather Token",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, rare",
+      "This tiny object looks like a feather.",
+      "If you are on a boat or ship, you can use an action to toss the token up to 10 feet in the air. The token disappears, and a giant flapping fan takes its place. The fan floats and creates a wind strong enough to fill the sails of one ship, increasing its speed by 5 miles per hour for 8 hours. You can dismiss the fan as an action."
+    ],
+    "url": "/api/2014/magic-items/feather-token-fan"
+  },
+  {
+    "index": "feather-token-swan-boat",
+    "name": "Swan Boat Feather Token",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, rare",
+      "This tiny object looks like a feather.",
+      "You can use an action to touch the token to a body of water at least 60 feet in diameter. The token disappears, and a 50-foot-long, 20-foot wide boat shaped like a swan takes its place. The boat is self-propelled and moves across water at a speed of 6 miles per hour. You can use an action while on the boat to command it to move or to turn up to 90 degrees. The boat can carry up to thirty-two Medium or smaller creatures. A Large creature counts as four Medium creatures, while a Huge creature counts as nine. The boat remains for 24 hours and then disappears. You can dismiss the boat as an action."
+    ],
+    "url": "/api/2014/magic-items/feather-token-swan-boat"
+  },
+  {
+    "index": "feather-token-tree",
+    "name": "Tree Feather Token",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, rare",
+      "This tiny object looks like a feather.",
+      "You must be outdoors to use this token. You can use an action to touch it to an unoccupied space on the ground. The token disappears, and in its place a nonmagical oak tree springs into existence. The tree is 60 feet tall and has a 5-foot-diameter trunk, and its branches at the top spread out in a 20-foot radius."
+    ],
+    "url": "/api/2014/magic-items/feather-token-tree"
+  },
+  {
+    "index": "folding-boat",
+    "name": "Folding Boat",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, rare",
+      "This object appears as a wooden box that measures 12 inches long, 6 inches wide, and 6 inches deep. It weighs 4 pounds and floats. It can be opened to store items inside. This item also has three command words, each requiring you to use an action to speak it.",
+      "One command word causes the box to unfold into a boat 10 feet long, 4 feet wide, and 2 feet deep. The boat has one pair of oars, an anchor, a mast, and a lateen sail. The boat can hold up to four Medium creatures comfortably.",
+      "The second command word causes the box to unfold into a ship 24 feet long, 8 feet wide, and 6 feet deep. The ship has a deck, rowing seats, five sets of oars, a steering oar, an anchor, a deck cabin, and a mast with a square sail. The ship can hold fifteen Medium creatures comfortably.",
+      "When the box becomes a vessel, its weight becomes that of a normal vessel its size, and anything that was stored in the box remains in the boat.",
+      "The third command word causes the folding boat to fold back into a box, provided that no creatures are aboard. Any objects in the vessel that can't fit inside the box remain outside the box as it folds. Any objects in the vessel that can fit inside the box do so."
+    ],
+    "url": "/api/2014/magic-items/folding-boat"
+  },
+  {
+    "index": "marvelous-pigments",
+    "name": "Marvelous Pigments",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, very rare",
+      "Typically found in 1d4 pots inside a fine wooden box with a brush (weighing 1 pound in total), these pigments allow you to create three-dimensional objects by painting them in two dimensions. The paint flows from the brush to form the desired object as you concentrate on its image.",
+      "Each pot of paint is sufficient to cover 1,000 square feet of a surface, which lets you create inanimate objects or terrain features-such as a door, a pit, flowers, trees, cells, rooms, or weapons- that are up to 10,000 cubic feet. It takes 10 minutes to cover 100 square feet.",
+      "When you complete the painting, the object or terrain feature depicted becomes a real, nonmagical object. Thus, painting a door on a wall creates an actual door that can be opened to whatever is beyond. Painting a pit on a floor creates a real pit, and its depth counts against the total area of objects you create.",
+      "Nothing created by the pigments can have a value greater than 25 gp. If you paint an object of greater value (such as a diamond or a pile of gold), the object looks authentic, but close inspection reveals it is made from paste, bone, or some other worthless material.",
+      "If you paint a form of energy such as fire or lightning, the energy appears but dissipates as soon as you complete the painting, doing no harm to anything."
+    ],
+    "url": "/api/2014/magic-items/marvelous-pigments"
+  },
+  {
+    "index": "robe-of-useful-items",
+    "name": "Robe of Useful Items",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, uncommon",
+      "This robe has cloth patches of various shapes and colors covering it. While wearing the robe, you can use an action to detach one of the patches, causing it to become the object or creature it represents. Once the last patch is removed, the robe becomes an ordinary garment.",
+      "The robe has two of each of the following patches:",
+      "Dagger",
+      "Bullseye lantern (filled and lit)",
+      "Steel mirror",
+      "10-foot pole",
+      "Hempen rope (50 feet, coiled)",
+      "Sack",
+      "In addition, the robe has 4d4 other patches. The GM chooses the patches or determines them randomly.",
+      "| d100 | Patch |",
+      "|---|---|",
+      "| 01-08 | Bag of 100 gp |",
+      "| 09-15 | Silver coffer (1 foot long, 6 inches wide and deep) worth 500 gp |",
+      "| 16-22 | Iron door (up to 10 feet wide and 10 feet high, barred on one side of your choice), which you can place in an opening you can reach; it conforms to fit the opening, attaching and hinging itself |",
+      "| 23-30 | 10 gems worth 100 gp each |",
+      "| 31-44 | Wooden ladder (24 feet long) 45-51 A riding horse with saddle bags |",
+      "| 52-59 | Pit (a cube 10 feet on a side), which you can place on the ground within 10 feet of you |",
+      "| 60-68 | 4 potions of healing |",
+      "| 69-75 | Rowboat (12 feet long) |",
+      "| 76-83 | Spell scroll containing one spell of 1st to 3rd level |",
+      "| 84-90 | 2 mastiffs |",
+      "| 91-96 | Window (2 feet by 4 feet, up to 2 feet deep), which you can place on a vertical surface you can reach |",
+      "| 97-100 | Portable ram |"
+    ],
+    "url": "/api/2014/magic-items/robe-of-useful-items"
+  }
+]

@@ -1,0 +1,301 @@
+[
+  {
+    "index": "cube-of-force",
+    "name": "Cube of Force",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, rare (requires attunement)",
+      "This cube is about an inch across. Each face has a distinct marking on it that can be pressed. The cube starts with 36 charges, and it regains 1d20 expended charges daily at dawn.",
+      "You can use an action to press one of the cube's faces, expending a number of charges based on the chosen face, as shown in the Cube of Force Faces table. Each face has a different effect. If the cube has insufficient charges remaining, nothing happens. Otherwise, a barrier of invisible force springs into existence, forming a cube 15 feet on a side. The barrier is centered on you, moves with you, and lasts for 1 minute, until you use an action to press the cube's sixth face, or the cube runs out of charges. You can change the barrier's effect by pressing a different face of the cube and expending the requisite number of charges, resetting the duration.",
+      "If your movement causes the barrier to come into contact with a solid object that can't pass through the cube, you can't move any closer to that object as long as the barrier remains.",
+      "Cube of Force Faces",
+      "| Face | Charges | Effect |",
+      "|---|---|---|",
+      "| 1 | 1 | Gases, wind, and fog can't pass through the barrier.",
+      "| 2 | 2 | Nonliving matter can't pass through the barrier. Walls, floors, and ceilings can pass through at your discretion.",
+      "| 3 | 3 | Living matter can't pass through the barrier.",
+      "| 4 | 4 | Spell effects can't pass through the barrier.",
+      "| 5 | 5 | Nothing can pass through the barrier. Walls, floors, and ceilings can pass through at your discretion.",
+      "| 6 | 0 | The barrier deactivates.",
+      "The cube loses charges when the barrier is targeted by certain spells or comes into contact with certain spell or magic item effects, as shown in the table below.",
+      "| Spell or Item | Charges Lost |",
+      "|---|---|",
+      "| Disintegrate | 1d12 |",
+      "| Horn of blasting | 1d10 |",
+      "| Passwall | 1d6 |",
+      "| Prismatic spray | 1d20 |",
+      "| Wall of fire | 1d4 |"
+    ],
+    "image": "/api/images/magic-items/cube-of-force.png",
+    "url": "/api/2014/magic-items/cube-of-force"
+  },
+  {
+    "index": "iron-bands-of-binding",
+    "name": "Iron Bands of Binding",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, rare",
+      "This rusty iron sphere measures 3 inches in diameter and weighs 1 pound. You can use an action to speak the command word and throw the sphere at a Huge or smaller creature you can see within 60 feet of you. As the sphere moves through the air, it opens into a tangle of metal bands.",
+      "Make a ranged attack roll with an attack bonus equal to your Dexterity modifier plus your proficiency bonus. On a hit, the target is restrained until you take a bonus action to speak the command word again to release it. Doing so, or missing with the attack, causes the bands to contract and become a sphere once more.",
+      "A creature, including the one restrained, can use an action to make a DC 20 Strength check to break the iron bands. On a success, the item is destroyed, and the restrained creature is freed. If the check fails, any further attempts made by that creature automatically fail until 24 hours have elapsed.",
+      "Once the bands are used, they can't be used again until the next dawn."
+    ],
+    "url": "/api/2014/magic-items/iron-bands-of-binding"
+  },
+  {
+    "index": "iron-flask",
+    "name": "Iron Flask",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, legendary",
+      "This iron bottle has a brass stopper. You can use an action to speak the flask's command word, targeting a creature that you can see within 60 feet of you. If the target is native to a plane of existence other than the one you're on, the target must succeed on a DC 17 Wisdom saving throw or be trapped in the flask. If the target has been trapped by the flask before, it has advantage on the saving throw. Once trapped, a creature remains in the flask until released. The flask can hold only one creature at a time. A creature trapped in the flask doesn't need to breathe, eat, or drink and doesn't age.",
+      "You can use an action to remove the flask's stopper and release the creature the flask contains. The creature is friendly to you and your companions for 1 hour and obeys your commands for that duration. If you give no commands or give it a command that is likely to result in its death, it defends itself but otherwise takes no actions. At the end of the duration, the creature acts in accordance with its normal disposition and alignment.",
+      "An identify spell reveals that a creature is inside the flask, but the only way to determine the type of creature is to open the flask. A newly discovered bottle might already contain a creature chosen by the GM or determined randomly.",
+      "| d100 | Contents |",
+      "|---|---|",
+      "| 1-50 | Empty |",
+      "| 51-54 | Demon (type 1) |",
+      "| 55-58 | Demon (type 2) |",
+      "| 59-62 | Demon (type 3) |",
+      "| 63-64 | Demon (type 4) |",
+      "| 65 | Demon (type 5) |",
+      "| 66 | Demon (type 6) |",
+      "| 67 | Deva |",
+      "| 68-69 | Devil (greater) |",
+      "| 70-73 | Devil (lesser) |",
+      "| 74-75 | Djinni |",
+      "| 76-77 | Efreeti |",
+      "| 78-83 | Elemental (any) |",
+      "| 84-86 | Invisible stalker |",
+      "| 87-90 | Night hag |",
+      "| 91 | Planetar |",
+      "| 92-95 | Salamander |",
+      "| 96 | Solar |",
+      "| 97-99 | Succubus/incubus |",
+      "| 100 | Xorn |"
+    ],
+    "url": "/api/2014/magic-items/iron-flask"
+  },
+  {
+    "index": "mirror-of-life-trapping",
+    "name": "Mirror of Life Trapping",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, very rare",
+      "When this 4-foot-tall mirror is viewed indirectly, its surface shows faint images of creatures. The mirror weighs 50 pounds, and it has AC 11, 10 hit points, and vulnerability to bludgeoning damage. It shatters and is destroyed when reduced to 0 hit points.",
+      "If the mirror is hanging on a vertical surface and you are within 5 feet of it, you can use an action to speak its command word and activate it. It remains activated until you use an action to speak the command word again.",
+      "Any creature other than you that sees its reflection in the activated mirror while within 30 feet of it must succeed on a DC 15 Charisma saving throw or be trapped, along with anything it is wearing or carrying, in one of the mirror's twelve extradimensional cells. This saving throw is made with advantage if the creature knows the mirror's nature, and constructs succeed on the saving throw automatically.",
+      "An extradimensional cell is an infinite expanse filled with thick fog that reduces visibility to 10 feet. Creatures trapped in the mirror's cells don't age, and they don't need to eat, drink, or sleep. A creature trapped within a cell can escape using magic that permits planar travel. Otherwise, the creature is confined to the cell until freed.",
+      "If the mirror traps a creature but its twelve extradimensional cells are already occupied, the mirror frees one trapped creature at random to accommodate the new prisoner. A freed creature appears in an unoccupied space within sight of the mirror but facing away from it. If the mirror is shattered, all creatures it contains are freed and appear in unoccupied spaces near it.",
+      "While within 5 feet of the mirror, you can use an action to speak the name of one creature trapped in it or call out a particular cell by number. The creature named or contained in the named cell appears as an image on the mirror's surface. You and the creature can then communicate normally.",
+      "In a similar way, you can use an action to speak a second command word and free one creature trapped in the mirror. The freed creature appears, along with its possessions, in the unoccupied space nearest to the mirror and facing away from it."
+    ],
+    "url": "/api/2014/magic-items/mirror-of-life-trapping"
+  },
+  {
+    "index": "ring-of-telekinesis",
+    "name": "Ring of Telekinesis",
+    "equipment_category": {
+      "index": "ring",
+      "name": "Ring",
+      "url": "/api/2014/equipment-categories/ring"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Ring, very rare (requires attunement)",
+      "While wearing this ring, you can cast the telekinesis spell at will, but you can target only objects that aren't being worn or carried."
+    ],
+    "url": "/api/2014/magic-items/ring-of-telekinesis"
+  },
+  {
+    "index": "rope-of-entanglement",
+    "name": "Rope of Entanglement",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, rare",
+      "This rope is 30 feet long and weighs 3 pounds. If you hold one end of the rope and use an action to speak its command word, the other end darts forward to entangle a creature you can see within 20 feet of you. The target must succeed on a DC 15 Dexterity saving throw or become restrained.",
+      "You can release the creature by using a bonus action to speak a second command word. A target restrained by the rope can use an action to make a DC 15 Strength or Dexterity check (target's choice). On a success, the creature is no longer restrained by the rope.",
+      "The rope has AC 20 and 20 hit points. It regains 1 hit point every 5 minutes as long as it has at least 1 hit point. If the rope drops to 0 hit points, it is destroyed."
+    ],
+    "url": "/api/2014/magic-items/rope-of-entanglement"
+  },
+  {
+    "index": "sphere-of-annihilation",
+    "name": "Sphere of Annihilation",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, legendary",
+      "This 2-foot-diameter black sphere is a hole in the multiverse, hovering in space and stabilized by a magical field surrounding it.",
+      "The sphere obliterates all matter it passes through and all matter that passes through it. Artifacts are the exception. Unless an artifact is susceptible to damage from a sphere of annihilation, it passes through the sphere unscathed. Anything else that touches the sphere but isn't wholly engulfed and obliterated by it takes 4d10 force damage.",
+      "The sphere is stationary until someone controls it. If you are within 60 feet of an uncontrolled sphere, you can use an action to make a DC 25 Intelligence (Arcana) check. On a success, the sphere levitates in one direction of your choice, up to a number of feet equal to 5 × your Intelligence modifier (minimum 5 feet). On a failure, the sphere moves 10 feet toward you. A creature whose space the sphere enters must succeed on a DC 13 Dexterity saving throw or be touched by it, taking 4d10 force damage.",
+      "If you attempt to control a sphere that is under another creature's control, you make an Intelligence (Arcana) check contested by the other creature's Intelligence (Arcana) check. The winner of the contest gains control of the sphere and can levitate it as normal.",
+      "If the sphere comes into contact with a planar portal, such as that created by the gate spell, or an extradimensional space, such as that within a portable hole, the GM determines randomly what happens, using the following table.",
+      "| d100 | Result |",
+      "|---|---|",
+      "| 01-50 | The sphere is destroyed. |",
+      "| 51-85 | The sphere moves through the portal or into the extradimensional space. |",
+      "| 86-00 | A spatial rift sends each creature and object within 180 feet of the sphere, including the sphere, to a random plane of existence. |"
+    ],
+    "url": "/api/2014/magic-items/sphere-of-annihilation"
+  },
+  {
+    "index": "staff-of-frost",
+    "name": "Staff of Frost",
+    "equipment_category": {
+      "index": "staff",
+      "name": "Staff",
+      "url": "/api/2014/equipment-categories/staff"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Staff, very rare (requires attunement by a druid, sorcerer, warlock, or wizard)",
+      "You have resistance to cold damage while you hold this staff.",
+      "The staff has 10 charges. While holding it, you can use an action to expend 1 or more of its charges to cast one of the following spells from it, using your spell save DC: cone of cold (5 charges), fog cloud (1 charge), ice storm (4 charges), or wall of ice (4 charges).",
+      "The staff regains 1d6 + 4 expended charges daily at dawn. If you expend the last charge, roll a d20. On a 1, the staff turns to water and is destroyed."
+    ],
+    "url": "/api/2014/magic-items/staff-of-frost"
+  },
+  {
+    "index": "staff-of-swarming-insects",
+    "name": "Staff of Swarming Insects",
+    "equipment_category": {
+      "index": "staff",
+      "name": "Staff",
+      "url": "/api/2014/equipment-categories/staff"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Staff, very rare (requires attunement by a bard, cleric, druid, sorcerer, warlock, or wizard)",
+      "This staff has 10 charges and regains 1d6 + 4 expended charges daily at dawn. If you expend the last charge, roll a d20. On a 1, a swarm of insects consumes and destroys the staff, then disperses.",
+      "***Spells.*** While holding the staff, you can use an action to expend some of its charges to cast one of the following spells from it, using your spell save DC: giant insect (4 charges) or insect plague (5 charges).",
+      "***Insect Cloud.*** While holding the staff, you can use an action and expend 1 charge to cause a swarm of harmless flying insects to spread out in a 30-foot radius from you. The insects remain for 10 minutes, making the area heavily obscured for creatures other than you. The swarm moves with you, remaining centered on you. A wind of at least 10 miles per hour disperses the swarm and ends the effect."
+    ],
+    "url": "/api/2014/magic-items/staff-of-swarming-insects"
+  },
+  {
+    "index": "talisman-of-the-sphere",
+    "name": "Talisman of the Sphere",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, legendary (requires attunement)",
+      "When you make an Intelligence (Arcana) check to control a sphere of annihilation while you are holding this talisman, you double your proficiency bonus on the check. In addition, when you start your turn with control over a sphere of annihilation, you can use an action to levitate it 10 feet plus a number of additional feet equal to 10 × your Intelligence modifier."
+    ],
+    "url": "/api/2014/magic-items/talisman-of-the-sphere"
+  },
+  {
+    "index": "wand-of-binding",
+    "name": "Wand of Binding",
+    "equipment_category": {
+      "index": "wand",
+      "name": "Wand",
+      "url": "/api/2014/equipment-categories/wand"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wand, rare (requires attunement by a spellcaster)",
+      "This wand has 7 charges for the following properties. It regains 1d6 + 1 expended charges daily at dawn. If you expend the wand's last charge, roll a d20. On a 1, the wand crumbles into ashes and is destroyed.",
+      "***Spells.*** While holding the wand, you can use an action to expend some of its charges to cast one of the following spells (save DC 17): hold monster (5 charges) or hold person (2 charges).",
+      "***Assisted Escape.*** While holding the wand, you can use your reaction to expend 1 charge and gain advantage on a saving throw you make to avoid being paralyzed or restrained, or you can expend 1 charge and gain advantage on any check you make to escape a grapple."
+    ],
+    "url": "/api/2014/magic-items/wand-of-binding"
+  },
+  {
+    "index": "wand-of-web",
+    "name": "Wand of Web",
+    "equipment_category": {
+      "index": "wand",
+      "name": "Wand",
+      "url": "/api/2014/equipment-categories/wand"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wand, uncommon (requires attunement by a spellcaster)",
+      "This wand has 7 charges. While holding it, you can use an action to expend 1 of its charges to cast the web spell (save DC 15) from it.",
+      "The wand regains 1d6 + 1 expended charges daily at dawn. If you expend the wand's last charge, roll a d20. On a 1, the wand crumbles into ashes and is destroyed."
+    ],
+    "url": "/api/2014/magic-items/wand-of-web"
+  }
+]

@@ -1,0 +1,139 @@
+[
+  {
+    "index": "eyes-of-charming",
+    "name": "Eyes of Charming",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, uncommon (requires attunement)",
+      "These crystal lenses fit over the eyes. They have 3 charges. While wearing them, you can expend 1 charge as an action to cast the charm person spell (save DC 13) on a humanoid within 30 feet of you, provided that you and the target can see each other. The lenses regain all expended charges daily at dawn."
+    ],
+    "url": "/api/2014/magic-items/eyes-of-charming"
+  },
+  {
+    "index": "helm-of-telepathy",
+    "name": "Helm of Telepathy",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, uncommon (requires attunement)",
+      "While wearing this helm, you can use an action to cast the detect thoughts spell (save DC 13) from it. As long as you maintain concentration on the spell, you can use a bonus action to send a telepathic message to a creature you are focused on. It can reply-using a bonus action to do so-while your focus on it continues.",
+      "While focusing on a creature with detect thoughts, you can use an action to cast the suggestion spell (save DC 13) from the helm on that creature. Once used, the suggestion property can't be used again until the next dawn."
+    ],
+    "url": "/api/2014/magic-items/helm-of-telepathy"
+  },
+  {
+    "index": "medallion-of-thoughts",
+    "name": "Medallion of Thoughts",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, uncommon (requires attunement)",
+      "The medallion has 3 charges. While wearing it, you can use an action and expend 1 charge to cast the detect thoughts spell (save DC 13) from it. The medallion regains 1d3 expended charges daily at dawn."
+    ],
+    "url": "/api/2014/magic-items/medallion-of-thoughts"
+  },
+  {
+    "index": "philter-of-love",
+    "name": "Philter of Love",
+    "equipment_category": {
+      "index": "potion",
+      "name": "Potion",
+      "url": "/api/2014/equipment-categories/potion"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Potion, uncommon",
+      "The next time you see a creature within 10 minutes after drinking this philter, you become charmed by that creature for 1 hour. If the creature is of a species and gender you are normally attracted to, you regard it as your true love while you are charmed. This potion's rose-hued, effervescent liquid contains one easy-to-miss bubble shaped like a heart."
+    ],
+    "url": "/api/2014/magic-items/philter-of-love"
+  },
+  {
+    "index": "potion-of-animal-friendship",
+    "name": "Potion of Animal Friendship",
+    "equipment_category": {
+      "index": "potion",
+      "name": "Potion",
+      "url": "/api/2014/equipment-categories/potion"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Potion, uncommon",
+      "When you drink this potion, you can cast the animal friendship spell (save DC 13) for 1 hour at will. Agitating this muddy liquid brings little bits into view: a fish scale, a hummingbird tongue, a cat claw, or a squirrel hair."
+    ],
+    "url": "/api/2014/magic-items/potion-of-animal-friendship"
+  },
+  {
+    "index": "ring-of-animal-influence",
+    "name": "Ring of Animal Influence",
+    "equipment_category": {
+      "index": "ring",
+      "name": "Ring",
+      "url": "/api/2014/equipment-categories/ring"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Ring, rare",
+      "This ring has 3 charges, and it regains 1d3 expended charges daily at dawn. While wearing the ring, you can use an action to expend 1 of its charges to cast one of the following spells:",
+      "Animal friendship (save DC 13)",
+      "Fear (save DC 13), targeting only beasts that have an Intelligence of 3 or lower",
+      "Speak with animals"
+    ],
+    "url": "/api/2014/magic-items/ring-of-animal-influence"
+  },
+  {
+    "index": "rod-of-rulership",
+    "name": "Rod of Rulership",
+    "equipment_category": {
+      "index": "rod",
+      "name": "Rod",
+      "url": "/api/2014/equipment-categories/rod"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Rod, rare (requires attunement)",
+      "You can use an action to present the rod and command obedience from each creature of your choice that you can see within 120 feet of you. Each target must succeed on a DC 15 Wisdom saving throw or be charmed by you for 8 hours. While charmed in this way, the creature regards you as its trusted leader. If harmed by you or your companions, or commanded to do something contrary to its nature, a target ceases to be charmed in this way. The rod can't be used again until the next dawn."
+    ],
+    "url": "/api/2014/magic-items/rod-of-rulership"
+  }
+]

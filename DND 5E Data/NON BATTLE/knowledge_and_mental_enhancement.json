@@ -1,0 +1,219 @@
+[
+  {
+    "index": "crystal-ball",
+    "name": "Crystal Ball",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [
+      {
+        "index": "crystal-ball-of-mind-reading",
+        "name": "Crystal Ball of Mind Reading",
+        "url": "/api/2014/magic-items/crystal-ball-of-mind-reading"
+      },
+      {
+        "index": "crystal-ball-of-telepathy",
+        "name": "Crystal Ball of Telepathy",
+        "url": "/api/2014/magic-items/crystal-ball-of-telepathy"
+      },
+      {
+        "index": "crystal-ball-of-true-seeing",
+        "name": "Crystal Ball of True Seeing",
+        "url": "/api/2014/magic-items/crystal-ball-of-true-seeing"
+      }
+    ],
+    "variant": false,
+    "desc": [
+      "Wondrous item, very rare or legendary (requires attunement)",
+      "The typical crystal ball, a very rare item, is about 6 inches in diameter. While touching it, you can cast the scrying spell (save DC 17) with it.",
+      "The following crystal ball variants are legendary items and have additional properties.",
+      "***Crystal Ball of Mind Reading.*** You can use an action to cast the detect thoughts spell (save DC 17) while you are scrying with the crystal ball, targeting creatures you can see within 30 feet of the spell's sensor. You don't need to concentrate on this detect thoughts to maintain it during its duration, but it ends if scrying ends.",
+      "***Crystal Ball of Telepathy.*** While scrying with the crystal ball, you can communicate telepathically with creatures you can see within 30 feet of the spell's sensor. You can also use an action to cast the suggestion spell (save DC 17) through the sensor on one of those creatures. You don't need to concentrate on this suggestion to maintain it during its duration, but it ends if scrying ends. Once used, the suggestion power of the crystal ball can't be used again until the next dawn.",
+      "***Crystal Ball of True Seeing.*** While scrying with the crystal ball, you have truesight with a radius of 120 feet centered on the spell's sensor."
+    ],
+    "image": "/api/images/magic-items/crystal-ball.png",
+    "url": "/api/2014/magic-items/crystal-ball"
+  },
+  {
+    "index": "crystal-ball-of-mind-reading",
+    "name": "Crystal Ball of Mind Reading",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, legendary (requires attunement)",
+      "The crystal ball is about 6 inches in diameter. While touching it, you can cast the scrying spell (save DC 17) with it.",
+      "***Crystal Ball of Mind Reading.*** You can use an action to cast the detect thoughts spell (save DC 17) while you are scrying with the crystal ball, targeting creatures you can see within 30 feet of the spell's sensor. You don't need to concentrate on this detect thoughts to maintain it during its duration, but it ends if scrying ends."
+    ],
+    "image": "/api/images/magic-items/crystal-ball-of-mind-reading.png",
+    "url": "/api/2014/magic-items/crystal-ball-of-mind-reading"
+  },
+  {
+    "index": "crystal-ball-of-telepathy",
+    "name": "Crystal Ball of Telepathy",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, legendary (requires attunement)",
+      "The crystal ball is about 6 inches in diameter. While touching it, you can cast the scrying spell (save DC 17) with it.",
+      "***Crystal Ball of Telepathy.*** While scrying with the crystal ball, you can communicate telepathically with creatures you can see within 30 feet of the spell's sensor. You can also use an action to cast the suggestion spell (save DC 17) through the sensor on one of those creatures. You don't need to concentrate on this suggestion to maintain it during its duration, but it ends if scrying ends. Once used, the suggestion power of the crystal ball can't be used again until the next dawn."
+    ],
+    "image": "/api/images/magic-items/crystal-ball-of-telepathy.png",
+    "url": "/api/2014/magic-items/crystal-ball-of-telepathy"
+  },
+  {
+    "index": "crystal-ball-of-true-seeing",
+    "name": "Crystal Ball of True Seeing",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, legendary (requires attunement)",
+      "The crystal ball is about 6 inches in diameter. While touching it, you can cast the scrying spell (save DC 17) with it.",
+      "***Crystal Ball of True Seeing.*** While scrying with the crystal ball, you have truesight with a radius of 120 feet centered on the spell's sensor."
+    ],
+    "image": "/api/images/magic-items/crystal-ball-of-true-seeing.png",
+    "url": "/api/2014/magic-items/crystal-ball-of-true-seeing"
+  },
+  {
+    "index": "eyes-of-minute-seeing",
+    "name": "Eyes of Minute Seeing",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, uncommon",
+      "These crystal lenses fit over the eyes. While wearing them, you can see much better than normal out to a range of 1 foot. You have advantage on Intelligence (Investigation) checks that rely on sight while searching an area or studying an object within that range."
+    ],
+    "url": "/api/2014/magic-items/eyes-of-minute-seeing"
+  },
+  {
+    "index": "headband-of-intellect",
+    "name": "Headband of Intellect",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, uncommon (requires attunement)",
+      "Your Intelligence score is 19 while you wear this headband. It has no effect on you if your Intelligence is already 19 or higher."
+    ],
+    "url": "/api/2014/magic-items/headband-of-intellect"
+  },
+  {
+    "index": "medallion-of-thoughts",
+    "name": "Medallion of Thoughts",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, uncommon (requires attunement)",
+      "The medallion has 3 charges. While wearing it, you can use an action and expend 1 charge to cast the detect thoughts spell (save DC 13) from it. The medallion regains 1d3 expended charges daily at dawn."
+    ],
+    "url": "/api/2014/magic-items/medallion-of-thoughts"
+  },
+  {
+    "index": "tome-of-clear-thought",
+    "name": "Tome of Clear Thought",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, very rare",
+      "This book contains memory and logic exercises, and its words are charged with magic. If you spend 48 hours over a period of 6 days or fewer studying the book's contents and practicing its guidelines, your Intelligence score increases by 2, as does your maximum for that score. The manual then loses its magic, but regains it in a century."
+    ],
+    "url": "/api/2014/magic-items/tome-of-clear-thought"
+  },
+  {
+    "index": "tome-of-leadership-and-influence",
+    "name": "Tome of Leadership and Influence",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, very rare",
+      "This book contains guidelines for influencing and charming others, and its words are charged with magic. If you spend 48 hours over a period of 6 days or fewer studying the book's contents and practicing its guidelines, your Charisma score increases by 2, as does your maximum for that score. The manual then loses its magic, but regains it in a century."
+    ],
+    "url": "/api/2014/magic-items/tome-of-leadership-and-influence"
+  },
+  {
+    "index": "tome-of-understanding",
+    "name": "Tome of Understanding",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, very rare",
+      "This book contains intuition and insight exercises, and its words are charged with magic. If you spend 48 hours over a period of 6 days or fewer studying the book's contents and practicing its guidelines, your Wisdom score increases by 2, as does your maximum for that score. The manual then loses its magic, but regains it in a century."
+    ],
+    "url": "/api/2014/magic-items/tome-of-understanding"
+  }
+]

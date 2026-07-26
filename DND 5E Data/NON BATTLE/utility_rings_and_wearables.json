@@ -1,0 +1,813 @@
+[
+  {
+    "index": "amulet-of-proof-against-detection-and-location",
+    "name": "Amulet of Proof against Detection and Location",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, uncommon (requires attunement)",
+      "While wearing this amulet, you are hidden from divination magic. You can't be targeted by such magic or perceived through magical scrying sensors."
+    ],
+    "image": "/api/images/magic-items/amulet-of-proof-against-detection-and-location.png",
+    "url": "/api/2014/magic-items/amulet-of-proof-against-detection-and-location"
+  },
+  {
+    "index": "amulet-of-the-planes",
+    "name": "Amulet of the Planes",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, very rare (requires attunement)",
+      "While wearing this amulet, you can use an action to name a location that you are familiar with on another plane of existence. Then make a DC 15 Intelligence check. On a successful check, you cast the plane shift spell. On a failure, you and each creature and object within 15 feet of you travel to a random destination. Roll a d100. On a 1-60, you travel to a random location on the plane you named. On a 61-100, you travel to a randomly determined plane of existence."
+    ],
+    "image": "/api/images/magic-items/amulet-of-the-planes.png",
+    "url": "/api/2014/magic-items/amulet-of-the-planes"
+  },
+  {
+    "index": "boots-of-elvenkind",
+    "name": "Boots of Elvenkind",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, uncommon",
+      "While you wear these boots, your steps make no sound, regardless of the surface you are moving across. You also have advantage on Dexterity (Stealth) checks that rely on moving silently."
+    ],
+    "image": "/api/images/magic-items/boots-of-elvenkind.png",
+    "url": "/api/2014/magic-items/boots-of-elvenkind"
+  },
+  {
+    "index": "boots-of-levitation",
+    "name": "Boots of Levitation",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, rare (requires attunement)",
+      "While you wear these boots, you can use an action to cast the levitate spell on yourself at will."
+    ],
+    "image": "/api/images/magic-items/boots-of-levitation.png",
+    "url": "/api/2014/magic-items/boots-of-levitation"
+  },
+  {
+    "index": "boots-of-striding-and-springing",
+    "name": "Boots of Striding and Springing",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, uncommon (requires attunement)",
+      "While you wear these boots, your walking speed becomes 30 feet, unless your walking speed is higher, and your speed isn't reduced if you are encumbered or wearing heavy armor. In addition, you can jump three times the normal distance, though you can't jump farther than your remaining movement would allow."
+    ],
+    "image": "/api/images/magic-items/boots-of-striding-and-springing.png",
+    "url": "/api/2014/magic-items/boots-of-striding-and-springing"
+  },
+  {
+    "index": "boots-of-the-winterlands",
+    "name": "Boots of the Winterlands",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, uncommon (requires attunement)",
+      "These furred boots are snug and feel quite warm. While you wear them, you gain the following benefits:",
+      "* You have resistance to cold damage.",
+      "* You ignore difficult terrain created by ice or snow.",
+      "* You can tolerate temperatures as low as -50 degrees Fahrenheit without any additional protection. If you wear heavy clothes, you can tolerate temperatures as low as -100 degrees Fahrenheit."
+    ],
+    "image": "/api/images/magic-items/boots-of-the-winterlands.png",
+    "url": "/api/2014/magic-items/boots-of-the-winterlands"
+  },
+  {
+    "index": "cloak-of-elvenkind",
+    "name": "Cloak of Elvenkind",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, uncommon (requires attunement)",
+      "While you wear this cloak with its hood up, Wisdom (Perception) checks made to see you have disadvantage, and you have advantage on Dexterity (Stealth) checks made to hide, as the cloak's color shifts to camouflage you. Pulling the hood up or down requires an action."
+    ],
+    "image": "/api/images/magic-items/cloak-of-elvenkind.png",
+    "url": "/api/2014/magic-items/cloak-of-elvenkind"
+  },
+  {
+    "index": "cloak-of-the-bat",
+    "name": "Cloak of the Bat",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, rare (requires attunement)",
+      "While wearing this cloak, you have advantage on Dexterity (Stealth) checks. In an area of dim light or darkness, you can grip the edges of the cloak with both hands and use it to fly at a speed of 40 feet. If you ever fail to grip the cloak's edges while flying in this way, or if you are no longer in dim light or darkness, you lose this flying speed.",
+      "While wearing the cloak in an area of dim light or darkness, you can use your action to cast polymorph on yourself, transforming into a bat. While you are in the form of the bat, you retain your Intelligence, Wisdom, and Charisma scores. The cloak can't be used this way again until the next dawn."
+    ],
+    "image": "/api/images/magic-items/cloak-of-the-bat.png",
+    "url": "/api/2014/magic-items/cloak-of-the-bat"
+  },
+  {
+    "index": "cloak-of-the-manta-ray",
+    "name": "Cloak of the Manta Ray",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, uncommon",
+      "While wearing this cloak with its hood up, you can breathe underwater, and you have a swimming speed of 60 feet. Pulling the hood up or down requires an action."
+    ],
+    "image": "/api/images/magic-items/cloak-of-the-manta-ray.png",
+    "url": "/api/2014/magic-items/cloak-of-the-manta-ray"
+  },
+  {
+    "index": "eyes-of-charming",
+    "name": "Eyes of Charming",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, uncommon (requires attunement)",
+      "These crystal lenses fit over the eyes. They have 3 charges. While wearing them, you can expend 1 charge as an action to cast the charm person spell (save DC 13) on a humanoid within 30 feet of you, provided that you and the target can see each other. The lenses regain all expended charges daily at dawn."
+    ],
+    "url": "/api/2014/magic-items/eyes-of-charming"
+  },
+  {
+    "index": "eyes-of-minute-seeing",
+    "name": "Eyes of Minute Seeing",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, uncommon",
+      "These crystal lenses fit over the eyes. While wearing them, you can see much better than normal out to a range of 1 foot. You have advantage on Intelligence (Investigation) checks that rely on sight while searching an area or studying an object within that range."
+    ],
+    "url": "/api/2014/magic-items/eyes-of-minute-seeing"
+  },
+  {
+    "index": "eyes-of-the-eagle",
+    "name": "Eyes of the Eagle",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, uncommon (requires attunement)",
+      "These crystal lenses fit over the eyes. While wearing them, you have advantage on Wisdom (Perception) checks that rely on sight. In conditions of clear visibility, you can make out details of even extremely distant creatures and objects as small as 2 feet across."
+    ],
+    "url": "/api/2014/magic-items/eyes-of-the-eagle"
+  },
+  {
+    "index": "gloves-of-swimming-and-climbing",
+    "name": "Gloves of Swimming and Climbing",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, uncommon (requires attunement)",
+      "While wearing these gloves, climbing and swimming don't cost you extra movement, and you gain a +5 bonus to Strength (Athletics) checks made to climb or swim."
+    ],
+    "url": "/api/2014/magic-items/gloves-of-swimming-and-climbing"
+  },
+  {
+    "index": "goggles-of-night",
+    "name": "Goggles of Night",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, uncommon",
+      "While wearing these dark lenses, you have darkvision out to a range of 60 feet. If you already have darkvision, wearing the goggles increases its range by 60 feet."
+    ],
+    "url": "/api/2014/magic-items/goggles-of-night"
+  },
+  {
+    "index": "hat-of-disguise",
+    "name": "Hat of Disguise",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, uncommon (requires attunement)",
+      "While wearing this hat, you can use an action to cast the disguise self spell from it at will. The spell ends if the hat is removed."
+    ],
+    "url": "/api/2014/magic-items/hat-of-disguise"
+  },
+  {
+    "index": "headband-of-intellect",
+    "name": "Headband of Intellect",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, uncommon (requires attunement)",
+      "Your Intelligence score is 19 while you wear this headband. It has no effect on you if your Intelligence is already 19 or higher."
+    ],
+    "url": "/api/2014/magic-items/headband-of-intellect"
+  },
+  {
+    "index": "helm-of-comprehending-languages",
+    "name": "Helm of Comprehending Languages",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, uncommon",
+      "While wearing this helm, you can use an action to cast the comprehend languages spell from it at will."
+    ],
+    "url": "/api/2014/magic-items/helm-of-comprehending-languages"
+  },
+  {
+    "index": "helm-of-telepathy",
+    "name": "Helm of Telepathy",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, uncommon (requires attunement)",
+      "While wearing this helm, you can use an action to cast the detect thoughts spell (save DC 13) from it. As long as you maintain concentration on the spell, you can use a bonus action to send a telepathic message to a creature you are focused on. It can reply-using a bonus action to do so-while your focus on it continues.",
+      "While focusing on a creature with detect thoughts, you can use an action to cast the suggestion spell (save DC 13) from the helm on that creature. Once used, the suggestion property can't be used again until the next dawn."
+    ],
+    "url": "/api/2014/magic-items/helm-of-telepathy"
+  },
+  {
+    "index": "helm-of-teleportation",
+    "name": "Helm of Teleportation",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, rare (requires attunement)",
+      "This helm has 3 charges. While wearing it, you can use an action and expend 1 charge to cast the teleport spell from it. The helm regains 1d3",
+      "expended charges daily at dawn."
+    ],
+    "url": "/api/2014/magic-items/helm-of-teleportation"
+  },
+  {
+    "index": "horseshoes-of-a-zephyr",
+    "name": "Horseshoes of a Zephyr",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, very rare",
+      "These iron horseshoes come in a set of four. While all four shoes are affixed to the hooves of a horse or similar creature, they allow the creature to move normally while floating 4 inches above the ground. This effect means the creature can cross or stand above nonsolid or unstable surfaces, such as water or lava. The creature leaves no tracks and ignores difficult terrain. In addition, the creature can move at normal speed for up to 12 hours a day without suffering exhaustion from a forced march."
+    ],
+    "url": "/api/2014/magic-items/horseshoes-of-a-zephyr"
+  },
+  {
+    "index": "horseshoes-of-speed",
+    "name": "Horseshoes of Speed",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, rare",
+      "These iron horseshoes come in a set of four. While all four shoes are affixed to the hooves of a horse or similar creature, they increase the creature's walking speed by 30 feet."
+    ],
+    "url": "/api/2014/magic-items/horseshoes-of-speed"
+  },
+  {
+    "index": "ioun-stone-of-sustenance",
+    "name": "Ioun Stone of Sustenance",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, rare (requires attunement)",
+      "An Ioun stone is named after Ioun, a god of knowledge and prophecy revered on some worlds. Many types of Ioun stone exist, each type a distinct combination of shape and color.",
+      "When you use an action to toss one of these stones into the air, the stone orbits your head at a distance of 1d3 feet and confers a benefit to you. Thereafter, another creature must use an action to grasp or net the stone to separate it from you, either by making a successful attack roll against AC 24 or a successful DC 24 Dexterity (Acrobatics) check. You can use an action to seize and stow the stone, ending its effect.",
+      "A stone has AC 24, 10 hit points, and resistance to all damage. It is considered to be an object that is being worn while it orbits your head.",
+      "***Sustenance.*** You don't need to eat or drink while this clear spindle orbits your head."
+    ],
+    "url": "/api/2014/magic-items/ioun-stone-of-sustenance"
+  },
+  {
+    "index": "medallion-of-thoughts",
+    "name": "Medallion of Thoughts",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, uncommon (requires attunement)",
+      "The medallion has 3 charges. While wearing it, you can use an action and expend 1 charge to cast the detect thoughts spell (save DC 13) from it. The medallion regains 1d3 expended charges daily at dawn."
+    ],
+    "url": "/api/2014/magic-items/medallion-of-thoughts"
+  },
+  {
+    "index": "necklace-of-adaptation",
+    "name": "Necklace of Adaptation",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, uncommon (requires attunement)",
+      "While wearing this necklace, you can breathe normally in any environment, and you have advantage on saving throws made against harmful gases and vapors (such as cloudkill and stinking cloud effects, inhaled poisons, and the breath weapons of some dragons)."
+    ],
+    "url": "/api/2014/magic-items/necklace-of-adaptation"
+  },
+  {
+    "index": "periapt-of-health",
+    "name": "Periapt of Health",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, uncommon",
+      "You are immune to contracting any disease while you wear this pendant. If you are already infected with a disease, the effects of the disease are suppressed you while you wear the pendant."
+    ],
+    "url": "/api/2014/magic-items/periapt-of-health"
+  },
+  {
+    "index": "periapt-of-proof-against-poison",
+    "name": "Periapt of Proof against Poison",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, rare",
+      "This delicate silver chain has a brilliant-cut black gem pendant. While you wear it, poisons have no effect on you. You are immune to the poisoned condition and have immunity to poison damage."
+    ],
+    "url": "/api/2014/magic-items/periapt-of-proof-against-poison"
+  },
+  {
+    "index": "ring-of-animal-influence",
+    "name": "Ring of Animal Influence",
+    "equipment_category": {
+      "index": "ring",
+      "name": "Ring",
+      "url": "/api/2014/equipment-categories/ring"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Ring, rare",
+      "This ring has 3 charges, and it regains 1d3 expended charges daily at dawn. While wearing the ring, you can use an action to expend 1 of its charges to cast one of the following spells:",
+      "Animal friendship (save DC 13)",
+      "Fear (save DC 13), targeting only beasts that have an Intelligence of 3 or lower",
+      "Speak with animals"
+    ],
+    "url": "/api/2014/magic-items/ring-of-animal-influence"
+  },
+  {
+    "index": "ring-of-feather-falling",
+    "name": "Ring of Feather Falling",
+    "equipment_category": {
+      "index": "ring",
+      "name": "Ring",
+      "url": "/api/2014/equipment-categories/ring"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Ring, rare (requires attunement)",
+      "When you fall while wearing this ring, you descend 60 feet per round and take no damage from falling."
+    ],
+    "url": "/api/2014/magic-items/ring-of-feather-falling"
+  },
+  {
+    "index": "ring-of-jumping",
+    "name": "Ring of Jumping",
+    "equipment_category": {
+      "index": "ring",
+      "name": "Ring",
+      "url": "/api/2014/equipment-categories/ring"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Ring, uncommon (requires attunement)",
+      "While wearing this ring, you can cast the jump spell from it as a bonus action at will, but can target only yourself when you do so."
+    ],
+    "url": "/api/2014/magic-items/ring-of-jumping"
+  },
+  {
+    "index": "ring-of-mind-shielding",
+    "name": "Ring of Mind Shielding",
+    "equipment_category": {
+      "index": "ring",
+      "name": "Ring",
+      "url": "/api/2014/equipment-categories/ring"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Ring, uncommon (requires attunement)",
+      "While wearing this ring, you are immune to magic that allows other creatures to read your thoughts, determine whether you are lying, know your alignment, or know your creature type. Creatures can telepathically communicate with you only if you allow it.",
+      "You can use an action to cause the ring to become invisible until you use another action to make it visible, until you remove the ring, or until you die.",
+      "If you die while wearing the ring, your soul enters it, unless it already houses a soul. You can remain in the ring or depart for the afterlife. As long as your soul is in the ring, you can telepathically communicate with any creature wearing it. A wearer can't prevent this telepathic communication."
+    ],
+    "url": "/api/2014/magic-items/ring-of-mind-shielding"
+  },
+  {
+    "index": "ring-of-swimming",
+    "name": "Ring of Swimming",
+    "equipment_category": {
+      "index": "ring",
+      "name": "Ring",
+      "url": "/api/2014/equipment-categories/ring"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Ring, uncommon",
+      "You have a swimming speed of 40 feet while wearing this ring."
+    ],
+    "url": "/api/2014/magic-items/ring-of-swimming"
+  },
+  {
+    "index": "ring-of-three-wishes",
+    "name": "Ring of Three Wishes",
+    "equipment_category": {
+      "index": "ring",
+      "name": "Ring",
+      "url": "/api/2014/equipment-categories/ring"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Ring, legendary",
+      "While wearing this ring, you can use an action to expend 1 of its 3 charges to cast the wish spell from it. The ring becomes nonmagical when you use the last charge."
+    ],
+    "url": "/api/2014/magic-items/ring-of-three-wishes"
+  },
+  {
+    "index": "ring-of-warmth",
+    "name": "Ring of Warmth",
+    "equipment_category": {
+      "index": "ring",
+      "name": "Ring",
+      "url": "/api/2014/equipment-categories/ring"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Ring, uncommon (requires attunement)",
+      "While wearing this ring, you have resistance to cold damage. In addition, you and everything you wear and carry are unharmed by temperatures as low as -50 degrees Fahrenheit."
+    ],
+    "url": "/api/2014/magic-items/ring-of-warmth"
+  },
+  {
+    "index": "ring-of-water-walking",
+    "name": "Ring of Water Walking",
+    "equipment_category": {
+      "index": "ring",
+      "name": "Ring",
+      "url": "/api/2014/equipment-categories/ring"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Ring, uncommon",
+      "While wearing this ring, you can stand on and move across any liquid surface as if it were solid ground."
+    ],
+    "url": "/api/2014/magic-items/ring-of-water-walking"
+  },
+  {
+    "index": "ring-of-x-ray-vision",
+    "name": "Ring of X-ray Vision",
+    "equipment_category": {
+      "index": "ring",
+      "name": "Ring",
+      "url": "/api/2014/equipment-categories/ring"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Ring, rare (requires attunement)",
+      "While wearing this ring, you can use an action to speak its command word. When you do so, you can see into and through solid matter for 1 minute. This vision has a radius of 30 feet. To you, solid objects within that radius appear transparent and don't prevent light from passing through them. The vision can penetrate 1 foot of stone, 1 inch of common metal, or up to 3 feet of wood or dirt. Thicker substances block the vision, as does a thin sheet of lead.",
+      "Whenever you use the ring again before taking a long rest, you must succeed on a DC 15 Constitution saving throw or gain one level of exhaustion."
+    ],
+    "url": "/api/2014/magic-items/ring-of-x-ray-vision"
+  },
+  {
+    "index": "robe-of-eyes",
+    "name": "Robe of Eyes",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, rare (requires attunement)",
+      "This robe is adorned with eyelike patterns. While you wear the robe, you gain the following benefits:",
+      "The robe lets you see in all directions, and you have advantage on Wisdom (Perception) checks that rely on sight.",
+      "You have darkvision out to a range of 120 feet.",
+      "You can see invisible creatures and objects, as well as see into the Ethereal Plane, out to a range of 120 feet.",
+      "The eyes on the robe can't be closed or averted. Although you can close or avert your own eyes, you are never considered to be doing so while wearing this robe.",
+      "A light spell cast on the robe or a daylight spell cast within 5 feet of the robe causes you to be blinded for 1 minute. At the end of each of your turns, you can make a Constitution saving throw (DC 11 for light or DC 15 for daylight), ending the blindness on a success."
+    ],
+    "url": "/api/2014/magic-items/robe-of-eyes"
+  },
+  {
+    "index": "robe-of-useful-items",
+    "name": "Robe of Useful Items",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, uncommon",
+      "This robe has cloth patches of various shapes and colors covering it. While wearing the robe, you can use an action to detach one of the patches, causing it to become the object or creature it represents. Once the last patch is removed, the robe becomes an ordinary garment.",
+      "The robe has two of each of the following patches:",
+      "Dagger",
+      "Bullseye lantern (filled and lit)",
+      "Steel mirror",
+      "10-foot pole",
+      "Hempen rope (50 feet, coiled)",
+      "Sack",
+      "In addition, the robe has 4d4 other patches. The GM chooses the patches or determines them randomly.",
+      "| d100 | Patch |",
+      "|---|---|",
+      "| 01-08 | Bag of 100 gp |",
+      "| 09-15 | Silver coffer (1 foot long, 6 inches wide and deep) worth 500 gp |",
+      "| 16-22 | Iron door (up to 10 feet wide and 10 feet high, barred on one side of your choice), which you can place in an opening you can reach; it conforms to fit the opening, attaching and hinging itself |",
+      "| 23-30 | 10 gems worth 100 gp each |",
+      "| 31-44 | Wooden ladder (24 feet long) 45-51 A riding horse with saddle bags |",
+      "| 52-59 | Pit (a cube 10 feet on a side), which you can place on the ground within 10 feet of you |",
+      "| 60-68 | 4 potions of healing |",
+      "| 69-75 | Rowboat (12 feet long) |",
+      "| 76-83 | Spell scroll containing one spell of 1st to 3rd level |",
+      "| 84-90 | 2 mastiffs |",
+      "| 91-96 | Window (2 feet by 4 feet, up to 2 feet deep), which you can place on a vertical surface you can reach |",
+      "| 97-100 | Portable ram |"
+    ],
+    "url": "/api/2014/magic-items/robe-of-useful-items"
+  },
+  {
+    "index": "slippers-of-spider-climbing",
+    "name": "Slippers of Spider Climbing",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, uncommon (requires attunement)",
+      "While you wear these light shoes, you can move up, down, and across vertical surfaces and upside down along ceilings, while leaving your hands free. You have a climbing speed equal to your walking speed. However, the slippers don't allow you to move this way on a slippery surface, such as one covered by ice or oil."
+    ],
+    "url": "/api/2014/magic-items/slippers-of-spider-climbing"
+  },
+  {
+    "index": "stone-of-good-luck-luckstone",
+    "name": "Stone of Good Luck (Luckstone)",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, uncommon (requires attunement)",
+      "While this polished agate is on your person, you gain a +1 bonus to ability checks and saving throws."
+    ],
+    "url": "/api/2014/magic-items/stone-of-good-luck-luckstone"
+  },
+  {
+    "index": "wings-of-flying",
+    "name": "Wings of Flying",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, rare (requires attunement)",
+      "While wearing this cloak, you can use an action to speak its command word. This turns the cloak into a pair of bat wings or bird wings on your back for 1 hour or until you repeat the command word as an action. The wings give you a flying speed of 60 feet. When they disappear, you can't use them again for 1d12 hours."
+    ],
+    "url": "/api/2014/magic-items/wings-of-flying"
+  }
+]

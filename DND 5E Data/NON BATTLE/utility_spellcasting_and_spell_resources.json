@@ -1,0 +1,239 @@
+[
+  {
+    "index": "amulet-of-the-planes",
+    "name": "Amulet of the Planes",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, very rare (requires attunement)",
+      "While wearing this amulet, you can use an action to name a location that you are familiar with on another plane of existence. Then make a DC 15 Intelligence check. On a successful check, you cast the plane shift spell. On a failure, you and each creature and object within 15 feet of you travel to a random destination. Roll a d100. On a 1-60, you travel to a random location on the plane you named. On a 61-100, you travel to a randomly determined plane of existence."
+    ],
+    "image": "/api/images/magic-items/amulet-of-the-planes.png",
+    "url": "/api/2014/magic-items/amulet-of-the-planes"
+  },
+  {
+    "index": "candle-of-invocation",
+    "name": "Candle of Invocation",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, very rare (requires attunement)",
+      "This slender taper is dedicated to a deity and shares that deity's alignment. The candle's alignment can be detected with the detect evil and good spell. The GM chooses the god and associated alignment or determines the alignment randomly.",
+      "| d20 | Alignment |",
+      "|---|---|",
+      "| 1-2 | Chaotic evil |",
+      "| 3-4 | Chaotic neutral |",
+      "| 5-7 | Chaotic good |",
+      "| 8-9 | Neutral evil |",
+      "| 10-11 | Neutral |",
+      "| 12-13 | Neutral good |",
+      "| 14-15 | Lawful evil |",
+      "| 16-17 | Lawful neutral |",
+      "| 18-20 | Lawful good |",
+      "The candle's magic is activated when the candle is lit, which requires an action. After burning for 4 hours, the candle is destroyed. You can snuff it out early for use at a later time. Deduct the time it burned in increments of 1 minute from the candle's total burn time.",
+      "While lit, the candle sheds dim light in a 30-foot radius. Any creature within that light whose alignment matches that of the candle makes attack rolls, saving throws, and ability checks with advantage. In addition, a cleric or druid in the light whose alignment matches the candle's can cast 1stlevel spells he or she has prepared without expending spell slots, though the spell's effect is as if cast with a 1st-level slot.",
+      "Alternatively, when you light the candle for the first time, you can cast the gate spell with it. Doing so destroys the candle."
+    ],
+    "image": "/api/images/magic-items/candle-of-invocation.png",
+    "url": "/api/2014/magic-items/candle-of-invocation"
+  },
+  {
+    "index": "crystal-ball",
+    "name": "Crystal Ball",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [
+      {
+        "index": "crystal-ball-of-mind-reading",
+        "name": "Crystal Ball of Mind Reading",
+        "url": "/api/2014/magic-items/crystal-ball-of-mind-reading"
+      },
+      {
+        "index": "crystal-ball-of-telepathy",
+        "name": "Crystal Ball of Telepathy",
+        "url": "/api/2014/magic-items/crystal-ball-of-telepathy"
+      },
+      {
+        "index": "crystal-ball-of-true-seeing",
+        "name": "Crystal Ball of True Seeing",
+        "url": "/api/2014/magic-items/crystal-ball-of-true-seeing"
+      }
+    ],
+    "variant": false,
+    "desc": [
+      "Wondrous item, very rare or legendary (requires attunement)",
+      "The typical crystal ball, a very rare item, is about 6 inches in diameter. While touching it, you can cast the scrying spell (save DC 17) with it.",
+      "The following crystal ball variants are legendary items and have additional properties.",
+      "***Crystal Ball of Mind Reading.*** You can use an action to cast the detect thoughts spell (save DC 17) while you are scrying with the crystal ball, targeting creatures you can see within 30 feet of the spell's sensor. You don't need to concentrate on this detect thoughts to maintain it during its duration, but it ends if scrying ends.",
+      "***Crystal Ball of Telepathy.*** While scrying with the crystal ball, you can communicate telepathically with creatures you can see within 30 feet of the spell's sensor. You can also use an action to cast the suggestion spell (save DC 17) through the sensor on one of those creatures. You don't need to concentrate on this suggestion to maintain it during its duration, but it ends if scrying ends. Once used, the suggestion power of the crystal ball can't be used again until the next dawn.",
+      "***Crystal Ball of True Seeing.*** While scrying with the crystal ball, you have truesight with a radius of 120 feet centered on the spell's sensor."
+    ],
+    "image": "/api/images/magic-items/crystal-ball.png",
+    "url": "/api/2014/magic-items/crystal-ball"
+  },
+  {
+    "index": "crystal-ball-of-mind-reading",
+    "name": "Crystal Ball of Mind Reading",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, legendary (requires attunement)",
+      "The crystal ball is about 6 inches in diameter. While touching it, you can cast the scrying spell (save DC 17) with it.",
+      "***Crystal Ball of Mind Reading.*** You can use an action to cast the detect thoughts spell (save DC 17) while you are scrying with the crystal ball, targeting creatures you can see within 30 feet of the spell's sensor. You don't need to concentrate on this detect thoughts to maintain it during its duration, but it ends if scrying ends."
+    ],
+    "image": "/api/images/magic-items/crystal-ball-of-mind-reading.png",
+    "url": "/api/2014/magic-items/crystal-ball-of-mind-reading"
+  },
+  {
+    "index": "crystal-ball-of-telepathy",
+    "name": "Crystal Ball of Telepathy",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, legendary (requires attunement)",
+      "The crystal ball is about 6 inches in diameter. While touching it, you can cast the scrying spell (save DC 17) with it.",
+      "***Crystal Ball of Telepathy.*** While scrying with the crystal ball, you can communicate telepathically with creatures you can see within 30 feet of the spell's sensor. You can also use an action to cast the suggestion spell (save DC 17) through the sensor on one of those creatures. You don't need to concentrate on this suggestion to maintain it during its duration, but it ends if scrying ends. Once used, the suggestion power of the crystal ball can't be used again until the next dawn."
+    ],
+    "image": "/api/images/magic-items/crystal-ball-of-telepathy.png",
+    "url": "/api/2014/magic-items/crystal-ball-of-telepathy"
+  },
+  {
+    "index": "crystal-ball-of-true-seeing",
+    "name": "Crystal Ball of True Seeing",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, legendary (requires attunement)",
+      "The crystal ball is about 6 inches in diameter. While touching it, you can cast the scrying spell (save DC 17) with it.",
+      "***Crystal Ball of True Seeing.*** While scrying with the crystal ball, you have truesight with a radius of 120 feet centered on the spell's sensor."
+    ],
+    "image": "/api/images/magic-items/crystal-ball-of-true-seeing.png",
+    "url": "/api/2014/magic-items/crystal-ball-of-true-seeing"
+  },
+  {
+    "index": "helm-of-teleportation",
+    "name": "Helm of Teleportation",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, rare (requires attunement)",
+      "This helm has 3 charges. While wearing it, you can use an action and expend 1 charge to cast the teleport spell from it. The helm regains 1d3",
+      "expended charges daily at dawn."
+    ],
+    "url": "/api/2014/magic-items/helm-of-teleportation"
+  },
+  {
+    "index": "ring-of-three-wishes",
+    "name": "Ring of Three Wishes",
+    "equipment_category": {
+      "index": "ring",
+      "name": "Ring",
+      "url": "/api/2014/equipment-categories/ring"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Ring, legendary",
+      "While wearing this ring, you can use an action to expend 1 of its 3 charges to cast the wish spell from it. The ring becomes nonmagical when you use the last charge."
+    ],
+    "url": "/api/2014/magic-items/ring-of-three-wishes"
+  },
+  {
+    "index": "rod-of-security",
+    "name": "Rod of Security",
+    "equipment_category": {
+      "index": "rod",
+      "name": "Rod",
+      "url": "/api/2014/equipment-categories/rod"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Rod, very rare",
+      "While holding this rod, you can use an action to activate it. The rod then instantly transports you and up to 199 other willing creatures you can see to a paradise that exists in an extraplanar space. You choose the form that the paradise takes. It could be a tranquil garden, lovely glade, cheery tavern, immense palace, tropical island, fantastic carnival, or whatever else you can imagine. Regardless of its nature, the paradise contains enough water and food to sustain its visitors. Everything else that can be interacted with inside the extraplanar space can exist only there. For example, a flower picked from a garden in the paradise disappears if it is taken outside the extraplanar space.",
+      "For each hour spent in the paradise, a visitor regains hit points as if it had spent 1 Hit Die. Also, creatures don't age while in the paradise, although time passes normally. Visitors can remain in the paradise for up to 200 days divided by the number of creatures present (round down).",
+      "When the time runs out or you use an action to end it, all visitors reappear in the location they occupied when you activated the rod, or an unoccupied space nearest that location. The rod can't be used again until ten days have passed."
+    ],
+    "url": "/api/2014/magic-items/rod-of-security"
+  },
+  {
+    "index": "well-of-many-worlds",
+    "name": "Well of Many Worlds",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, legendary",
+      "This fine black cloth, soft as silk, is folded up to the dimensions of a handkerchief. It unfolds into a circular sheet 6 feet in diameter.",
+      "You can use an action to unfold and place the well of many worlds on a solid surface, whereupon it creates a two-way portal to another world or plane of existence. Each time the item opens a portal, the GM decides where it leads. You can use an action to close an open portal by taking hold of the edges of the cloth and folding it up. Once well of many worlds has opened a portal, it can't do so again for 1d8 hours."
+    ],
+    "url": "/api/2014/magic-items/well-of-many-worlds"
+  }
+]

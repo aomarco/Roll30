@@ -1,0 +1,1747 @@
+[
+  {
+    "index": "amulet-of-health",
+    "name": "Amulet of Health",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, rare (requires attunement)",
+      "Your Constitution score is 19 while you wear this amulet. It has no effect on you if your Constitution is already 19 or higher"
+    ],
+    "image": "/api/images/magic-items/amulet-of-health.png",
+    "url": "/api/2014/magic-items/amulet-of-health"
+  },
+  {
+    "index": "belt-of-dwarvenkind",
+    "name": "Belt of Dwarvenkind",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous Items, rare (requires attunement)",
+      "While wearing this belt, you gain the following benefits:",
+      "Your Constitution score increases by 2, to a maximum of 20.",
+      "You have advantage on Charisma (Persuasion) checks made to interact with Dwarves.",
+      "In addition, while attuned to the belt, you have a 50 percent chance each day at dawn of growing a full beard if you're capable of growing one, or a visibly thicker beard if you already have one.",
+      "If you aren't a dwarf, you gain the following additional benefits while wearing the belt:",
+      "You have advantage on Saving Throws against poison, and you have Resistance against poison damage.",
+      "You can speak, read, and write Dwarvish."
+    ],
+    "image": "/api/images/magic-items/belt-of-dwarvenkind.png",
+    "url": "/api/2014/magic-items/belt-of-dwarvenkind"
+  },
+  {
+    "index": "belt-of-giant-strength",
+    "name": "Belt of Giant Strength",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Varies"
+    },
+    "variants": [
+      {
+        "index": "belt-of-giant-strength-hill",
+        "name": "Belt of Hill Giant Strength",
+        "url": "/api/2014/magic-items/belt-of-giant-strength-hill"
+      },
+      {
+        "index": "belt-of-giant-strength-stone",
+        "name": "Belt of Stone Giant Strength",
+        "url": "/api/2014/magic-items/belt-of-giant-strength-stone"
+      },
+      {
+        "index": "belt-of-giant-strength-frost",
+        "name": "Belt of Frost Giant Strength",
+        "url": "/api/2014/magic-items/belt-of-giant-strength-frost"
+      },
+      {
+        "index": "belt-of-giant-strength-fire",
+        "name": "Belt of Fire Giant Strength",
+        "url": "/api/2014/magic-items/belt-of-giant-strength-fire"
+      },
+      {
+        "index": "belt-of-giant-strength-cloud",
+        "name": "Belt of Cloud Giant Strength",
+        "url": "/api/2014/magic-items/belt-of-giant-strength-cloud"
+      },
+      {
+        "index": "belt-of-giant-strength-storm",
+        "name": "Belt of Storm Giant Strength",
+        "url": "/api/2014/magic-items/belt-of-giant-strength-storm"
+      }
+    ],
+    "variant": false,
+    "desc": [
+      "Wondrous item, rarity varies (requires attunement)",
+      "While wearing this belt, your Strength score changes to a score granted by the belt. If your Strength is already equal to or greater than the belt's score, the item has no Effect on you.",
+      "Six varieties of this belt exist, corresponding with and having rarity according to The Six kinds of true Giants. The belt of Stone Giant Strength and the belt of Frost Giant Strength look different, but they have the same Effect.",
+      "| Type | Strength | Rarity |",
+      "|---|---|---|",
+      "| Hill Giant | 21 | Rare |",
+      "| Stone Giant / Frost Giant | 23 | Very Rare |",
+      "| Fire Giant | 25 | Very Rare |",
+      "| Cloud Giant | 27 | Legendary |",
+      "| Storm Giant | 29 | Legendary |"
+    ],
+    "image": "/api/images/magic-items/belt-of-giant-strength.png",
+    "url": "/api/2014/magic-items/belt-of-giant-strength"
+  },
+  {
+    "index": "belt-of-giant-strength-hill",
+    "name": "Belt of Hill Giant Strength",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, rare (requires attunement)",
+      "While wearing this belt, your Strength score changes to a 21. If your Strength is already equal to or greater than the belt's score, the item has no Effect on you."
+    ],
+    "image": "/api/images/magic-items/belt-of-giant-strength.png",
+    "url": "/api/2014/magic-items/belt-of-giant-strength-hill"
+  },
+  {
+    "index": "belt-of-giant-strength-stone",
+    "name": "Belt of Stone Giant Strength",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, very rare (requires attunement)",
+      "While wearing this belt, your Strength score changes to a 23. If your Strength is already equal to or greater than the belt's score, the item has no Effect on you."
+    ],
+    "image": "/api/images/magic-items/belt-of-giant-strength.png",
+    "url": "/api/2014/magic-items/belt-of-giant-strength-stone"
+  },
+  {
+    "index": "belt-of-giant-strength-frost",
+    "name": "Belt of Frost Giant Strength",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, very rare (requires attunement)",
+      "While wearing this belt, your Strength score changes to 23. If your Strength is already equal to or greater than the belt's score, the item has no Effect on you."
+    ],
+    "image": "/api/images/magic-items/belt-of-giant-strength.png",
+    "url": "/api/2014/magic-items/belt-of-giant-strength-frost"
+  },
+  {
+    "index": "belt-of-giant-strength-fire",
+    "name": "Belt of Fire Giant Strength",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, very rare (requires attunement)",
+      "While wearing this belt, your Strength score changes to 25. If your Strength is already equal to or greater than the belt's score, the item has no Effect on you."
+    ],
+    "image": "/api/images/magic-items/belt-of-giant-strength.png",
+    "url": "/api/2014/magic-items/belt-of-giant-strength-fire"
+  },
+  {
+    "index": "belt-of-giant-strength-cloud",
+    "name": "Belt of Cloud Giant Strength",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, legendary (requires attunement)",
+      "While wearing this belt, your Strength score changes to 27. If your Strength is already equal to or greater than the belt's score, the item has no Effect on you."
+    ],
+    "image": "/api/images/magic-items/belt-of-giant-strength.png",
+    "url": "/api/2014/magic-items/belt-of-giant-strength-cloud"
+  },
+  {
+    "index": "belt-of-giant-strength-storm",
+    "name": "Belt of Storm Giant Strength",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, legendary (requires attunement)",
+      "While wearing this belt, your Strength score changes to 29. If your Strength is already equal to or greater than the belt's score, the item has no Effect on you."
+    ],
+    "image": "/api/images/magic-items/belt-of-giant-strength.png",
+    "url": "/api/2014/magic-items/belt-of-giant-strength-storm"
+  },
+  {
+    "index": "boots-of-speed",
+    "name": "Boots of Speed",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, rare (requires attunement)",
+      "While you wear these boots, you can use a bonus action and click the boots' heels together. If you do, the boots double your walking speed, and any creature that makes an opportunity attack against you has disadvantage on the attack roll. If you click your heels together again, you end the effect.",
+      "When the boots' property has been used for a total of 10 minutes, the magic ceases to function until you finish a long rest."
+    ],
+    "image": "/api/images/magic-items/boots-of-speed.png",
+    "url": "/api/2014/magic-items/boots-of-speed"
+  },
+  {
+    "index": "bracers-of-archery",
+    "name": "Bracers of Archery",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, uncommon (requires attunement)",
+      "While wearing these bracers, you have proficiency with the longbow and shortbow, and you gain a +2 bonus to damage rolls on ranged attacks made with such weapons."
+    ],
+    "image": "/api/images/magic-items/bracers-of-archery.png",
+    "url": "/api/2014/magic-items/bracers-of-archery"
+  },
+  {
+    "index": "bracers-of-defense",
+    "name": "Bracers of Defense",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondous item, rare (requires attunement)",
+      "While wearing these bracers, you gain a +2 bonus to AC if you are wearing no armor and using no shield."
+    ],
+    "image": "/api/images/magic-items/bracers-of-defense.png",
+    "url": "/api/2014/magic-items/bracers-of-defense"
+  },
+  {
+    "index": "brooch-of-shielding",
+    "name": "Brooch of Shielding",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, uncommon (requires attunement)",
+      "While wearing this brooch, you have resistance to force damage, and you have immunity to damage from the magic missile spell."
+    ],
+    "image": "/api/images/magic-items/brooch-of-shielding.png",
+    "url": "/api/2014/magic-items/brooch-of-shielding"
+  },
+  {
+    "index": "circlet-of-blasting",
+    "name": "Circlet of Blasting",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, uncommon",
+      "While wearing this circlet, you can use an action to cast the scorching ray spell with it. When you make the spell's attacks, you do so with an attack bonus of +5. The circlet can't be used this way again until the next dawn."
+    ],
+    "image": "/api/images/magic-items/circlet-of-blasting.png",
+    "url": "/api/2014/magic-items/circlet-of-blasting"
+  },
+  {
+    "index": "cloak-of-arachnida",
+    "name": "Cloak of Arachnida",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, very rare (requires attunement)",
+      "This fine garment is made of black silk interwoven with faint silvery threads. While wearing it, you gain the following benefits:",
+      "* You have resistance to poison damage.",
+      "* You have a climbing speed equal to your walking speed.",
+      "* You can move up, down, and across vertical surfaces and upside down along ceilings, while leaving your hands free.",
+      "* You can't be caught in webs of any sort and can move through webs as if they were difficult terrain.",
+      "* You can use an action to cast the web spell (save DC 13). The web created by the spell fills twice its normal area. Once used, this property of the cloak can't be used again until the next dawn."
+    ],
+    "image": "/api/images/magic-items/cloak-of-arachnida.png",
+    "url": "/api/2014/magic-items/cloak-of-arachnida"
+  },
+  {
+    "index": "cloak-of-displacement",
+    "name": "Cloak of Displacement",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, rare (requires attunement)",
+      "While you wear this cloak, it projects an illusion that makes you appear to be standing in a place near your actual location, causing any creature to have disadvantage on attack rolls against you. If you take damage, the property ceases to function until the start of your next turn. This property is suppressed while you are incapacitated, restrained, or otherwise unable to move."
+    ],
+    "image": "/api/images/magic-items/cloak-of-displacement.png",
+    "url": "/api/2014/magic-items/cloak-of-displacement"
+  },
+  {
+    "index": "cloak-of-protection",
+    "name": "Cloak of Protection",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, uncommon (requires attunement)",
+      "You gain a +1 bonus to AC and saving throws while you wear this cloak."
+    ],
+    "image": "/api/images/magic-items/cloak-of-protection.png",
+    "url": "/api/2014/magic-items/cloak-of-protection"
+  },
+  {
+    "index": "gauntlets-of-ogre-power",
+    "name": "Gauntlets of Ogre Power",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, uncommon (requires attunement)",
+      "Your Strength score is 19 while you wear these gauntlets. They have no effect on you if your Strength is already 19 or higher."
+    ],
+    "url": "/api/2014/magic-items/gauntlets-of-ogre-power"
+  },
+  {
+    "index": "gloves-of-missile-snaring",
+    "name": "Gloves of Missile Snaring",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, uncommon (requires attunement)",
+      "These gloves seem to almost meld into your hands when you don them. When a ranged weapon attack hits you while you're wearing them, you can use your reaction to reduce the damage by 1d10 + your Dexterity modifier, provided that you have a free hand. If you reduce the damage to 0, you can catch the missile if it is small enough for you to hold in that hand."
+    ],
+    "url": "/api/2014/magic-items/gloves-of-missile-snaring"
+  },
+  {
+    "index": "helm-of-brilliance",
+    "name": "Helm of Brilliance",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, very rare (requires attunement)",
+      "This dazzling helm is set with 1d10 diamonds, 2d10 rubies, 3d10 fire opals, and 4d10 opals. Any gem pried from the helm crumbles to dust. When all the gems are removed or destroyed, the helm loses its magic.",
+      "You gain the following benefits while wearing it:",
+      "You can use an action to cast one of the following spells (save DC 18), using one of the helm's gems of the specified type as a component: daylight (opal), fireball (fire opal), prismatic spray (diamond), or wall of fire (ruby). The gem is destroyed when the spell is cast and disappears from the helm.",
+      "As long as it has at least one diamond, the helm emits dim light in a 30-foot radius when at least one undead is within that area. Any undead that starts its turn in that area takes 1d6 radiant damage.",
+      "As long as the helm has at least one ruby, you have resistance to fire damage.",
+      "As long as the helm has at least one fire opal, you can use an action and speak a command word to cause one weapon you are holding to burst into flames. The flames emit bright light in a 10-foot radius and dim light for an additional 10 feet. The flames are harmless to you and the weapon. When you hit with an attack using the blazing weapon, the target takes an extra 1d6 fire damage. The flames last until you use a bonus action to speak the command word again or until you drop or stow the weapon.",
+      "Roll a d20 if you are wearing the helm and take fire damage as a result of failing a saving throw against a spell. On a roll of 1, the helm emits beams of light from its remaining gems. Each creature within 60 feet of the helm other than you must succeed on a DC 17 Dexterity saving throw or be struck by a beam, taking radiant damage equal to the number of gems in the helm. The helm and its gems are then destroyed."
+    ],
+    "url": "/api/2014/magic-items/helm-of-brilliance"
+  },
+  {
+    "index": "ioun-stone",
+    "name": "Ioun Stone",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Varies"
+    },
+    "variants": [
+      {
+        "index": "ioun-stone-of-absorption",
+        "name": "Ioun Stone of Absorption",
+        "url": "/api/2014/magic-items/ioun-stone-of-absorption"
+      },
+      {
+        "index": "ioun-stone-of-agility",
+        "name": "Ioun Stone of Agility",
+        "url": "/api/2014/magic-items/ioun-stone-of-agility"
+      },
+      {
+        "index": "ioun-stone-of-awareness",
+        "name": "Ioun Stone of Awareness",
+        "url": "/api/2014/magic-items/ioun-stone-of-awareness"
+      },
+      {
+        "index": "ioun-stone-of-fortitude",
+        "name": "Ioun Stone of Fortitude",
+        "url": "/api/2014/magic-items/ioun-stone-of-fortitude"
+      },
+      {
+        "index": "ioun-stone-of-greater-absorption",
+        "name": "Ioun Stone of Greater Absorption",
+        "url": "/api/2014/magic-items/ioun-stone-of-greater-absorption"
+      },
+      {
+        "index": "ioun-stone-of-insight",
+        "name": "Ioun Stone of Insight",
+        "url": "/api/2014/magic-items/ioun-stone-of-insight"
+      },
+      {
+        "index": "ioun-stone-of-intellect",
+        "name": "Ioun Stone of Intellect",
+        "url": "/api/2014/magic-items/ioun-stone-of-intellect"
+      },
+      {
+        "index": "ioun-stone-of-leadership",
+        "name": "Ioun Stone of Leadership",
+        "url": "/api/2014/magic-items/ioun-stone-of-leadership"
+      },
+      {
+        "index": "ioun-stone-of-mastery",
+        "name": "Ioun Stone of Mastery",
+        "url": "/api/2014/magic-items/ioun-stone-of-mastery"
+      },
+      {
+        "index": "ioun-stone-of-protection",
+        "name": "Ioun Stone of Protection",
+        "url": "/api/2014/magic-items/ioun-stone-of-protection"
+      },
+      {
+        "index": "ioun-stone-of-regeneration",
+        "name": "Ioun Stone of Regeneration",
+        "url": "/api/2014/magic-items/ioun-stone-of-regeneration"
+      },
+      {
+        "index": "ioun-stone-of-reserve",
+        "name": "Ioun Stone of Reserve",
+        "url": "/api/2014/magic-items/ioun-stone-of-reserve"
+      },
+      {
+        "index": "ioun-stone-of-strength",
+        "name": "Ioun Stone of Strength",
+        "url": "/api/2014/magic-items/ioun-stone-of-strength"
+      },
+      {
+        "index": "ioun-stone-of-sustenance",
+        "name": "Ioun Stone of Sustenance",
+        "url": "/api/2014/magic-items/ioun-stone-of-sustenance"
+      }
+    ],
+    "variant": false,
+    "desc": [
+      "Wondrous item, varies (requires attunement)",
+      "An Ioun stone is named after Ioun, a god of knowledge and prophecy revered on some worlds. Many types of Ioun stone exist, each type a distinct combination of shape and color.",
+      "When you use an action to toss one of these stones into the air, the stone orbits your head at a distance of 1d3 feet and confers a benefit to you. Thereafter, another creature must use an action to grasp or net the stone to separate it from you, either by making a successful attack roll against AC 24 or a successful DC 24 Dexterity (Acrobatics) check. You can use an action to seize and stow the stone, ending its effect.",
+      "A stone has AC 24, 10 hit points, and resistance to all damage. It is considered to be an object that is being worn while it orbits your head.",
+      "***Absorption (Very Rare).*** While this pale lavender ellipsoid orbits your head, you can use your reaction to cancel a spell of 4th level or lower cast by a creature you can see and targeting only you.",
+      "Once the stone has canceled 20 levels of spells, it burns out and turns dull gray, losing its magic. If you are targeted by a spell whose level is higher than the number of spell levels the stone has left, the stone can't cancel it.",
+      "***Agility (Very Rare).*** Your Dexterity score increases by 2, to a maximum of 20, while this deep red sphere orbits your head.",
+      "***Awareness (Rare).*** You can't be surprised while this dark blue rhomboid orbits your head.",
+      "***Fortitude (Very Rare).*** Your Constitution score increases by 2, to a maximum of 20, while this pink rhomboid orbits your head.",
+      "***Greater Absorption (Legendary).*** While this marbled lavender and green ellipsoid orbits your head, you can use your reaction to cancel a spell of 8th level or lower cast by a creature you can see and targeting only you.",
+      "Once the stone has canceled 50 levels of spells, it burns out and turns dull gray, losing its magic. If you are targeted by a spell whose level is higher than the number of spell levels the stone has left, the stone can't cancel it.",
+      "***Insight (Very Rare).*** Your Wisdom score increases by 2, to a maximum of 20, while this incandescent blue sphere orbits your head.",
+      "***Intellect (Very Rare).*** Your Intelligence score increases by 2, to a maximum of 20, while this marbled scarlet and blue sphere orbits your head.",
+      "***Leadership (Very Rare).*** Your Charisma score increases by 2, to a maximum of 20, while this marbled pink and green sphere orbits your head.",
+      "***Mastery (Legendary).*** Your proficiency bonus increases by 1 while this pale green prism orbits your head.",
+      "***Protection (Rare).*** You gain a +1 bonus to AC while this dusty rose prism orbits your head.",
+      "***Regeneration (Legendary).*** You regain 15 hit points at the end of each hour this pearly white spindle orbits your head, provided that you have at least 1 hit point.",
+      "***Reserve (Rare).*** This vibrant purple prism stores spells cast into it, holding them until you use them. The stone can store up to 3 levels worth of spells at a time. When found, it contains 1d4 - 1 levels of stored spells chosen by the GM.",
+      "Any creature can cast a spell of 1st through 3rd level into the stone by touching it as the spell is cast. The spell has no effect, other than to be stored in the stone. If the stone can't hold the spell, the spell is expended without effect. The level of the slot used to cast the spell determines how much space it uses.",
+      "While this stone orbits your head, you can cast any spell stored in it. The spell uses the slot level, spell save DC, spell attack bonus, and spellcasting ability of the original caster, but is otherwise treated as if you cast the spell. The spell cast from the stone is no longer stored in it, freeing up space.",
+      "***Strength (Very Rare).*** Your Strength score increases by 2, to a maximum of 20, while this pale blue rhomboid orbits your head.",
+      "***Sustenance (Rare).*** You don't need to eat or drink while this clear spindle orbits your head."
+    ],
+    "url": "/api/2014/magic-items/ioun-stone"
+  },
+  {
+    "index": "ioun-stone-of-absorption",
+    "name": "Ioun Stone of Absorption",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, very rare (requires attunement)",
+      "An Ioun stone is named after Ioun, a god of knowledge and prophecy revered on some worlds. Many types of Ioun stone exist, each type a distinct combination of shape and color.",
+      "When you use an action to toss one of these stones into the air, the stone orbits your head at a distance of 1d3 feet and confers a benefit to you. Thereafter, another creature must use an action to grasp or net the stone to separate it from you, either by making a successful attack roll against AC 24 or a successful DC 24 Dexterity (Acrobatics) check. You can use an action to seize and stow the stone, ending its effect.",
+      "A stone has AC 24, 10 hit points, and resistance to all damage. It is considered to be an object that is being worn while it orbits your head.",
+      "***Absorption.*** While this pale lavender ellipsoid orbits your head, you can use your reaction to cancel a spell of 4th level or lower cast by a creature you can see and targeting only you.",
+      "Once the stone has canceled 20 levels of spells, it burns out and turns dull gray, losing its magic. If you are targeted by a spell whose level is higher than the number of spell levels the stone has left, the stone can't cancel it."
+    ],
+    "url": "/api/2014/magic-items/ioun-stone-of-absorption"
+  },
+  {
+    "index": "ioun-stone-of-agility",
+    "name": "Ioun Stone of Agility",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, very rare (requires attunement)",
+      "An Ioun stone is named after Ioun, a god of knowledge and prophecy revered on some worlds. Many types of Ioun stone exist, each type a distinct combination of shape and color.",
+      "When you use an action to toss one of these stones into the air, the stone orbits your head at a distance of 1d3 feet and confers a benefit to you. Thereafter, another creature must use an action to grasp or net the stone to separate it from you, either by making a successful attack roll against AC 24 or a successful DC 24 Dexterity (Acrobatics) check. You can use an action to seize and stow the stone, ending its effect.",
+      "A stone has AC 24, 10 hit points, and resistance to all damage. It is considered to be an object that is being worn while it orbits your head.",
+      "***Agility.*** Your Dexterity score increases by 2, to a maximum of 20, while this deep red sphere orbits your head."
+    ],
+    "url": "/api/2014/magic-items/ioun-stone-of-agility"
+  },
+  {
+    "index": "ioun-stone-of-awareness",
+    "name": "Ioun Stone of Awareness",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, rare (requires attunement)",
+      "An Ioun stone is named after Ioun, a god of knowledge and prophecy revered on some worlds. Many types of Ioun stone exist, each type a distinct combination of shape and color.",
+      "When you use an action to toss one of these stones into the air, the stone orbits your head at a distance of 1d3 feet and confers a benefit to you. Thereafter, another creature must use an action to grasp or net the stone to separate it from you, either by making a successful attack roll against AC 24 or a successful DC 24 Dexterity (Acrobatics) check. You can use an action to seize and stow the stone, ending its effect.",
+      "A stone has AC 24, 10 hit points, and resistance to all damage. It is considered to be an object that is being worn while it orbits your head.",
+      "***Awareness.*** You can't be surprised while this dark blue rhomboid orbits your head."
+    ],
+    "url": "/api/2014/magic-items/ioun-stone-of-awareness"
+  },
+  {
+    "index": "ioun-stone-of-fortitude",
+    "name": "Ioun Stone of Fortitude",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, very rare (requires attunement)",
+      "An Ioun stone is named after Ioun, a god of knowledge and prophecy revered on some worlds. Many types of Ioun stone exist, each type a distinct combination of shape and color.",
+      "When you use an action to toss one of these stones into the air, the stone orbits your head at a distance of 1d3 feet and confers a benefit to you. Thereafter, another creature must use an action to grasp or net the stone to separate it from you, either by making a successful attack roll against AC 24 or a successful DC 24 Dexterity (Acrobatics) check. You can use an action to seize and stow the stone, ending its effect.",
+      "A stone has AC 24, 10 hit points, and resistance to all damage. It is considered to be an object that is being worn while it orbits your head.",
+      "***Fortitude.*** Your Constitution score increases by 2, to a maximum of 20, while this pink rhomboid orbits your head."
+    ],
+    "url": "/api/2014/magic-items/ioun-stone-of-fortitude"
+  },
+  {
+    "index": "ioun-stone-of-greater-absorption",
+    "name": "Ioun Stone of Greater Absorption",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, legendary (requires attunement)",
+      "An Ioun stone is named after Ioun, a god of knowledge and prophecy revered on some worlds. Many types of Ioun stone exist, each type a distinct combination of shape and color.",
+      "When you use an action to toss one of these stones into the air, the stone orbits your head at a distance of 1d3 feet and confers a benefit to you. Thereafter, another creature must use an action to grasp or net the stone to separate it from you, either by making a successful attack roll against AC 24 or a successful DC 24 Dexterity (Acrobatics) check. You can use an action to seize and stow the stone, ending its effect.",
+      "A stone has AC 24, 10 hit points, and resistance to all damage. It is considered to be an object that is being worn while it orbits your head.",
+      "***Greater Absorption.*** While this marbled lavender and green ellipsoid orbits your head, you can use your reaction to cancel a spell of 8th level or lower cast by a creature you can see and targeting only you.",
+      "Once the stone has canceled 50 levels of spells, it burns out and turns dull gray, losing its magic. If you are targeted by a spell whose level is higher than the number of spell levels the stone has left, the stone can't cancel it."
+    ],
+    "url": "/api/2014/magic-items/ioun-stone-of-greater-absorption"
+  },
+  {
+    "index": "ioun-stone-of-insight",
+    "name": "Ioun Stone of Insight",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, very rare (requires attunement)",
+      "An Ioun stone is named after Ioun, a god of knowledge and prophecy revered on some worlds. Many types of Ioun stone exist, each type a distinct combination of shape and color.",
+      "When you use an action to toss one of these stones into the air, the stone orbits your head at a distance of 1d3 feet and confers a benefit to you. Thereafter, another creature must use an action to grasp or net the stone to separate it from you, either by making a successful attack roll against AC 24 or a successful DC 24 Dexterity (Acrobatics) check. You can use an action to seize and stow the stone, ending its effect.",
+      "A stone has AC 24, 10 hit points, and resistance to all damage. It is considered to be an object that is being worn while it orbits your head.",
+      "***Insight.*** Your Wisdom score increases by 2, to a maximum of 20, while this incandescent blue sphere orbits your head."
+    ],
+    "url": "/api/2014/magic-items/ioun-stone-of-insight"
+  },
+  {
+    "index": "ioun-stone-of-intellect",
+    "name": "Ioun Stone of Intellect",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, very rare (requires attunement)",
+      "An Ioun stone is named after Ioun, a god of knowledge and prophecy revered on some worlds. Many types of Ioun stone exist, each type a distinct combination of shape and color.",
+      "When you use an action to toss one of these stones into the air, the stone orbits your head at a distance of 1d3 feet and confers a benefit to you. Thereafter, another creature must use an action to grasp or net the stone to separate it from you, either by making a successful attack roll against AC 24 or a successful DC 24 Dexterity (Acrobatics) check. You can use an action to seize and stow the stone, ending its effect.",
+      "A stone has AC 24, 10 hit points, and resistance to all damage. It is considered to be an object that is being worn while it orbits your head.",
+      "***Intellect.*** Your Intelligence score increases by 2, to a maximum of 20, while this marbled scarlet and blue sphere orbits your head."
+    ],
+    "url": "/api/2014/magic-items/ioun-stone-of-intellect"
+  },
+  {
+    "index": "ioun-stone-of-leadership",
+    "name": "Ioun Stone of Leadership",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, very rare (requires attunement)",
+      "An Ioun stone is named after Ioun, a god of knowledge and prophecy revered on some worlds. Many types of Ioun stone exist, each type a distinct combination of shape and color.",
+      "When you use an action to toss one of these stones into the air, the stone orbits your head at a distance of 1d3 feet and confers a benefit to you. Thereafter, another creature must use an action to grasp or net the stone to separate it from you, either by making a successful attack roll against AC 24 or a successful DC 24 Dexterity (Acrobatics) check. You can use an action to seize and stow the stone, ending its effect.",
+      "A stone has AC 24, 10 hit points, and resistance to all damage. It is considered to be an object that is being worn while it orbits your head.",
+      "***Leadership.*** Your Charisma score increases by 2, to a maximum of 20, while this marbled pink and green sphere orbits your head."
+    ],
+    "url": "/api/2014/magic-items/ioun-stone-of-leadership"
+  },
+  {
+    "index": "ioun-stone-of-mastery",
+    "name": "Ioun Stone of Mastery",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, legendary (requires attunement)",
+      "An Ioun stone is named after Ioun, a god of knowledge and prophecy revered on some worlds. Many types of Ioun stone exist, each type a distinct combination of shape and color.",
+      "When you use an action to toss one of these stones into the air, the stone orbits your head at a distance of 1d3 feet and confers a benefit to you. Thereafter, another creature must use an action to grasp or net the stone to separate it from you, either by making a successful attack roll against AC 24 or a successful DC 24 Dexterity (Acrobatics) check. You can use an action to seize and stow the stone, ending its effect.",
+      "A stone has AC 24, 10 hit points, and resistance to all damage. It is considered to be an object that is being worn while it orbits your head.",
+      "***Mastery.*** Your proficiency bonus increases by 1 while this pale green prism orbits your head."
+    ],
+    "url": "/api/2014/magic-items/ioun-stone-of-mastery"
+  },
+  {
+    "index": "ioun-stone-of-protection",
+    "name": "Ioun Stone of Protection",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, rare (requires attunement)",
+      "An Ioun stone is named after Ioun, a god of knowledge and prophecy revered on some worlds. Many types of Ioun stone exist, each type a distinct combination of shape and color.",
+      "When you use an action to toss one of these stones into the air, the stone orbits your head at a distance of 1d3 feet and confers a benefit to you. Thereafter, another creature must use an action to grasp or net the stone to separate it from you, either by making a successful attack roll against AC 24 or a successful DC 24 Dexterity (Acrobatics) check. You can use an action to seize and stow the stone, ending its effect.",
+      "A stone has AC 24, 10 hit points, and resistance to all damage. It is considered to be an object that is being worn while it orbits your head.",
+      "***Protection.*** You gain a +1 bonus to AC while this dusty rose prism orbits your head."
+    ],
+    "url": "/api/2014/magic-items/ioun-stone-of-protection"
+  },
+  {
+    "index": "ioun-stone-of-regeneration",
+    "name": "Ioun Stone of Regeneration",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, legendary (requires attunement)",
+      "An Ioun stone is named after Ioun, a god of knowledge and prophecy revered on some worlds. Many types of Ioun stone exist, each type a distinct combination of shape and color.",
+      "When you use an action to toss one of these stones into the air, the stone orbits your head at a distance of 1d3 feet and confers a benefit to you. Thereafter, another creature must use an action to grasp or net the stone to separate it from you, either by making a successful attack roll against AC 24 or a successful DC 24 Dexterity (Acrobatics) check. You can use an action to seize and stow the stone, ending its effect.",
+      "A stone has AC 24, 10 hit points, and resistance to all damage. It is considered to be an object that is being worn while it orbits your head.",
+      "***Regeneration.*** You regain 15 hit points at the end of each hour this pearly white spindle orbits your head, provided that you have at least 1 hit point."
+    ],
+    "url": "/api/2014/magic-items/ioun-stone-of-regeneration"
+  },
+  {
+    "index": "ioun-stone-of-reserve",
+    "name": "Ioun Stone of Reserve",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, rare (requires attunement)",
+      "An Ioun stone is named after Ioun, a god of knowledge and prophecy revered on some worlds. Many types of Ioun stone exist, each type a distinct combination of shape and color.",
+      "When you use an action to toss one of these stones into the air, the stone orbits your head at a distance of 1d3 feet and confers a benefit to you. Thereafter, another creature must use an action to grasp or net the stone to separate it from you, either by making a successful attack roll against AC 24 or a successful DC 24 Dexterity (Acrobatics) check. You can use an action to seize and stow the stone, ending its effect.",
+      "A stone has AC 24, 10 hit points, and resistance to all damage. It is considered to be an object that is being worn while it orbits your head.",
+      "***Reserve.*** This vibrant purple prism stores spells cast into it, holding them until you use them. The stone can store up to 3 levels worth of spells at a time. When found, it contains 1d4 - 1 levels of stored spells chosen by the GM.",
+      "Any creature can cast a spell of 1st through 3rd level into the stone by touching it as the spell is cast. The spell has no effect, other than to be stored in the stone. If the stone can't hold the spell, the spell is expended without effect. The level of the slot used to cast the spell determines how much space it uses.",
+      "While this stone orbits your head, you can cast any spell stored in it. The spell uses the slot level, spell save DC, spell attack bonus, and spellcasting ability of the original caster, but is otherwise treated as if you cast the spell. The spell cast from the stone is no longer stored in it, freeing up space."
+    ],
+    "url": "/api/2014/magic-items/ioun-stone-of-reserve"
+  },
+  {
+    "index": "ioun-stone-of-strength",
+    "name": "Ioun Stone of Strength",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, very rare (requires attunement)",
+      "An Ioun stone is named after Ioun, a god of knowledge and prophecy revered on some worlds. Many types of Ioun stone exist, each type a distinct combination of shape and color.",
+      "When you use an action to toss one of these stones into the air, the stone orbits your head at a distance of 1d3 feet and confers a benefit to you. Thereafter, another creature must use an action to grasp or net the stone to separate it from you, either by making a successful attack roll against AC 24 or a successful DC 24 Dexterity (Acrobatics) check. You can use an action to seize and stow the stone, ending its effect.",
+      "A stone has AC 24, 10 hit points, and resistance to all damage. It is considered to be an object that is being worn while it orbits your head.",
+      "***Strength.*** Your Strength score increases by 2, to a maximum of 20, while this pale blue rhomboid orbits your head."
+    ],
+    "url": "/api/2014/magic-items/ioun-stone-of-strength"
+  },
+  {
+    "index": "mantle-of-spell-resistance",
+    "name": "Mantle of Spell Resistance",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, rare (requires attunement)",
+      "You have advantage on saving throws against spells while you wear this cloak."
+    ],
+    "url": "/api/2014/magic-items/mantle-of-spell-resistance"
+  },
+  {
+    "index": "necklace-of-fireballs",
+    "name": "Necklace of Fireballs",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, rare",
+      "This necklace has 1d6 + 3 beads hanging from it. You can use an action to detach a bead and throw it up to 60 feet away. When it reaches the end of its trajectory, the bead detonates as a 3rd-level fireball spell (save DC 15).",
+      "You can hurl multiple beads, or even the whole necklace, as one action. When you do so, increase the level of the fireball by 1 for each bead beyond the first."
+    ],
+    "url": "/api/2014/magic-items/necklace-of-fireballs"
+  },
+  {
+    "index": "necklace-of-prayer-beads",
+    "name": "Necklace of Prayer Beads",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, rare (requires attunement by a cleric, druid, or paladin)",
+      "This necklace has 1d4 + 2 magic beads made from aquamarine, black pearl, or topaz. It also has many nonmagical beads made from stones such as amber, bloodstone, citrine, coral, jade, pearl, or quartz. If a magic bead is removed from the necklace, that bead loses its magic.",
+      "Six types of magic beads exist. The GM decides the type of each bead on the necklace or determines it randomly. A necklace can have more than one bead of the same type. To use one, you must be wearing the necklace. Each bead contains a spell that you can cast from it as a bonus action (using your spell save DC if a save is necessary). Once a magic bead's spell is cast, that bead can't be used again until the next dawn.",
+      "| d20 | Bead of... | Spell |",
+      "|---|---|---|",
+      "| 1-6 | Blessing | Bless |",
+      "| 7-12 | Curing | Cure wounds (2nd level) or lesser restoration |",
+      "| 13-16 | Favor | Greater restoration |",
+      "| 17-18 | Smiting | Branding smite |",
+      "| 19 | Summons | Planar ally |",
+      "| 20 | Wind walking | Wind walk |"
+    ],
+    "url": "/api/2014/magic-items/necklace-of-prayer-beads"
+  },
+  {
+    "index": "periapt-of-wound-closure",
+    "name": "Periapt of Wound Closure",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, uncommon (requires attunement)",
+      "While you wear this pendant, you stabilize whenever you are dying at the start of your turn. In addition, whenever you roll a Hit Die to regain hit points, double the number of hit points it restores."
+    ],
+    "url": "/api/2014/magic-items/periapt-of-wound-closure"
+  },
+  {
+    "index": "ring-of-djinni-summoning",
+    "name": "Ring of Djinni Summoning",
+    "equipment_category": {
+      "index": "ring",
+      "name": "Ring",
+      "url": "/api/2014/equipment-categories/ring"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Ring, legendary (requires attunement)",
+      "While wearing this ring, you can speak its command word as an action to summon a particular djinni from the Elemental Plane of Air. The djinni appears in an unoccupied space you choose within 120 feet of you. It remains as long as you concentrate (as if concentrating on a spell), to a maximum of 1 hour, or until it drops to 0 hit points. It then returns to its home plane.",
+      "While summoned, the djinni is friendly to you and your companions. It obeys any commands you give it, no matter what language you use. If you fail to command it, the djinni defends itself against attackers but takes no other actions.",
+      "After the djinni departs, it can't be summoned again for 24 hours, and the ring becomes nonmagical if the djinni dies."
+    ],
+    "url": "/api/2014/magic-items/ring-of-djinni-summoning"
+  },
+  {
+    "index": "ring-of-elemental-command",
+    "name": "Ring of Elemental Command",
+    "equipment_category": {
+      "index": "ring",
+      "name": "Ring",
+      "url": "/api/2014/equipment-categories/ring"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [
+      {
+        "index": "ring-of-elemental-command-air",
+        "name": "Ring of Air Elemental Command",
+        "url": "/api/2014/magic-items/ring-of-elemental-command-air"
+      },
+      {
+        "index": "ring-of-elemental-command-earth",
+        "name": "Ring of Earth Elemental Command",
+        "url": "/api/2014/magic-items/ring-of-elemental-command-earth"
+      },
+      {
+        "index": "ring-of-elemental-command-fire",
+        "name": "Ring of Fire Elemental Command",
+        "url": "/api/2014/magic-items/ring-of-elemental-command-fire"
+      },
+      {
+        "index": "ring-of-elemental-command-water",
+        "name": "Ring of Water Elemental Command",
+        "url": "/api/2014/magic-items/ring-of-elemental-command-water"
+      }
+    ],
+    "variant": false,
+    "desc": [
+      "Ring, legendary (requires attunement)",
+      "This ring is linked to one of the four Elemental Planes. The GM chooses or randomly determines the linked plane.",
+      "While wearing this ring, you have advantage on attack rolls against elementals from the linked plane, and they have disadvantage on attack rolls against you. In addition, you have access to properties based on the linked plane.",
+      "The ring has 5 charges. It regains 1d4 + 1 expended charges daily at dawn. Spells cast from the ring have a save DC of 17.",
+      "***Ring of Air Elemental Command.*** You can expend 2 of the ring's charges to cast dominate monster on an air elemental. In addition, when you fall, you descend 60 feet per round and take no damage from falling. You can also speak and understand Auran.",
+      "If you help slay an air elemental while attuned to the ring, you gain access to the following additional properties:",
+      "You have resistance to lightning damage.",
+      "You have a flying speed equal to your walking speed and can hover.",
+      "You can cast the following spells from the ring, expending the necessary number of charges: chain lightning (3 charges), gust of wind (2 charges), or wind wall (1 charge).",
+      "***Ring of Earth Elemental Command.*** You can expend 2 of the ring's charges to cast dominate monster on an earth elemental. In addition, you can move in difficult terrain that is composed of rubble, rocks, or dirt as if it were normal terrain. You can also speak and understand Terran.",
+      "If you help slay an earth elemental while attuned to the ring, you gain access to the following additional properties:",
+      "You have resistance to acid damage.",
+      "You can move through solid earth or rock as if those areas were difficult terrain. If you end your turn there, you are shunted out to the nearest unoccupied space you last occupied.",
+      "You can cast the following spells from the ring, expending the necessary number of charges: stone shape (2 charges), stoneskin (3 charges), or wall of stone (3 charges).",
+      "***Ring of Fire Elemental Command.*** You can expend 2 of the ring's charges to cast dominate monster on a fire elemental. In addition, you have resistance to fire damage. You can also speak and understand Ignan.",
+      "If you help slay a fire elemental while attuned to the ring, you gain access to the following additional properties:",
+      "You are immune to fire damage.",
+      "You can cast the following spells from the ring, expending the necessary number of charges: burning hands (1 charge), fireball (2 charges), and wall of fire (3 charges).",
+      "***Ring of Water Elemental Command.*** You can expend 2 of the ring's charges to cast dominate monster on a water elemental. In addition, you can stand on and walk across liquid surfaces as if they were solid ground. You can also speak and understand Aquan.",
+      "If you help slay a water elemental while attuned to the ring, you gain access to the following additional properties:",
+      "You can breathe underwater and have a swimming speed equal to your walking speed.",
+      "You can cast the following spells from the ring, expending the necessary number of charges: create or destroy water (1 charge), control water (3 charges), ice storm (2 charges), or wall of ice (3 charges)."
+    ],
+    "url": "/api/2014/magic-items/ring-of-elemental-command"
+  },
+  {
+    "index": "ring-of-elemental-command-air",
+    "name": "Ring of Air Elemental Command",
+    "equipment_category": {
+      "index": "ring",
+      "name": "Ring",
+      "url": "/api/2014/equipment-categories/ring"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Ring, legendary (requires attunement)",
+      "This ring is linked to the Elemental Plane of Air.",
+      "While wearing this ring, you have advantage on attack rolls against air elementals, and they have disadvantage on attack rolls against you. In addition, you have access to properties based on the Elemental Plane of Air.",
+      "The ring has 5 charges. It regains 1d4 + 1 expended charges daily at dawn. Spells cast from the ring have a save DC of 17.",
+      "You can expend 2 of the ring's charges to cast dominate monster on an air elemental. In addition, when you fall, you descend 60 feet per round and take no damage from falling. You can also speak and understand Auran.",
+      "If you help slay an air elemental while attuned to the ring, you gain access to the following additional properties:",
+      "You have resistance to lightning damage.",
+      "You have a flying speed equal to your walking speed and can hover.",
+      "You can cast the following spells from the ring, expending the necessary number of charges: chain lightning (3 charges), gust of wind (2 charges), or wind wall (1 charge)."
+    ],
+    "url": "/api/2014/magic-items/ring-of-elemental-command-air"
+  },
+  {
+    "index": "ring-of-elemental-command-earth",
+    "name": "Ring of Earth Elemental Command",
+    "equipment_category": {
+      "index": "ring",
+      "name": "Ring",
+      "url": "/api/2014/equipment-categories/ring"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Ring, legendary (requires attunement)",
+      "This ring is linked to the Elemental Plane of Earth.",
+      "While wearing this ring, you have advantage on attack rolls against earth elementals, and they have disadvantage on attack rolls against you. In addition, you have access to properties based on the Elemental Plane of Earth.",
+      "The ring has 5 charges. It regains 1d4 + 1 expended charges daily at dawn. Spells cast from the ring have a save DC of 17.",
+      "You can expend 2 of the ring's charges to cast dominate monster on an earth elemental. In addition, you can move in difficult terrain that is composed of rubble, rocks, or dirt as if it were normal terrain. You can also speak and understand Terran.",
+      "If you help slay an earth elemental while attuned to the ring, you gain access to the following additional properties:",
+      "You have resistance to acid damage.",
+      "You can move through solid earth or rock as if those areas were difficult terrain. If you end your turn there, you are shunted out to the nearest unoccupied space you last occupied.",
+      "You can cast the following spells from the ring, expending the necessary number of charges: stone shape (2 charges), stoneskin (3 charges), or wall of stone (3 charges)."
+    ],
+    "url": "/api/2014/magic-items/ring-of-elemental-command-earth"
+  },
+  {
+    "index": "ring-of-elemental-command-fire",
+    "name": "Ring of Fire Elemental Command",
+    "equipment_category": {
+      "index": "ring",
+      "name": "Ring",
+      "url": "/api/2014/equipment-categories/ring"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Ring, legendary (requires attunement)",
+      "This ring is linked to the Elemental Plane of Fire.",
+      "While wearing this ring, you have advantage on attack rolls against fire elementals, and they have disadvantage on attack rolls against you. In addition, you have access to properties based on the Elemental Plane of Fire.",
+      "The ring has 5 charges. It regains 1d4 + 1 expended charges daily at dawn. Spells cast from the ring have a save DC of 17.",
+      "You can expend 2 of the ring's charges to cast dominate monster on a fire elemental. In addition, you have resistance to fire damage. You can also speak and understand Ignan.",
+      "If you help slay a fire elemental while attuned to the ring, you gain access to the following additional properties:",
+      "You are immune to fire damage.",
+      "You can cast the following spells from the ring, expending the necessary number of charges: burning hands (1 charge), fireball (2 charges), and wall of fire (3 charges)."
+    ],
+    "url": "/api/2014/magic-items/ring-of-elemental-command-fire"
+  },
+  {
+    "index": "ring-of-elemental-command-water",
+    "name": "Ring of Water Elemental Command",
+    "equipment_category": {
+      "index": "ring",
+      "name": "Ring",
+      "url": "/api/2014/equipment-categories/ring"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Ring, legendary (requires attunement)",
+      "This ring is linked to the Elemental Plane of Water.",
+      "While wearing this ring, you have advantage on attack rolls against water elementals, and they have disadvantage on attack rolls against you. In addition, you have access to properties based on the Elemental Plane of Water.",
+      "The ring has 5 charges. It regains 1d4 + 1 expended charges daily at dawn. Spells cast from the ring have a save DC of 17.",
+      "You can expend 2 of the ring's charges to cast dominate monster on a water elemental. In addition, you can stand on and walk across liquid surfaces as if they were solid ground. You can also speak and understand Aquan.",
+      "If you help slay a water elemental while attuned to the ring, you gain access to the following additional properties:",
+      "You can breathe underwater and have a swimming speed equal to your walking speed.",
+      "You can cast the following spells from the ring, expending the necessary number of charges: create or destroy water (1 charge), control water (3 charges), ice storm (2 charges), or wall of ice (3 charges)."
+    ],
+    "url": "/api/2014/magic-items/ring-of-elemental-command-water"
+  },
+  {
+    "index": "ring-of-evasion",
+    "name": "Ring of Evasion",
+    "equipment_category": {
+      "index": "ring",
+      "name": "Ring",
+      "url": "/api/2014/equipment-categories/ring"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Ring, rare (requires attunement)",
+      "This ring has 3 charges, and it regains 1d3 expended charges daily at dawn. When you fail a Dexterity saving throw while wearing it, you can use your reaction to expend 1 of its charges to succeed on that saving throw instead."
+    ],
+    "url": "/api/2014/magic-items/ring-of-evasion"
+  },
+  {
+    "index": "ring-of-free-action",
+    "name": "Ring of Free Action",
+    "equipment_category": {
+      "index": "ring",
+      "name": "Ring",
+      "url": "/api/2014/equipment-categories/ring"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Ring, rare (requires attunement)",
+      "While you wear this ring, difficult terrain doesn't cost you extra movement. In addition, magic can neither reduce your speed nor cause you to be paralyzed or restrained."
+    ],
+    "url": "/api/2014/magic-items/ring-of-free-action"
+  },
+  {
+    "index": "ring-of-invisibility",
+    "name": "Ring of Invisibility",
+    "equipment_category": {
+      "index": "ring",
+      "name": "Ring",
+      "url": "/api/2014/equipment-categories/ring"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Ring, legendary (requires attunement)",
+      "While wearing this ring, you can turn invisible as an action. Anything you are wearing or carrying is invisible with you. You remain invisible until the ring is removed, until you attack or cast a spell, or until you use a bonus action to become visible again."
+    ],
+    "url": "/api/2014/magic-items/ring-of-invisibility"
+  },
+  {
+    "index": "ring-of-protection",
+    "name": "Ring of Protection",
+    "equipment_category": {
+      "index": "ring",
+      "name": "Ring",
+      "url": "/api/2014/equipment-categories/ring"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Ring, rare (requires attunement)",
+      "You gain a +1 bonus to AC and saving throws while wearing this ring."
+    ],
+    "url": "/api/2014/magic-items/ring-of-protection"
+  },
+  {
+    "index": "ring-of-regeneration",
+    "name": "Ring of Regeneration",
+    "equipment_category": {
+      "index": "ring",
+      "name": "Ring",
+      "url": "/api/2014/equipment-categories/ring"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Ring, very rare (requires attunement)",
+      "While wearing this ring, you regain 1d6 hit points every 10 minutes, provided that you have at least 1 hit point. If you lose a body part, the ring causes the missing part to regrow and return to full functionality after 1d6 + 1 days if you have at least 1 hit point the whole time."
+    ],
+    "url": "/api/2014/magic-items/ring-of-regeneration"
+  },
+  {
+    "index": "ring-of-resistance",
+    "name": "Ring of Resistance",
+    "equipment_category": {
+      "index": "ring",
+      "name": "Ring",
+      "url": "/api/2014/equipment-categories/ring"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [
+      {
+        "index": "ring-of-resistance-acid",
+        "name": "Ring of Acid Resistance",
+        "url": "/api/2014/magic-items/ring-of-resistance-acid"
+      },
+      {
+        "index": "ring-of-resistance-cold",
+        "name": "Ring of Cold Resistance",
+        "url": "/api/2014/magic-items/ring-of-resistance-cold"
+      },
+      {
+        "index": "ring-of-resistance-fire",
+        "name": "Ring of Fire Resistance",
+        "url": "/api/2014/magic-items/ring-of-resistance-fire"
+      },
+      {
+        "index": "ring-of-resistance-force",
+        "name": "Ring of Force Resistance",
+        "url": "/api/2014/magic-items/ring-of-resistance-force"
+      },
+      {
+        "index": "ring-of-resistance-lightning",
+        "name": "Ring of Lightning Resistance",
+        "url": "/api/2014/magic-items/ring-of-resistance-lightning"
+      },
+      {
+        "index": "ring-of-resistance-necrotic",
+        "name": "Ring of Necrotic Resistance",
+        "url": "/api/2014/magic-items/ring-of-resistance-necrotic"
+      },
+      {
+        "index": "ring-of-resistance-poison",
+        "name": "Ring of Poison Resistance",
+        "url": "/api/2014/magic-items/ring-of-resistance-poison"
+      },
+      {
+        "index": "ring-of-resistance-psychic",
+        "name": "Ring of Psychic Resistance",
+        "url": "/api/2014/magic-items/ring-of-resistance-psychic"
+      },
+      {
+        "index": "ring-of-resistance-radiant",
+        "name": "Ring of Radiant Resistance",
+        "url": "/api/2014/magic-items/ring-of-resistance-radiant"
+      },
+      {
+        "index": "ring-of-resistance-thunder",
+        "name": "Ring of Thunder Resistance",
+        "url": "/api/2014/magic-items/ring-of-resistance-thunder"
+      }
+    ],
+    "variant": false,
+    "desc": [
+      "Ring, rare (requires attunement)",
+      "You have resistance to one damage type while wearing this ring. The gem in the ring indicates the type, which the GM chooses or determines randomly.",
+      "| d10 | Damage Type | Gem |",
+      "|---|---|---|",
+      "| 1 | Acid | Pearl |",
+      "| 2 | Cold | Tourmaline |",
+      "| 3 | Fire | Garnet |",
+      "| 4 | Force | Sapphire |",
+      "| 5 | Lightning | Citrine |",
+      "| 6 | Necrotic | Jet |",
+      "| 7 | Poison | Amethyst |",
+      "| 8 | Psychic | Jade |",
+      "| 9 | Radiant | Topaz |",
+      "| 10 | Thunder | Spinel |"
+    ],
+    "url": "/api/2014/magic-items/ring-of-resistance"
+  },
+  {
+    "index": "ring-of-resistance-acid",
+    "name": "Ring of Acid Resistance",
+    "equipment_category": {
+      "index": "ring",
+      "name": "Ring",
+      "url": "/api/2014/equipment-categories/ring"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Ring, rare (requires attunement)",
+      "You have resistance to acid damage while wearing this pearl ring."
+    ],
+    "url": "/api/2014/magic-items/ring-of-resistance-acid"
+  },
+  {
+    "index": "ring-of-resistance-cold",
+    "name": "Ring of Cold Resistance",
+    "equipment_category": {
+      "index": "ring",
+      "name": "Ring",
+      "url": "/api/2014/equipment-categories/ring"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Ring, rare (requires attunement)",
+      "You have resistance to cold damage while wearing this tourmaline ring."
+    ],
+    "url": "/api/2014/magic-items/ring-of-resistance-cold"
+  },
+  {
+    "index": "ring-of-resistance-fire",
+    "name": "Ring of Fire Resistance",
+    "equipment_category": {
+      "index": "ring",
+      "name": "Ring",
+      "url": "/api/2014/equipment-categories/ring"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Ring, rare (requires attunement)",
+      "You have resistance to fire damage while wearing this garnet ring."
+    ],
+    "url": "/api/2014/magic-items/ring-of-resistance-fire"
+  },
+  {
+    "index": "ring-of-resistance-force",
+    "name": "Ring of Force Resistance",
+    "equipment_category": {
+      "index": "ring",
+      "name": "Ring",
+      "url": "/api/2014/equipment-categories/ring"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Ring, rare (requires attunement)",
+      "You have resistance to force damage while wearing this sapphire ring."
+    ],
+    "url": "/api/2014/magic-items/ring-of-resistance-force"
+  },
+  {
+    "index": "ring-of-resistance-lightning",
+    "name": "Ring of Lightning Resistance",
+    "equipment_category": {
+      "index": "ring",
+      "name": "Ring",
+      "url": "/api/2014/equipment-categories/ring"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Ring, rare (requires attunement)",
+      "You have resistance to lightning damage while wearing this citrine ring."
+    ],
+    "url": "/api/2014/magic-items/ring-of-resistance-lightning"
+  },
+  {
+    "index": "ring-of-resistance-necrotic",
+    "name": "Ring of Necrotic Resistance",
+    "equipment_category": {
+      "index": "ring",
+      "name": "Ring",
+      "url": "/api/2014/equipment-categories/ring"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Ring, rare (requires attunement)",
+      "You have resistance to necrotic damage while wearing this jet ring."
+    ],
+    "url": "/api/2014/magic-items/ring-of-resistance-necrotic"
+  },
+  {
+    "index": "ring-of-resistance-poison",
+    "name": "Ring of Poison Resistance",
+    "equipment_category": {
+      "index": "ring",
+      "name": "Ring",
+      "url": "/api/2014/equipment-categories/ring"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Ring, rare (requires attunement)",
+      "You have resistance to poison damage while wearing this amethyst ring."
+    ],
+    "url": "/api/2014/magic-items/ring-of-resistance-poison"
+  },
+  {
+    "index": "ring-of-resistance-psychic",
+    "name": "Ring of Psychic Resistance",
+    "equipment_category": {
+      "index": "ring",
+      "name": "Ring",
+      "url": "/api/2014/equipment-categories/ring"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Ring, rare (requires attunement)",
+      "You have resistance to psychic damage while wearing this jade ring."
+    ],
+    "url": "/api/2014/magic-items/ring-of-resistance-psychic"
+  },
+  {
+    "index": "ring-of-resistance-radiant",
+    "name": "Ring of Radiant Resistance",
+    "equipment_category": {
+      "index": "ring",
+      "name": "Ring",
+      "url": "/api/2014/equipment-categories/ring"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Ring, rare (requires attunement)",
+      "You have resistance to radiant damage while wearing this topaz ring."
+    ],
+    "url": "/api/2014/magic-items/ring-of-resistance-radiant"
+  },
+  {
+    "index": "ring-of-resistance-thunder",
+    "name": "Ring of Thunder Resistance",
+    "equipment_category": {
+      "index": "ring",
+      "name": "Ring",
+      "url": "/api/2014/equipment-categories/ring"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Ring, rare (requires attunement)",
+      "You have resistance to thunder damage while wearing this spinel ring."
+    ],
+    "url": "/api/2014/magic-items/ring-of-resistance-thunder"
+  },
+  {
+    "index": "ring-of-shooting-stars",
+    "name": "Ring of Shooting Stars",
+    "equipment_category": {
+      "index": "ring",
+      "name": "Ring",
+      "url": "/api/2014/equipment-categories/ring"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Ring, very rare (requires attunement outdoors at night)",
+      "While wearing this ring in dim light or darkness, you can cast dancing lights and light from the ring at will. Casting either spell from the ring requires an action.",
+      "The ring has 6 charges for the following other properties. The ring regains 1d6 expended charges daily at dawn.",
+      "***Faerie Fire.*** You can expend 1 charge as an action to cast faerie fire from the ring.",
+      "***Ball Lightning.*** You can expend 2 charges as an action to create one to four 3-foot-diameter spheres of lightning. The more spheres you create, the less powerful each sphere is individually.",
+      "Each sphere appears in an unoccupied space you can see within 120 feet of you. The spheres last as long as you concentrate (as if concentrating on a spell), up to 1 minute. Each sphere sheds dim light in a 30-foot radius.",
+      "As a bonus action, you can move each sphere up to 30 feet, but no farther than 120 feet away from you. When a creature other than you comes within 5 feet of a sphere, the sphere discharges lightning at that creature and disappears. That creature must make a DC 15 Dexterity saving throw. On a failed save, the creature takes lightning damage based on the number of spheres you created.",
+      "| Spheres | Lightning Damage |",
+      "|---|---|",
+      "| 4 | 2d4 |",
+      "| 3 | 2d6 |",
+      "| 2 | 5d4 |",
+      "| 1 | 4d12 |",
+      "***Shooting Stars.*** You can expend 1 to 3 charges as an action. For every charge you expend, you launch a glowing mote of light from the ring at a point you can see within 60 feet of you. Each creature within a 15-foot cube originating from that point is showered in sparks and must make a DC 15 Dexterity saving throw, taking 5d4 fire damage on a failed save, or half as much damage on a successful one."
+    ],
+    "url": "/api/2014/magic-items/ring-of-shooting-stars"
+  },
+  {
+    "index": "ring-of-spell-storing",
+    "name": "Ring of Spell Storing",
+    "equipment_category": {
+      "index": "ring",
+      "name": "Ring",
+      "url": "/api/2014/equipment-categories/ring"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Ring, rare (requires attunement)",
+      "This ring stores spells cast into it, holding them until the attuned wearer uses them. The ring can store up to 5 levels worth of spells at a time. When found, it contains 1d6 - 1 levels of stored spells chosen by the GM.",
+      "Any creature can cast a spell of 1st through 5th level into the ring by touching the ring as the spell is cast. The spell has no effect, other than to be stored in the ring. If the ring can't hold the spell, the spell is expended without effect. The level of the slot used to cast the spell determines how much space it uses.",
+      "While wearing this ring, you can cast any spell stored in it. The spell uses the slot level, spell save DC, spell attack bonus, and spellcasting ability of the original caster, but is otherwise treated as if you cast the spell. The spell cast from the ring is no longer stored in it, freeing up space."
+    ],
+    "url": "/api/2014/magic-items/ring-of-spell-storing"
+  },
+  {
+    "index": "ring-of-spell-turning",
+    "name": "Ring of Spell Turning",
+    "equipment_category": {
+      "index": "ring",
+      "name": "Ring",
+      "url": "/api/2014/equipment-categories/ring"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Ring, legendary (requires attunement)",
+      "While wearing this ring, you have advantage on saving throws against any spell that targets only you (not in an area of effect). In addition, if you roll a 20 for the save and the spell is 7th level or lower, the spell has no effect on you and instead targets the caster, using the slot level, spell save DC, attack bonus, and spellcasting ability of the caster."
+    ],
+    "url": "/api/2014/magic-items/ring-of-spell-turning"
+  },
+  {
+    "index": "ring-of-telekinesis",
+    "name": "Ring of Telekinesis",
+    "equipment_category": {
+      "index": "ring",
+      "name": "Ring",
+      "url": "/api/2014/equipment-categories/ring"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Ring, very rare (requires attunement)",
+      "While wearing this ring, you can cast the telekinesis spell at will, but you can target only objects that aren't being worn or carried."
+    ],
+    "url": "/api/2014/magic-items/ring-of-telekinesis"
+  },
+  {
+    "index": "ring-of-the-ram",
+    "name": "Ring of the Ram",
+    "equipment_category": {
+      "index": "ring",
+      "name": "Ring",
+      "url": "/api/2014/equipment-categories/ring"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Ring, rare (requires attunement)",
+      "This ring has 3 charges, and it regains 1d3 expended charges daily at dawn. While wearing the ring, you can use an action to expend 1 to 3 of its charges to attack one creature you can see within 60 feet of you. The ring produces a spectral ram's head and makes its attack roll with a +7 bonus. On a hit, for each charge you spend, the target takes 2d10 force damage and is pushed 5 feet away from you.",
+      "Alternatively, you can expend 1 to 3 of the ring's charges as an action to try to break an object you can see within 60 feet of you that isn't being worn or carried. The ring makes a Strength check with a +5 bonus for each charge you spend."
+    ],
+    "url": "/api/2014/magic-items/ring-of-the-ram"
+  },
+  {
+    "index": "robe-of-scintillating-colors",
+    "name": "Robe of Scintillating Colors",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, very rare (requires attunement)",
+      "This robe has 3 charges, and it regains 1d3 expended charges daily at dawn. While you wear it, you can use an action and expend 1 charge to cause the garment to display a shifting pattern of dazzling hues until the end of your next turn. During this time, the robe sheds bright light in a 30-foot radius and dim light for an additional 30 feet. Creatures that can see you have disadvantage on attack rolls against you. In addition, any creature in the bright light that can see you when the robe's power is activated must succeed on a DC 15 Wisdom saving throw or become stunned until the effect ends."
+    ],
+    "url": "/api/2014/magic-items/robe-of-scintillating-colors"
+  },
+  {
+    "index": "robe-of-stars",
+    "name": "Robe of Stars",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, very rare (requires attunement)",
+      "This black or dark blue robe is embroidered with small white or silver stars. You gain a +1 bonus to saving throws while you wear it.",
+      "Six stars, located on the robe's upper front portion, are particularly large. While wearing this robe, you can use an action to pull off one of the stars and use it to cast magic missile as a 5th-level spell. Daily at dusk, 1d6 removed stars reappear on the robe.",
+      "While you wear the robe, you can use an action to enter the Astral Plane along with everything you are wearing and carrying. You remain there until you use an action to return to the plane you were on. You reappear in the last space you occupied, or if that space is occupied, the nearest unoccupied space."
+    ],
+    "url": "/api/2014/magic-items/robe-of-stars"
+  },
+  {
+    "index": "robe-of-the-archmagi",
+    "name": "Robe of the Archmagi",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, legendary (requires attunement by a sorcerer, warlock, or wizard)",
+      "This elegant garment is made from exquisite cloth of white, gray, or black and adorned with silvery runes. The robe's color corresponds to the alignment for which the item was created. A white robe was made for good, gray for neutral, and black for evil. You can't attune to a robe of the archmagi that doesn't correspond to your alignment.",
+      "You gain these benefits while wearing the robe:",
+      "If you aren't wearing armor, your base Armor Class is 15 + your Dexterity modifier.",
+      "You have advantage on saving throws against spells and other magical effects.",
+      "Your spell save DC and spell attack bonus each increase by 2."
+    ],
+    "url": "/api/2014/magic-items/robe-of-the-archmagi"
+  },
+  {
+    "index": "scarab-of-protection",
+    "name": "Scarab of Protection",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, legendary (requires attunement)",
+      "If you hold this beetle-shaped medallion in your hand for 1 round, an inscription appears on its surface revealing its magical nature. It provides two benefits while it is on your person:",
+      "You have advantage on saving throws against spells.",
+      "The scarab has 12 charges. If you fail a saving throw against a necromancy spell or a harmful effect originating from an undead creature, you can use your reaction to expend 1 charge and turn the failed save into a successful one. The scarab crumbles into powder and is destroyed when its last charge is expended."
+    ],
+    "url": "/api/2014/magic-items/scarab-of-protection"
+  },
+  {
+    "index": "talisman-of-pure-good",
+    "name": "Talisman of Pure Good",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, legendary (requires attunement by a creature of good alignment)",
+      "This talisman is a mighty symbol of goodness. A creature that is neither good nor evil in alignment takes 6d6 radiant damage upon touching the talisman. An evil creature takes 8d6 radiant damage upon touching the talisman. Either sort of creature takes the damage again each time it ends its turn holding or carrying the talisman.",
+      "If you are a good cleric or paladin, you can use the talisman as a holy symbol, and you gain a +2 bonus to spell attack rolls while you wear or hold it.",
+      "The talisman has 7 charges. If you are wearing or holding it, you can use an action to expend 1 charge from it and choose one creature you can see on the ground within 120 feet of you. If the target is of evil alignment, a flaming fissure opens under it. The target must succeed on a DC 20 Dexterity saving throw or fall into the fissure and be destroyed, leaving no remains. The fissure then closes, leaving no trace of its existence. When you expend the last charge, the talisman disperses into motes of golden light and is destroyed."
+    ],
+    "url": "/api/2014/magic-items/talisman-of-pure-good"
+  },
+  {
+    "index": "talisman-of-the-sphere",
+    "name": "Talisman of the Sphere",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, legendary (requires attunement)",
+      "When you make an Intelligence (Arcana) check to control a sphere of annihilation while you are holding this talisman, you double your proficiency bonus on the check. In addition, when you start your turn with control over a sphere of annihilation, you can use an action to levitate it 10 feet plus a number of additional feet equal to 10 × your Intelligence modifier."
+    ],
+    "url": "/api/2014/magic-items/talisman-of-the-sphere"
+  },
+  {
+    "index": "talisman-of-ultimate-evil",
+    "name": "Talisman of Ultimate Evil",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, legendary (requires attunement by a creature of evil alignment)",
+      "This item symbolizes unrepentant evil. A creature that is neither good nor evil in alignment takes 6d6 necrotic damage upon touching the talisman. A good creature takes 8d6 necrotic damage upon touching the talisman. Either sort of creature takes the damage again each time it ends its turn holding or carrying the talisman.",
+      "If you are an evil cleric or paladin, you can use the talisman as a holy symbol, and you gain a +2 bonus to spell attack rolls while you wear or hold it.",
+      "The talisman has 6 charges. If you are wearing or holding it, you can use an action to expend 1 charge from the talisman and choose one creature you can see on the ground within 120 feet of you. If the target is of good alignment, a flaming fissure opens under it. The target must succeed on a DC 20 Dexterity saving throw or fall into the fissure and be destroyed, leaving no remains. The fissure then closes, leaving no trace of its existence. When you expend the last charge, the talisman dissolves into foul-smelling slime and is destroyed."
+    ],
+    "url": "/api/2014/magic-items/talisman-of-ultimate-evil"
+  }
+]

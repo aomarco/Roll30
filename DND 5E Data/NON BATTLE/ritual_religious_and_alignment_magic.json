@@ -1,0 +1,168 @@
+[
+  {
+    "index": "candle-of-invocation",
+    "name": "Candle of Invocation",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, very rare (requires attunement)",
+      "This slender taper is dedicated to a deity and shares that deity's alignment. The candle's alignment can be detected with the detect evil and good spell. The GM chooses the god and associated alignment or determines the alignment randomly.",
+      "| d20 | Alignment |",
+      "|---|---|",
+      "| 1-2 | Chaotic evil |",
+      "| 3-4 | Chaotic neutral |",
+      "| 5-7 | Chaotic good |",
+      "| 8-9 | Neutral evil |",
+      "| 10-11 | Neutral |",
+      "| 12-13 | Neutral good |",
+      "| 14-15 | Lawful evil |",
+      "| 16-17 | Lawful neutral |",
+      "| 18-20 | Lawful good |",
+      "The candle's magic is activated when the candle is lit, which requires an action. After burning for 4 hours, the candle is destroyed. You can snuff it out early for use at a later time. Deduct the time it burned in increments of 1 minute from the candle's total burn time.",
+      "While lit, the candle sheds dim light in a 30-foot radius. Any creature within that light whose alignment matches that of the candle makes attack rolls, saving throws, and ability checks with advantage. In addition, a cleric or druid in the light whose alignment matches the candle's can cast 1stlevel spells he or she has prepared without expending spell slots, though the spell's effect is as if cast with a 1st-level slot.",
+      "Alternatively, when you light the candle for the first time, you can cast the gate spell with it. Doing so destroys the candle."
+    ],
+    "image": "/api/images/magic-items/candle-of-invocation.png",
+    "url": "/api/2014/magic-items/candle-of-invocation"
+  },
+  {
+    "index": "manual-of-golems",
+    "name": "Manual of Golems",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [
+      {
+        "index": "manual-of-golems-clay",
+        "name": "Manual of Clay Golems",
+        "url": "/api/2014/magic-items/manual-of-golems-clay"
+      },
+      {
+        "index": "manual-of-golems-flesh",
+        "name": "Manual of Flesh Golems",
+        "url": "/api/2014/magic-items/manual-of-golems-flesh"
+      },
+      {
+        "index": "manual-of-golems-iron",
+        "name": "Manual of Iron Golems",
+        "url": "/api/2014/magic-items/manual-of-golems-iron"
+      },
+      {
+        "index": "manual-of-golems-stone",
+        "name": "Manual of Stone Golems",
+        "url": "/api/2014/magic-items/manual-of-golems-stone"
+      }
+    ],
+    "variant": false,
+    "desc": [
+      "Wondrous item, very rare",
+      "This tome contains information and incantations necessary to make a particular type of golem. The GM chooses the type or determines it randomly. To decipher and use the manual, you must be a spellcaster with at least two 5th-level spell slots. A creature that can't use a manual of golems and attempts to read it takes 6d6 psychic damage.",
+      "| d20 | Golem | Time | Cost |",
+      "|---|---|---|---|",
+      "| 1-5 | Clay | 30 days | 65,000 gp |",
+      "| 6-17 | Flesh | 60 days | 50,000 gp |",
+      "| 18 | Iron | 120 days | 100,000 gp |",
+      "| 19-20 | Stone | 90 days | 80,000 gp |",
+      "To create a golem, you must spend the time shown on the table, working without interruption with the manual at hand and resting no more than 8 hours per day. You must also pay the specified cost to purchase supplies.",
+      "Once you finish creating the golem, the book is consumed in eldritch flames. The golem becomes animate when the ashes of the manual are sprinkled on it. It is under your control, and it understands and obeys your spoken commands."
+    ],
+    "url": "/api/2014/magic-items/manual-of-golems"
+  },
+  {
+    "index": "manual-of-golems-clay",
+    "name": "Manual of Clay Golems",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, very rare",
+      "This tome contains information and incantations necessary to make a clay golem. To decipher and use the manual, you must be a spellcaster with at least two 5th-level spell slots. A creature that can't use a manual of golems and attempts to read it takes 6d6 psychic damage.",
+      "To create a golem, you must spend 30 days, working without interruption with the manual at hand and resting no more than 8 hours per day. You must also pay 65,000 gp to purchase supplies.",
+      "Once you finish creating the golem, the book is consumed in eldritch flames. The golem becomes animate when the ashes of the manual are sprinkled on it. It is under your control, and it understands and obeys your spoken commands."
+    ],
+    "url": "/api/2014/magic-items/manual-of-golems-clay"
+  },
+  {
+    "index": "manual-of-golems-flesh",
+    "name": "Manual of Flesh Golems",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, very rare",
+      "This tome contains information and incantations necessary to make a flesh golem. To decipher and use the manual, you must be a spellcaster with at least two 5th-level spell slots. A creature that can't use a manual of golems and attempts to read it takes 6d6 psychic damage.",
+      "To create a golem, you must spend 60 days, working without interruption with the manual at hand and resting no more than 8 hours per day. You must also pay 50,000 gp to purchase supplies.",
+      "Once you finish creating the golem, the book is consumed in eldritch flames. The golem becomes animate when the ashes of the manual are sprinkled on it. It is under your control, and it understands and obeys your spoken commands."
+    ],
+    "url": "/api/2014/magic-items/manual-of-golems-flesh"
+  },
+  {
+    "index": "manual-of-golems-iron",
+    "name": "Manual of Iron Golems",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, very rare",
+      "This tome contains information and incantations necessary to make an iron golem. To decipher and use the manual, you must be a spellcaster with at least two 5th-level spell slots. A creature that can't use a manual of golems and attempts to read it takes 6d6 psychic damage.",
+      "To create a golem, you must spend 120 days, working without interruption with the manual at hand and resting no more than 8 hours per day. You must also pay 100,000 gp to purchase supplies.",
+      "Once you finish creating the golem, the book is consumed in eldritch flames. The golem becomes animate when the ashes of the manual are sprinkled on it. It is under your control, and it understands and obeys your spoken commands."
+    ],
+    "url": "/api/2014/magic-items/manual-of-golems-iron"
+  },
+  {
+    "index": "manual-of-golems-stone",
+    "name": "Manual of Stone Golems",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, very rare",
+      "This tome contains information and incantations necessary to make a stone golem. To decipher and use the manual, you must be a spellcaster with at least two 5th-level spell slots. A creature that can't use a manual of golems and attempts to read it takes 6d6 psychic damage.",
+      "To create a golem, you must spend 90 days, working without interruption with the manual at hand and resting no more than 8 hours per day. You must also pay 80,000 gp to purchase supplies.",
+      "Once you finish creating the golem, the book is consumed in eldritch flames. The golem becomes animate when the ashes of the manual are sprinkled on it. It is under your control, and it understands and obeys your spoken commands."
+    ],
+    "url": "/api/2014/magic-items/manual-of-golems-stone"
+  }
+]

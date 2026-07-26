@@ -1,0 +1,471 @@
+[
+  {
+    "index": "dragon-scale-mail",
+    "name": "Dragon Scale Mail",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [
+      {
+        "index": "dragon-scale-mail-black",
+        "name": "Black Dragon Scale Mail",
+        "url": "/api/2014/magic-items/dragon-scale-mail-black"
+      },
+      {
+        "index": "dragon-scale-mail-blue",
+        "name": "Blue Dragon Scale Mail",
+        "url": "/api/2014/magic-items/dragon-scale-mail-blue"
+      },
+      {
+        "index": "dragon-scale-mail-brass",
+        "name": "Brass Dragon Scale Mail",
+        "url": "/api/2014/magic-items/dragon-scale-mail-brass"
+      },
+      {
+        "index": "dragon-scale-mail-bronze",
+        "name": "Bronze Dragon Scale Mail",
+        "url": "/api/2014/magic-items/dragon-scale-mail-bronze"
+      },
+      {
+        "index": "dragon-scale-mail-copper",
+        "name": "Copper Dragon Scale Mail",
+        "url": "/api/2014/magic-items/dragon-scale-mail-copper"
+      },
+      {
+        "index": "dragon-scale-mail-gold",
+        "name": "Gold Dragon Scale Mail",
+        "url": "/api/2014/magic-items/dragon-scale-mail-gold"
+      },
+      {
+        "index": "dragon-scale-mail-green",
+        "name": "Green Dragon Scale Mail",
+        "url": "/api/2014/magic-items/dragon-scale-mail-green"
+      },
+      {
+        "index": "dragon-scale-mail-red",
+        "name": "Red Dragon Scale Mail",
+        "url": "/api/2014/magic-items/dragon-scale-mail-red"
+      },
+      {
+        "index": "dragon-scale-mail-silver",
+        "name": "Silver Dragon Scale Mail",
+        "url": "/api/2014/magic-items/dragon-scale-mail-silver"
+      },
+      {
+        "index": "dragon-scale-mail-white",
+        "name": "White Dragon Scale Mail",
+        "url": "/api/2014/magic-items/dragon-scale-mail-white"
+      }
+    ],
+    "variant": false,
+    "desc": [
+      "Armor (scale mail), very rare (requires attunement)",
+      "Dragon scale mail is made of the scales of one kind of dragon. Sometimes dragons collect their cast-off scales and gift them to humanoids. Other times, hunters carefully skin and preserve the hide of a dead dragon. In either case, dragon scale mail is highly valued.",
+      "While wearing this armor, you gain a +1 bonus to AC, you have advantage on saving throws against the Frightful Presence and breath weapons of dragons, and you have resistance to one damage type that is determined by the kind of dragon that provided the scales (see the table).",
+      "Additionally, you can focus your senses as an action to magically discern the distance and direction to the closest dragon within 30 miles of you that is of the same type as the armor. This special action can't be used again until the next dawn.",
+      "| Dragon | Resistance |",
+      "|---|---|",
+      "| Black | Acid |",
+      "| Blue | Lightning |",
+      "| Brass | Fire |",
+      "| Bronze | Lightning |",
+      "| Copper | Acid |",
+      "| Gold | Fire |",
+      "| Green | Poison |",
+      "| Red | Fire |",
+      "| Silver | Cold |",
+      "| White | Cold |"
+    ],
+    "image": "/api/images/magic-items/dragon-scale-mail.png",
+    "url": "/api/2014/magic-items/dragon-scale-mail"
+  },
+  {
+    "index": "dragon-scale-mail-black",
+    "name": "Black Dragon Scale Mail",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Armor (scale mail), very rare (requires attunement)",
+      "Dragon scale mail is made of the scales of a black dragon. Sometimes dragons collect their cast-off scales and gift them to humanoids. Other times, hunters carefully skin and preserve the hide of a dead dragon. In either case, dragon scale mail is highly valued.",
+      "While wearing this armor, you gain a +1 bonus to AC, you have advantage on saving throws against the Frightful Presence and breath weapons of dragons, and you have resistance to acid damage.",
+      "Additionally, you can focus your senses as an action to magically discern the distance and direction to the closest black dragon within 30 miles of you. This special action can't be used again until the next dawn."
+    ],
+    "image": "/api/images/magic-items/dragon-scale-mail-black.png",
+    "url": "/api/2014/magic-items/dragon-scale-mail-black"
+  },
+  {
+    "index": "dragon-scale-mail-blue",
+    "name": "Blue Dragon Scale Mail",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Armor (scale mail), very rare (requires attunement)",
+      "Dragon scale mail is made of the scales of a blue dragon. Sometimes dragons collect their cast-off scales and gift them to humanoids. Other times, hunters carefully skin and preserve the hide of a dead dragon. In either case, dragon scale mail is highly valued.",
+      "While wearing this armor, you gain a +1 bonus to AC, you have advantage on saving throws against the Frightful Presence and breath weapons of dragons, and you have resistance to lightning damage.",
+      "Additionally, you can focus your senses as an action to magically discern the distance and direction to the closest blue dragon within 30 miles of you. This special action can't be used again until the next dawn."
+    ],
+    "image": "/api/images/magic-items/dragon-scale-mail-blue.png",
+    "url": "/api/2014/magic-items/dragon-scale-mail-blue"
+  },
+  {
+    "index": "dragon-scale-mail-brass",
+    "name": "Brass Dragon Scale Mail",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Armor (scale mail), very rare (requires attunement)",
+      "Dragon scale mail is made of the scales of a brass dragon. Sometimes dragons collect their cast-off scales and gift them to humanoids. Other times, hunters carefully skin and preserve the hide of a dead dragon. In either case, dragon scale mail is highly valued.",
+      "While wearing this armor, you gain a +1 bonus to AC, you have advantage on saving throws against the Frightful Presence and breath weapons of dragons, and you have resistance to fire damage.",
+      "Additionally, you can focus your senses as an action to magically discern the distance and direction to the closest brass dragon within 30 miles of you. This special action can't be used again until the next dawn."
+    ],
+    "image": "/api/images/magic-items/dragon-scale-mail-brass.png",
+    "url": "/api/2014/magic-items/dragon-scale-mail-brass"
+  },
+  {
+    "index": "dragon-scale-mail-bronze",
+    "name": "Bronze Dragon Scale Mail",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Armor (scale mail), very rare (requires attunement)",
+      "Dragon scale mail is made of the scales of a bronze dragon. Sometimes dragons collect their cast-off scales and gift them to humanoids. Other times, hunters carefully skin and preserve the hide of a dead dragon. In either case, dragon scale mail is highly valued.",
+      "While wearing this armor, you gain a +1 bonus to AC, you have advantage on saving throws against the Frightful Presence and breath weapons of dragons, and you have resistance to lightning damage.",
+      "Additionally, you can focus your senses as an action to magically discern the distance and direction to the closest bronze dragon within 30 miles of you. This special action can't be used again until the next dawn."
+    ],
+    "image": "/api/images/magic-items/dragon-scale-mail-bronze.png",
+    "url": "/api/2014/magic-items/dragon-scale-mail-bronze"
+  },
+  {
+    "index": "dragon-scale-mail-copper",
+    "name": "Copper Dragon Scale Mail",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Armor (scale mail), very rare (requires attunement)",
+      "Dragon scale mail is made of the scales of a copper dragon. Sometimes dragons collect their cast-off scales and gift them to humanoids. Other times, hunters carefully skin and preserve the hide of a dead dragon. In either case, dragon scale mail is highly valued.",
+      "While wearing this armor, you gain a +1 bonus to AC, you have advantage on saving throws against the Frightful Presence and breath weapons of dragons, and you have resistance to acid damage.",
+      "Additionally, you can focus your senses as an action to magically discern the distance and direction to the closest copper dragon within 30 miles of you. This special action can't be used again until the next dawn."
+    ],
+    "image": "/api/images/magic-items/dragon-scale-mail-copper.png",
+    "url": "/api/2014/magic-items/dragon-scale-mail-copper"
+  },
+  {
+    "index": "dragon-scale-mail-gold",
+    "name": "Gold Dragon Scale Mail",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Armor (scale mail), very rare (requires attunement)",
+      "Dragon scale mail is made of the scales of a gold dragon. Sometimes dragons collect their cast-off scales and gift them to humanoids. Other times, hunters carefully skin and preserve the hide of a dead dragon. In either case, dragon scale mail is highly valued.",
+      "While wearing this armor, you gain a +1 bonus to AC, you have advantage on saving throws against the Frightful Presence and breath weapons of dragons, and you have resistance to fire damage.",
+      "Additionally, you can focus your senses as an action to magically discern the distance and direction to the closest gold dragon within 30 miles of you. This special action can't be used again until the next dawn."
+    ],
+    "image": "/api/images/magic-items/dragon-scale-mail-gold.png",
+    "url": "/api/2014/magic-items/dragon-scale-mail-gold"
+  },
+  {
+    "index": "dragon-scale-mail-green",
+    "name": "Green Dragon Scale Mail",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Armor (scale mail), very rare (requires attunement)",
+      "Dragon scale mail is made of the scales of a green dragon. Sometimes dragons collect their cast-off scales and gift them to humanoids. Other times, hunters carefully skin and preserve the hide of a dead dragon. In either case, dragon scale mail is highly valued.",
+      "While wearing this armor, you gain a +1 bonus to AC, you have advantage on saving throws against the Frightful Presence and breath weapons of dragons, and you have resistance to poison damage.",
+      "Additionally, you can focus your senses as an action to magically discern the distance and direction to the closest green dragon within 30 miles of you. This special action can't be used again until the next dawn."
+    ],
+    "image": "/api/images/magic-items/dragon-scale-mail-green.png",
+    "url": "/api/2014/magic-items/dragon-scale-mail-green"
+  },
+  {
+    "index": "dragon-scale-mail-red",
+    "name": "Red Dragon Scale Mail",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Armor (scale mail), very rare (requires attunement)",
+      "Dragon scale mail is made of the scales of a red dragon. Sometimes dragons collect their cast-off scales and gift them to humanoids. Other times, hunters carefully skin and preserve the hide of a dead dragon. In either case, dragon scale mail is highly valued.",
+      "While wearing this armor, you gain a +1 bonus to AC, you have advantage on saving throws against the Frightful Presence and breath weapons of dragons, and you have resistance to fire damage.",
+      "Additionally, you can focus your senses as an action to magically discern the distance and direction to the closest red dragon within 30 miles of you. This special action can't be used again until the next dawn."
+    ],
+    "image": "/api/images/magic-items/dragon-scale-mail-red.png",
+    "url": "/api/2014/magic-items/dragon-scale-mail-red"
+  },
+  {
+    "index": "dragon-scale-mail-silver",
+    "name": "Silver Dragon Scale Mail",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Armor (scale mail), very rare (requires attunement)",
+      "Dragon scale mail is made of the scales of a silver dragon. Sometimes dragons collect their cast-off scales and gift them to humanoids. Other times, hunters carefully skin and preserve the hide of a dead dragon. In either case, dragon scale mail is highly valued.",
+      "While wearing this armor, you gain a +1 bonus to AC, you have advantage on saving throws against the Frightful Presence and breath weapons of dragons, and you have resistance to cold damage.",
+      "Additionally, you can focus your senses as an action to magically discern the distance and direction to the closest silver dragon within 30 miles of you. This special action can't be used again until the next dawn."
+    ],
+    "image": "/api/images/magic-items/dragon-scale-mail-silver.png",
+    "url": "/api/2014/magic-items/dragon-scale-mail-silver"
+  },
+  {
+    "index": "dragon-scale-mail-white",
+    "name": "White Dragon Scale Mail",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Armor (scale mail), very rare (requires attunement)",
+      "Dragon scale mail is made of the scales of a white dragon. Sometimes dragons collect their cast-off scales and gift them to humanoids. Other times, hunters carefully skin and preserve the hide of a dead dragon. In either case, dragon scale mail is highly valued.",
+      "While wearing this armor, you gain a +1 bonus to AC, you have advantage on saving throws against the Frightful Presence and breath weapons of dragons, and you have resistance to cold damage.",
+      "Additionally, you can focus your senses as an action to magically discern the distance and direction to the closest white dragon within 30 miles of you. This special action can't be used again until the next dawn."
+    ],
+    "image": "/api/images/magic-items/dragon-scale-mail-white.png",
+    "url": "/api/2014/magic-items/dragon-scale-mail-white"
+  },
+  {
+    "index": "dragon-slayer",
+    "name": "Dragon Slayer",
+    "equipment_category": {
+      "index": "weapon",
+      "name": "Weapon",
+      "url": "/api/2014/equipment-categories/weapon"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Weapon (any sword), rare",
+      "You gain a +1 bonus to attack and damage rolls made with this magic weapon.",
+      "When you hit a dragon with this weapon, the dragon takes an extra 3d6 damage of the weapon's type. For the purpose of this weapon, \"dragon\" refers to any creature with the dragon type, including dragon turtles and wyverns."
+    ],
+    "image": "/api/images/magic-items/dragon-slayer.png",
+    "url": "/api/2014/magic-items/dragon-slayer"
+  },
+  {
+    "index": "giant-slayer",
+    "name": "Giant Slayer",
+    "equipment_category": {
+      "index": "weapon",
+      "name": "Weapon",
+      "url": "/api/2014/equipment-categories/weapon"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Weapon (any axe or sword), rare",
+      "You gain a +1 bonus to attack and damage rolls made with this magic weapon.",
+      "When you hit a giant with it, the giant takes an extra 2d6 damage of the weapon's type and must succeed on a DC 15 Strength saving throw or fall prone. For the purpose of this weapon, \"giant\" refers to any creature with the giant type, including ettins and trolls."
+    ],
+    "url": "/api/2014/magic-items/giant-slayer"
+  },
+  {
+    "index": "holy-avenger",
+    "name": "Holy Avenger",
+    "equipment_category": {
+      "index": "weapon",
+      "name": "Weapon",
+      "url": "/api/2014/equipment-categories/weapon"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Weapon (any sword), legendary (requires attunement by a paladin)",
+      "You gain a +3 bonus to attack and damage rolls made with this magic weapon. When you hit a fiend or an undead with it, that creature takes an extra 2d10 radiant damage.",
+      "While you hold the drawn sword, it creates an aura in a 10-foot radius around you. You and all creatures friendly to you in the aura have advantage on saving throws against spells and other magical effects. If you have 17 or more levels in the paladin class, the radius of the aura increases to 30 feet."
+    ],
+    "url": "/api/2014/magic-items/holy-avenger"
+  },
+  {
+    "index": "mace-of-disruption",
+    "name": "Mace of Disruption",
+    "equipment_category": {
+      "index": "weapon",
+      "name": "Weapon",
+      "url": "/api/2014/equipment-categories/weapon"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Weapon (mace), rare (requires attunement)",
+      "When you hit a fiend or an undead with this magic weapon, that creature takes an extra 2d6 radiant damage. If the target has 25 hit points or fewer after taking this damage, it must succeed on a DC 15 Wisdom saving throw or be destroyed. On a successful save, the creature becomes frightened of you until the end of your next turn.",
+      "While you hold this weapon, it sheds bright light in a 20-foot radius and dim light for an additional 20 feet."
+    ],
+    "url": "/api/2014/magic-items/mace-of-disruption"
+  },
+  {
+    "index": "mace-of-smiting",
+    "name": "Mace of Smiting",
+    "equipment_category": {
+      "index": "weapon",
+      "name": "Weapon",
+      "url": "/api/2014/equipment-categories/weapon"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Weapon (mace), rare",
+      "You gain a +1 bonus to attack and damage rolls made with this magic weapon. The bonus increases to +3 when you use the mace to attack a construct.",
+      "When you roll a 20 on an attack roll made with this weapon, the target takes an extra 2d6 bludgeoning damage, or 4d6 bludgeoning damage if it's a construct. If a construct has 25 hit points or fewer after taking this damage, it is destroyed."
+    ],
+    "url": "/api/2014/magic-items/mace-of-smiting"
+  },
+  {
+    "index": "oathbow",
+    "name": "Oathbow",
+    "equipment_category": {
+      "index": "weapon",
+      "name": "Weapon",
+      "url": "/api/2014/equipment-categories/weapon"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Weapon (longbow), very rare (requires attunement)",
+      "When you nock an arrow on this bow, it whispers in Elvish, \"Swift defeat to my enemies.\" When you use this weapon to make a ranged attack, you can, as a command phrase, say, \"Swift death to you who have wronged me.\" The target of your attack becomes your sworn enemy until it dies or until dawn seven days later. You can have only one such sworn enemy at a time. When your sworn enemy dies, you can choose a new one after the next dawn.",
+      "When you make a ranged attack roll with this weapon against your sworn enemy, you have advantage on the roll. In addition, your target gains no benefit from cover, other than total cover, and you suffer no disadvantage due to long range. If the attack hits, your sworn enemy takes an extra 3d6 piercing damage.",
+      "While your sworn enemy lives, you have disadvantage on attack rolls with all other weapons."
+    ],
+    "url": "/api/2014/magic-items/oathbow"
+  },
+  {
+    "index": "talisman-of-pure-good",
+    "name": "Talisman of Pure Good",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, legendary (requires attunement by a creature of good alignment)",
+      "This talisman is a mighty symbol of goodness. A creature that is neither good nor evil in alignment takes 6d6 radiant damage upon touching the talisman. An evil creature takes 8d6 radiant damage upon touching the talisman. Either sort of creature takes the damage again each time it ends its turn holding or carrying the talisman.",
+      "If you are a good cleric or paladin, you can use the talisman as a holy symbol, and you gain a +2 bonus to spell attack rolls while you wear or hold it.",
+      "The talisman has 7 charges. If you are wearing or holding it, you can use an action to expend 1 charge from it and choose one creature you can see on the ground within 120 feet of you. If the target is of evil alignment, a flaming fissure opens under it. The target must succeed on a DC 20 Dexterity saving throw or fall into the fissure and be destroyed, leaving no remains. The fissure then closes, leaving no trace of its existence. When you expend the last charge, the talisman disperses into motes of golden light and is destroyed."
+    ],
+    "url": "/api/2014/magic-items/talisman-of-pure-good"
+  },
+  {
+    "index": "talisman-of-ultimate-evil",
+    "name": "Talisman of Ultimate Evil",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, legendary (requires attunement by a creature of evil alignment)",
+      "This item symbolizes unrepentant evil. A creature that is neither good nor evil in alignment takes 6d6 necrotic damage upon touching the talisman. A good creature takes 8d6 necrotic damage upon touching the talisman. Either sort of creature takes the damage again each time it ends its turn holding or carrying the talisman.",
+      "If you are an evil cleric or paladin, you can use the talisman as a holy symbol, and you gain a +2 bonus to spell attack rolls while you wear or hold it.",
+      "The talisman has 6 charges. If you are wearing or holding it, you can use an action to expend 1 charge from the talisman and choose one creature you can see on the ground within 120 feet of you. If the target is of good alignment, a flaming fissure opens under it. The target must succeed on a DC 20 Dexterity saving throw or fall into the fissure and be destroyed, leaving no remains. The fissure then closes, leaving no trace of its existence. When you expend the last charge, the talisman dissolves into foul-smelling slime and is destroyed."
+    ],
+    "url": "/api/2014/magic-items/talisman-of-ultimate-evil"
+  }
+]

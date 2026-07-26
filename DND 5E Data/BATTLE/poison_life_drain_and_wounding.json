@@ -1,0 +1,122 @@
+[
+  {
+    "index": "dagger-of-venom",
+    "name": "Dagger of Venom",
+    "equipment_category": {
+      "index": "weapon",
+      "name": "Weapon",
+      "url": "/api/2014/equipment-categories/weapon"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Weapon (dagger), rare",
+      "You gain a +1 bonus to attack and damage rolls made with this magic weapon.",
+      "You can use an action to cause thick, black poison to coat the blade. The poison remains for 1 minute or until an attack using this weapon hits a creature. That creature must succeed on a DC 15 Constitution saving throw or take 2d10 poison damage and become poisoned for 1 minute. The dagger can't be used this way again until the next dawn."
+    ],
+    "image": "/api/images/magic-items/dagger-of-venom.png",
+    "url": "/api/2014/magic-items/dagger-of-venom"
+  },
+  {
+    "index": "mace-of-disruption",
+    "name": "Mace of Disruption",
+    "equipment_category": {
+      "index": "weapon",
+      "name": "Weapon",
+      "url": "/api/2014/equipment-categories/weapon"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Weapon (mace), rare (requires attunement)",
+      "When you hit a fiend or an undead with this magic weapon, that creature takes an extra 2d6 radiant damage. If the target has 25 hit points or fewer after taking this damage, it must succeed on a DC 15 Wisdom saving throw or be destroyed. On a successful save, the creature becomes frightened of you until the end of your next turn.",
+      "While you hold this weapon, it sheds bright light in a 20-foot radius and dim light for an additional 20 feet."
+    ],
+    "url": "/api/2014/magic-items/mace-of-disruption"
+  },
+  {
+    "index": "nine-lives-stealer",
+    "name": "Nine Lives Stealer",
+    "equipment_category": {
+      "index": "weapon",
+      "name": "Weapon",
+      "url": "/api/2014/equipment-categories/weapon"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Weapon (any sword), very rare (requires attunement)",
+      "You gain a +2 bonus to attack and damage rolls made with this magic weapon.",
+      "The sword has 1d8 + 1 charges. If you score a critical hit against a creature that has fewer than 100 hit points, it must succeed on a DC 15 Constitution saving throw or be slain instantly as the sword tears its life force from its body (a construct or an undead is immune). The sword loses 1 charge if the creature is slain. When the sword has no charges remaining, it loses this property."
+    ],
+    "url": "/api/2014/magic-items/nine-lives-stealer"
+  },
+  {
+    "index": "staff-of-withering",
+    "name": "Staff of Withering",
+    "equipment_category": {
+      "index": "staff",
+      "name": "Staff",
+      "url": "/api/2014/equipment-categories/staff"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Staff, rare (requires attunement by a cleric, druid, or warlock)",
+      "This staff has 3 charges and regains 1d3 expended charges daily at dawn.",
+      "The staff can be wielded as a magic quarterstaff. On a hit, it deals damage as a normal quarterstaff, and you can expend 1 charge to deal an extra 2d10 necrotic damage to the target. In addition, the target must succeed on a DC 15 Constitution saving throw or have disadvantage for 1 hour on any ability check or saving throw that uses Strength or Constitution."
+    ],
+    "url": "/api/2014/magic-items/staff-of-withering"
+  },
+  {
+    "index": "sword-of-life-stealing",
+    "name": "Sword of Life Stealing",
+    "equipment_category": {
+      "index": "weapon",
+      "name": "Weapon",
+      "url": "/api/2014/equipment-categories/weapon"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Weapon (any sword), rare (requires attunement)",
+      "When you attack a creature with this magic weapon and roll a 20 on the attack roll, that target takes an extra 3d6 necrotic damage, provided that the target isn't a construct or an undead. You gain temporary hit points equal to the extra damage dealt."
+    ],
+    "url": "/api/2014/magic-items/sword-of-life-stealing"
+  },
+  {
+    "index": "sword-of-wounding",
+    "name": "Sword of Wounding",
+    "equipment_category": {
+      "index": "weapon",
+      "name": "Weapon",
+      "url": "/api/2014/equipment-categories/weapon"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Weapon (any sword), rare (requires attunement)",
+      "Hit points lost to this weapon's damage can be regained only through a short or long rest, rather than by regeneration, magic, or any other means.",
+      "Once per turn, when you hit a creature with an attack using this magic weapon, you can wound the target. At the start of each of the wounded creature's turns, it takes 1d4 necrotic damage for each time you've wounded it, and it can then make a DC 15 Constitution saving throw, ending the effect of all such wounds on itself on a success. Alternatively, the wounded creature, or a creature within 5 feet of it, can use an action to make a DC 15 Wisdom (Medicine) check, ending the effect of such wounds on it on a success."
+    ],
+    "url": "/api/2014/magic-items/sword-of-wounding"
+  }
+]

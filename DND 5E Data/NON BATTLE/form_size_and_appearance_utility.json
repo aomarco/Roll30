@@ -1,0 +1,80 @@
+[
+  {
+    "index": "cloak-of-the-bat",
+    "name": "Cloak of the Bat",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, rare (requires attunement)",
+      "While wearing this cloak, you have advantage on Dexterity (Stealth) checks. In an area of dim light or darkness, you can grip the edges of the cloak with both hands and use it to fly at a speed of 40 feet. If you ever fail to grip the cloak's edges while flying in this way, or if you are no longer in dim light or darkness, you lose this flying speed.",
+      "While wearing the cloak in an area of dim light or darkness, you can use your action to cast polymorph on yourself, transforming into a bat. While you are in the form of the bat, you retain your Intelligence, Wisdom, and Charisma scores. The cloak can't be used this way again until the next dawn."
+    ],
+    "image": "/api/images/magic-items/cloak-of-the-bat.png",
+    "url": "/api/2014/magic-items/cloak-of-the-bat"
+  },
+  {
+    "index": "hat-of-disguise",
+    "name": "Hat of Disguise",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, uncommon (requires attunement)",
+      "While wearing this hat, you can use an action to cast the disguise self spell from it at will. The spell ends if the hat is removed."
+    ],
+    "url": "/api/2014/magic-items/hat-of-disguise"
+  },
+  {
+    "index": "oil-of-etherealness",
+    "name": "Oil of Etherealness",
+    "equipment_category": {
+      "index": "potion",
+      "name": "Potion",
+      "url": "/api/2014/equipment-categories/potion"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Potion, rare",
+      "Beads of this cloudy gray oil form on the outside of its container and quickly evaporate. The oil can cover a Medium or smaller creature, along with the equipment it's wearing and carrying (one additional vial is required for each size category above Medium). Applying the oil takes 10 minutes. The affected creature then gains the effect of the etherealness spell for 1 hour."
+    ],
+    "url": "/api/2014/magic-items/oil-of-etherealness"
+  },
+  {
+    "index": "potion-of-gaseous-form",
+    "name": "Potion of Gaseous Form",
+    "equipment_category": {
+      "index": "potion",
+      "name": "Potion",
+      "url": "/api/2014/equipment-categories/potion"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Potion, rare",
+      "When you drink this potion, you gain the effect of the gaseous form spell for 1 hour (no concentration required) or until you end the effect as a bonus action. This potion's container seems to hold fog that moves and pours like water."
+    ],
+    "url": "/api/2014/magic-items/potion-of-gaseous-form"
+  }
+]

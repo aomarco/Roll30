@@ -1,0 +1,465 @@
+[
+  {
+    "index": "feather-token",
+    "name": "Feather Token",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [
+      {
+        "index": "feather-token-anchor",
+        "name": "Anchor Feather Token",
+        "url": "/api/2014/magic-items/feather-token-anchor"
+      },
+      {
+        "index": "feather-token-bird",
+        "name": "Bird Feather Token",
+        "url": "/api/2014/magic-items/feather-token-bird"
+      },
+      {
+        "index": "feather-token-fan",
+        "name": "Fan Feather Token",
+        "url": "/api/2014/magic-items/feather-token-fan"
+      },
+      {
+        "index": "feather-token-swan-boat",
+        "name": "Swan Boat Feather Token",
+        "url": "/api/2014/magic-items/feather-token-swan-boat"
+      },
+      {
+        "index": "feather-token-tree",
+        "name": "Tree Feather Token",
+        "url": "/api/2014/magic-items/feather-token-tree"
+      },
+      {
+        "index": "feather-token-whip",
+        "name": "Whip Feather Token",
+        "url": "/api/2014/magic-items/feather-token-whip"
+      }
+    ],
+    "variant": false,
+    "desc": [
+      "Wondrous item, rare",
+      "This tiny object looks like a feather. Different types of feather tokens exist, each with a different single use effect. The GM chooses the kind of token or determines it randomly.",
+      "| d100 | Feather Token |",
+      "|---|---|",
+      "| 01-20 | Anchor |",
+      "| 21-35 | Bird |",
+      "| 36-50 | Fan |",
+      "| 51-65 | Swan boat |",
+      "| 66-90 | Tree |",
+      "| 91-100 | Whip |",
+      "***Anchor.*** You can use an action to touch the token to a boat or ship. For the next 24 hours, the vessel can't be moved by any means. Touching the token to the vessel again ends the effect. When the effect ends, the token disappears.",
+      "***Bird.*** You can use an action to toss the token 5 feet into the air. The token disappears and an enormous, multicolored bird takes its place. The bird has the statistics of a roc, but it obeys your simple commands and can't attack. It can carry up to 500 pounds while flying at its maximum speed (16 miles an hour for a maximum of 144 miles per day, with a one-hour rest for every 3 hours of flying), or 1,000 pounds at half that speed. The bird disappears after flying its maximum distance for a day or if it drops to 0 hit points. You can dismiss the bird as an action.",
+      "***Fan.*** If you are on a boat or ship, you can use an action to toss the token up to 10 feet in the air. The token disappears, and a giant flapping fan takes its place. The fan floats and creates a wind strong enough to fill the sails of one ship, increasing its speed by 5 miles per hour for 8 hours. You can dismiss the fan as an action.",
+      "***Swan Boat.*** You can use an action to touch the token to a body of water at least 60 feet in diameter. The token disappears, and a 50-foot-long, 20-foot wide boat shaped like a swan takes its place. The boat is self-propelled and moves across water at a speed of 6 miles per hour. You can use an action while on the boat to command it to move or to turn up to 90 degrees. The boat can carry up to thirty-two Medium or smaller creatures. A Large creature counts as four Medium creatures, while a Huge creature counts as nine. The boat remains for 24 hours and then disappears. You can dismiss the boat as an action.",
+      "***Tree.*** You must be outdoors to use this token. You can use an action to touch it to an unoccupied space on the ground. The token disappears, and in its place a nonmagical oak tree springs into existence. The tree is 60 feet tall and has a 5-foot-diameter trunk, and its branches at the top spread out in a 20-foot radius.",
+      "***Whip.*** You can use an action to throw the token to a point within 10 feet of you. The token disappears, and a floating whip takes its place. You can then use a bonus action to make a melee spell attack against a creature within 10 feet of the whip, with an attack bonus of +9. On a hit, the target takes 1d6 + 5 force damage.",
+      "As a bonus action on your turn, you can direct the whip to fly up to 20 feet and repeat the attack against a creature within 10 feet of it. The whip disappears after 1 hour, when you use an action to dismiss it, or when you are incapacitated or die."
+    ],
+    "url": "/api/2014/magic-items/feather-token"
+  },
+  {
+    "index": "feather-token-anchor",
+    "name": "Anchor Feather Token",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, rare",
+      "This tiny object looks like a feather.",
+      "You can use an action to touch the token to a boat or ship. For the next 24 hours, the vessel can't be moved by any means. Touching the token to the vessel again ends the effect. When the effect ends, the token disappears."
+    ],
+    "url": "/api/2014/magic-items/feather-token-anchor"
+  },
+  {
+    "index": "feather-token-bird",
+    "name": "Bird Feather Token",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, rare",
+      "This tiny object looks like a feather.",
+      "You can use an action to toss the token 5 feet into the air. The token disappears and an enormous, multicolored bird takes its place. The bird has the statistics of a roc, but it obeys your simple commands and can't attack. It can carry up to 500 pounds while flying at its maximum speed (16 miles an hour for a maximum of 144 miles per day, with a one-hour rest for every 3 hours of flying), or 1,000 pounds at half that speed. The bird disappears after flying its maximum distance for a day or if it drops to 0 hit points. You can dismiss the bird as an action."
+    ],
+    "url": "/api/2014/magic-items/feather-token-bird"
+  },
+  {
+    "index": "feather-token-fan",
+    "name": "Fan Feather Token",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, rare",
+      "This tiny object looks like a feather.",
+      "If you are on a boat or ship, you can use an action to toss the token up to 10 feet in the air. The token disappears, and a giant flapping fan takes its place. The fan floats and creates a wind strong enough to fill the sails of one ship, increasing its speed by 5 miles per hour for 8 hours. You can dismiss the fan as an action."
+    ],
+    "url": "/api/2014/magic-items/feather-token-fan"
+  },
+  {
+    "index": "feather-token-swan-boat",
+    "name": "Swan Boat Feather Token",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, rare",
+      "This tiny object looks like a feather.",
+      "You can use an action to touch the token to a body of water at least 60 feet in diameter. The token disappears, and a 50-foot-long, 20-foot wide boat shaped like a swan takes its place. The boat is self-propelled and moves across water at a speed of 6 miles per hour. You can use an action while on the boat to command it to move or to turn up to 90 degrees. The boat can carry up to thirty-two Medium or smaller creatures. A Large creature counts as four Medium creatures, while a Huge creature counts as nine. The boat remains for 24 hours and then disappears. You can dismiss the boat as an action."
+    ],
+    "url": "/api/2014/magic-items/feather-token-swan-boat"
+  },
+  {
+    "index": "feather-token-tree",
+    "name": "Tree Feather Token",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, rare",
+      "This tiny object looks like a feather.",
+      "You must be outdoors to use this token. You can use an action to touch it to an unoccupied space on the ground. The token disappears, and in its place a nonmagical oak tree springs into existence. The tree is 60 feet tall and has a 5-foot-diameter trunk, and its branches at the top spread out in a 20-foot radius."
+    ],
+    "url": "/api/2014/magic-items/feather-token-tree"
+  },
+  {
+    "index": "figurine-of-wondrous-power",
+    "name": "Figurine of Wondrous Power",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Varies"
+    },
+    "variants": [
+      {
+        "index": "figurine-of-wondrous-power-bronze-griffon",
+        "name": "Bronze Griffon Figurine of Wondrous Power",
+        "url": "/api/2014/magic-items/figurine-of-wondrous-power-bronze-griffon"
+      },
+      {
+        "index": "figurine-of-wondrous-power-ebony-fly",
+        "name": "Ebony Fly Figurine of Wondrous Power",
+        "url": "/api/2014/magic-items/figurine-of-wondrous-power-ebony-fly"
+      },
+      {
+        "index": "figurine-of-wondrous-power-golden-lions",
+        "name": "Golden Lions Figurine of Wondrous Power",
+        "url": "/api/2014/magic-items/figurine-of-wondrous-power-golden-lions"
+      },
+      {
+        "index": "figurine-of-wondrous-power-ivory-goats",
+        "name": "Ivory Goats Figurine of Wondrous Power",
+        "url": "/api/2014/magic-items/figurine-of-wondrous-power-ivory-goats"
+      },
+      {
+        "index": "figurine-of-wondrous-power-marble-elephant",
+        "name": "Marble Elephant Figurine of Wondrous Power",
+        "url": "/api/2014/magic-items/figurine-of-wondrous-power-marble-elephant"
+      },
+      {
+        "index": "figurine-of-wondrous-power-obsidian-steed",
+        "name": "Obsidian Steed Figurine of Wondrous Power",
+        "url": "/api/2014/magic-items/figurine-of-wondrous-power-obsidian-steed"
+      },
+      {
+        "index": "figurine-of-wondrous-power-onyx-dog",
+        "name": "Onyx Dog Figurine of Wondrous Power",
+        "url": "/api/2014/magic-items/figurine-of-wondrous-power-onyx-dog"
+      },
+      {
+        "index": "figurine-of-wondrous-power-serpentine-owl",
+        "name": "Serpentine Owl Figurine of Wondrous Power",
+        "url": "/api/2014/magic-items/figurine-of-wondrous-power-serpentine-owl"
+      },
+      {
+        "index": "figurine-of-wondrous-power-silver-raven",
+        "name": "Silver Raven Figurine of Wondrous Power",
+        "url": "/api/2014/magic-items/figurine-of-wondrous-power-silver-raven"
+      }
+    ],
+    "variant": false,
+    "desc": [
+      "Wondrous item, rarity by figurine",
+      "A figurine of wondrous power is a statuette of a beast small enough to fit in a pocket. If you use an action to speak the command word and throw the figurine to a point on the ground within 60 feet of you, the figurine becomes a living creature. If the space where the creature would appear is occupied by other creatures or objects, or if there isn't enough space for the creature, the figurine doesn't become a creature.",
+      "The creature is friendly to you and your companions. It understands your languages and obeys your spoken commands. If you issue no commands, the creature defends itself but takes no other actions.",
+      "The creature exists for a duration specific to each figurine. At the end of the duration, the creature reverts to its figurine form. It reverts to a figurine early if it drops to 0 hit points or if you use an action to speak the command word again while touching it. When the creature becomes a figurine again, its property can't be used again until a certain amount of time has passed, as specified in the figurine's description.",
+      "***Bronze Griffon (Rare).*** This bronze statuette is of a griffon rampant. It can become a griffon for up to 6 hours. Once it has been used, it can't be used again until 5 days have passed.",
+      "***Ebony Fly (Rare).*** This ebony statuette is carved in the likeness of a horsefly. It can become a giant fly for up to 12 hours and can be ridden as a mount. Once it has been used, it can't be used again until 2 days have passed.",
+      "Giant Fly",
+      "Large beast, unaligned",
+      "Armor Class 11",
+      "Hit Points 19 (3d10 + 3)",
+      "Speed 30 ft., fly 60 ft.",
+      "| STR | DEX | CON | INT | WIS | CHA |",
+      "|---|---|---|---|---|---|",
+      "| 14 (+2) | 13 (+1) | 13 (+1) | 2 (-4) | 10 (+0) | 3 (-4) |",
+      "Senses darkvision 60 ft., passive Perception 10",
+      "Languages -",
+      "***Golden Lions (Rare).*** These gold statuettes of lions are always created in pairs. You can use one figurine or both simultaneously. Each can become a lion for up to 1 hour. Once a lion has been used, it can't be used again until 7 days have passed.",
+      "***Ivory Goats (Rare).*** These ivory statuettes of goats are always created in sets of three. Each goat looks unique and functions differently from the others. Their properties are as follows:",
+      "The goat of traveling can become a Large goat with the same statistics as a riding horse. It has 24 charges, and each hour or portion thereof it spends in beast form costs 1 charge. While it has charges, you can use it as often as you wish. When it runs out of charges, it reverts to a figurine and can't be used again until 7 days have passed, when it regains all its charges.",
+      "The goat of travail becomes a giant goat for up to 3 hours. Once it has been used, it can't be used again until 30 days have passed.",
+      "The goat of terror becomes a giant goat for up to 3 hours. The goat can't attack, but you can remove its horns and use them as weapons. One horn becomes a +1 lance, and the other becomes a +2 longsword. Removing a horn requires an action, and the weapons disappear and the horns return when the goat reverts to figurine form. In addition, the goat radiates a 30-foot-radius aura of terror while you are riding it. Any creature hostile to you that starts its turn in the aura must succeed on a DC 15 Wisdom saving throw or be frightened of the goat for 1 minute, or until the goat reverts to figurine form. The frightened creature can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success. Once it successfully saves against the effect, a creature is immune to the goat's aura for the next 24 hours. Once the figurine has been used, it can't be used again until 15 days have passed.",
+      "***Marble Elephant (Rare).*** This marble statuette is about 4 inches high and long. It can become an elephant for up to 24 hours. Once it has been used, it can't be used again until 7 days have passed.",
+      "***Obsidian Steed (Very Rare).*** This polished obsidian horse can become a nightmare for up to 24 hours. The nightmare fights only to defend itself. Once it has been used, it can't be used again until 5 days have passed.",
+      "If you have a good alignment, the figurine has a 10 percent chance each time you use it to ignore your orders, including a command to revert to figurine form. If you mount the nightmare while it is ignoring your orders, you and the nightmare are instantly transported to a random location on the plane of Hades, where the nightmare reverts to figurine form.",
+      "***Onyx Dog (Rare).*** This onyx statuette of a dog can become a mastiff for up to 6 hours. The mastiff has an Intelligence of 8 and can speak Common. It also has darkvision out to a range of 60 feet and can see invisible creatures and objects within that range. Once it has been used, it can't be used again until 7 days have passed.",
+      "***Serpentine Owl (Rare).*** This serpentine statuette of an owl can become a giant owl for up to 8 hours. Once it has been used, it can't be used again until 2 days have passed. The owl can telepathically communicate with you at any range if you and it are on the same plane of existence.",
+      "***Silver Raven (Uncommon).*** This silver statuette of a raven can become a raven for up to 12 hours. Once it has been used, it can't be used again until 2 days have passed. While in raven form, the figurine allows you to cast the animal messenger spell on it at will."
+    ],
+    "url": "/api/2014/magic-items/figurine-of-wondrous-power"
+  },
+  {
+    "index": "figurine-of-wondrous-power-ebony-fly",
+    "name": "Ebony Fly Figurine of Wondrous Power",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, rare",
+      "A figurine of wondrous power is a statuette of a beast small enough to fit in a pocket. If you use an action to speak the command word and throw the figurine to a point on the ground within 60 feet of you, the figurine becomes a living creature. If the space where the creature would appear is occupied by other creatures or objects, or if there isn't enough space for the creature, the figurine doesn't become a creature.",
+      "The creature is friendly to you and your companions. It understands your languages and obeys your spoken commands. If you issue no commands, the creature defends itself but takes no other actions.",
+      "The creature exists for a duration specific to each figurine. At the end of the duration, the creature reverts to its figurine form. It reverts to a figurine early if it drops to 0 hit points or if you use an action to speak the command word again while touching it. When the creature becomes a figurine again, its property can't be used again until a certain amount of time has passed, as specified in the figurine's description.",
+      "***Ebony Fly.*** This ebony statuette is carved in the likeness of a horsefly. It can become a giant fly for up to 12 hours and can be ridden as a mount. Once it has been used, it can't be used again until 2 days have passed.",
+      "Giant Fly",
+      "Large beast, unaligned",
+      "Armor Class 11",
+      "Hit Points 19 (3d10 + 3)",
+      "Speed 30 ft., fly 60 ft.",
+      "| STR | DEX | CON | INT | WIS | CHA |",
+      "|---|---|---|---|---|---|",
+      "| 14 (+2) | 13 (+1) | 13 (+1) | 2 (-4) | 10 (+0) | 3 (-4) |",
+      "Senses darkvision 60 ft., passive Perception 10",
+      "Languages -"
+    ],
+    "url": "/api/2014/magic-items/figurine-of-wondrous-power-ebony-fly"
+  },
+  {
+    "index": "figurine-of-wondrous-power-serpentine-owl",
+    "name": "Serpentine Owl Figurine of Wondrous Power",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, rare",
+      "A figurine of wondrous power is a statuette of a beast small enough to fit in a pocket. If you use an action to speak the command word and throw the figurine to a point on the ground within 60 feet of you, the figurine becomes a living creature. If the space where the creature would appear is occupied by other creatures or objects, or if there isn't enough space for the creature, the figurine doesn't become a creature.",
+      "The creature is friendly to you and your companions. It understands your languages and obeys your spoken commands. If you issue no commands, the creature defends itself but takes no other actions.",
+      "The creature exists for a duration specific to each figurine. At the end of the duration, the creature reverts to its figurine form. It reverts to a figurine early if it drops to 0 hit points or if you use an action to speak the command word again while touching it. When the creature becomes a figurine again, its property can't be used again until a certain amount of time has passed, as specified in the figurine's description.",
+      "***Serpentine Owl.*** This serpentine statuette of an owl can become a giant owl for up to 8 hours. Once it has been used, it can't be used again until 2 days have passed. The owl can telepathically communicate with you at any range if you and it are on the same plane of existence."
+    ],
+    "url": "/api/2014/magic-items/figurine-of-wondrous-power-serpentine-owl"
+  },
+  {
+    "index": "figurine-of-wondrous-power-silver-raven",
+    "name": "Silver Raven Figurine of Wondrous Power",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, uncommon",
+      "A figurine of wondrous power is a statuette of a beast small enough to fit in a pocket. If you use an action to speak the command word and throw the figurine to a point on the ground within 60 feet of you, the figurine becomes a living creature. If the space where the creature would appear is occupied by other creatures or objects, or if there isn't enough space for the creature, the figurine doesn't become a creature.",
+      "The creature is friendly to you and your companions. It understands your languages and obeys your spoken commands. If you issue no commands, the creature defends itself but takes no other actions.",
+      "The creature exists for a duration specific to each figurine. At the end of the duration, the creature reverts to its figurine form. It reverts to a figurine early if it drops to 0 hit points or if you use an action to speak the command word again while touching it. When the creature becomes a figurine again, its property can't be used again until a certain amount of time has passed, as specified in the figurine's description.",
+      "***Silver Raven.*** This silver statuette of a raven can become a raven for up to 12 hours. Once it has been used, it can't be used again until 2 days have passed. While in raven form, the figurine allows you to cast the animal messenger spell on it at will."
+    ],
+    "url": "/api/2014/magic-items/figurine-of-wondrous-power-silver-raven"
+  },
+  {
+    "index": "manual-of-golems",
+    "name": "Manual of Golems",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [
+      {
+        "index": "manual-of-golems-clay",
+        "name": "Manual of Clay Golems",
+        "url": "/api/2014/magic-items/manual-of-golems-clay"
+      },
+      {
+        "index": "manual-of-golems-flesh",
+        "name": "Manual of Flesh Golems",
+        "url": "/api/2014/magic-items/manual-of-golems-flesh"
+      },
+      {
+        "index": "manual-of-golems-iron",
+        "name": "Manual of Iron Golems",
+        "url": "/api/2014/magic-items/manual-of-golems-iron"
+      },
+      {
+        "index": "manual-of-golems-stone",
+        "name": "Manual of Stone Golems",
+        "url": "/api/2014/magic-items/manual-of-golems-stone"
+      }
+    ],
+    "variant": false,
+    "desc": [
+      "Wondrous item, very rare",
+      "This tome contains information and incantations necessary to make a particular type of golem. The GM chooses the type or determines it randomly. To decipher and use the manual, you must be a spellcaster with at least two 5th-level spell slots. A creature that can't use a manual of golems and attempts to read it takes 6d6 psychic damage.",
+      "| d20 | Golem | Time | Cost |",
+      "|---|---|---|---|",
+      "| 1-5 | Clay | 30 days | 65,000 gp |",
+      "| 6-17 | Flesh | 60 days | 50,000 gp |",
+      "| 18 | Iron | 120 days | 100,000 gp |",
+      "| 19-20 | Stone | 90 days | 80,000 gp |",
+      "To create a golem, you must spend the time shown on the table, working without interruption with the manual at hand and resting no more than 8 hours per day. You must also pay the specified cost to purchase supplies.",
+      "Once you finish creating the golem, the book is consumed in eldritch flames. The golem becomes animate when the ashes of the manual are sprinkled on it. It is under your control, and it understands and obeys your spoken commands."
+    ],
+    "url": "/api/2014/magic-items/manual-of-golems"
+  },
+  {
+    "index": "manual-of-golems-clay",
+    "name": "Manual of Clay Golems",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, very rare",
+      "This tome contains information and incantations necessary to make a clay golem. To decipher and use the manual, you must be a spellcaster with at least two 5th-level spell slots. A creature that can't use a manual of golems and attempts to read it takes 6d6 psychic damage.",
+      "To create a golem, you must spend 30 days, working without interruption with the manual at hand and resting no more than 8 hours per day. You must also pay 65,000 gp to purchase supplies.",
+      "Once you finish creating the golem, the book is consumed in eldritch flames. The golem becomes animate when the ashes of the manual are sprinkled on it. It is under your control, and it understands and obeys your spoken commands."
+    ],
+    "url": "/api/2014/magic-items/manual-of-golems-clay"
+  },
+  {
+    "index": "manual-of-golems-flesh",
+    "name": "Manual of Flesh Golems",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, very rare",
+      "This tome contains information and incantations necessary to make a flesh golem. To decipher and use the manual, you must be a spellcaster with at least two 5th-level spell slots. A creature that can't use a manual of golems and attempts to read it takes 6d6 psychic damage.",
+      "To create a golem, you must spend 60 days, working without interruption with the manual at hand and resting no more than 8 hours per day. You must also pay 50,000 gp to purchase supplies.",
+      "Once you finish creating the golem, the book is consumed in eldritch flames. The golem becomes animate when the ashes of the manual are sprinkled on it. It is under your control, and it understands and obeys your spoken commands."
+    ],
+    "url": "/api/2014/magic-items/manual-of-golems-flesh"
+  },
+  {
+    "index": "manual-of-golems-iron",
+    "name": "Manual of Iron Golems",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, very rare",
+      "This tome contains information and incantations necessary to make an iron golem. To decipher and use the manual, you must be a spellcaster with at least two 5th-level spell slots. A creature that can't use a manual of golems and attempts to read it takes 6d6 psychic damage.",
+      "To create a golem, you must spend 120 days, working without interruption with the manual at hand and resting no more than 8 hours per day. You must also pay 100,000 gp to purchase supplies.",
+      "Once you finish creating the golem, the book is consumed in eldritch flames. The golem becomes animate when the ashes of the manual are sprinkled on it. It is under your control, and it understands and obeys your spoken commands."
+    ],
+    "url": "/api/2014/magic-items/manual-of-golems-iron"
+  },
+  {
+    "index": "manual-of-golems-stone",
+    "name": "Manual of Stone Golems",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, very rare",
+      "This tome contains information and incantations necessary to make a stone golem. To decipher and use the manual, you must be a spellcaster with at least two 5th-level spell slots. A creature that can't use a manual of golems and attempts to read it takes 6d6 psychic damage.",
+      "To create a golem, you must spend 90 days, working without interruption with the manual at hand and resting no more than 8 hours per day. You must also pay 80,000 gp to purchase supplies.",
+      "Once you finish creating the golem, the book is consumed in eldritch flames. The golem becomes animate when the ashes of the manual are sprinkled on it. It is under your control, and it understands and obeys your spoken commands."
+    ],
+    "url": "/api/2014/magic-items/manual-of-golems-stone"
+  }
+]

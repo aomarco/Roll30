@@ -1,5 +1,6 @@
 import { AMMUNITION, ARMOR, WEAPONS } from "./weapons.js";
 import { GEAR } from "./gear.js";
+import { MAGIC_ITEMS } from "./magicItems.js";
 
 /** Human-readable label for a gear category id. */
 const GEAR_CATEGORY_LABELS = {
@@ -75,11 +76,24 @@ const GEAR_ITEMS = GEAR.map((item) => ({
     .toLowerCase(),
 }));
 
+// Non-battle magic items: inert catalog entries that do nothing in combat and
+// simply sit in a token's or character's inventory.
+const MAGIC_ITEM_ITEMS = MAGIC_ITEMS.map((item) => ({
+  ...item,
+  kind: "magic-item",
+  typeLabel: "Magic Item",
+  category: item.rarity,
+  searchText: [item.name, "magic item", item.rarity, item.itemCategory]
+    .join(" ")
+    .toLowerCase(),
+}));
+
 export const ITEM_CATALOG = [
   ...WEAPON_ITEMS,
   ...AMMUNITION_ITEMS,
   ...ARMOR_ITEMS,
   ...GEAR_ITEMS,
+  ...MAGIC_ITEM_ITEMS,
 ];
 
 export const ITEM_TYPES = [
@@ -88,6 +102,7 @@ export const ITEM_TYPES = [
   { id: "ammunition", label: "Ammunition" },
   { id: "armor", label: "Armour" },
   { id: "gear", label: "Gear" },
+  { id: "magic-item", label: "Magic Items" },
 ];
 
 export function normalizeInventory(inventory = []) {
@@ -148,6 +163,16 @@ export const ARMOR_CLASSES = ["Light", "Medium", "Heavy", "Shield"];
 export const GEAR_CLASSES = [
   ...new Set(GEAR_ITEMS.map((item) => item.typeLabel)),
 ];
+// Magic items filter by rarity, in ascending order (only those present).
+export const MAGIC_ITEM_CLASSES = [
+  "Common",
+  "Uncommon",
+  "Rare",
+  "Very Rare",
+  "Legendary",
+  "Artifact",
+  "Varies",
+].filter((rarity) => MAGIC_ITEM_ITEMS.some((item) => item.rarity === rarity));
 export const WEAPON_PROPERTIES = [
   ...new Set(WEAPONS.flatMap((weapon) => weapon.properties || [])),
 ].sort();
@@ -160,7 +185,9 @@ const itemClass = (item) =>
       ? item.category
       : item.kind === "gear"
         ? item.typeLabel
-        : null;
+        : item.kind === "magic-item"
+          ? item.rarity
+          : null;
 
 export function filterCatalog(query = "", type = "all", filters = {}) {
   const needle = query.trim().toLowerCase();

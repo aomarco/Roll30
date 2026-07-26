@@ -1,0 +1,803 @@
+[
+  {
+    "index": "bag-of-tricks",
+    "name": "Bag of Tricks",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [
+      {
+        "index": "bag-of-tricks-gray",
+        "name": "Gray Bag of Tricks",
+        "url": "/api/2014/magic-items/bag-of-tricks-gray"
+      },
+      {
+        "index": "bag-of-tricks-rust",
+        "name": "Rust Bag of Tricks",
+        "url": "/api/2014/magic-items/bag-of-tricks-rust"
+      },
+      {
+        "index": "bag-of-tricks-tan",
+        "name": "Tan Bag of Tricks",
+        "url": "/api/2014/magic-items/bag-of-tricks-tan"
+      }
+    ],
+    "variant": false,
+    "desc": [
+      "Wondrous item, uncommon",
+      "This ordinary bag, made from gray, rust, or tan cloth, appears empty. Reaching inside the bag, however, reveals the presence of a small, fuzzy object. The bag weighs 1/2 pound.",
+      "You can use an action to pull the fuzzy object from the bag and throw it up to 20 feet. When the object lands, it transforms into a creature you determine by rolling a d8 and consulting the table that corresponds to the bag's color. The creature vanishes at the next dawn or when it is reduced to 0 hit points.",
+      "The creature is friendly to you and your companions, and it acts on Your Turn. You can use a Bonus Action to Command how the creature moves and what action it takes on its next turn, or to give it general orders, such as to Attack your enemies. In the absence of such orders, the creature acts in a fashion appropriate to its Nature.",
+      "Once three fuzzy Objects have been pulled from the bag, the bag can't be used again until the next dawn.",
+      "Gray Bag:",
+      "| d8 | Creature |",
+      "|---|---|",
+      "| 01 | Weasel |",
+      "| 02 | Giant Rat |",
+      "| 03 | Badger |",
+      "| 04 | Boar |",
+      "| 05 | Panther |",
+      "| 06 | Giant Badger |",
+      "| 07 | Dire Wolf |",
+      "| 08 | Giant Elk |",
+      "Rust Bag:",
+      "| d8 | Creature |",
+      "|---|---|",
+      "| 01 | Rat |",
+      "| 02 | Owl |",
+      "| 03 | Mastiff |",
+      "| 04 | Goat |",
+      "| 05 | Giant Goat |",
+      "| 06 | Giant Boar |",
+      "| 07 | Lion |",
+      "| 08 | Brown Bear |",
+      "Tan Bag:",
+      "| d8 | Creature |",
+      "|---|---|",
+      "| 01 | Jackal |",
+      "| 02 | Ape |",
+      "| 03 | Baboon |",
+      "| 04 | Axe Beak |",
+      "| 05 | Black Bear |",
+      "| 06 | Giant Weasel |",
+      "| 07 | Giant Hyena |",
+      "| 08 | Tiger |"
+    ],
+    "image": "/api/images/magic-items/bag-of-tricks.png",
+    "url": "/api/2014/magic-items/bag-of-tricks"
+  },
+  {
+    "index": "bag-of-tricks-gray",
+    "name": "Gray Bag of Tricks",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, uncommon",
+      "This ordinary bag, made from gray cloth, appears empty. Reaching inside the bag, however, reveals the presence of a small, fuzzy object. The bag weighs 1/2 pound.",
+      "You can use an action to pull the fuzzy object from the bag and throw it up to 20 feet. When the object lands, it transforms into a creature you determine by rolling a d8 and consulting the table that corresponds to the bag's color. The creature vanishes at the next dawn or when it is reduced to 0 Hit Points.",
+      "The creature is friendly to you and your companions, and it acts on Your Turn. You can use a Bonus Action to Command how the creature moves and what action it takes on its next turn, or to give it general orders, such as to Attack your enemies. In the absence of such orders, the creature acts in a fashion appropriate to its Nature.",
+      "Once three fuzzy Objects have been pulled from the bag, the bag can't be used again until the next dawn.",
+      "Gray Bag:",
+      "| d8 | Creature |",
+      "|---|---|",
+      "| 01 | Weasel |",
+      "| 02 | Giant Rat |",
+      "| 03 | Badger |",
+      "| 04 | Boar |",
+      "| 05 | Panther |",
+      "| 06 | Giant Badger |",
+      "| 07 | Dire Wolf |",
+      "| 08 | Giant Elk |"
+    ],
+    "image": "/api/images/magic-items/bag-of-tricks.png",
+    "url": "/api/2014/magic-items/bag-of-tricks-gray"
+  },
+  {
+    "index": "bag-of-tricks-rust",
+    "name": "Rust Bag of Tricks",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, uncommon",
+      "This ordinary bag, made from rust cloth, appears empty. Reaching inside the bag, however, reveals the presence of a small, fuzzy object. The bag weighs 1/2 pound.",
+      "You can use an action to pull the fuzzy object from the bag and throw it up to 20 feet. When the object lands, it transforms into a creature you determine by rolling a d8 and consulting the table that corresponds to the bag's color. The creature vanishes at the next dawn or when it is reduced to 0 Hit Points.",
+      "The creature is friendly to you and your companions, and it acts on Your Turn. You can use a Bonus Action to Command how the creature moves and what action it takes on its next turn, or to give it general orders, such as to Attack your enemies. In the absence of such orders, the creature acts in a fashion appropriate to its Nature.",
+      "Once three fuzzy Objects have been pulled from the bag, the bag can't be used again until the next dawn.",
+      "Rust Bag:",
+      "| d8 | Creature |",
+      "|---|---|",
+      "| 01 | Rat |",
+      "| 02 | Owl |",
+      "| 03 | Mastiff |",
+      "| 04 | Goat |",
+      "| 05 | Giant Goat |",
+      "| 06 | Giant Boar |",
+      "| 07 | Lion |",
+      "| 08 | Brown Bear |"
+    ],
+    "image": "/api/images/magic-items/bag-of-tricks.png",
+    "url": "/api/2014/magic-items/bag-of-tricks-rust"
+  },
+  {
+    "index": "bag-of-tricks-tan",
+    "name": "Tan Bag of Tricks",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, uncommon",
+      "This ordinary bag, made from tan cloth, appears empty. Reaching inside the bag, however, reveals the presence of a small, fuzzy object. The bag weighs 1/2 pound.",
+      "You can use an action to pull the fuzzy object from the bag and throw it up to 20 feet. When the object lands, it transforms into a creature you determine by rolling a d8 and consulting the table that corresponds to the bag's color. The creature vanishes at the next dawn or when it is reduced to 0 Hit Points.",
+      "The creature is friendly to you and your companions, and it acts on Your Turn. You can use a Bonus Action to Command how the creature moves and what action it takes on its next turn, or to give it general orders, such as to Attack your enemies. In the absence of such orders, the creature acts in a fashion appropriate to its Nature.",
+      "Once three fuzzy Objects have been pulled from the bag, the bag can't be used again until the next dawn.",
+      "Tan Bag:",
+      "| d8 | Creature |",
+      "|---|---|",
+      "| 01 | Jackal |",
+      "| 02 | Ape |",
+      "| 03 | Baboon |",
+      "| 04 | Axe Beak |",
+      "| 05 | Black Bear |",
+      "| 06 | Giant Weasel |",
+      "| 07 | Giant Hyena |",
+      "| 08 | Tiger |"
+    ],
+    "image": "/api/images/magic-items/bag-of-tricks.png",
+    "url": "/api/2014/magic-items/bag-of-tricks-tan"
+  },
+  {
+    "index": "bowl-of-commanding-water-elementals",
+    "name": "Bowl of Commanding Water Elementals",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, rare",
+      "While this bowl is filled with water, you can use an action to speak the bowl's command word and summon a water elemental, as if you had cast the conjure elemental spell. The bowl can't be used this way again until the next dawn.",
+      "The bowl is about 1 foot in diameter and half as deep. It weighs 3 pounds and holds about 3 gallons."
+    ],
+    "url": "/api/2014/magic-items/bowl-of-commanding-water-elementals"
+  },
+  {
+    "index": "brazier-of-commanding-fire-elementals",
+    "name": "Brazier of Commanding Fire Elementals",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, rare",
+      "While a fire burns in this brass brazier, you can use an action to speak the brazier's command word and summon a fire elemental, as if you had cast the conjure elemental spell. The brazier can't be used this way again until the next dawn.",
+      "The brazier weighs 5 pounds."
+    ],
+    "image": "/api/images/magic-items/brazier-of-commanding-fire-elementals.png",
+    "url": "/api/2014/magic-items/brazier-of-commanding-fire-elementals"
+  },
+  {
+    "index": "censer-of-controlling-air-elementals",
+    "name": "Censer of Controlling Air Elementals",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, rare",
+      "While incense is burning in this censer, you can use an action to speak the censer's command word and summon an air elemental, as if you had cast the conjure elemental spell. The censer can't be used this way again until the next dawn.",
+      "This 6-inch-wide, 1-foot-high vessel resembles a chalice with a decorated lid. It weighs 1 pound."
+    ],
+    "image": "/api/images/magic-items/censer-of-controlling-air-elementals.png",
+    "url": "/api/2014/magic-items/censer-of-controlling-air-elementals"
+  },
+  {
+    "index": "efreeti-bottle",
+    "name": "Efreeti Bottle",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, very rare",
+      "This painted brass bottle weighs 1 pound. When you use an action to remove the stopper, a cloud of thick smoke flows out of the bottle. At the end of your turn, the smoke disappears with a flash of harmless fire, and an efreeti appears in an unoccupied space within 30 feet of you.",
+      "The first time the bottle is opened, the GM rolls to determine what happens.",
+      "| d100 | Effect |",
+      "|---|---|",
+      "| 01-10 | The efreeti attacks you. After fighting for 5 rounds, the efreeti disappears, and the bottle loses its magic. |",
+      "| 11-90 | The efreeti serves you for 1 hour, doing as you command. Then the efreeti returns to the bottle, and a new stopper contains it. The stopper can't be removed for 24 hours. The next two times the bottle is opened, the same effect occurs. If the bottle is opened a fourth time, the efreeti escapes and disappears, and the bottle loses its magic. |",
+      "| 91-100 | The efreeti can cast the wish spell three times for you. It disappears when it grants the final wish or after 1 hour, and the bottle loses its magic. |"
+    ],
+    "image": "/api/images/magic-items/efreeti-bottle.png",
+    "url": "/api/2014/magic-items/efreeti-bottle"
+  },
+  {
+    "index": "elemental-gem",
+    "name": "Elemental Gem",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [
+      {
+        "index": "elemental-gem-air",
+        "name": "Air Elemental Gem",
+        "url": "/api/2014/magic-items/elemental-gem-air"
+      },
+      {
+        "index": "elemental-gem-earth",
+        "name": "Earth Elemental Gem",
+        "url": "/api/2014/magic-items/elemental-gem-earth"
+      },
+      {
+        "index": "elemental-gem-fire",
+        "name": "Fire Elemental Gem",
+        "url": "/api/2014/magic-items/elemental-gem-fire"
+      },
+      {
+        "index": "elemental-gem-water",
+        "name": "Water Elemental Gem",
+        "url": "/api/2014/magic-items/elemental-gem-water"
+      }
+    ],
+    "variant": false,
+    "desc": [
+      "Wondrous item, uncommon",
+      "This gem contains a mote of elemental energy. When you use an action to break the gem, an elemental is summoned as if you had cast the conjure elemental spell, and the gem's magic is lost. The type of gem determines the elemental summoned by the spell.",
+      "| Gem | Summoned Elemental |",
+      "|---|---|",
+      "| Blue sapphire | Air elemental |",
+      "| Yellow diamond | Earth elemental |",
+      "| Red corundum | Fire elemental |",
+      "| Emerald | Water elemental |"
+    ],
+    "image": "/api/images/magic-items/elemental-gem.png",
+    "url": "/api/2014/magic-items/elemental-gem"
+  },
+  {
+    "index": "elemental-gem-air",
+    "name": "Air Elemental Gem",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, uncommon",
+      "This blue sapphire contains a mote of elemental energy. When you use an action to break the gem, an air elemental is summoned as if you had cast the conjure elemental spell, and the gem's magic is lost."
+    ],
+    "image": "/api/images/magic-items/elemental-gem-air.png",
+    "url": "/api/2014/magic-items/elemental-gem-air"
+  },
+  {
+    "index": "elemental-gem-earth",
+    "name": "Earth Elemental Gem",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, uncommon",
+      "This yellow diamond contains a mote of elemental energy. When you use an action to break the gem, an earth elemental is summoned as if you had cast the conjure elemental spell, and the gem's magic is lost."
+    ],
+    "image": "/api/images/magic-items/elemental-gem-earth.png",
+    "url": "/api/2014/magic-items/elemental-gem-earth"
+  },
+  {
+    "index": "elemental-gem-fire",
+    "name": "Fire Elemental Gem",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, uncommon",
+      "This red corundum contains a mote of elemental energy. When you use an action to break the gem, a fire elemental is summoned as if you had cast the conjure elemental spell, and the gem's magic is lost."
+    ],
+    "image": "/api/images/magic-items/elemental-gem-fire.png",
+    "url": "/api/2014/magic-items/elemental-gem-fire"
+  },
+  {
+    "index": "elemental-gem-water",
+    "name": "Water Elemental Gem",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, uncommon",
+      "This emerald contains a mote of elemental energy. When you use an action to break the gem, a water elemental is summoned as if you had cast the conjure elemental spell, and the gem's magic is lost."
+    ],
+    "image": "/api/images/magic-items/elemental-gem-water.png",
+    "url": "/api/2014/magic-items/elemental-gem-water"
+  },
+  {
+    "index": "figurine-of-wondrous-power-bronze-griffon",
+    "name": "Bronze Griffon Figurine of Wondrous Power",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, rare",
+      "A figurine of wondrous power is a statuette of a beast small enough to fit in a pocket. If you use an action to speak the command word and throw the figurine to a point on the ground within 60 feet of you, the figurine becomes a living creature. If the space where the creature would appear is occupied by other creatures or objects, or if there isn't enough space for the creature, the figurine doesn't become a creature.",
+      "The creature is friendly to you and your companions. It understands your languages and obeys your spoken commands. If you issue no commands, the creature defends itself but takes no other actions.",
+      "The creature exists for a duration specific to each figurine. At the end of the duration, the creature reverts to its figurine form. It reverts to a figurine early if it drops to 0 hit points or if you use an action to speak the command word again while touching it. When the creature becomes a figurine again, its property can't be used again until a certain amount of time has passed, as specified in the figurine's description.",
+      "***Bronze Griffon.*** This bronze statuette is of a griffon rampant. It can become a griffon for up to 6 hours. Once it has been used, it can't be used again until 5 days have passed."
+    ],
+    "url": "/api/2014/magic-items/figurine-of-wondrous-power-bronze-griffon"
+  },
+  {
+    "index": "figurine-of-wondrous-power-golden-lions",
+    "name": "Golden Lions Figurine of Wondrous Power",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, rare",
+      "A figurine of wondrous power is a statuette of a beast small enough to fit in a pocket. If you use an action to speak the command word and throw the figurine to a point on the ground within 60 feet of you, the figurine becomes a living creature. If the space where the creature would appear is occupied by other creatures or objects, or if there isn't enough space for the creature, the figurine doesn't become a creature.",
+      "The creature is friendly to you and your companions. It understands your languages and obeys your spoken commands. If you issue no commands, the creature defends itself but takes no other actions.",
+      "The creature exists for a duration specific to each figurine. At the end of the duration, the creature reverts to its figurine form. It reverts to a figurine early if it drops to 0 hit points or if you use an action to speak the command word again while touching it. When the creature becomes a figurine again, its property can't be used again until a certain amount of time has passed, as specified in the figurine's description.",
+      "***Golden Lions.*** These gold statuettes of lions are always created in pairs. You can use one figurine or both simultaneously. Each can become a lion for up to 1 hour. Once a lion has been used, it can't be used again until 7 days have passed."
+    ],
+    "url": "/api/2014/magic-items/figurine-of-wondrous-power-golden-lions"
+  },
+  {
+    "index": "figurine-of-wondrous-power-ivory-goats",
+    "name": "Ivory Goats Figurine of Wondrous Power",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, rare",
+      "A figurine of wondrous power is a statuette of a beast small enough to fit in a pocket. If you use an action to speak the command word and throw the figurine to a point on the ground within 60 feet of you, the figurine becomes a living creature. If the space where the creature would appear is occupied by other creatures or objects, or if there isn't enough space for the creature, the figurine doesn't become a creature.",
+      "The creature is friendly to you and your companions. It understands your languages and obeys your spoken commands. If you issue no commands, the creature defends itself but takes no other actions.",
+      "The creature exists for a duration specific to each figurine. At the end of the duration, the creature reverts to its figurine form. It reverts to a figurine early if it drops to 0 hit points or if you use an action to speak the command word again while touching it. When the creature becomes a figurine again, its property can't be used again until a certain amount of time has passed, as specified in the figurine's description.",
+      "***Ivory Goats.*** These ivory statuettes of goats are always created in sets of three. Each goat looks unique and functions differently from the others. Their properties are as follows:",
+      "The goat of traveling can become a Large goat with the same statistics as a riding horse. It has 24 charges, and each hour or portion thereof it spends in beast form costs 1 charge. While it has charges, you can use it as often as you wish. When it runs out of charges, it reverts to a figurine and can't be used again until 7 days have passed, when it regains all its charges.",
+      "The goat of travail becomes a giant goat for up to 3 hours. Once it has been used, it can't be used again until 30 days have passed.",
+      "The goat of terror becomes a giant goat for up to 3 hours. The goat can't attack, but you can remove its horns and use them as weapons. One horn becomes a +1 lance, and the other becomes a +2 longsword. Removing a horn requires an action, and the weapons disappear and the horns return when the goat reverts to figurine form. In addition, the goat radiates a 30-foot-radius aura of terror while you are riding it. Any creature hostile to you that starts its turn in the aura must succeed on a DC 15 Wisdom saving throw or be frightened of the goat for 1 minute, or until the goat reverts to figurine form. The frightened creature can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success. Once it successfully saves against the effect, a creature is immune to the goat's aura for the next 24 hours. Once the figurine has been used, it can't be used again until 15 days have passed."
+    ],
+    "url": "/api/2014/magic-items/figurine-of-wondrous-power-ivory-goats"
+  },
+  {
+    "index": "figurine-of-wondrous-power-marble-elephant",
+    "name": "Marble Elephant Figurine of Wondrous Power",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, rare",
+      "A figurine of wondrous power is a statuette of a beast small enough to fit in a pocket. If you use an action to speak the command word and throw the figurine to a point on the ground within 60 feet of you, the figurine becomes a living creature. If the space where the creature would appear is occupied by other creatures or objects, or if there isn't enough space for the creature, the figurine doesn't become a creature.",
+      "The creature is friendly to you and your companions. It understands your languages and obeys your spoken commands. If you issue no commands, the creature defends itself but takes no other actions.",
+      "The creature exists for a duration specific to each figurine. At the end of the duration, the creature reverts to its figurine form. It reverts to a figurine early if it drops to 0 hit points or if you use an action to speak the command word again while touching it. When the creature becomes a figurine again, its property can't be used again until a certain amount of time has passed, as specified in the figurine's description.",
+      "***Marble Elephant.*** This marble statuette is about 4 inches high and long. It can become an elephant for up to 24 hours. Once it has been used, it can't be used again until 7 days have passed."
+    ],
+    "url": "/api/2014/magic-items/figurine-of-wondrous-power-marble-elephant"
+  },
+  {
+    "index": "figurine-of-wondrous-power-obsidian-steed",
+    "name": "Obsidian Steed Figurine of Wondrous Power",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, very rare",
+      "A figurine of wondrous power is a statuette of a beast small enough to fit in a pocket. If you use an action to speak the command word and throw the figurine to a point on the ground within 60 feet of you, the figurine becomes a living creature. If the space where the creature would appear is occupied by other creatures or objects, or if there isn't enough space for the creature, the figurine doesn't become a creature.",
+      "The creature is friendly to you and your companions. It understands your languages and obeys your spoken commands. If you issue no commands, the creature defends itself but takes no other actions.",
+      "The creature exists for a duration specific to each figurine. At the end of the duration, the creature reverts to its figurine form. It reverts to a figurine early if it drops to 0 hit points or if you use an action to speak the command word again while touching it. When the creature becomes a figurine again, its property can't be used again until a certain amount of time has passed, as specified in the figurine's description.",
+      "***Obsidian Steed.*** This polished obsidian horse can become a nightmare for up to 24 hours. The nightmare fights only to defend itself. Once it has been used, it can't be used again until 5 days have passed.",
+      "If you have a good alignment, the figurine has a 10 percent chance each time you use it to ignore your orders, including a command to revert to figurine form. If you mount the nightmare while it is ignoring your orders, you and the nightmare are instantly transported to a random location on the plane of Hades, where the nightmare reverts to figurine form."
+    ],
+    "url": "/api/2014/magic-items/figurine-of-wondrous-power-obsidian-steed"
+  },
+  {
+    "index": "figurine-of-wondrous-power-onyx-dog",
+    "name": "Onyx Dog Figurine of Wondrous Power",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, rare",
+      "A figurine of wondrous power is a statuette of a beast small enough to fit in a pocket. If you use an action to speak the command word and throw the figurine to a point on the ground within 60 feet of you, the figurine becomes a living creature. If the space where the creature would appear is occupied by other creatures or objects, or if there isn't enough space for the creature, the figurine doesn't become a creature.",
+      "The creature is friendly to you and your companions. It understands your languages and obeys your spoken commands. If you issue no commands, the creature defends itself but takes no other actions.",
+      "The creature exists for a duration specific to each figurine. At the end of the duration, the creature reverts to its figurine form. It reverts to a figurine early if it drops to 0 hit points or if you use an action to speak the command word again while touching it. When the creature becomes a figurine again, its property can't be used again until a certain amount of time has passed, as specified in the figurine's description.",
+      "***Onyx Dog.*** This onyx statuette of a dog can become a mastiff for up to 6 hours. The mastiff has an Intelligence of 8 and can speak Common. It also has darkvision out to a range of 60 feet and can see invisible creatures and objects within that range. Once it has been used, it can't be used again until 7 days have passed."
+    ],
+    "url": "/api/2014/magic-items/figurine-of-wondrous-power-onyx-dog"
+  },
+  {
+    "index": "horn-of-valhalla",
+    "name": "Horn of Valhalla",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Varies"
+    },
+    "variants": [
+      {
+        "index": "horn-of-valhalla-silver",
+        "name": "Silver Horn of Valhalla",
+        "url": "/api/2014/magic-items/horn-of-valhalla-silver"
+      },
+      {
+        "index": "horn-of-valhalla-brass",
+        "name": "Brass Horn of Valhalla",
+        "url": "/api/2014/magic-items/horn-of-valhalla-brass"
+      },
+      {
+        "index": "horn-of-valhalla-bronze",
+        "name": "Bronze Horn of Valhalla",
+        "url": "/api/2014/magic-items/horn-of-valhalla-bronze"
+      },
+      {
+        "index": "horn-of-valhalla-iron",
+        "name": "Iron Horn of Valhalla",
+        "url": "/api/2014/magic-items/horn-of-valhalla-iron"
+      }
+    ],
+    "variant": false,
+    "desc": [
+      "Wondrous item, rare (silver or brass), very rare (bronze) or legendary (iron)",
+      "You can use an action to blow this horn. In response, warrior spirits from the Valhalla appear within 60 feet of you. They use the statistics of a berserker. They return to Valhalla after 1 hour or when they drop to 0 hit points. Once you use the horn, it can't be used again until 7 days have passed.",
+      "Four types of horn of Valhalla are known to exist, each made of a different metal. The horn's type determines how many berserkers answer its summons, as well as the requirement for its use. The GM chooses the horn's type or determines it randomly.",
+      "| d100 | Horn Type | Berserkers Summoned | Requirement |",
+      "|---|---|---|---|",
+      "| 01-40 | Silver | 2d4 + 2 | None |",
+      "| 41-75 | Brass | 3d4 + 3 | Proficiency with all simple weapons |",
+      "| 76-90 | Bronze | 4d4 + 4 | Proficiency with all medium armor |",
+      "| 91-00 | Iron | 5d4 + 5 | Proficiency with all martial weapons |",
+      "If you blow the horn without meeting its requirement, the summoned berserkers attack you. If you meet the requirement, they are friendly to you and your companions and follow your commands."
+    ],
+    "url": "/api/2014/magic-items/horn-of-valhalla"
+  },
+  {
+    "index": "horn-of-valhalla-silver",
+    "name": "Silver Horn of Valhalla",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, rare",
+      "You can use an action to blow this horn. In response, 2d4 + 2 warrior spirits from the Valhalla appear within 60 feet of you. They use the statistics of a berserker. They return to Valhalla after 1 hour or when they drop to 0 hit points. Once you use the horn, it can't be used again until 7 days have passed.",
+      "The summoned berserkers are friendly to you and your companions and follow your commands."
+    ],
+    "url": "/api/2014/magic-items/horn-of-valhalla-silver"
+  },
+  {
+    "index": "horn-of-valhalla-brass",
+    "name": "Brass Horn of Valhalla",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, rare",
+      "You can use an action to blow this horn. In response, 3d4 + 3 warrior spirits from the Valhalla appear within 60 feet of you. They use the statistics of a berserker. They return to Valhalla after 1 hour or when they drop to 0 hit points. Once you use the horn, it can't be used again until 7 days have passed.",
+      "If you blow the horn without having proficiency with all simple weapons, the summoned berserkers attack you. If you meet the requirement, they are friendly to you and your companions and follow your commands."
+    ],
+    "url": "/api/2014/magic-items/horn-of-valhalla-brass"
+  },
+  {
+    "index": "horn-of-valhalla-bronze",
+    "name": "Bronze Horn of Valhalla",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, very rare",
+      "You can use an action to blow this horn. In response, 4d4 + 4 warrior spirits from the Valhalla appear within 60 feet of you. They use the statistics of a berserker. They return to Valhalla after 1 hour or when they drop to 0 hit points. Once you use the horn, it can't be used again until 7 days have passed.",
+      "If you blow the horn without having proficiency with all medium armor, the summoned berserkers attack you. If you meet the requirement, they are friendly to you and your companions and follow your commands."
+    ],
+    "url": "/api/2014/magic-items/horn-of-valhalla-bronze"
+  },
+  {
+    "index": "horn-of-valhalla-iron",
+    "name": "Iron Horn of Valhalla",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, legendary",
+      "You can use an action to blow this horn. In response, 5d4 + 5 warrior spirits from the Valhalla appear within 60 feet of you. They use the statistics of a berserker. They return to Valhalla after 1 hour or when they drop to 0 hit points. Once you use the horn, it can't be used again until 7 days have passed.",
+      "If you blow the horn without having proficiency with all martial weapons, the summoned berserkers attack you. If you meet the requirement, they are friendly to you and your companions and follow your commands."
+    ],
+    "url": "/api/2014/magic-items/horn-of-valhalla-iron"
+  },
+  {
+    "index": "iron-flask",
+    "name": "Iron Flask",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, legendary",
+      "This iron bottle has a brass stopper. You can use an action to speak the flask's command word, targeting a creature that you can see within 60 feet of you. If the target is native to a plane of existence other than the one you're on, the target must succeed on a DC 17 Wisdom saving throw or be trapped in the flask. If the target has been trapped by the flask before, it has advantage on the saving throw. Once trapped, a creature remains in the flask until released. The flask can hold only one creature at a time. A creature trapped in the flask doesn't need to breathe, eat, or drink and doesn't age.",
+      "You can use an action to remove the flask's stopper and release the creature the flask contains. The creature is friendly to you and your companions for 1 hour and obeys your commands for that duration. If you give no commands or give it a command that is likely to result in its death, it defends itself but otherwise takes no actions. At the end of the duration, the creature acts in accordance with its normal disposition and alignment.",
+      "An identify spell reveals that a creature is inside the flask, but the only way to determine the type of creature is to open the flask. A newly discovered bottle might already contain a creature chosen by the GM or determined randomly.",
+      "| d100 | Contents |",
+      "|---|---|",
+      "| 1-50 | Empty |",
+      "| 51-54 | Demon (type 1) |",
+      "| 55-58 | Demon (type 2) |",
+      "| 59-62 | Demon (type 3) |",
+      "| 63-64 | Demon (type 4) |",
+      "| 65 | Demon (type 5) |",
+      "| 66 | Demon (type 6) |",
+      "| 67 | Deva |",
+      "| 68-69 | Devil (greater) |",
+      "| 70-73 | Devil (lesser) |",
+      "| 74-75 | Djinni |",
+      "| 76-77 | Efreeti |",
+      "| 78-83 | Elemental (any) |",
+      "| 84-86 | Invisible stalker |",
+      "| 87-90 | Night hag |",
+      "| 91 | Planetar |",
+      "| 92-95 | Salamander |",
+      "| 96 | Solar |",
+      "| 97-99 | Succubus/incubus |",
+      "| 100 | Xorn |"
+    ],
+    "url": "/api/2014/magic-items/iron-flask"
+  },
+  {
+    "index": "pipes-of-the-sewers",
+    "name": "Pipes of the Sewers",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, uncommon (requires attunement)",
+      "You must be proficient with wind instruments to use these pipes. While you are attuned to the pipes, ordinary rats and giant rats are indifferent toward you and will not attack you unless you threaten or harm them.",
+      "The pipes have 3 charges. If you play the pipes as an action, you can use a bonus action to expend 1 to 3 charges, calling forth one swarm of rats with each expended charge, provided that enough rats are within half a mile of you to be called in this fashion (as determined by the GM). If there aren't enough rats to form a swarm, the charge is wasted. Called swarms move toward the music by the shortest available route but aren't under your control otherwise. The pipes regain 1d3 expended charges daily at dawn.",
+      "Whenever a swarm of rats that isn't under another creature's control comes within 30 feet of you while you are playing the pipes, you can make a Charisma check contested by the swarm's Wisdom check. If you lose the contest, the swarm behaves as it normally would and can't be swayed by the pipes' music for the next 24 hours. If you win the contest, the swarm is swayed by the pipes' music and becomes friendly to you and your companions for as long as you continue to play the pipes each round as an action. A friendly swarm obeys your commands. If you issue no commands to a friendly swarm, it defends itself but otherwise takes no actions. If a friendly swarm starts its turn and can't hear the pipes' music, your control over that swarm ends, and the swarm behaves as it normally would and can't be swayed by the pipes' music for the next 24 hours."
+    ],
+    "url": "/api/2014/magic-items/pipes-of-the-sewers"
+  },
+  {
+    "index": "ring-of-djinni-summoning",
+    "name": "Ring of Djinni Summoning",
+    "equipment_category": {
+      "index": "ring",
+      "name": "Ring",
+      "url": "/api/2014/equipment-categories/ring"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Ring, legendary (requires attunement)",
+      "While wearing this ring, you can speak its command word as an action to summon a particular djinni from the Elemental Plane of Air. The djinni appears in an unoccupied space you choose within 120 feet of you. It remains as long as you concentrate (as if concentrating on a spell), to a maximum of 1 hour, or until it drops to 0 hit points. It then returns to its home plane.",
+      "While summoned, the djinni is friendly to you and your companions. It obeys any commands you give it, no matter what language you use. If you fail to command it, the djinni defends itself against attackers but takes no other actions.",
+      "After the djinni departs, it can't be summoned again for 24 hours, and the ring becomes nonmagical if the djinni dies."
+    ],
+    "url": "/api/2014/magic-items/ring-of-djinni-summoning"
+  },
+  {
+    "index": "staff-of-the-python",
+    "name": "Staff of the Python",
+    "equipment_category": {
+      "index": "staff",
+      "name": "Staff",
+      "url": "/api/2014/equipment-categories/staff"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Staff, very rare (requires attunement by a cleric, druid, or warlock)",
+      "You can use an action to speak this staff's command word and throw the staff on the ground within 10 feet of you. The staff becomes a giant constrictor snake under your control and acts on its own initiative count. By using a bonus action to speak the command word again, you return the staff to its normal form in a space formerly occupied by the snake.",
+      "On your turn, you can mentally command the snake if it is within 60 feet of you and you aren't incapacitated. You decide what action the snake takes and where it moves during its next turn, or you can issue it a general command, such as to attack your enemies or guard a location.",
+      "If the snake is reduced to 0 hit points, it dies and reverts to its staff form. The staff then shatters and is destroyed. If the snake reverts to staff form before losing all its hit points, it regains all of them."
+    ],
+    "url": "/api/2014/magic-items/staff-of-the-python"
+  },
+  {
+    "index": "staff-of-the-woodlands",
+    "name": "Staff of the Woodlands",
+    "equipment_category": {
+      "index": "staff",
+      "name": "Staff",
+      "url": "/api/2014/equipment-categories/staff"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Staff, rare (requires attunement by a druid)",
+      "This staff can be wielded as a magic quarterstaff that grants a +2 bonus to attack and damage rolls made with it. While holding it, you have a +2 bonus to spell attack rolls.",
+      "The staff has 10 charges for the following properties. It regains 1d6 + 4 expended charges daily at dawn. If you expend the last charge, roll a d20. On a 1, the staff loses its properties and becomes a nonmagical quarterstaff.",
+      "***Spells.*** You can use an action to expend 1 or more of the staff's charges to cast one of the following spells from it, using your spell save DC: animal friendship (1 charge), awaken (5 charges), barkskin (2 charges), locate animals or plants (2 charges), speak with animals (1 charge), speak with plants (3 charges), or wall of thorns (6 charges).",
+      "You can also use an action to cast the pass without trace spell from the staff without using any charges. Tree Form. You can use an action to plant one end of the staff in fertile earth and expend 1 charge to transform the staff into a healthy tree. The tree is 60 feet tall and has a 5-foot-diameter trunk, and its branches at the top spread out in a 20-foot radius.",
+      "The tree appears ordinary but radiates a faint aura of transmutation magic if targeted by detect magic. While touching the tree and using another action to speak its command word, you return the staff to its normal form. Any creature in the tree falls when it reverts to a staff."
+    ],
+    "url": "/api/2014/magic-items/staff-of-the-woodlands"
+  },
+  {
+    "index": "stone-of-controlling-earth-elementals",
+    "name": "Stone of Controlling Earth Elementals",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, rare",
+      "If the stone is touching the ground, you can use an action to speak its command word and summon an earth elemental, as if you had cast the conjure elemental spell. The stone can't be used this way again until the next dawn. The stone weighs 5 pounds."
+    ],
+    "url": "/api/2014/magic-items/stone-of-controlling-earth-elementals"
+  }
+]

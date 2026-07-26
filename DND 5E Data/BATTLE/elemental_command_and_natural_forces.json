@@ -1,0 +1,548 @@
+[
+  {
+    "index": "bowl-of-commanding-water-elementals",
+    "name": "Bowl of Commanding Water Elementals",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, rare",
+      "While this bowl is filled with water, you can use an action to speak the bowl's command word and summon a water elemental, as if you had cast the conjure elemental spell. The bowl can't be used this way again until the next dawn.",
+      "The bowl is about 1 foot in diameter and half as deep. It weighs 3 pounds and holds about 3 gallons."
+    ],
+    "url": "/api/2014/magic-items/bowl-of-commanding-water-elementals"
+  },
+  {
+    "index": "brazier-of-commanding-fire-elementals",
+    "name": "Brazier of Commanding Fire Elementals",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, rare",
+      "While a fire burns in this brass brazier, you can use an action to speak the brazier's command word and summon a fire elemental, as if you had cast the conjure elemental spell. The brazier can't be used this way again until the next dawn.",
+      "The brazier weighs 5 pounds."
+    ],
+    "image": "/api/images/magic-items/brazier-of-commanding-fire-elementals.png",
+    "url": "/api/2014/magic-items/brazier-of-commanding-fire-elementals"
+  },
+  {
+    "index": "censer-of-controlling-air-elementals",
+    "name": "Censer of Controlling Air Elementals",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, rare",
+      "While incense is burning in this censer, you can use an action to speak the censer's command word and summon an air elemental, as if you had cast the conjure elemental spell. The censer can't be used this way again until the next dawn.",
+      "This 6-inch-wide, 1-foot-high vessel resembles a chalice with a decorated lid. It weighs 1 pound."
+    ],
+    "image": "/api/images/magic-items/censer-of-controlling-air-elementals.png",
+    "url": "/api/2014/magic-items/censer-of-controlling-air-elementals"
+  },
+  {
+    "index": "elemental-gem",
+    "name": "Elemental Gem",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [
+      {
+        "index": "elemental-gem-air",
+        "name": "Air Elemental Gem",
+        "url": "/api/2014/magic-items/elemental-gem-air"
+      },
+      {
+        "index": "elemental-gem-earth",
+        "name": "Earth Elemental Gem",
+        "url": "/api/2014/magic-items/elemental-gem-earth"
+      },
+      {
+        "index": "elemental-gem-fire",
+        "name": "Fire Elemental Gem",
+        "url": "/api/2014/magic-items/elemental-gem-fire"
+      },
+      {
+        "index": "elemental-gem-water",
+        "name": "Water Elemental Gem",
+        "url": "/api/2014/magic-items/elemental-gem-water"
+      }
+    ],
+    "variant": false,
+    "desc": [
+      "Wondrous item, uncommon",
+      "This gem contains a mote of elemental energy. When you use an action to break the gem, an elemental is summoned as if you had cast the conjure elemental spell, and the gem's magic is lost. The type of gem determines the elemental summoned by the spell.",
+      "| Gem | Summoned Elemental |",
+      "|---|---|",
+      "| Blue sapphire | Air elemental |",
+      "| Yellow diamond | Earth elemental |",
+      "| Red corundum | Fire elemental |",
+      "| Emerald | Water elemental |"
+    ],
+    "image": "/api/images/magic-items/elemental-gem.png",
+    "url": "/api/2014/magic-items/elemental-gem"
+  },
+  {
+    "index": "elemental-gem-air",
+    "name": "Air Elemental Gem",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, uncommon",
+      "This blue sapphire contains a mote of elemental energy. When you use an action to break the gem, an air elemental is summoned as if you had cast the conjure elemental spell, and the gem's magic is lost."
+    ],
+    "image": "/api/images/magic-items/elemental-gem-air.png",
+    "url": "/api/2014/magic-items/elemental-gem-air"
+  },
+  {
+    "index": "elemental-gem-earth",
+    "name": "Earth Elemental Gem",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, uncommon",
+      "This yellow diamond contains a mote of elemental energy. When you use an action to break the gem, an earth elemental is summoned as if you had cast the conjure elemental spell, and the gem's magic is lost."
+    ],
+    "image": "/api/images/magic-items/elemental-gem-earth.png",
+    "url": "/api/2014/magic-items/elemental-gem-earth"
+  },
+  {
+    "index": "elemental-gem-fire",
+    "name": "Fire Elemental Gem",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, uncommon",
+      "This red corundum contains a mote of elemental energy. When you use an action to break the gem, a fire elemental is summoned as if you had cast the conjure elemental spell, and the gem's magic is lost."
+    ],
+    "image": "/api/images/magic-items/elemental-gem-fire.png",
+    "url": "/api/2014/magic-items/elemental-gem-fire"
+  },
+  {
+    "index": "elemental-gem-water",
+    "name": "Water Elemental Gem",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, uncommon",
+      "This emerald contains a mote of elemental energy. When you use an action to break the gem, a water elemental is summoned as if you had cast the conjure elemental spell, and the gem's magic is lost."
+    ],
+    "image": "/api/images/magic-items/elemental-gem-water.png",
+    "url": "/api/2014/magic-items/elemental-gem-water"
+  },
+  {
+    "index": "javelin-of-lightning",
+    "name": "Javelin of Lightning",
+    "equipment_category": {
+      "index": "weapon",
+      "name": "Weapon",
+      "url": "/api/2014/equipment-categories/weapon"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Weapon (javelin), uncommon",
+      "This javelin is a magic weapon. When you hurl it and speak its command word, it transforms into a bolt of lightning, forming a line 5 feet wide that extends out from you to a target within 120 feet. Each creature in the line excluding you and the target must make a DC 13 Dexterity saving throw, taking 4d6 lightning damage on a failed save, and half as much damage on a successful one. The lightning bolt turns back into a javelin when it reaches the target. Make a ranged weapon attack against the target. On a hit, the target takes damage from the javelin plus 4d6 lightning damage.",
+      "The javelin's property can't be used again until the next dawn. In the meantime, the javelin can still be used as a magic weapon."
+    ],
+    "url": "/api/2014/magic-items/javelin-of-lightning"
+  },
+  {
+    "index": "ring-of-elemental-command",
+    "name": "Ring of Elemental Command",
+    "equipment_category": {
+      "index": "ring",
+      "name": "Ring",
+      "url": "/api/2014/equipment-categories/ring"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [
+      {
+        "index": "ring-of-elemental-command-air",
+        "name": "Ring of Air Elemental Command",
+        "url": "/api/2014/magic-items/ring-of-elemental-command-air"
+      },
+      {
+        "index": "ring-of-elemental-command-earth",
+        "name": "Ring of Earth Elemental Command",
+        "url": "/api/2014/magic-items/ring-of-elemental-command-earth"
+      },
+      {
+        "index": "ring-of-elemental-command-fire",
+        "name": "Ring of Fire Elemental Command",
+        "url": "/api/2014/magic-items/ring-of-elemental-command-fire"
+      },
+      {
+        "index": "ring-of-elemental-command-water",
+        "name": "Ring of Water Elemental Command",
+        "url": "/api/2014/magic-items/ring-of-elemental-command-water"
+      }
+    ],
+    "variant": false,
+    "desc": [
+      "Ring, legendary (requires attunement)",
+      "This ring is linked to one of the four Elemental Planes. The GM chooses or randomly determines the linked plane.",
+      "While wearing this ring, you have advantage on attack rolls against elementals from the linked plane, and they have disadvantage on attack rolls against you. In addition, you have access to properties based on the linked plane.",
+      "The ring has 5 charges. It regains 1d4 + 1 expended charges daily at dawn. Spells cast from the ring have a save DC of 17.",
+      "***Ring of Air Elemental Command.*** You can expend 2 of the ring's charges to cast dominate monster on an air elemental. In addition, when you fall, you descend 60 feet per round and take no damage from falling. You can also speak and understand Auran.",
+      "If you help slay an air elemental while attuned to the ring, you gain access to the following additional properties:",
+      "You have resistance to lightning damage.",
+      "You have a flying speed equal to your walking speed and can hover.",
+      "You can cast the following spells from the ring, expending the necessary number of charges: chain lightning (3 charges), gust of wind (2 charges), or wind wall (1 charge).",
+      "***Ring of Earth Elemental Command.*** You can expend 2 of the ring's charges to cast dominate monster on an earth elemental. In addition, you can move in difficult terrain that is composed of rubble, rocks, or dirt as if it were normal terrain. You can also speak and understand Terran.",
+      "If you help slay an earth elemental while attuned to the ring, you gain access to the following additional properties:",
+      "You have resistance to acid damage.",
+      "You can move through solid earth or rock as if those areas were difficult terrain. If you end your turn there, you are shunted out to the nearest unoccupied space you last occupied.",
+      "You can cast the following spells from the ring, expending the necessary number of charges: stone shape (2 charges), stoneskin (3 charges), or wall of stone (3 charges).",
+      "***Ring of Fire Elemental Command.*** You can expend 2 of the ring's charges to cast dominate monster on a fire elemental. In addition, you have resistance to fire damage. You can also speak and understand Ignan.",
+      "If you help slay a fire elemental while attuned to the ring, you gain access to the following additional properties:",
+      "You are immune to fire damage.",
+      "You can cast the following spells from the ring, expending the necessary number of charges: burning hands (1 charge), fireball (2 charges), and wall of fire (3 charges).",
+      "***Ring of Water Elemental Command.*** You can expend 2 of the ring's charges to cast dominate monster on a water elemental. In addition, you can stand on and walk across liquid surfaces as if they were solid ground. You can also speak and understand Aquan.",
+      "If you help slay a water elemental while attuned to the ring, you gain access to the following additional properties:",
+      "You can breathe underwater and have a swimming speed equal to your walking speed.",
+      "You can cast the following spells from the ring, expending the necessary number of charges: create or destroy water (1 charge), control water (3 charges), ice storm (2 charges), or wall of ice (3 charges)."
+    ],
+    "url": "/api/2014/magic-items/ring-of-elemental-command"
+  },
+  {
+    "index": "ring-of-elemental-command-air",
+    "name": "Ring of Air Elemental Command",
+    "equipment_category": {
+      "index": "ring",
+      "name": "Ring",
+      "url": "/api/2014/equipment-categories/ring"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Ring, legendary (requires attunement)",
+      "This ring is linked to the Elemental Plane of Air.",
+      "While wearing this ring, you have advantage on attack rolls against air elementals, and they have disadvantage on attack rolls against you. In addition, you have access to properties based on the Elemental Plane of Air.",
+      "The ring has 5 charges. It regains 1d4 + 1 expended charges daily at dawn. Spells cast from the ring have a save DC of 17.",
+      "You can expend 2 of the ring's charges to cast dominate monster on an air elemental. In addition, when you fall, you descend 60 feet per round and take no damage from falling. You can also speak and understand Auran.",
+      "If you help slay an air elemental while attuned to the ring, you gain access to the following additional properties:",
+      "You have resistance to lightning damage.",
+      "You have a flying speed equal to your walking speed and can hover.",
+      "You can cast the following spells from the ring, expending the necessary number of charges: chain lightning (3 charges), gust of wind (2 charges), or wind wall (1 charge)."
+    ],
+    "url": "/api/2014/magic-items/ring-of-elemental-command-air"
+  },
+  {
+    "index": "ring-of-elemental-command-earth",
+    "name": "Ring of Earth Elemental Command",
+    "equipment_category": {
+      "index": "ring",
+      "name": "Ring",
+      "url": "/api/2014/equipment-categories/ring"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Ring, legendary (requires attunement)",
+      "This ring is linked to the Elemental Plane of Earth.",
+      "While wearing this ring, you have advantage on attack rolls against earth elementals, and they have disadvantage on attack rolls against you. In addition, you have access to properties based on the Elemental Plane of Earth.",
+      "The ring has 5 charges. It regains 1d4 + 1 expended charges daily at dawn. Spells cast from the ring have a save DC of 17.",
+      "You can expend 2 of the ring's charges to cast dominate monster on an earth elemental. In addition, you can move in difficult terrain that is composed of rubble, rocks, or dirt as if it were normal terrain. You can also speak and understand Terran.",
+      "If you help slay an earth elemental while attuned to the ring, you gain access to the following additional properties:",
+      "You have resistance to acid damage.",
+      "You can move through solid earth or rock as if those areas were difficult terrain. If you end your turn there, you are shunted out to the nearest unoccupied space you last occupied.",
+      "You can cast the following spells from the ring, expending the necessary number of charges: stone shape (2 charges), stoneskin (3 charges), or wall of stone (3 charges)."
+    ],
+    "url": "/api/2014/magic-items/ring-of-elemental-command-earth"
+  },
+  {
+    "index": "ring-of-elemental-command-fire",
+    "name": "Ring of Fire Elemental Command",
+    "equipment_category": {
+      "index": "ring",
+      "name": "Ring",
+      "url": "/api/2014/equipment-categories/ring"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Ring, legendary (requires attunement)",
+      "This ring is linked to the Elemental Plane of Fire.",
+      "While wearing this ring, you have advantage on attack rolls against fire elementals, and they have disadvantage on attack rolls against you. In addition, you have access to properties based on the Elemental Plane of Fire.",
+      "The ring has 5 charges. It regains 1d4 + 1 expended charges daily at dawn. Spells cast from the ring have a save DC of 17.",
+      "You can expend 2 of the ring's charges to cast dominate monster on a fire elemental. In addition, you have resistance to fire damage. You can also speak and understand Ignan.",
+      "If you help slay a fire elemental while attuned to the ring, you gain access to the following additional properties:",
+      "You are immune to fire damage.",
+      "You can cast the following spells from the ring, expending the necessary number of charges: burning hands (1 charge), fireball (2 charges), and wall of fire (3 charges)."
+    ],
+    "url": "/api/2014/magic-items/ring-of-elemental-command-fire"
+  },
+  {
+    "index": "ring-of-elemental-command-water",
+    "name": "Ring of Water Elemental Command",
+    "equipment_category": {
+      "index": "ring",
+      "name": "Ring",
+      "url": "/api/2014/equipment-categories/ring"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Ring, legendary (requires attunement)",
+      "This ring is linked to the Elemental Plane of Water.",
+      "While wearing this ring, you have advantage on attack rolls against water elementals, and they have disadvantage on attack rolls against you. In addition, you have access to properties based on the Elemental Plane of Water.",
+      "The ring has 5 charges. It regains 1d4 + 1 expended charges daily at dawn. Spells cast from the ring have a save DC of 17.",
+      "You can expend 2 of the ring's charges to cast dominate monster on a water elemental. In addition, you can stand on and walk across liquid surfaces as if they were solid ground. You can also speak and understand Aquan.",
+      "If you help slay a water elemental while attuned to the ring, you gain access to the following additional properties:",
+      "You can breathe underwater and have a swimming speed equal to your walking speed.",
+      "You can cast the following spells from the ring, expending the necessary number of charges: create or destroy water (1 charge), control water (3 charges), ice storm (2 charges), or wall of ice (3 charges)."
+    ],
+    "url": "/api/2014/magic-items/ring-of-elemental-command-water"
+  },
+  {
+    "index": "ring-of-shooting-stars",
+    "name": "Ring of Shooting Stars",
+    "equipment_category": {
+      "index": "ring",
+      "name": "Ring",
+      "url": "/api/2014/equipment-categories/ring"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Ring, very rare (requires attunement outdoors at night)",
+      "While wearing this ring in dim light or darkness, you can cast dancing lights and light from the ring at will. Casting either spell from the ring requires an action.",
+      "The ring has 6 charges for the following other properties. The ring regains 1d6 expended charges daily at dawn.",
+      "***Faerie Fire.*** You can expend 1 charge as an action to cast faerie fire from the ring.",
+      "***Ball Lightning.*** You can expend 2 charges as an action to create one to four 3-foot-diameter spheres of lightning. The more spheres you create, the less powerful each sphere is individually.",
+      "Each sphere appears in an unoccupied space you can see within 120 feet of you. The spheres last as long as you concentrate (as if concentrating on a spell), up to 1 minute. Each sphere sheds dim light in a 30-foot radius.",
+      "As a bonus action, you can move each sphere up to 30 feet, but no farther than 120 feet away from you. When a creature other than you comes within 5 feet of a sphere, the sphere discharges lightning at that creature and disappears. That creature must make a DC 15 Dexterity saving throw. On a failed save, the creature takes lightning damage based on the number of spheres you created.",
+      "| Spheres | Lightning Damage |",
+      "|---|---|",
+      "| 4 | 2d4 |",
+      "| 3 | 2d6 |",
+      "| 2 | 5d4 |",
+      "| 1 | 4d12 |",
+      "***Shooting Stars.*** You can expend 1 to 3 charges as an action. For every charge you expend, you launch a glowing mote of light from the ring at a point you can see within 60 feet of you. Each creature within a 15-foot cube originating from that point is showered in sparks and must make a DC 15 Dexterity saving throw, taking 5d4 fire damage on a failed save, or half as much damage on a successful one."
+    ],
+    "url": "/api/2014/magic-items/ring-of-shooting-stars"
+  },
+  {
+    "index": "staff-of-fire",
+    "name": "Staff of Fire",
+    "equipment_category": {
+      "index": "staff",
+      "name": "Staff",
+      "url": "/api/2014/equipment-categories/staff"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Staff, very rare (requires attunement by a druid, sorcerer, warlock, or wizard)",
+      "You have resistance to fire damage while you hold this staff.",
+      "The staff has 10 charges. While holding it, you can use an action to expend 1 or more of its charges to cast one of the following spells from it, using your spell save DC: burning hands (1 charge), fireball (3 charges), or wall of fire (4 charges).",
+      "The staff regains 1d6 + 4 expended charges daily at dawn. If you expend the last charge, roll a d20. On a 1, the staff blackens, crumbles into cinders, and is destroyed."
+    ],
+    "url": "/api/2014/magic-items/staff-of-fire"
+  },
+  {
+    "index": "staff-of-frost",
+    "name": "Staff of Frost",
+    "equipment_category": {
+      "index": "staff",
+      "name": "Staff",
+      "url": "/api/2014/equipment-categories/staff"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Staff, very rare (requires attunement by a druid, sorcerer, warlock, or wizard)",
+      "You have resistance to cold damage while you hold this staff.",
+      "The staff has 10 charges. While holding it, you can use an action to expend 1 or more of its charges to cast one of the following spells from it, using your spell save DC: cone of cold (5 charges), fog cloud (1 charge), ice storm (4 charges), or wall of ice (4 charges).",
+      "The staff regains 1d6 + 4 expended charges daily at dawn. If you expend the last charge, roll a d20. On a 1, the staff turns to water and is destroyed."
+    ],
+    "url": "/api/2014/magic-items/staff-of-frost"
+  },
+  {
+    "index": "staff-of-thunder-and-lightning",
+    "name": "Staff of Thunder and Lightning",
+    "equipment_category": {
+      "index": "staff",
+      "name": "Staff",
+      "url": "/api/2014/equipment-categories/staff"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Staff, very rare (requires attunement)",
+      "This staff can be wielded as a magic quarterstaff that grants a +2 bonus to attack and damage rolls made with it. It also has the following additional properties. When one of these properties is used, it can't be used again until the next dawn.",
+      "***Lightning.*** When you hit with a melee attack using the staff, you can cause the target to take an extra 2d6 lightning damage.",
+      "***Thunder.*** When you hit with a melee attack using the staff, you can cause the staff to emit a crack of thunder, audible out to 300 feet. The target you hit must succeed on a DC 17 Constitution saving throw or become stunned until the end of your next turn.",
+      "***Lightning Strike.*** You can use an action to cause a bolt of lightning to leap from the staff's tip in a line that is 5 feet wide and 120 feet long. Each creature in that line must make a DC 17 Dexterity saving throw, taking 9d6 lightning damage on a failed save, or half as much damage on a successful one.",
+      "***Thunderclap.*** You can use an action to cause the staff to issue a deafening thunderclap, audible out to 600 feet. Each creature within 60 feet of you (not including you) must make a DC 17 Constitution saving throw. On a failed save, a creature takes 2d6 thunder damage and becomes deafened for 1 minute. On a successful save, a creature takes half damage and isn't deafened.",
+      "***Thunder and Lightning.*** You can use an action to use the Lightning Strike and Thunderclap properties at the same time. Doing so doesn't expend the daily use of those properties, only the use of this one."
+    ],
+    "url": "/api/2014/magic-items/staff-of-thunder-and-lightning"
+  },
+  {
+    "index": "stone-of-controlling-earth-elementals",
+    "name": "Stone of Controlling Earth Elementals",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, rare",
+      "If the stone is touching the ground, you can use an action to speak its command word and summon an earth elemental, as if you had cast the conjure elemental spell. The stone can't be used this way again until the next dawn. The stone weighs 5 pounds."
+    ],
+    "url": "/api/2014/magic-items/stone-of-controlling-earth-elementals"
+  },
+  {
+    "index": "wand-of-fireballs",
+    "name": "Wand of Fireballs",
+    "equipment_category": {
+      "index": "wand",
+      "name": "Wand",
+      "url": "/api/2014/equipment-categories/wand"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wand, rare (requires attunement by a spellcaster)",
+      "This wand has 7 charges. While holding it, you can use an action to expend 1 or more of its charges to cast the fireball spell (save DC 15) from it. For 1 charge, you cast the 3rd-level version of the spell. You can increase the spell slot level by one for each additional charge you expend.",
+      "The wand regains 1d6 + 1 expended charges daily at dawn. If you expend the wand's last charge, roll a d20. On a 1, the wand crumbles into ashes and is destroyed."
+    ],
+    "url": "/api/2014/magic-items/wand-of-fireballs"
+  },
+  {
+    "index": "wand-of-lightning-bolts",
+    "name": "Wand of Lightning Bolts",
+    "equipment_category": {
+      "index": "wand",
+      "name": "Wand",
+      "url": "/api/2014/equipment-categories/wand"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wand, rare (requires attunement by a spellcaster)",
+      "This wand has 7 charges. While holding it, you can use an action to expend 1 or more of its charges to cast the lightning bolt spell (save DC 15) from it. For 1 charge, you cast the 3rd-level version of the spell. You can increase the spell slot level by one for each additional charge you expend.",
+      "The wand regains 1d6 + 1 expended charges daily at dawn. If you expend the wand's last charge, roll a d20. On a 1, the wand crumbles into ashes and is destroyed."
+    ],
+    "url": "/api/2014/magic-items/wand-of-lightning-bolts"
+  },
+  {
+    "index": "wind-fan",
+    "name": "Wind Fan",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, uncommon",
+      "While holding this fan, you can use an action to cast the gust of wind spell (save DC 13) from it. Once used, the fan shouldn't be used again until the next dawn. Each time it is used again before then, it has a cumulative 20 percent chance of not working and tearing into useless, nonmagical tatters."
+    ],
+    "url": "/api/2014/magic-items/wind-fan"
+  }
+]

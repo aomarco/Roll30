@@ -1,0 +1,613 @@
+[
+  {
+    "index": "adamantine-armor",
+    "name": "Adamantine Armor",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Armor (medium or heavy, but not hide), uncommon",
+      "This suit of armor is reinforced with adamantine, one of the hardest substances in existence. While you're wearing it, any critical hit against you becomes a normal hit."
+    ],
+    "image": "/api/images/magic-items/adamantine-armor.png",
+    "url": "/api/2014/magic-items/adamantine-armor"
+  },
+  {
+    "index": "armor",
+    "name": "Armor, +1, +2, or +3",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Varies"
+    },
+    "variants": [
+      {
+        "index": "armor-1",
+        "name": "Armor, +1",
+        "url": "/api/2014/magic-items/armor-1"
+      },
+      {
+        "index": "armor-2",
+        "name": "Armor, +2",
+        "url": "/api/2014/magic-items/armor-2"
+      },
+      {
+        "index": "armor-3",
+        "name": "Armor, +3",
+        "url": "/api/2014/magic-items/armor-3"
+      }
+    ],
+    "variant": false,
+    "desc": [
+      "Armor (light, medium, or heavy), rare (+1), very rare (+2), or legendary (+3)",
+      "You have a bonus to AC while wearing this armor. The bonus is determined by its rarity."
+    ],
+    "image": "/api/images/magic-items/armor.png",
+    "url": "/api/2014/magic-items/armor"
+  },
+  {
+    "index": "armor-1",
+    "name": "Armor, +1",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Armor (light, medium, or heavy), rare",
+      "You have a +1 bonus to AC while wearing this armor."
+    ],
+    "image": "/api/images/magic-items/armor.png",
+    "url": "/api/2014/magic-items/armor-1"
+  },
+  {
+    "index": "armor-2",
+    "name": "Armor, +2",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Armor (light, medium, or heavy), very rare",
+      "You have a +2 bonus to AC while wearing this armor."
+    ],
+    "image": "/api/images/magic-items/armor-2.png",
+    "url": "/api/2014/magic-items/armor-2"
+  },
+  {
+    "index": "armor-3",
+    "name": "Armor, +3",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Armor (light, medium, or heavy), legendary",
+      "You have a +3 bonus to AC while wearing this armor."
+    ],
+    "image": "/api/images/magic-items/armor-3.png",
+    "url": "/api/2014/magic-items/armor-3"
+  },
+  {
+    "index": "armor-of-invulnerability",
+    "name": "Armor of Invulnerability",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Armor (plate), legendary (requires attunement)",
+      "You have resistance to nonmagical damage while you wear this armor. Additionally, you can use an action to make yourself immune to nonmagical damage for 10 minutes or until you are no longer wearing the armor. Once this special action is used, it can't be used again until the next dawn."
+    ],
+    "image": "/api/images/magic-items/armor-of-invulnerability.png",
+    "url": "/api/2014/magic-items/armor-of-invulnerability"
+  },
+  {
+    "index": "armor-of-resistance",
+    "name": "Armor of Resistance",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Armor (light, medium, or heavy), rare (requires attunement)",
+      "You have resistance to one type of damage while you wear this armor. The GM chooses the type or determines it randomly from the options below.",
+      "| d10 | Damage Type |",
+      "|---|---|",
+      "| 1 | Acid |",
+      "| 2 | Cold |",
+      "| 3 | Fire |",
+      "| 4 | Force |",
+      "| 5 | Lightning |",
+      "| 6 | Necrotic |",
+      "| 7 | Poison |",
+      "| 8 | Psychic |",
+      "| 9 | Radiant |",
+      "| 10 | Thunder |"
+    ],
+    "image": "/api/images/magic-items/armor-of-resistance.png",
+    "url": "/api/2014/magic-items/armor-of-resistance"
+  },
+  {
+    "index": "armor-of-vulnerability",
+    "name": "Armor of Vulnerability",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Armor (plate), rare (requires attunement)",
+      "While wearing this armor, you have resistance to  one of the following damage types: bludgeoning, piercing, or slashing. The GM chooses the type or determines it randomly.",
+      "***Curse.*** This armor is cursed, a fact that is revealed only when an identify spell is cast on the armor or you attune to it. Attuning to the armor curses you until you are targeted by the remove curse spell or similar magic; removing the armor fails to end the curse. While cursed, you have vulnerability to two of the three damage types associated with the armor (not the one to which it grants resistance)."
+    ],
+    "image": "/api/images/magic-items/armor-of-vulnerability.png",
+    "url": "/api/2014/magic-items/armor-of-vulnerability"
+  },
+  {
+    "index": "demon-armor",
+    "name": "Demon Armor",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Armor (plate), very rare (requires attunement)",
+      "While wearing this armor, you gain a +1 bonus to AC, and you can understand and speak Abyssal. In addition, the armor's clawed gauntlets turn unarmed strikes with your hands into magic weapons that deal slashing damage, with a +1 bonus to attack rolls and damage rolls and a damage die of 1d8.",
+      "***Curse.*** Once you don this cursed armor, you can't doff it unless you are targeted by the remove curse spell or similar magic. While wearing the armor, you have disadvantage on attack rolls against demons and on saving throws against their spells and special abilities."
+    ],
+    "image": "/api/images/magic-items/demon-armor.png",
+    "url": "/api/2014/magic-items/demon-armor"
+  },
+  {
+    "index": "dragon-scale-mail",
+    "name": "Dragon Scale Mail",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [
+      {
+        "index": "dragon-scale-mail-black",
+        "name": "Black Dragon Scale Mail",
+        "url": "/api/2014/magic-items/dragon-scale-mail-black"
+      },
+      {
+        "index": "dragon-scale-mail-blue",
+        "name": "Blue Dragon Scale Mail",
+        "url": "/api/2014/magic-items/dragon-scale-mail-blue"
+      },
+      {
+        "index": "dragon-scale-mail-brass",
+        "name": "Brass Dragon Scale Mail",
+        "url": "/api/2014/magic-items/dragon-scale-mail-brass"
+      },
+      {
+        "index": "dragon-scale-mail-bronze",
+        "name": "Bronze Dragon Scale Mail",
+        "url": "/api/2014/magic-items/dragon-scale-mail-bronze"
+      },
+      {
+        "index": "dragon-scale-mail-copper",
+        "name": "Copper Dragon Scale Mail",
+        "url": "/api/2014/magic-items/dragon-scale-mail-copper"
+      },
+      {
+        "index": "dragon-scale-mail-gold",
+        "name": "Gold Dragon Scale Mail",
+        "url": "/api/2014/magic-items/dragon-scale-mail-gold"
+      },
+      {
+        "index": "dragon-scale-mail-green",
+        "name": "Green Dragon Scale Mail",
+        "url": "/api/2014/magic-items/dragon-scale-mail-green"
+      },
+      {
+        "index": "dragon-scale-mail-red",
+        "name": "Red Dragon Scale Mail",
+        "url": "/api/2014/magic-items/dragon-scale-mail-red"
+      },
+      {
+        "index": "dragon-scale-mail-silver",
+        "name": "Silver Dragon Scale Mail",
+        "url": "/api/2014/magic-items/dragon-scale-mail-silver"
+      },
+      {
+        "index": "dragon-scale-mail-white",
+        "name": "White Dragon Scale Mail",
+        "url": "/api/2014/magic-items/dragon-scale-mail-white"
+      }
+    ],
+    "variant": false,
+    "desc": [
+      "Armor (scale mail), very rare (requires attunement)",
+      "Dragon scale mail is made of the scales of one kind of dragon. Sometimes dragons collect their cast-off scales and gift them to humanoids. Other times, hunters carefully skin and preserve the hide of a dead dragon. In either case, dragon scale mail is highly valued.",
+      "While wearing this armor, you gain a +1 bonus to AC, you have advantage on saving throws against the Frightful Presence and breath weapons of dragons, and you have resistance to one damage type that is determined by the kind of dragon that provided the scales (see the table).",
+      "Additionally, you can focus your senses as an action to magically discern the distance and direction to the closest dragon within 30 miles of you that is of the same type as the armor. This special action can't be used again until the next dawn.",
+      "| Dragon | Resistance |",
+      "|---|---|",
+      "| Black | Acid |",
+      "| Blue | Lightning |",
+      "| Brass | Fire |",
+      "| Bronze | Lightning |",
+      "| Copper | Acid |",
+      "| Gold | Fire |",
+      "| Green | Poison |",
+      "| Red | Fire |",
+      "| Silver | Cold |",
+      "| White | Cold |"
+    ],
+    "image": "/api/images/magic-items/dragon-scale-mail.png",
+    "url": "/api/2014/magic-items/dragon-scale-mail"
+  },
+  {
+    "index": "dragon-scale-mail-black",
+    "name": "Black Dragon Scale Mail",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Armor (scale mail), very rare (requires attunement)",
+      "Dragon scale mail is made of the scales of a black dragon. Sometimes dragons collect their cast-off scales and gift them to humanoids. Other times, hunters carefully skin and preserve the hide of a dead dragon. In either case, dragon scale mail is highly valued.",
+      "While wearing this armor, you gain a +1 bonus to AC, you have advantage on saving throws against the Frightful Presence and breath weapons of dragons, and you have resistance to acid damage.",
+      "Additionally, you can focus your senses as an action to magically discern the distance and direction to the closest black dragon within 30 miles of you. This special action can't be used again until the next dawn."
+    ],
+    "image": "/api/images/magic-items/dragon-scale-mail-black.png",
+    "url": "/api/2014/magic-items/dragon-scale-mail-black"
+  },
+  {
+    "index": "dragon-scale-mail-blue",
+    "name": "Blue Dragon Scale Mail",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Armor (scale mail), very rare (requires attunement)",
+      "Dragon scale mail is made of the scales of a blue dragon. Sometimes dragons collect their cast-off scales and gift them to humanoids. Other times, hunters carefully skin and preserve the hide of a dead dragon. In either case, dragon scale mail is highly valued.",
+      "While wearing this armor, you gain a +1 bonus to AC, you have advantage on saving throws against the Frightful Presence and breath weapons of dragons, and you have resistance to lightning damage.",
+      "Additionally, you can focus your senses as an action to magically discern the distance and direction to the closest blue dragon within 30 miles of you. This special action can't be used again until the next dawn."
+    ],
+    "image": "/api/images/magic-items/dragon-scale-mail-blue.png",
+    "url": "/api/2014/magic-items/dragon-scale-mail-blue"
+  },
+  {
+    "index": "dragon-scale-mail-brass",
+    "name": "Brass Dragon Scale Mail",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Armor (scale mail), very rare (requires attunement)",
+      "Dragon scale mail is made of the scales of a brass dragon. Sometimes dragons collect their cast-off scales and gift them to humanoids. Other times, hunters carefully skin and preserve the hide of a dead dragon. In either case, dragon scale mail is highly valued.",
+      "While wearing this armor, you gain a +1 bonus to AC, you have advantage on saving throws against the Frightful Presence and breath weapons of dragons, and you have resistance to fire damage.",
+      "Additionally, you can focus your senses as an action to magically discern the distance and direction to the closest brass dragon within 30 miles of you. This special action can't be used again until the next dawn."
+    ],
+    "image": "/api/images/magic-items/dragon-scale-mail-brass.png",
+    "url": "/api/2014/magic-items/dragon-scale-mail-brass"
+  },
+  {
+    "index": "dragon-scale-mail-bronze",
+    "name": "Bronze Dragon Scale Mail",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Armor (scale mail), very rare (requires attunement)",
+      "Dragon scale mail is made of the scales of a bronze dragon. Sometimes dragons collect their cast-off scales and gift them to humanoids. Other times, hunters carefully skin and preserve the hide of a dead dragon. In either case, dragon scale mail is highly valued.",
+      "While wearing this armor, you gain a +1 bonus to AC, you have advantage on saving throws against the Frightful Presence and breath weapons of dragons, and you have resistance to lightning damage.",
+      "Additionally, you can focus your senses as an action to magically discern the distance and direction to the closest bronze dragon within 30 miles of you. This special action can't be used again until the next dawn."
+    ],
+    "image": "/api/images/magic-items/dragon-scale-mail-bronze.png",
+    "url": "/api/2014/magic-items/dragon-scale-mail-bronze"
+  },
+  {
+    "index": "dragon-scale-mail-copper",
+    "name": "Copper Dragon Scale Mail",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Armor (scale mail), very rare (requires attunement)",
+      "Dragon scale mail is made of the scales of a copper dragon. Sometimes dragons collect their cast-off scales and gift them to humanoids. Other times, hunters carefully skin and preserve the hide of a dead dragon. In either case, dragon scale mail is highly valued.",
+      "While wearing this armor, you gain a +1 bonus to AC, you have advantage on saving throws against the Frightful Presence and breath weapons of dragons, and you have resistance to acid damage.",
+      "Additionally, you can focus your senses as an action to magically discern the distance and direction to the closest copper dragon within 30 miles of you. This special action can't be used again until the next dawn."
+    ],
+    "image": "/api/images/magic-items/dragon-scale-mail-copper.png",
+    "url": "/api/2014/magic-items/dragon-scale-mail-copper"
+  },
+  {
+    "index": "dragon-scale-mail-gold",
+    "name": "Gold Dragon Scale Mail",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Armor (scale mail), very rare (requires attunement)",
+      "Dragon scale mail is made of the scales of a gold dragon. Sometimes dragons collect their cast-off scales and gift them to humanoids. Other times, hunters carefully skin and preserve the hide of a dead dragon. In either case, dragon scale mail is highly valued.",
+      "While wearing this armor, you gain a +1 bonus to AC, you have advantage on saving throws against the Frightful Presence and breath weapons of dragons, and you have resistance to fire damage.",
+      "Additionally, you can focus your senses as an action to magically discern the distance and direction to the closest gold dragon within 30 miles of you. This special action can't be used again until the next dawn."
+    ],
+    "image": "/api/images/magic-items/dragon-scale-mail-gold.png",
+    "url": "/api/2014/magic-items/dragon-scale-mail-gold"
+  },
+  {
+    "index": "dragon-scale-mail-green",
+    "name": "Green Dragon Scale Mail",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Armor (scale mail), very rare (requires attunement)",
+      "Dragon scale mail is made of the scales of a green dragon. Sometimes dragons collect their cast-off scales and gift them to humanoids. Other times, hunters carefully skin and preserve the hide of a dead dragon. In either case, dragon scale mail is highly valued.",
+      "While wearing this armor, you gain a +1 bonus to AC, you have advantage on saving throws against the Frightful Presence and breath weapons of dragons, and you have resistance to poison damage.",
+      "Additionally, you can focus your senses as an action to magically discern the distance and direction to the closest green dragon within 30 miles of you. This special action can't be used again until the next dawn."
+    ],
+    "image": "/api/images/magic-items/dragon-scale-mail-green.png",
+    "url": "/api/2014/magic-items/dragon-scale-mail-green"
+  },
+  {
+    "index": "dragon-scale-mail-red",
+    "name": "Red Dragon Scale Mail",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Armor (scale mail), very rare (requires attunement)",
+      "Dragon scale mail is made of the scales of a red dragon. Sometimes dragons collect their cast-off scales and gift them to humanoids. Other times, hunters carefully skin and preserve the hide of a dead dragon. In either case, dragon scale mail is highly valued.",
+      "While wearing this armor, you gain a +1 bonus to AC, you have advantage on saving throws against the Frightful Presence and breath weapons of dragons, and you have resistance to fire damage.",
+      "Additionally, you can focus your senses as an action to magically discern the distance and direction to the closest red dragon within 30 miles of you. This special action can't be used again until the next dawn."
+    ],
+    "image": "/api/images/magic-items/dragon-scale-mail-red.png",
+    "url": "/api/2014/magic-items/dragon-scale-mail-red"
+  },
+  {
+    "index": "dragon-scale-mail-silver",
+    "name": "Silver Dragon Scale Mail",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Armor (scale mail), very rare (requires attunement)",
+      "Dragon scale mail is made of the scales of a silver dragon. Sometimes dragons collect their cast-off scales and gift them to humanoids. Other times, hunters carefully skin and preserve the hide of a dead dragon. In either case, dragon scale mail is highly valued.",
+      "While wearing this armor, you gain a +1 bonus to AC, you have advantage on saving throws against the Frightful Presence and breath weapons of dragons, and you have resistance to cold damage.",
+      "Additionally, you can focus your senses as an action to magically discern the distance and direction to the closest silver dragon within 30 miles of you. This special action can't be used again until the next dawn."
+    ],
+    "image": "/api/images/magic-items/dragon-scale-mail-silver.png",
+    "url": "/api/2014/magic-items/dragon-scale-mail-silver"
+  },
+  {
+    "index": "dragon-scale-mail-white",
+    "name": "White Dragon Scale Mail",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Armor (scale mail), very rare (requires attunement)",
+      "Dragon scale mail is made of the scales of a white dragon. Sometimes dragons collect their cast-off scales and gift them to humanoids. Other times, hunters carefully skin and preserve the hide of a dead dragon. In either case, dragon scale mail is highly valued.",
+      "While wearing this armor, you gain a +1 bonus to AC, you have advantage on saving throws against the Frightful Presence and breath weapons of dragons, and you have resistance to cold damage.",
+      "Additionally, you can focus your senses as an action to magically discern the distance and direction to the closest white dragon within 30 miles of you. This special action can't be used again until the next dawn."
+    ],
+    "image": "/api/images/magic-items/dragon-scale-mail-white.png",
+    "url": "/api/2014/magic-items/dragon-scale-mail-white"
+  },
+  {
+    "index": "dwarven-plate",
+    "name": "Dwarven Plate",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Armor (plate), very rare",
+      "While wearing this armor, you gain a +2 bonus to AC. In addition, if an effect moves you against your will along the ground, you can use your reaction to reduce the distance you are moved by up to 10 feet."
+    ],
+    "image": "/api/images/magic-items/dwarven-plate.png",
+    "url": "/api/2014/magic-items/dwarven-plate"
+  },
+  {
+    "index": "elven-chain",
+    "name": "Elven Chain",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Armor (chain shirt), rare",
+      "You gain a +1 bonus to AC while you wear this armor. You are considered proficient with this armor even if you lack proficiency with medium armor."
+    ],
+    "url": "/api/2014/magic-items/elven-chain"
+  },
+  {
+    "index": "glamoured-studded-leather-armor",
+    "name": "Glamoured Studded Leather Armor",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Armor (studded leather), rare",
+      "While wearing this armor, you gain a +1 bonus to AC. You can also use a bonus action to speak the armor's command word and cause the armor to assume the appearance of a normal set of clothing or some other kind of armor. You decide what it looks like, including color, style, and accessories, but the armor retains its normal bulk and weight. The illusory appearance lasts until you use this property again or remove the armor."
+    ],
+    "url": "/api/2014/magic-items/glamoured-studded-leather-armor"
+  },
+  {
+    "index": "mithral-armor",
+    "name": "Mithral Armor",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Armor (medium or heavy), uncommon",
+      "Mithral is a light, flexible metal. A mithral chain shirt or breastplate can be worn under normal clothes. If the armor normally imposes disadvantage on Dexterity (Stealth) checks or has a Strength requirement, the mithral version of the armor doesn't."
+    ],
+    "url": "/api/2014/magic-items/mithral-armor"
+  },
+  {
+    "index": "plate-armor-of-etherealness",
+    "name": "Plate Armor of Etherealness",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Armor (plate), legendary (requires attunement)",
+      "While you're wearing this armor, you can speak its command word as an action to gain the effect of the etherealness spell, which last for 10 minutes or until you remove the armor or use an action to speak the command word again. This property of the armor can't be used again until the next dawn."
+    ],
+    "url": "/api/2014/magic-items/plate-armor-of-etherealness"
+  }
+]

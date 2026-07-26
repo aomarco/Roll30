@@ -1,0 +1,599 @@
+[
+  {
+    "index": "ioun-stone-of-mastery",
+    "name": "Ioun Stone of Mastery",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, legendary (requires attunement)",
+      "An Ioun stone is named after Ioun, a god of knowledge and prophecy revered on some worlds. Many types of Ioun stone exist, each type a distinct combination of shape and color.",
+      "When you use an action to toss one of these stones into the air, the stone orbits your head at a distance of 1d3 feet and confers a benefit to you. Thereafter, another creature must use an action to grasp or net the stone to separate it from you, either by making a successful attack roll against AC 24 or a successful DC 24 Dexterity (Acrobatics) check. You can use an action to seize and stow the stone, ending its effect.",
+      "A stone has AC 24, 10 hit points, and resistance to all damage. It is considered to be an object that is being worn while it orbits your head.",
+      "***Mastery.*** Your proficiency bonus increases by 1 while this pale green prism orbits your head."
+    ],
+    "url": "/api/2014/magic-items/ioun-stone-of-mastery"
+  },
+  {
+    "index": "ioun-stone-of-reserve",
+    "name": "Ioun Stone of Reserve",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, rare (requires attunement)",
+      "An Ioun stone is named after Ioun, a god of knowledge and prophecy revered on some worlds. Many types of Ioun stone exist, each type a distinct combination of shape and color.",
+      "When you use an action to toss one of these stones into the air, the stone orbits your head at a distance of 1d3 feet and confers a benefit to you. Thereafter, another creature must use an action to grasp or net the stone to separate it from you, either by making a successful attack roll against AC 24 or a successful DC 24 Dexterity (Acrobatics) check. You can use an action to seize and stow the stone, ending its effect.",
+      "A stone has AC 24, 10 hit points, and resistance to all damage. It is considered to be an object that is being worn while it orbits your head.",
+      "***Reserve.*** This vibrant purple prism stores spells cast into it, holding them until you use them. The stone can store up to 3 levels worth of spells at a time. When found, it contains 1d4 - 1 levels of stored spells chosen by the GM.",
+      "Any creature can cast a spell of 1st through 3rd level into the stone by touching it as the spell is cast. The spell has no effect, other than to be stored in the stone. If the stone can't hold the spell, the spell is expended without effect. The level of the slot used to cast the spell determines how much space it uses.",
+      "While this stone orbits your head, you can cast any spell stored in it. The spell uses the slot level, spell save DC, spell attack bonus, and spellcasting ability of the original caster, but is otherwise treated as if you cast the spell. The spell cast from the stone is no longer stored in it, freeing up space."
+    ],
+    "url": "/api/2014/magic-items/ioun-stone-of-reserve"
+  },
+  {
+    "index": "pearl-of-power",
+    "name": "Pearl of Power",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, uncommon (requires attunement by a spellcaster)",
+      "While this pearl is on your person, you can use an action to speak its command word and regain one expended spell slot. If the expended slot was of 4th level or higher, the new slot is 3rd level. Once you use the pearl, it can't be used again until the next dawn."
+    ],
+    "url": "/api/2014/magic-items/pearl-of-power"
+  },
+  {
+    "index": "ring-of-spell-storing",
+    "name": "Ring of Spell Storing",
+    "equipment_category": {
+      "index": "ring",
+      "name": "Ring",
+      "url": "/api/2014/equipment-categories/ring"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Ring, rare (requires attunement)",
+      "This ring stores spells cast into it, holding them until the attuned wearer uses them. The ring can store up to 5 levels worth of spells at a time. When found, it contains 1d6 - 1 levels of stored spells chosen by the GM.",
+      "Any creature can cast a spell of 1st through 5th level into the ring by touching the ring as the spell is cast. The spell has no effect, other than to be stored in the ring. If the ring can't hold the spell, the spell is expended without effect. The level of the slot used to cast the spell determines how much space it uses.",
+      "While wearing this ring, you can cast any spell stored in it. The spell uses the slot level, spell save DC, spell attack bonus, and spellcasting ability of the original caster, but is otherwise treated as if you cast the spell. The spell cast from the ring is no longer stored in it, freeing up space."
+    ],
+    "url": "/api/2014/magic-items/ring-of-spell-storing"
+  },
+  {
+    "index": "robe-of-the-archmagi",
+    "name": "Robe of the Archmagi",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, legendary (requires attunement by a sorcerer, warlock, or wizard)",
+      "This elegant garment is made from exquisite cloth of white, gray, or black and adorned with silvery runes. The robe's color corresponds to the alignment for which the item was created. A white robe was made for good, gray for neutral, and black for evil. You can't attune to a robe of the archmagi that doesn't correspond to your alignment.",
+      "You gain these benefits while wearing the robe:",
+      "If you aren't wearing armor, your base Armor Class is 15 + your Dexterity modifier.",
+      "You have advantage on saving throws against spells and other magical effects.",
+      "Your spell save DC and spell attack bonus each increase by 2."
+    ],
+    "url": "/api/2014/magic-items/robe-of-the-archmagi"
+  },
+  {
+    "index": "spell-scroll",
+    "name": "Spell Scroll",
+    "equipment_category": {
+      "index": "scroll",
+      "name": "Scroll",
+      "url": "/api/2014/equipment-categories/scroll"
+    },
+    "rarity": {
+      "name": "Varies"
+    },
+    "variants": [
+      {
+        "index": "spell-scroll-cantrip",
+        "name": "Spell Scroll (Cantrip)",
+        "url": "/api/2014/magic-items/spell-scroll-cantrip"
+      },
+      {
+        "index": "spell-scroll-1st",
+        "name": "Spell Scroll (1st)",
+        "url": "/api/2014/magic-items/spell-scroll-1st"
+      },
+      {
+        "index": "spell-scroll-2nd",
+        "name": "Spell Scroll (2nd)",
+        "url": "/api/2014/magic-items/spell-scroll-2nd"
+      },
+      {
+        "index": "spell-scroll-3rd",
+        "name": "Spell Scroll (3rd)",
+        "url": "/api/2014/magic-items/spell-scroll-3rd"
+      },
+      {
+        "index": "spell-scroll-4th",
+        "name": "Spell Scroll (4th)",
+        "url": "/api/2014/magic-items/spell-scroll-4th"
+      },
+      {
+        "index": "spell-scroll-5th",
+        "name": "Spell Scroll (5th)",
+        "url": "/api/2014/magic-items/spell-scroll-5th"
+      },
+      {
+        "index": "spell-scroll-6th",
+        "name": "Spell Scroll (6th)",
+        "url": "/api/2014/magic-items/spell-scroll-6th"
+      },
+      {
+        "index": "spell-scroll-7th",
+        "name": "Spell Scroll (7th)",
+        "url": "/api/2014/magic-items/spell-scroll-7th"
+      },
+      {
+        "index": "spell-scroll-8th",
+        "name": "Spell Scroll (8th)",
+        "url": "/api/2014/magic-items/spell-scroll-8th"
+      },
+      {
+        "index": "spell-scroll-9th",
+        "name": "Spell Scroll (9th)",
+        "url": "/api/2014/magic-items/spell-scroll-9th"
+      }
+    ],
+    "variant": false,
+    "desc": [
+      "Scroll, varies",
+      "A spell scroll bears the words of a single spell, written in a mystical cipher. If the spell is on your class's spell list, you can read the scroll and cast its spell without providing any material components. Otherwise, the scroll is unintelligible. Casting the spell by reading the scroll requires the spell's normal casting time. Once the spell is cast, the words on the scroll fade, and it crumbles to dust. If the casting is uninterrupted, the scroll is not lost.",
+      "If the spell is on your class's spell list but of a higher level than you can normally cast, you must make an ability check using your spellcasting ability to determine whether you cast it successfully. The DC equals 10 + the spell's level. On a failed check, the spell disappears from the scroll with no other effect.",
+      "The level of the spell on the scroll determines the spell's saving throw DC and attack bonus, as well as the scroll's rarity, as shown in the Spell Scroll table.",
+      "Spell Scroll (table)",
+      "| Spell Level | Rarity | Save DC | Attack Bonus |",
+      "|---|---|---|---|",
+      "| Cantrip | Common | 13 | +5 |",
+      "| 1st | Common | 13 | +5 |",
+      "| 2nd | Uncommon | 13 | +5 |",
+      "| 3rd | Uncommon | 15 | +7 |",
+      "| 4th | Rare | 15 | +7 |",
+      "| 5th | Rare | 17 | +9 |",
+      "| 6th | Very rare | 17 | +9 |",
+      "| 7th | Very rare | 18 | +10 |",
+      "| 8th | Very rare | 18 | +10 |",
+      "| 9th | Legendary | 19 | +11 |",
+      "A wizard spell on a spell scroll can be copied just as spells in spellbooks can be copied. When a spell is copied from a spell scroll, the copier must succeed on an Intelligence (Arcana) check with a DC equal to 10 + the spell's level. If the check succeeds, the spell is successfully copied. Whether the check succeeds or fails, the spell scroll is destroyed."
+    ],
+    "url": "/api/2014/magic-items/spell-scroll"
+  },
+  {
+    "index": "spell-scroll-cantrip",
+    "name": "Spell Scroll (Cantrip)",
+    "equipment_category": {
+      "index": "scroll",
+      "name": "Scroll",
+      "url": "/api/2014/equipment-categories/scroll"
+    },
+    "rarity": {
+      "name": "Common"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Scroll, common",
+      "A spell scroll bears the words of a single spell, written in a mystical cipher. If the spell is on your class's spell list, you can read the scroll and cast its spell without providing any material components. Otherwise, the scroll is unintelligible. Casting the spell by reading the scroll requires the spell's normal casting time. Once the spell is cast, the words on the scroll fade, and it crumbles to dust. If the casting is uninterrupted, the scroll is not lost.",
+      "If the spell is on your class's spell list but of a higher level than you can normally cast, you must make an ability check using your spellcasting ability to determine whether you cast it successfully. The DC equals 10 + the spell's level. On a failed check, the spell disappears from the scroll with no other effect.",
+      "This scroll contains a cantrip. The spell's saving throw is 13 and the attack bonus is +5."
+    ],
+    "url": "/api/2014/magic-items/spell-scroll-cantrip"
+  },
+  {
+    "index": "spell-scroll-1st",
+    "name": "Spell Scroll (1st)",
+    "equipment_category": {
+      "index": "scroll",
+      "name": "Scroll",
+      "url": "/api/2014/equipment-categories/scroll"
+    },
+    "rarity": {
+      "name": "Common"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Scroll, common",
+      "A spell scroll bears the words of a single spell, written in a mystical cipher. If the spell is on your class's spell list, you can read the scroll and cast its spell without providing any material components. Otherwise, the scroll is unintelligible. Casting the spell by reading the scroll requires the spell's normal casting time. Once the spell is cast, the words on the scroll fade, and it crumbles to dust. If the casting is uninterrupted, the scroll is not lost.",
+      "If the spell is on your class's spell list but of a higher level than you can normally cast, you must make an ability check using your spellcasting ability to determine whether you cast it successfully. The DC equals 10 + the spell's level. On a failed check, the spell disappears from the scroll with no other effect.",
+      "This scroll contains a 1st level spell. The spell's saving throw is 13 and the attack bonus is +5.",
+      "A wizard spell on a spell scroll can be copied just as spells in spellbooks can be copied. When a spell is copied from a spell scroll, the copier must succeed on an Intelligence (Arcana) check with a DC equal to 11. If the check succeeds, the spell is successfully copied. Whether the check succeeds or fails, the spell scroll is destroyed."
+    ],
+    "url": "/api/2014/magic-items/spell-scroll-1st"
+  },
+  {
+    "index": "spell-scroll-2nd",
+    "name": "Spell Scroll (2nd)",
+    "equipment_category": {
+      "index": "scroll",
+      "name": "Scroll",
+      "url": "/api/2014/equipment-categories/scroll"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Scroll, uncommon",
+      "A spell scroll bears the words of a single spell, written in a mystical cipher. If the spell is on your class's spell list, you can read the scroll and cast its spell without providing any material components. Otherwise, the scroll is unintelligible. Casting the spell by reading the scroll requires the spell's normal casting time. Once the spell is cast, the words on the scroll fade, and it crumbles to dust. If the casting is uninterrupted, the scroll is not lost.",
+      "If the spell is on your class's spell list but of a higher level than you can normally cast, you must make an ability check using your spellcasting ability to determine whether you cast it successfully. The DC equals 10 + the spell's level. On a failed check, the spell disappears from the scroll with no other effect.",
+      "This scroll contains a 2nd level spell. The spell's saving throw is 13 and the attack bonus is +5.",
+      "A wizard spell on a spell scroll can be copied just as spells in spellbooks can be copied. When a spell is copied from a spell scroll, the copier must succeed on an Intelligence (Arcana) check with a DC equal to 12. If the check succeeds, the spell is successfully copied. Whether the check succeeds or fails, the spell scroll is destroyed."
+    ],
+    "url": "/api/2014/magic-items/spell-scroll-2nd"
+  },
+  {
+    "index": "spell-scroll-3rd",
+    "name": "Spell Scroll (3rd)",
+    "equipment_category": {
+      "index": "scroll",
+      "name": "Scroll",
+      "url": "/api/2014/equipment-categories/scroll"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Scroll, uncommon",
+      "A spell scroll bears the words of a single spell, written in a mystical cipher. If the spell is on your class's spell list, you can read the scroll and cast its spell without providing any material components. Otherwise, the scroll is unintelligible. Casting the spell by reading the scroll requires the spell's normal casting time. Once the spell is cast, the words on the scroll fade, and it crumbles to dust. If the casting is uninterrupted, the scroll is not lost.",
+      "If the spell is on your class's spell list but of a higher level than you can normally cast, you must make an ability check using your spellcasting ability to determine whether you cast it successfully. The DC equals 10 + the spell's level. On a failed check, the spell disappears from the scroll with no other effect.",
+      "This scroll contains a 3rd level spell. The spell's saving throw is 15 and the attack bonus is +7.",
+      "A wizard spell on a spell scroll can be copied just as spells in spellbooks can be copied. When a spell is copied from a spell scroll, the copier must succeed on an Intelligence (Arcana) check with a DC equal to 13. If the check succeeds, the spell is successfully copied. Whether the check succeeds or fails, the spell scroll is destroyed."
+    ],
+    "url": "/api/2014/magic-items/spell-scroll-3rd"
+  },
+  {
+    "index": "spell-scroll-4th",
+    "name": "Spell Scroll (4th)",
+    "equipment_category": {
+      "index": "scroll",
+      "name": "Scroll",
+      "url": "/api/2014/equipment-categories/scroll"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Scroll, rare",
+      "A spell scroll bears the words of a single spell, written in a mystical cipher. If the spell is on your class's spell list, you can read the scroll and cast its spell without providing any material components. Otherwise, the scroll is unintelligible. Casting the spell by reading the scroll requires the spell's normal casting time. Once the spell is cast, the words on the scroll fade, and it crumbles to dust. If the casting is uninterrupted, the scroll is not lost.",
+      "If the spell is on your class's spell list but of a higher level than you can normally cast, you must make an ability check using your spellcasting ability to determine whether you cast it successfully. The DC equals 10 + the spell's level. On a failed check, the spell disappears from the scroll with no other effect.",
+      "This scroll contains a 4th level spell. The spell's saving throw is 15 and the attack bonus is +7.",
+      "A wizard spell on a spell scroll can be copied just as spells in spellbooks can be copied. When a spell is copied from a spell scroll, the copier must succeed on an Intelligence (Arcana) check with a DC equal to 14. If the check succeeds, the spell is successfully copied. Whether the check succeeds or fails, the spell scroll is destroyed."
+    ],
+    "url": "/api/2014/magic-items/spell-scroll-4th"
+  },
+  {
+    "index": "spell-scroll-5th",
+    "name": "Spell Scroll (5th)",
+    "equipment_category": {
+      "index": "scroll",
+      "name": "Scroll",
+      "url": "/api/2014/equipment-categories/scroll"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Scroll, rare",
+      "A spell scroll bears the words of a single spell, written in a mystical cipher. If the spell is on your class's spell list, you can read the scroll and cast its spell without providing any material components. Otherwise, the scroll is unintelligible. Casting the spell by reading the scroll requires the spell's normal casting time. Once the spell is cast, the words on the scroll fade, and it crumbles to dust. If the casting is uninterrupted, the scroll is not lost.",
+      "If the spell is on your class's spell list but of a higher level than you can normally cast, you must make an ability check using your spellcasting ability to determine whether you cast it successfully. The DC equals 10 + the spell's level. On a failed check, the spell disappears from the scroll with no other effect.",
+      "This scroll contains a 5th level spell. The spell's saving throw is 17 and the attack bonus is +9.",
+      "A wizard spell on a spell scroll can be copied just as spells in spellbooks can be copied. When a spell is copied from a spell scroll, the copier must succeed on an Intelligence (Arcana) check with a DC equal to 15. If the check succeeds, the spell is successfully copied. Whether the check succeeds or fails, the spell scroll is destroyed."
+    ],
+    "url": "/api/2014/magic-items/spell-scroll-5th"
+  },
+  {
+    "index": "spell-scroll-6th",
+    "name": "Spell Scroll (6th)",
+    "equipment_category": {
+      "index": "scroll",
+      "name": "Scroll",
+      "url": "/api/2014/equipment-categories/scroll"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Scroll, very rare",
+      "A spell scroll bears the words of a single spell, written in a mystical cipher. If the spell is on your class's spell list, you can read the scroll and cast its spell without providing any material components. Otherwise, the scroll is unintelligible. Casting the spell by reading the scroll requires the spell's normal casting time. Once the spell is cast, the words on the scroll fade, and it crumbles to dust. If the casting is uninterrupted, the scroll is not lost.",
+      "If the spell is on your class's spell list but of a higher level than you can normally cast, you must make an ability check using your spellcasting ability to determine whether you cast it successfully. The DC equals 10 + the spell's level. On a failed check, the spell disappears from the scroll with no other effect.",
+      "This scroll contains a 6th level spell. The spell's saving throw is 18 and the attack bonus is +10.",
+      "A wizard spell on a spell scroll can be copied just as spells in spellbooks can be copied. When a spell is copied from a spell scroll, the copier must succeed on an Intelligence (Arcana) check with a DC equal to 16. If the check succeeds, the spell is successfully copied. Whether the check succeeds or fails, the spell scroll is destroyed."
+    ],
+    "url": "/api/2014/magic-items/spell-scroll-6th"
+  },
+  {
+    "index": "spell-scroll-7th",
+    "name": "Spell Scroll (7th)",
+    "equipment_category": {
+      "index": "scroll",
+      "name": "Scroll",
+      "url": "/api/2014/equipment-categories/scroll"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Scroll, very rare",
+      "A spell scroll bears the words of a single spell, written in a mystical cipher. If the spell is on your class's spell list, you can read the scroll and cast its spell without providing any material components. Otherwise, the scroll is unintelligible. Casting the spell by reading the scroll requires the spell's normal casting time. Once the spell is cast, the words on the scroll fade, and it crumbles to dust. If the casting is uninterrupted, the scroll is not lost.",
+      "If the spell is on your class's spell list but of a higher level than you can normally cast, you must make an ability check using your spellcasting ability to determine whether you cast it successfully. The DC equals 10 + the spell's level. On a failed check, the spell disappears from the scroll with no other effect.",
+      "This scroll contains a 7th level spell. The spell's saving throw is 18 and the attack bonus is +10.",
+      "A wizard spell on a spell scroll can be copied just as spells in spellbooks can be copied. When a spell is copied from a spell scroll, the copier must succeed on an Intelligence (Arcana) check with a DC equal to 17. If the check succeeds, the spell is successfully copied. Whether the check succeeds or fails, the spell scroll is destroyed."
+    ],
+    "url": "/api/2014/magic-items/spell-scroll-7th"
+  },
+  {
+    "index": "spell-scroll-8th",
+    "name": "Spell Scroll (8th)",
+    "equipment_category": {
+      "index": "scroll",
+      "name": "Scroll",
+      "url": "/api/2014/equipment-categories/scroll"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Scroll, very rare",
+      "A spell scroll bears the words of a single spell, written in a mystical cipher. If the spell is on your class's spell list, you can read the scroll and cast its spell without providing any material components. Otherwise, the scroll is unintelligible. Casting the spell by reading the scroll requires the spell's normal casting time. Once the spell is cast, the words on the scroll fade, and it crumbles to dust. If the casting is uninterrupted, the scroll is not lost.",
+      "If the spell is on your class's spell list but of a higher level than you can normally cast, you must make an ability check using your spellcasting ability to determine whether you cast it successfully. The DC equals 10 + the spell's level. On a failed check, the spell disappears from the scroll with no other effect.",
+      "This scroll contains an 8th level spell. The spell's saving throw is 18 and the attack bonus is +10.",
+      "A wizard spell on a spell scroll can be copied just as spells in spellbooks can be copied. When a spell is copied from a spell scroll, the copier must succeed on an Intelligence (Arcana) check with a DC equal to 18. If the check succeeds, the spell is successfully copied. Whether the check succeeds or fails, the spell scroll is destroyed."
+    ],
+    "url": "/api/2014/magic-items/spell-scroll-8th"
+  },
+  {
+    "index": "spell-scroll-9th",
+    "name": "Spell Scroll (9th)",
+    "equipment_category": {
+      "index": "scroll",
+      "name": "Scroll",
+      "url": "/api/2014/equipment-categories/scroll"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Scroll, legendary",
+      "A spell scroll bears the words of a single spell, written in a mystical cipher. If the spell is on your class's spell list, you can read the scroll and cast its spell without providing any material components. Otherwise, the scroll is unintelligible. Casting the spell by reading the scroll requires the spell's normal casting time. Once the spell is cast, the words on the scroll fade, and it crumbles to dust. If the casting is uninterrupted, the scroll is not lost.",
+      "If the spell is on your class's spell list but of a higher level than you can normally cast, you must make an ability check using your spellcasting ability to determine whether you cast it successfully. The DC equals 10 + the spell's level. On a failed check, the spell disappears from the scroll with no other effect.",
+      "This scroll contains a 9th level spell. The spell's saving throw is 19 and the attack bonus is +11.",
+      "A wizard spell on a spell scroll can be copied just as spells in spellbooks can be copied. When a spell is copied from a spell scroll, the copier must succeed on an Intelligence (Arcana) check with a DC equal to 19. If the check succeeds, the spell is successfully copied. Whether the check succeeds or fails, the spell scroll is destroyed."
+    ],
+    "url": "/api/2014/magic-items/spell-scroll-9th"
+  },
+  {
+    "index": "staff-of-power",
+    "name": "Staff of Power",
+    "equipment_category": {
+      "index": "staff",
+      "name": "Staff",
+      "url": "/api/2014/equipment-categories/staff"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Staff, very rare (requires attunement by a sorcerer, warlock, or wizard)",
+      "This staff can be wielded as a magic quarterstaff that grants a +2 bonus to attack and damage rolls made with it. While holding it, you gain a +2 bonus to Armor Class, saving throws, and spell attack rolls.",
+      "The staff has 20 charges for the following properties. The staff regains 2d8 + 4 expended charges daily at dawn. If you expend the last charge, roll a d20. On a 1, the staff retains its +2 bonus to attack and damage rolls but loses all other properties. On a 20, the staff regains 1d8 + 2 charges.",
+      "***Power Strike.*** When you hit with a melee attack using the staff, you can expend 1 charge to deal an extra 1d6 force damage to the target.",
+      "***Spells.*** While holding this staff, you can use an action to expend 1 or more of its charges to cast one of the following spells from it, using your spell save DC and spell attack bonus: cone of cold (5 charges), fireball (5th-level version, 5 charges), globe of invulnerability (6 charges), hold monster (5 charges), levitate (2 charges), lightning bolt (5th-level version, 5 charges), magic missile (1 charge), ray of enfeeblement (1 charge), or wall of force (5 charges).",
+      "***Retributive Strike.*** You can use an action to break the staff over your knee or against a solid surface, performing a retributive strike. The staff is destroyed and releases its remaining magic in an explosion that expands to fill a 30-foot-radius sphere centered on it.",
+      "You have a 50 percent chance to instantly travel to a random plane of existence, avoiding the explosion. If you fail to avoid the effect, you take force damage equal to 16 × the number of charges in the staff. Every other creature in the area must make a DC 17 Dexterity saving throw. On a failed save, a creature takes an amount of damage based on how far away it is from the point of origin, as shown in the following table. On a successful save, a creature takes half as much damage.",
+      "| Distance from Origin | Damage |",
+      "|---|---|",
+      "| 10 ft. away or closer | 8 × the number of charges in the staff |",
+      "| 11 to 20 ft. away | 6 × the number of charges in the staff |",
+      "| 21 to 30 ft. away | 4 × the number of charges in the staff |"
+    ],
+    "url": "/api/2014/magic-items/staff-of-power"
+  },
+  {
+    "index": "staff-of-the-magi",
+    "name": "Staff of the Magi",
+    "equipment_category": {
+      "index": "staff",
+      "name": "Staff",
+      "url": "/api/2014/equipment-categories/staff"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Staff, legendary (requires attunement by a sorcerer, warlock, or wizard)",
+      "This staff can be wielded as a magic quarterstaff that grants a +2 bonus to attack and damage rolls made with it. While you hold it, you gain a +2 bonus to spell attack rolls.",
+      "The staff has 50 charges for the following properties. It regains 4d6 + 2 expended charges daily at dawn. If you expend the last charge, roll a d20. On a 20, the staff regains 1d12 + 1 charges.",
+      "***Spell Absorption.*** While holding the staff, you have advantage on saving throws against spells. In addition, you can use your reaction when another creature casts a spell that targets only you. If you do, the staff absorbs the magic of the spell, canceling its effect and gaining a number of charges equal to the absorbed spell's level. However, if doing so brings the staff's total number of charges above 50, the staff explodes as if you activated its retributive strike (see below).",
+      "***Spells.*** While holding the staff, you can use an action to expend some of its charges to cast one of the following spells from it, using your spell save DC and spellcasting ability: conjure elemental (7 charges), dispel magic (3 charges), fireball (7th-level version, 7 charges), flaming sphere (2 charges), ice storm (4 charges), invisibility (2 charges), knock (2 charges), lightning bolt (7th-level version, 7 charges), passwall (5 charges), plane shift (7 charges), telekinesis (5 charges), wall of fire (4 charges), or web (2 charges).",
+      "You can also use an action to cast one of the following spells from the staff without using any charges: arcane lock, detect magic, enlarge/reduce, light, mage hand, or protection from evil and good.",
+      "***Retributive Strike.*** You can use an action to break the staff over your knee or against a solid surface, performing a retributive strike. The staff is destroyed and releases its remaining magic in an explosion that expands to fill a 30-foot-radius sphere centered on it.",
+      "You have a 50 percent chance to instantly travel to a random plane of existence, avoiding the explosion. If you fail to avoid the effect, you take force damage equal to 16 × the number of charges in the staff. Every other creature in the area must make a DC 17 Dexterity saving throw. On a failed save, a creature takes an amount of damage based on how far away it is from the point of origin, as shown in the following table. On a successful save, a creature takes half as much damage.",
+      "| Distance from Origin | Damage |",
+      "|---|---|",
+      "| 10 ft. away or closer | 8 × the number of charges in the staff |",
+      "| 11 to 20 ft. away | 6 × the number of charges in the staff |",
+      "| 21 to 30 ft. away | 4 × the number of charges in the staff |"
+    ],
+    "url": "/api/2014/magic-items/staff-of-the-magi"
+  },
+  {
+    "index": "wand-of-the-war-mage",
+    "name": "Wand of the War Mage, +1, +2, or +3",
+    "equipment_category": {
+      "index": "wand",
+      "name": "Wand",
+      "url": "/api/2014/equipment-categories/wand"
+    },
+    "rarity": {
+      "name": "Varies"
+    },
+    "variants": [
+      {
+        "index": "wand-of-the-war-mage-1",
+        "name": "Wand of the War Mage, +1",
+        "url": "/api/2014/magic-items/wand-of-the-war-mage-1"
+      },
+      {
+        "index": "wand-of-the-war-mage-2",
+        "name": "Wand of the War Mage, +2",
+        "url": "/api/2014/magic-items/wand-of-the-war-mage-2"
+      },
+      {
+        "index": "wand-of-the-war-mage-3",
+        "name": "Wand of the War Mage, +3",
+        "url": "/api/2014/magic-items/wand-of-the-war-mage-3"
+      }
+    ],
+    "variant": false,
+    "desc": [
+      "Wand, uncommon (+1), rare (+2), or very rare (+3) (requires attunement by a spellcaster)",
+      "While holding this wand, you gain a bonus to spell attack rolls determined by the wand's rarity. In addition, you ignore half cover when making a spell attack."
+    ],
+    "url": "/api/2014/magic-items/wand-of-the-war-mage"
+  },
+  {
+    "index": "wand-of-the-war-mage-1",
+    "name": "Wand of the War Mage, +1",
+    "equipment_category": {
+      "index": "wand",
+      "name": "Wand",
+      "url": "/api/2014/equipment-categories/wand"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wand, uncommon (requires attunement by a spellcaster)",
+      "While holding this wand, you gain a +1 bonus to spell attack rolls. In addition, you ignore half cover when making a spell attack."
+    ],
+    "url": "/api/2014/magic-items/wand-of-the-war-mage-1"
+  },
+  {
+    "index": "wand-of-the-war-mage-2",
+    "name": "Wand of the War Mage, +2",
+    "equipment_category": {
+      "index": "wand",
+      "name": "Wand",
+      "url": "/api/2014/equipment-categories/wand"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wand, rare (requires attunement by a spellcaster)",
+      "While holding this wand, you gain a +2 bonus to spell attack rolls. In addition, you ignore half cover when making a spell attack."
+    ],
+    "url": "/api/2014/magic-items/wand-of-the-war-mage-2"
+  },
+  {
+    "index": "wand-of-the-war-mage-3",
+    "name": "Wand of the War Mage, +3",
+    "equipment_category": {
+      "index": "wand",
+      "name": "Wand",
+      "url": "/api/2014/equipment-categories/wand"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wand, very rare (requires attunement by a spellcaster)",
+      "While holding this wand, you gain a +3 bonus to spell attack rolls. In addition, you ignore half cover when making a spell attack."
+    ],
+    "url": "/api/2014/magic-items/wand-of-the-war-mage-3"
+  },
+  {
+    "index": "orb-of-dragonkind",
+    "name": "Orb of Dragonkind",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Artifact"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, artifact (requires attunement)",
+      "Ages past, elves and humans waged a terrible war against evil dragons. When the world seemed doomed, powerful wizards came together and worked their greatest magic, forging five Orbs of Dragonkind (or Dragon Orbs) to help them defeat the dragons. One orb was taken to each of the five wizard towers, and there they were used to speed the war toward a victorious end. The wizards used the orbs to lure dragons to them, then destroyed the dragons with powerful magic.",
+      "As the wizard towers fell in later ages, the orbs were destroyed or faded into legend, and only three are thought to survive. Their magic has been warped and twisted over the centuries, so although their primary purpose of calling dragons still functions, they also allow some measure of control over dragons.",
+      "Each orb contains the essence of an evil dragon, a presence that resents any attempt to coax magic from it. Those lacking in force of personality might find themselves enslaved to an orb.",
+      "An orb is an etched crystal globe about 10 inches in diameter. When used, it grows to about 20 inches in diameter, and mist swirls inside it.",
+      "While attuned to an orb, you can use an action to peer into the orb's depths and speak its command word. You must then make a DC 15 Charisma check. On a successful check, you control the orb for as long as you remain attuned to it. On a failed check, you become charmed by the orb for as long as you remain attuned to it.",
+      "While you are charmed by the orb, you can't voluntarily end your attunement to it, and the orb casts suggestion on you at will (save DC 18), urging you to work toward the evil ends it desires. The dragon essence within the orb might want many things: the annihilation of a particular people, freedom from the orb, to spread suffering in the world, to advance the worship of Tiamat, or something else the GM decides.",
+      "***Random Properties.*** An Orb of Dragonkind has the following random properties:",
+      "2 minor beneficial properties",
+      "1 minor detrimental property",
+      "1 major detrimental property",
+      "***Spells.*** The orb has 7 charges and regains 1d4 + 3 expended charges daily at dawn. If you control the orb, you can use an action and expend 1 or more charges to cast one of the following spells (save DC 18) from it: cure wounds (5th-level version, 3 charges), daylight (1 charge), death ward (2 charges), or scrying (3 charges).",
+      "You can also use an action to cast the detect magic spell from the orb without using any charges.",
+      "***Call Dragons.*** While you control the orb, you can use an action to cause the artifact to issue a telepathic call that extends in all directions for 40 miles. Evil dragons in range feel compelled to come to the orb as soon as possible by the most direct route. Dragon deities such as Tiamat are unaffected by this call. Dragons drawn to the orb might be hostile toward you for compelling them against their will. Once you have used this property, it can't be used again for 1 hour.",
+      "***Destroying an Orb.*** An Orb of Dragonkind appears fragile but is impervious to most damage, including the attacks and breath weapons of dragons. A disintegrate spell or one good hit from a +3 magic weapon is sufficient to destroy an orb, however."
+    ],
+    "url": "/api/2014/magic-items/orb-of-dragonkind"
+  }
+]

@@ -1,0 +1,303 @@
+[
+  {
+    "index": "decanter-of-endless-water",
+    "name": "Decanter of Endless Water",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, uncommon",
+      "This stoppered flask sloshes when shaken, as if it contains water. The decanter weighs 2 pounds.",
+      "You can use an action to remove the stopper and speak one of three command words, whereupon an amount of fresh water or salt water (your choice) pours out of the flask. The water stops pouring out at the start of your next turn. Choose from the following options:",
+      "\"Stream\" produces 1 gallon of water.",
+      "\"Fountain\" produces 5 gallons of water.",
+      "\"Geyser\" produces 30 gallons of water that gushes forth in a geyser 30 feet long and 1 foot wide. As a bonus action while holding the decanter, you can aim the geyser at a creature you can see within 30 feet of you. The target must succeed on a DC 13 Strength saving throw or take 1d4 bludgeoning damage and fall prone. Instead of a creature, you can target an object that isn't being worn or carried and that weighs no more than 200 pounds. The object is either knocked over or pushed up to 15 feet away from you."
+    ],
+    "image": "/api/images/magic-items/decanter-of-endless-water.png",
+    "url": "/api/2014/magic-items/decanter-of-endless-water"
+  },
+  {
+    "index": "dust-of-dryness",
+    "name": "Dust of Dryness",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, uncommon",
+      "This small packet contains 1d6 + 4 pinches of dust. You can use an action to sprinkle a pinch of it over water. The dust turns a cube of water 15 feet on a side into one marble-sized pellet, which floats or rests near where the dust was sprinkled. The pellet's weight is negligible.",
+      "Someone can use an action to smash the pellet against a hard surface, causing the pellet to shatter and release the water the dust absorbed. Doing so ends that pellet's magic.",
+      "An elemental composed mostly of water that is exposed to a pinch of the dust must make a DC 13 Constitution saving throw, taking 10d6 necrotic damage on a failed save, or half as much damage on a successful one."
+    ],
+    "image": "/api/images/magic-items/dust-of-dryness.png",
+    "url": "/api/2014/magic-items/dust-of-dryness"
+  },
+  {
+    "index": "feather-token-tree",
+    "name": "Tree Feather Token",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, rare",
+      "This tiny object looks like a feather.",
+      "You must be outdoors to use this token. You can use an action to touch it to an unoccupied space on the ground. The token disappears, and in its place a nonmagical oak tree springs into existence. The tree is 60 feet tall and has a 5-foot-diameter trunk, and its branches at the top spread out in a 20-foot radius."
+    ],
+    "url": "/api/2014/magic-items/feather-token-tree"
+  },
+  {
+    "index": "manual-of-golems",
+    "name": "Manual of Golems",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [
+      {
+        "index": "manual-of-golems-clay",
+        "name": "Manual of Clay Golems",
+        "url": "/api/2014/magic-items/manual-of-golems-clay"
+      },
+      {
+        "index": "manual-of-golems-flesh",
+        "name": "Manual of Flesh Golems",
+        "url": "/api/2014/magic-items/manual-of-golems-flesh"
+      },
+      {
+        "index": "manual-of-golems-iron",
+        "name": "Manual of Iron Golems",
+        "url": "/api/2014/magic-items/manual-of-golems-iron"
+      },
+      {
+        "index": "manual-of-golems-stone",
+        "name": "Manual of Stone Golems",
+        "url": "/api/2014/magic-items/manual-of-golems-stone"
+      }
+    ],
+    "variant": false,
+    "desc": [
+      "Wondrous item, very rare",
+      "This tome contains information and incantations necessary to make a particular type of golem. The GM chooses the type or determines it randomly. To decipher and use the manual, you must be a spellcaster with at least two 5th-level spell slots. A creature that can't use a manual of golems and attempts to read it takes 6d6 psychic damage.",
+      "| d20 | Golem | Time | Cost |",
+      "|---|---|---|---|",
+      "| 1-5 | Clay | 30 days | 65,000 gp |",
+      "| 6-17 | Flesh | 60 days | 50,000 gp |",
+      "| 18 | Iron | 120 days | 100,000 gp |",
+      "| 19-20 | Stone | 90 days | 80,000 gp |",
+      "To create a golem, you must spend the time shown on the table, working without interruption with the manual at hand and resting no more than 8 hours per day. You must also pay the specified cost to purchase supplies.",
+      "Once you finish creating the golem, the book is consumed in eldritch flames. The golem becomes animate when the ashes of the manual are sprinkled on it. It is under your control, and it understands and obeys your spoken commands."
+    ],
+    "url": "/api/2014/magic-items/manual-of-golems"
+  },
+  {
+    "index": "manual-of-golems-clay",
+    "name": "Manual of Clay Golems",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, very rare",
+      "This tome contains information and incantations necessary to make a clay golem. To decipher and use the manual, you must be a spellcaster with at least two 5th-level spell slots. A creature that can't use a manual of golems and attempts to read it takes 6d6 psychic damage.",
+      "To create a golem, you must spend 30 days, working without interruption with the manual at hand and resting no more than 8 hours per day. You must also pay 65,000 gp to purchase supplies.",
+      "Once you finish creating the golem, the book is consumed in eldritch flames. The golem becomes animate when the ashes of the manual are sprinkled on it. It is under your control, and it understands and obeys your spoken commands."
+    ],
+    "url": "/api/2014/magic-items/manual-of-golems-clay"
+  },
+  {
+    "index": "manual-of-golems-flesh",
+    "name": "Manual of Flesh Golems",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, very rare",
+      "This tome contains information and incantations necessary to make a flesh golem. To decipher and use the manual, you must be a spellcaster with at least two 5th-level spell slots. A creature that can't use a manual of golems and attempts to read it takes 6d6 psychic damage.",
+      "To create a golem, you must spend 60 days, working without interruption with the manual at hand and resting no more than 8 hours per day. You must also pay 50,000 gp to purchase supplies.",
+      "Once you finish creating the golem, the book is consumed in eldritch flames. The golem becomes animate when the ashes of the manual are sprinkled on it. It is under your control, and it understands and obeys your spoken commands."
+    ],
+    "url": "/api/2014/magic-items/manual-of-golems-flesh"
+  },
+  {
+    "index": "manual-of-golems-iron",
+    "name": "Manual of Iron Golems",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, very rare",
+      "This tome contains information and incantations necessary to make an iron golem. To decipher and use the manual, you must be a spellcaster with at least two 5th-level spell slots. A creature that can't use a manual of golems and attempts to read it takes 6d6 psychic damage.",
+      "To create a golem, you must spend 120 days, working without interruption with the manual at hand and resting no more than 8 hours per day. You must also pay 100,000 gp to purchase supplies.",
+      "Once you finish creating the golem, the book is consumed in eldritch flames. The golem becomes animate when the ashes of the manual are sprinkled on it. It is under your control, and it understands and obeys your spoken commands."
+    ],
+    "url": "/api/2014/magic-items/manual-of-golems-iron"
+  },
+  {
+    "index": "manual-of-golems-stone",
+    "name": "Manual of Stone Golems",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, very rare",
+      "This tome contains information and incantations necessary to make a stone golem. To decipher and use the manual, you must be a spellcaster with at least two 5th-level spell slots. A creature that can't use a manual of golems and attempts to read it takes 6d6 psychic damage.",
+      "To create a golem, you must spend 90 days, working without interruption with the manual at hand and resting no more than 8 hours per day. You must also pay 80,000 gp to purchase supplies.",
+      "Once you finish creating the golem, the book is consumed in eldritch flames. The golem becomes animate when the ashes of the manual are sprinkled on it. It is under your control, and it understands and obeys your spoken commands."
+    ],
+    "url": "/api/2014/magic-items/manual-of-golems-stone"
+  },
+  {
+    "index": "marvelous-pigments",
+    "name": "Marvelous Pigments",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, very rare",
+      "Typically found in 1d4 pots inside a fine wooden box with a brush (weighing 1 pound in total), these pigments allow you to create three-dimensional objects by painting them in two dimensions. The paint flows from the brush to form the desired object as you concentrate on its image.",
+      "Each pot of paint is sufficient to cover 1,000 square feet of a surface, which lets you create inanimate objects or terrain features-such as a door, a pit, flowers, trees, cells, rooms, or weapons- that are up to 10,000 cubic feet. It takes 10 minutes to cover 100 square feet.",
+      "When you complete the painting, the object or terrain feature depicted becomes a real, nonmagical object. Thus, painting a door on a wall creates an actual door that can be opened to whatever is beyond. Painting a pit on a floor creates a real pit, and its depth counts against the total area of objects you create.",
+      "Nothing created by the pigments can have a value greater than 25 gp. If you paint an object of greater value (such as a diamond or a pile of gold), the object looks authentic, but close inspection reveals it is made from paste, bone, or some other worthless material.",
+      "If you paint a form of energy such as fire or lightning, the energy appears but dissipates as soon as you complete the painting, doing no harm to anything."
+    ],
+    "url": "/api/2014/magic-items/marvelous-pigments"
+  },
+  {
+    "index": "robe-of-useful-items",
+    "name": "Robe of Useful Items",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, uncommon",
+      "This robe has cloth patches of various shapes and colors covering it. While wearing the robe, you can use an action to detach one of the patches, causing it to become the object or creature it represents. Once the last patch is removed, the robe becomes an ordinary garment.",
+      "The robe has two of each of the following patches:",
+      "Dagger",
+      "Bullseye lantern (filled and lit)",
+      "Steel mirror",
+      "10-foot pole",
+      "Hempen rope (50 feet, coiled)",
+      "Sack",
+      "In addition, the robe has 4d4 other patches. The GM chooses the patches or determines them randomly.",
+      "| d100 | Patch |",
+      "|---|---|",
+      "| 01-08 | Bag of 100 gp |",
+      "| 09-15 | Silver coffer (1 foot long, 6 inches wide and deep) worth 500 gp |",
+      "| 16-22 | Iron door (up to 10 feet wide and 10 feet high, barred on one side of your choice), which you can place in an opening you can reach; it conforms to fit the opening, attaching and hinging itself |",
+      "| 23-30 | 10 gems worth 100 gp each |",
+      "| 31-44 | Wooden ladder (24 feet long) 45-51 A riding horse with saddle bags |",
+      "| 52-59 | Pit (a cube 10 feet on a side), which you can place on the ground within 10 feet of you |",
+      "| 60-68 | 4 potions of healing |",
+      "| 69-75 | Rowboat (12 feet long) |",
+      "| 76-83 | Spell scroll containing one spell of 1st to 3rd level |",
+      "| 84-90 | 2 mastiffs |",
+      "| 91-96 | Window (2 feet by 4 feet, up to 2 feet deep), which you can place on a vertical surface you can reach |",
+      "| 97-100 | Portable ram |"
+    ],
+    "url": "/api/2014/magic-items/robe-of-useful-items"
+  },
+  {
+    "index": "sovereign-glue",
+    "name": "Sovereign Glue",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, legendary",
+      "This viscous, milky-white substance can form a permanent adhesive bond between any two objects. It must be stored in a jar or flask that has been coated inside with oil of slipperiness. When found, a container contains 1d6 + 1 ounces.",
+      "One ounce of the glue can cover a 1-foot square surface. The glue takes 1 minute to set. Once it has done so, the bond it creates can be broken only by the application of universal solvent or oil of etherealness, or with a wish spell."
+    ],
+    "url": "/api/2014/magic-items/sovereign-glue"
+  },
+  {
+    "index": "universal-solvent",
+    "name": "Universal Solvent",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, legendary",
+      "This tube holds milky liquid with a strong alcohol smell. You can use an action to pour the contents of the tube onto a surface within reach. The liquid instantly dissolves up to 1 square foot of adhesive it touches, including sovereign glue."
+    ],
+    "url": "/api/2014/magic-items/universal-solvent"
+  }
+]

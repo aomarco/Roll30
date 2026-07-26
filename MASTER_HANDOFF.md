@@ -338,11 +338,11 @@ Characters and tokens use the same generic inventory model:
 ]
 ```
 
-The catalog contains four item kinds: `weapon`, `ammunition`, `armor` (shields are `armor` with category `Shield`), and `gear`. The inventory UI supports:
+The catalog contains five item kinds: `weapon`, `ammunition`, `armor` (shields are `armor` with category `Shield`), `gear`, and `magic-item` (inert). The inventory UI supports:
 
 - Search.
-- Item-type filtering (All / Weapons / Ammunition / Armour / Gear).
-- Class filtering (Simple/Martial for weapons; Light/Medium/Heavy/Shield for armour; category labels for gear).
+- Item-type filtering (All / Weapons / Ammunition / Armour / Gear / Magic Items).
+- Class filtering (Simple/Martial for weapons; Light/Medium/Heavy/Shield for armour; category labels for gear; rarity for magic items).
 - Weapon-property filtering (Finesse, Light, Thrown, Two-Handed, Versatile, Reach, …).
 - Internal scrolling.
 - Quantity increments and decrements.
@@ -354,6 +354,24 @@ The catalog contains four item kinds: `weapon`, `ammunition`, `armor` (shields a
 ### Mundane Gear
 
 `src/gear.js` holds **183 source-backed 2014 SRD equipment items** — everything in the SRD equipment list that is not a weapon or armor, minus the four already-imported ammunition types. They span standard gear, holy symbols, arcane/druidic foci, kits, equipment packs, tools, and mounts/vehicles. Each `GEAR` record is `{ id, name, gearCategory, cost, weight, source }` and is generated from the data folder, not hand-typed. In the catalog they become `kind: "gear"` items with a human `typeLabel` (Gear, Tool, Pack, Mount / Vehicle, …) used both as the subtitle and as the class-filter value (`GEAR_CLASSES`). Gear is **inert**: it can be searched, filtered, and added to any inventory, but has no weight/encumbrance, tool-proficiency, or mount mechanics.
+
+### Magic Items (inert)
+
+`src/magicItems.js` holds the **113 NON BATTLE magic items** — the subset of the
+362 SRD magic items whose defining use is outside combat (travel, storage,
+exploration, information, social, crafting, survival, utility). They were
+classified in `DND 5E Data/NON BATTLE/` (see `MAGIC_ITEM_CATEGORY_GUIDE.txt`),
+and `magicItems.js` is generated from that folder — not hand-typed. Each
+`MAGIC_ITEMS` record is `{ id, name, rarity, itemCategory, source }`. In the
+catalog they become `kind: "magic-item"` items with `typeLabel: "Magic Item"`,
+filtered by **rarity** (`MAGIC_ITEM_CLASSES`), subtitled `rarity · category`.
+
+Magic items are **completely inert** — they carry none of the combat fields the
+engines read (no `damageDice`, `acBase`, `rangeFeet`, etc.), so they do nothing
+in battle. They can be searched, filtered, added to any character or token
+inventory, and placed in chests, and that is all. The **249 BATTLE** magic items
+are intentionally *not* imported (they would need the effect engine that does not
+exist yet).
 
 On the character sheet the **Add Item** button sits directly above the inventory list. The Add Item catalog is rendered at document level (a portal) with a high stacking layer so character-sheet content cannot overlap or clip it. It closes through its close button, the backdrop, or Escape.
 
@@ -1066,6 +1084,7 @@ Storage failures are surfaced in the UI. A failed image or state save must not s
 | `src/classes.js` | Class catalog (hit die, save proficiencies, spellcasting flag) |
 | `src/skills.js` | SRD skills, saving throws, Fighter proficiencies, and modifier helpers |
 | `src/gear.js` | Generated mundane SRD equipment catalog (inert gear) |
+| `src/magicItems.js` | Generated NON BATTLE magic-item catalog (inert) |
 | `src/CharactersPage.jsx` | Character workspace, inventory, and pre-equipped loadout UI |
 | `src/patterns.js` | Infinite mathematical Square, Diamond, Plus, and Star cell generators |
 | `src/movement.css` | Movement, attack-cell, token, dock, and grid feedback |
@@ -1091,7 +1110,7 @@ single lightweight SVG with a stair-stepped polygon per range tier and a grid
 
 ## Automated Test Coverage
 
-The current suite contains **92 tests** (`node --test src/*.test.js`), spread
+The current suite contains **97 tests** (`node --test src/*.test.js`), spread
 across the pure logic modules:
 
 | Tests | File |
@@ -1102,6 +1121,7 @@ across the pure logic modules:
 | 7 | `src/conditions.test.js` |
 | 7 | `src/characterRules.test.js` |
 | 6 | `src/gear.test.js` |
+| 5 | `src/magicItems.test.js` |
 | 5 | `src/classes.test.js` |
 | 5 | `src/viewRules.test.js` |
 | 5 | `src/skills.test.js` |
@@ -1255,10 +1275,11 @@ A combat, inventory, or persistence change is complete only when:
 - Alignment, languages, and background are flavor only (no mechanical effect).
 - No Net (the Restrained condition now exists, but Net's attack/escape flow is not wired).
 - No mounted Lance rules.
-- No magic-item effect engine (mundane armor/weapons/ammunition only).
+- No magic-item effect engine. The 113 NON BATTLE magic items are imported as **inert** inventory (flavor/roleplay only); the 249 BATTLE magic items are not imported because they would need the effect engine.
 - Mundane gear (tools, packs, mounts, etc.) is imported for inventory/roleplay only; it has no mechanical effect (no encumbrance, tool proficiencies, or mount rules).
 - Physical thrown items exist only inside an active versioned battle.
 
 ## To Be Updated
 
+- **Inert NON BATTLE magic items in the item adder (2026-07-26):** Imported the **113 NON BATTLE magic items** as inert catalog entries (they do nothing in battle — they just sit in inventory), mirroring the mundane-gear import. New generated `src/magicItems.js` (`MAGIC_ITEMS` = `{ id, name, rarity, itemCategory, source }`, plus `magicItemById`) is produced from `DND 5E Data/NON BATTLE/` (the classifier's output). `src/items.js` maps them to `kind: "magic-item"` catalog entries with `typeLabel: "Magic Item"` and `category: rarity`, adds a "Magic Items" item type, exposes `MAGIC_ITEM_CLASSES` (rarities present, ascending) for the class filter, and extends `itemClass` to filter magic items by rarity. Subtitle render branches added at all three inventory sites (item picker + owned list in `src/CharactersPage.jsx`, quick-item row in `src/main.jsx`) showing `rarity · category`; the character-sheet class-filter dropdown gained the magic-item→`MAGIC_ITEM_CLASSES` case. The token quick-inventory and chest-fill pickers pick up the new type automatically (they map `ITEM_TYPES` / call `filterCatalog`). Magic items carry **no** combat fields (`damageDice`/`acBase`/`rangeFeet` all undefined), so nothing in the attack/AC engines reads them. The 249 BATTLE magic items are intentionally not imported (they need the effect engine). New `src/magicItems.test.js` (5 tests: exact NON BATTLE match/count 113, known-item fields, `magicItemById` miss, magic-item type filter + inertness, rarity class filter); suite now **97**. Reuses the already-render-verified `.item-picker-option`/owned-list structures (only subtitle text differs). `npm test` / `npm run build` pass.
 - **Basic Wizard class + spellcasting scaffold (2026-07-26):** Added a class catalog `src/classes.js` (`CLASSES`, `classById`) with **Fighter** (d10, STR/CON saves) and a basic **Wizard** (d6, INT/WIS saves, placeholder `spellcasting: { ability: "int", slots: "unlimited" }`). `deriveCharacter` (`src/characterRules.js`) is now class-aware: HP uses the class hit die (`hitDie + CON` at level 1, `(hitDie/2+1) + CON` per later level — Fighter unchanged at 10/6), and casters get a derived `spellcasting` object with a **spell save DC** (`8 + proficiency + INT mod`) and **spell attack bonus** (`proficiency + INT mod`), unlimited slots/spells for now. It also returns `className`. The character sheet's Class dropdown is now enabled (Fighter/Wizard); switching class resets save/skill proficiencies to the class defaults, and a new **Spellcasting card** (`.spellcasting-card` CSS in `src/movement.css`, built to the anti-clipping spec, 4→2 col under 900px) shows DC / attack / ∞ slots / ∞ spells for casters. HP/saves captions and the rules note are class-aware. Characters store the class as its display name so no migration is needed; `classById` also matches by id and falls back to Fighter. New `src/classes.test.js` (5 tests: catalog, id/name resolution, caster flag, Wizard d6 HP, spellcasting DC/attack); suite now **92**. Render-verified the Wizard sheet (class select + derived grid + spellcasting card, no clipping) in headless Chrome. This is deliberately minimal — no spell list, no slot economy, no in-battle casting — the scaffold that later spells and magic items will build on. `npm test` / `npm run build` pass.

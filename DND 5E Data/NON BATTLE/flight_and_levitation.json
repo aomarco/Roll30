@@ -1,0 +1,306 @@
+[
+  {
+    "index": "boots-of-levitation",
+    "name": "Boots of Levitation",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, rare (requires attunement)",
+      "While you wear these boots, you can use an action to cast the levitate spell on yourself at will."
+    ],
+    "image": "/api/images/magic-items/boots-of-levitation.png",
+    "url": "/api/2014/magic-items/boots-of-levitation"
+  },
+  {
+    "index": "broom-of-flying",
+    "name": "Broom of Flying",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, uncommon",
+      "This wooden broom, which weighs 3 pounds, functions like a mundane broom until you stand astride it and speak its command word. It then hovers beneath you and can be ridden in the air. It has a flying speed of 50 feet. It can carry up to 400 pounds, but its flying speed becomes 30 feet while carrying over 200 pounds. The broom stops hovering when you land.",
+      "You can send the broom to travel alone to a destination within 1 mile of you if you speak the command word, name the location, and are familiar with that place. The broom comes back to you when you speak another command word, provided that the broom is still within 1 mile of you."
+    ],
+    "image": "/api/images/magic-items/broom-of-flying.png",
+    "url": "/api/2014/magic-items/broom-of-flying"
+  },
+  {
+    "index": "carpet-of-flying",
+    "name": "Carpet of Flying",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [
+      {
+        "index": "carpet-of-flying-3x5",
+        "name": "Carpet of Flying (3 ft. × 5 ft.)",
+        "url": "/api/2014/magic-items/carpet-of-flying-3x5"
+      },
+      {
+        "index": "carpet-of-flying-4x6",
+        "name": "Carpet of Flying (4 ft. × 6 ft.)",
+        "url": "/api/2014/magic-items/carpet-of-flying-4x6"
+      },
+      {
+        "index": "carpet-of-flying-5x7",
+        "name": "Carpet of Flying (5 ft. × 7 ft.)",
+        "url": "/api/2014/magic-items/carpet-of-flying-5x7"
+      },
+      {
+        "index": "carpet-of-flying-6x9",
+        "name": "Carpet of Flying (6 ft. × 9 ft.)",
+        "url": "/api/2014/magic-items/carpet-of-flying-6x9"
+      }
+    ],
+    "variant": false,
+    "desc": [
+      "Wondrous item, very rare",
+      "You can speak the carpet's command word as an  action to make the carpet hover and fly. It moves according to your spoken directions, provided that you are within 30 feet of it.",
+      "Four sizes of carpet of flying exist. The GM chooses the size of a given carpet or determines it randomly.",
+      "| d100 | Size | Capacity | Flying Speed |",
+      "|---|---|---|---|",
+      "| 01-20 | 3 ft. × 5 ft. | 200 lb. | 80 feet |",
+      "| 21-55 | 4 ft. × 6 ft. | 400 lb. | 60 feet |",
+      "| 56-80 | 5 ft. × 7 ft. | 600 lb. | 40 feet |",
+      "| 81-100 | 6 ft. × 9 ft. | 800 lb. | 30 feet |",
+      "A carpet can carry up to twice the weight shown on the table, but it flies at half speed if it carries more than its normal capacity."
+    ],
+    "image": "/api/images/magic-items/carpet-of-flying.png",
+    "url": "/api/2014/magic-items/carpet-of-flying"
+  },
+  {
+    "index": "carpet-of-flying-3x5",
+    "name": "Carpet of Flying (3 ft. × 5 ft.)",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, very rare",
+      "You can speak the carpet's command word as an  action to make the carpet hover and fly. It moves according to your spoken directions, provided that you are within 30 feet of it.",
+      "This carpet is 3 feet by 5 feet and has a flying speed of 80 feet. It can carry up to 400 pounds, but its flying speed becomes 40 feet while carrying over 200 pounds."
+    ],
+    "image": "/api/images/magic-items/carpet-of-flying.png",
+    "url": "/api/2014/magic-items/carpet-of-flying-3x5"
+  },
+  {
+    "index": "carpet-of-flying-4x6",
+    "name": "Carpet of Flying (4 ft. × 6 ft.)",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, very rare",
+      "You can speak the carpet's command word as an  action to make the carpet hover and fly. It moves according to your spoken directions, provided that you are within 30 feet of it.",
+      "This carpet is 4 feet by 6 feet and has a flying speed of 60 feet. It can carry up to 800 pounds, but its flying speed becomes 30 feet while carrying over 400 pounds."
+    ],
+    "image": "/api/images/magic-items/carpet-of-flying.png",
+    "url": "/api/2014/magic-items/carpet-of-flying-4x6"
+  },
+  {
+    "index": "carpet-of-flying-5x7",
+    "name": "Carpet of Flying (5 ft. × 7 ft.)",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, very rare",
+      "You can speak the carpet's command word as an  action to make the carpet hover and fly. It moves according to your spoken directions, provided that you are within 30 feet of it.",
+      "This carpet is 5 feet by 7 feet and has a flying speed of 40 feet. It can carry up to 1200 pounds, but its flying speed becomes 20 feet while carrying over 600 pounds."
+    ],
+    "image": "/api/images/magic-items/carpet-of-flying.png",
+    "url": "/api/2014/magic-items/carpet-of-flying-5x7"
+  },
+  {
+    "index": "carpet-of-flying-6x9",
+    "name": "Carpet of Flying (6 ft. × 9 ft.)",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, very rare",
+      "You can speak the carpet's command word as an  action to make the carpet hover and fly. It moves according to your spoken directions, provided that you are within 30 feet of it.",
+      "This carpet is 6 feet by 9 feet and has a flying speed of 30 feet. It can carry up to 1600 pounds, but its flying speed becomes 15 feet while carrying over 800 pounds."
+    ],
+    "image": "/api/images/magic-items/carpet-of-flying.png",
+    "url": "/api/2014/magic-items/carpet-of-flying-6x9"
+  },
+  {
+    "index": "cloak-of-the-bat",
+    "name": "Cloak of the Bat",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, rare (requires attunement)",
+      "While wearing this cloak, you have advantage on Dexterity (Stealth) checks. In an area of dim light or darkness, you can grip the edges of the cloak with both hands and use it to fly at a speed of 40 feet. If you ever fail to grip the cloak's edges while flying in this way, or if you are no longer in dim light or darkness, you lose this flying speed.",
+      "While wearing the cloak in an area of dim light or darkness, you can use your action to cast polymorph on yourself, transforming into a bat. While you are in the form of the bat, you retain your Intelligence, Wisdom, and Charisma scores. The cloak can't be used this way again until the next dawn."
+    ],
+    "image": "/api/images/magic-items/cloak-of-the-bat.png",
+    "url": "/api/2014/magic-items/cloak-of-the-bat"
+  },
+  {
+    "index": "figurine-of-wondrous-power-ebony-fly",
+    "name": "Ebony Fly Figurine of Wondrous Power",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, rare",
+      "A figurine of wondrous power is a statuette of a beast small enough to fit in a pocket. If you use an action to speak the command word and throw the figurine to a point on the ground within 60 feet of you, the figurine becomes a living creature. If the space where the creature would appear is occupied by other creatures or objects, or if there isn't enough space for the creature, the figurine doesn't become a creature.",
+      "The creature is friendly to you and your companions. It understands your languages and obeys your spoken commands. If you issue no commands, the creature defends itself but takes no other actions.",
+      "The creature exists for a duration specific to each figurine. At the end of the duration, the creature reverts to its figurine form. It reverts to a figurine early if it drops to 0 hit points or if you use an action to speak the command word again while touching it. When the creature becomes a figurine again, its property can't be used again until a certain amount of time has passed, as specified in the figurine's description.",
+      "***Ebony Fly.*** This ebony statuette is carved in the likeness of a horsefly. It can become a giant fly for up to 12 hours and can be ridden as a mount. Once it has been used, it can't be used again until 2 days have passed.",
+      "Giant Fly",
+      "Large beast, unaligned",
+      "Armor Class 11",
+      "Hit Points 19 (3d10 + 3)",
+      "Speed 30 ft., fly 60 ft.",
+      "| STR | DEX | CON | INT | WIS | CHA |",
+      "|---|---|---|---|---|---|",
+      "| 14 (+2) | 13 (+1) | 13 (+1) | 2 (-4) | 10 (+0) | 3 (-4) |",
+      "Senses darkvision 60 ft., passive Perception 10",
+      "Languages -"
+    ],
+    "url": "/api/2014/magic-items/figurine-of-wondrous-power-ebony-fly"
+  },
+  {
+    "index": "horseshoes-of-a-zephyr",
+    "name": "Horseshoes of a Zephyr",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, very rare",
+      "These iron horseshoes come in a set of four. While all four shoes are affixed to the hooves of a horse or similar creature, they allow the creature to move normally while floating 4 inches above the ground. This effect means the creature can cross or stand above nonsolid or unstable surfaces, such as water or lava. The creature leaves no tracks and ignores difficult terrain. In addition, the creature can move at normal speed for up to 12 hours a day without suffering exhaustion from a forced march."
+    ],
+    "url": "/api/2014/magic-items/horseshoes-of-a-zephyr"
+  },
+  {
+    "index": "potion-of-flying",
+    "name": "Potion of Flying",
+    "equipment_category": {
+      "index": "potion",
+      "name": "Potion",
+      "url": "/api/2014/equipment-categories/potion"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Potion, very rare",
+      "When you drink this potion, you gain a flying speed equal to your walking speed for 1 hour and can hover. If you're in the air when the potion wears off, you fall unless you have some other means of staying aloft. This potion's clear liquid floats at the top of its container and has cloudy white impurities drifting in it."
+    ],
+    "url": "/api/2014/magic-items/potion-of-flying"
+  },
+  {
+    "index": "winged-boots",
+    "name": "Winged Boots",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, uncommon (requires attunement)",
+      "While you wear these boots, you have a flying speed equal to your walking speed. You can use the boots to fly for up to 4 hours, all at once or in several shorter flights, each one using a minimum of 1 minute from the duration. If you are flying when the duration expires, you descend at a rate of 30 feet per round until you land.",
+      "The boots regain 2 hours of flying capability for every 12 hours they aren't in use."
+    ],
+    "url": "/api/2014/magic-items/winged-boots"
+  },
+  {
+    "index": "wings-of-flying",
+    "name": "Wings of Flying",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, rare (requires attunement)",
+      "While wearing this cloak, you can use an action to speak its command word. This turns the cloak into a pair of bat wings or bird wings on your back for 1 hour or until you repeat the command word as an action. The wings give you a flying speed of 60 feet. When they disappear, you can't use them again for 1d12 hours."
+    ],
+    "url": "/api/2014/magic-items/wings-of-flying"
+  }
+]

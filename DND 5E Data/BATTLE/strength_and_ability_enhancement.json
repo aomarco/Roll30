@@ -1,0 +1,616 @@
+[
+  {
+    "index": "amulet-of-health",
+    "name": "Amulet of Health",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, rare (requires attunement)",
+      "Your Constitution score is 19 while you wear this amulet. It has no effect on you if your Constitution is already 19 or higher"
+    ],
+    "image": "/api/images/magic-items/amulet-of-health.png",
+    "url": "/api/2014/magic-items/amulet-of-health"
+  },
+  {
+    "index": "belt-of-dwarvenkind",
+    "name": "Belt of Dwarvenkind",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous Items, rare (requires attunement)",
+      "While wearing this belt, you gain the following benefits:",
+      "Your Constitution score increases by 2, to a maximum of 20.",
+      "You have advantage on Charisma (Persuasion) checks made to interact with Dwarves.",
+      "In addition, while attuned to the belt, you have a 50 percent chance each day at dawn of growing a full beard if you're capable of growing one, or a visibly thicker beard if you already have one.",
+      "If you aren't a dwarf, you gain the following additional benefits while wearing the belt:",
+      "You have advantage on Saving Throws against poison, and you have Resistance against poison damage.",
+      "You can speak, read, and write Dwarvish."
+    ],
+    "image": "/api/images/magic-items/belt-of-dwarvenkind.png",
+    "url": "/api/2014/magic-items/belt-of-dwarvenkind"
+  },
+  {
+    "index": "belt-of-giant-strength",
+    "name": "Belt of Giant Strength",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Varies"
+    },
+    "variants": [
+      {
+        "index": "belt-of-giant-strength-hill",
+        "name": "Belt of Hill Giant Strength",
+        "url": "/api/2014/magic-items/belt-of-giant-strength-hill"
+      },
+      {
+        "index": "belt-of-giant-strength-stone",
+        "name": "Belt of Stone Giant Strength",
+        "url": "/api/2014/magic-items/belt-of-giant-strength-stone"
+      },
+      {
+        "index": "belt-of-giant-strength-frost",
+        "name": "Belt of Frost Giant Strength",
+        "url": "/api/2014/magic-items/belt-of-giant-strength-frost"
+      },
+      {
+        "index": "belt-of-giant-strength-fire",
+        "name": "Belt of Fire Giant Strength",
+        "url": "/api/2014/magic-items/belt-of-giant-strength-fire"
+      },
+      {
+        "index": "belt-of-giant-strength-cloud",
+        "name": "Belt of Cloud Giant Strength",
+        "url": "/api/2014/magic-items/belt-of-giant-strength-cloud"
+      },
+      {
+        "index": "belt-of-giant-strength-storm",
+        "name": "Belt of Storm Giant Strength",
+        "url": "/api/2014/magic-items/belt-of-giant-strength-storm"
+      }
+    ],
+    "variant": false,
+    "desc": [
+      "Wondrous item, rarity varies (requires attunement)",
+      "While wearing this belt, your Strength score changes to a score granted by the belt. If your Strength is already equal to or greater than the belt's score, the item has no Effect on you.",
+      "Six varieties of this belt exist, corresponding with and having rarity according to The Six kinds of true Giants. The belt of Stone Giant Strength and the belt of Frost Giant Strength look different, but they have the same Effect.",
+      "| Type | Strength | Rarity |",
+      "|---|---|---|",
+      "| Hill Giant | 21 | Rare |",
+      "| Stone Giant / Frost Giant | 23 | Very Rare |",
+      "| Fire Giant | 25 | Very Rare |",
+      "| Cloud Giant | 27 | Legendary |",
+      "| Storm Giant | 29 | Legendary |"
+    ],
+    "image": "/api/images/magic-items/belt-of-giant-strength.png",
+    "url": "/api/2014/magic-items/belt-of-giant-strength"
+  },
+  {
+    "index": "belt-of-giant-strength-hill",
+    "name": "Belt of Hill Giant Strength",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, rare (requires attunement)",
+      "While wearing this belt, your Strength score changes to a 21. If your Strength is already equal to or greater than the belt's score, the item has no Effect on you."
+    ],
+    "image": "/api/images/magic-items/belt-of-giant-strength.png",
+    "url": "/api/2014/magic-items/belt-of-giant-strength-hill"
+  },
+  {
+    "index": "belt-of-giant-strength-stone",
+    "name": "Belt of Stone Giant Strength",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, very rare (requires attunement)",
+      "While wearing this belt, your Strength score changes to a 23. If your Strength is already equal to or greater than the belt's score, the item has no Effect on you."
+    ],
+    "image": "/api/images/magic-items/belt-of-giant-strength.png",
+    "url": "/api/2014/magic-items/belt-of-giant-strength-stone"
+  },
+  {
+    "index": "belt-of-giant-strength-frost",
+    "name": "Belt of Frost Giant Strength",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, very rare (requires attunement)",
+      "While wearing this belt, your Strength score changes to 23. If your Strength is already equal to or greater than the belt's score, the item has no Effect on you."
+    ],
+    "image": "/api/images/magic-items/belt-of-giant-strength.png",
+    "url": "/api/2014/magic-items/belt-of-giant-strength-frost"
+  },
+  {
+    "index": "belt-of-giant-strength-fire",
+    "name": "Belt of Fire Giant Strength",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, very rare (requires attunement)",
+      "While wearing this belt, your Strength score changes to 25. If your Strength is already equal to or greater than the belt's score, the item has no Effect on you."
+    ],
+    "image": "/api/images/magic-items/belt-of-giant-strength.png",
+    "url": "/api/2014/magic-items/belt-of-giant-strength-fire"
+  },
+  {
+    "index": "belt-of-giant-strength-cloud",
+    "name": "Belt of Cloud Giant Strength",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, legendary (requires attunement)",
+      "While wearing this belt, your Strength score changes to 27. If your Strength is already equal to or greater than the belt's score, the item has no Effect on you."
+    ],
+    "image": "/api/images/magic-items/belt-of-giant-strength.png",
+    "url": "/api/2014/magic-items/belt-of-giant-strength-cloud"
+  },
+  {
+    "index": "belt-of-giant-strength-storm",
+    "name": "Belt of Storm Giant Strength",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, legendary (requires attunement)",
+      "While wearing this belt, your Strength score changes to 29. If your Strength is already equal to or greater than the belt's score, the item has no Effect on you."
+    ],
+    "image": "/api/images/magic-items/belt-of-giant-strength.png",
+    "url": "/api/2014/magic-items/belt-of-giant-strength-storm"
+  },
+  {
+    "index": "gauntlets-of-ogre-power",
+    "name": "Gauntlets of Ogre Power",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, uncommon (requires attunement)",
+      "Your Strength score is 19 while you wear these gauntlets. They have no effect on you if your Strength is already 19 or higher."
+    ],
+    "url": "/api/2014/magic-items/gauntlets-of-ogre-power"
+  },
+  {
+    "index": "ioun-stone-of-agility",
+    "name": "Ioun Stone of Agility",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, very rare (requires attunement)",
+      "An Ioun stone is named after Ioun, a god of knowledge and prophecy revered on some worlds. Many types of Ioun stone exist, each type a distinct combination of shape and color.",
+      "When you use an action to toss one of these stones into the air, the stone orbits your head at a distance of 1d3 feet and confers a benefit to you. Thereafter, another creature must use an action to grasp or net the stone to separate it from you, either by making a successful attack roll against AC 24 or a successful DC 24 Dexterity (Acrobatics) check. You can use an action to seize and stow the stone, ending its effect.",
+      "A stone has AC 24, 10 hit points, and resistance to all damage. It is considered to be an object that is being worn while it orbits your head.",
+      "***Agility.*** Your Dexterity score increases by 2, to a maximum of 20, while this deep red sphere orbits your head."
+    ],
+    "url": "/api/2014/magic-items/ioun-stone-of-agility"
+  },
+  {
+    "index": "ioun-stone-of-fortitude",
+    "name": "Ioun Stone of Fortitude",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, very rare (requires attunement)",
+      "An Ioun stone is named after Ioun, a god of knowledge and prophecy revered on some worlds. Many types of Ioun stone exist, each type a distinct combination of shape and color.",
+      "When you use an action to toss one of these stones into the air, the stone orbits your head at a distance of 1d3 feet and confers a benefit to you. Thereafter, another creature must use an action to grasp or net the stone to separate it from you, either by making a successful attack roll against AC 24 or a successful DC 24 Dexterity (Acrobatics) check. You can use an action to seize and stow the stone, ending its effect.",
+      "A stone has AC 24, 10 hit points, and resistance to all damage. It is considered to be an object that is being worn while it orbits your head.",
+      "***Fortitude.*** Your Constitution score increases by 2, to a maximum of 20, while this pink rhomboid orbits your head."
+    ],
+    "url": "/api/2014/magic-items/ioun-stone-of-fortitude"
+  },
+  {
+    "index": "ioun-stone-of-insight",
+    "name": "Ioun Stone of Insight",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, very rare (requires attunement)",
+      "An Ioun stone is named after Ioun, a god of knowledge and prophecy revered on some worlds. Many types of Ioun stone exist, each type a distinct combination of shape and color.",
+      "When you use an action to toss one of these stones into the air, the stone orbits your head at a distance of 1d3 feet and confers a benefit to you. Thereafter, another creature must use an action to grasp or net the stone to separate it from you, either by making a successful attack roll against AC 24 or a successful DC 24 Dexterity (Acrobatics) check. You can use an action to seize and stow the stone, ending its effect.",
+      "A stone has AC 24, 10 hit points, and resistance to all damage. It is considered to be an object that is being worn while it orbits your head.",
+      "***Insight.*** Your Wisdom score increases by 2, to a maximum of 20, while this incandescent blue sphere orbits your head."
+    ],
+    "url": "/api/2014/magic-items/ioun-stone-of-insight"
+  },
+  {
+    "index": "ioun-stone-of-intellect",
+    "name": "Ioun Stone of Intellect",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, very rare (requires attunement)",
+      "An Ioun stone is named after Ioun, a god of knowledge and prophecy revered on some worlds. Many types of Ioun stone exist, each type a distinct combination of shape and color.",
+      "When you use an action to toss one of these stones into the air, the stone orbits your head at a distance of 1d3 feet and confers a benefit to you. Thereafter, another creature must use an action to grasp or net the stone to separate it from you, either by making a successful attack roll against AC 24 or a successful DC 24 Dexterity (Acrobatics) check. You can use an action to seize and stow the stone, ending its effect.",
+      "A stone has AC 24, 10 hit points, and resistance to all damage. It is considered to be an object that is being worn while it orbits your head.",
+      "***Intellect.*** Your Intelligence score increases by 2, to a maximum of 20, while this marbled scarlet and blue sphere orbits your head."
+    ],
+    "url": "/api/2014/magic-items/ioun-stone-of-intellect"
+  },
+  {
+    "index": "ioun-stone-of-leadership",
+    "name": "Ioun Stone of Leadership",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, very rare (requires attunement)",
+      "An Ioun stone is named after Ioun, a god of knowledge and prophecy revered on some worlds. Many types of Ioun stone exist, each type a distinct combination of shape and color.",
+      "When you use an action to toss one of these stones into the air, the stone orbits your head at a distance of 1d3 feet and confers a benefit to you. Thereafter, another creature must use an action to grasp or net the stone to separate it from you, either by making a successful attack roll against AC 24 or a successful DC 24 Dexterity (Acrobatics) check. You can use an action to seize and stow the stone, ending its effect.",
+      "A stone has AC 24, 10 hit points, and resistance to all damage. It is considered to be an object that is being worn while it orbits your head.",
+      "***Leadership.*** Your Charisma score increases by 2, to a maximum of 20, while this marbled pink and green sphere orbits your head."
+    ],
+    "url": "/api/2014/magic-items/ioun-stone-of-leadership"
+  },
+  {
+    "index": "ioun-stone-of-mastery",
+    "name": "Ioun Stone of Mastery",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, legendary (requires attunement)",
+      "An Ioun stone is named after Ioun, a god of knowledge and prophecy revered on some worlds. Many types of Ioun stone exist, each type a distinct combination of shape and color.",
+      "When you use an action to toss one of these stones into the air, the stone orbits your head at a distance of 1d3 feet and confers a benefit to you. Thereafter, another creature must use an action to grasp or net the stone to separate it from you, either by making a successful attack roll against AC 24 or a successful DC 24 Dexterity (Acrobatics) check. You can use an action to seize and stow the stone, ending its effect.",
+      "A stone has AC 24, 10 hit points, and resistance to all damage. It is considered to be an object that is being worn while it orbits your head.",
+      "***Mastery.*** Your proficiency bonus increases by 1 while this pale green prism orbits your head."
+    ],
+    "url": "/api/2014/magic-items/ioun-stone-of-mastery"
+  },
+  {
+    "index": "ioun-stone-of-strength",
+    "name": "Ioun Stone of Strength",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, very rare (requires attunement)",
+      "An Ioun stone is named after Ioun, a god of knowledge and prophecy revered on some worlds. Many types of Ioun stone exist, each type a distinct combination of shape and color.",
+      "When you use an action to toss one of these stones into the air, the stone orbits your head at a distance of 1d3 feet and confers a benefit to you. Thereafter, another creature must use an action to grasp or net the stone to separate it from you, either by making a successful attack roll against AC 24 or a successful DC 24 Dexterity (Acrobatics) check. You can use an action to seize and stow the stone, ending its effect.",
+      "A stone has AC 24, 10 hit points, and resistance to all damage. It is considered to be an object that is being worn while it orbits your head.",
+      "***Strength.*** Your Strength score increases by 2, to a maximum of 20, while this pale blue rhomboid orbits your head."
+    ],
+    "url": "/api/2014/magic-items/ioun-stone-of-strength"
+  },
+  {
+    "index": "potion-of-diminution",
+    "name": "Potion of Diminution",
+    "equipment_category": {
+      "index": "potion",
+      "name": "Potion",
+      "url": "/api/2014/equipment-categories/potion"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Potion, rare",
+      "When you drink this potion, you gain the \"reduce\" effect of the enlarge/reduce spell for 1d4 hours (no concentration required). The red in the potion's liquid continuously contracts to a tiny bead and then expands to color the clear liquid around it. Shaking the bottle fails to interrupt this process."
+    ],
+    "url": "/api/2014/magic-items/potion-of-diminution"
+  },
+  {
+    "index": "potion-of-giant-strength",
+    "name": "Potion of Giant Strength",
+    "equipment_category": {
+      "index": "potion",
+      "name": "Potion",
+      "url": "/api/2014/equipment-categories/potion"
+    },
+    "rarity": {
+      "name": "Varies"
+    },
+    "variants": [
+      {
+        "index": "potion-of-giant-strength-hill",
+        "name": "Potion of Hill Giant Strength",
+        "url": "/api/2014/magic-items/potion-of-giant-strength-hill"
+      },
+      {
+        "index": "potion-of-giant-strength-frost",
+        "name": "Potion of Frost Giant Strength",
+        "url": "/api/2014/magic-items/potion-of-giant-strength-frost"
+      },
+      {
+        "index": "potion-of-giant-strength-stone",
+        "name": "Potion of Stone Giant Strength",
+        "url": "/api/2014/magic-items/potion-of-giant-strength-stone"
+      },
+      {
+        "index": "potion-of-giant-strength-fire",
+        "name": "Potion of Fire Giant Strength",
+        "url": "/api/2014/magic-items/potion-of-giant-strength-fire"
+      },
+      {
+        "index": "potion-of-giant-strength-cloud",
+        "name": "Potion of Cloud Giant Strength",
+        "url": "/api/2014/magic-items/potion-of-giant-strength-cloud"
+      },
+      {
+        "index": "potion-of-giant-strength-storm",
+        "name": "Potion of Storm Giant Strength",
+        "url": "/api/2014/magic-items/potion-of-giant-strength-storm"
+      }
+    ],
+    "variant": false,
+    "desc": [
+      "Potion, varies",
+      "When you drink this potion, your Strength score changes for 1 hour. The type of giant determines the score (see the table below). The potion has no effect on you if your Strength is equal to or greater than that score.",
+      "This potion's transparent liquid has floating in it a sliver of fingernail from a giant of the appropriate type. The potion of frost giant strength and the potion of stone giant strength have the same effect.",
+      "| Type of Giant | Strength | Rarity |",
+      "|---|---|---|",
+      "| Hill giant | 21 | Uncommon |",
+      "| Frost/stone giant | 23 | Rare |",
+      "| Fire giant | 25 | Rare |",
+      "| Cloud giant | 27 | Very rare |",
+      "| Storm giant | 29 | Legendary |"
+    ],
+    "url": "/api/2014/magic-items/potion-of-giant-strength"
+  },
+  {
+    "index": "potion-of-giant-strength-hill",
+    "name": "Potion of Hill Giant Strength",
+    "equipment_category": {
+      "index": "potion",
+      "name": "Potion",
+      "url": "/api/2014/equipment-categories/potion"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Potion, uncommon",
+      "When you drink this potion, your Strength score changes to 21 for 1 hour. The potion has no effect on you if your Strength is equal to or greater than that score.",
+      "This potion's transparent liquid has floating in it a sliver of fingernail from a hill giant."
+    ],
+    "url": "/api/2014/magic-items/potion-of-giant-strength-hill"
+  },
+  {
+    "index": "potion-of-giant-strength-frost",
+    "name": "Potion of Frost Giant Strength",
+    "equipment_category": {
+      "index": "potion",
+      "name": "Potion",
+      "url": "/api/2014/equipment-categories/potion"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Potion, rare",
+      "When you drink this potion, your Strength score changes to 23 for 1 hour. The potion has no effect on you if your Strength is equal to or greater than that score.",
+      "This potion's transparent liquid has floating in it a sliver of fingernail from a frost giant."
+    ],
+    "url": "/api/2014/magic-items/potion-of-giant-strength-frost"
+  },
+  {
+    "index": "potion-of-giant-strength-stone",
+    "name": "Potion of Stone Giant Strength",
+    "equipment_category": {
+      "index": "potion",
+      "name": "Potion",
+      "url": "/api/2014/equipment-categories/potion"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Potion, rare",
+      "When you drink this potion, your Strength score changes to 23 for 1 hour. The potion has no effect on you if your Strength is equal to or greater than that score.",
+      "This potion's transparent liquid has floating in it a sliver of fingernail from a stone giant."
+    ],
+    "url": "/api/2014/magic-items/potion-of-giant-strength-stone"
+  },
+  {
+    "index": "potion-of-giant-strength-fire",
+    "name": "Potion of Fire Giant Strength",
+    "equipment_category": {
+      "index": "potion",
+      "name": "Potion",
+      "url": "/api/2014/equipment-categories/potion"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Potion, rare",
+      "When you drink this potion, your Strength score changes to 25 for 1 hour. The potion has no effect on you if your Strength is equal to or greater than that score.",
+      "This potion's transparent liquid has floating in it a sliver of fingernail from a fire giant."
+    ],
+    "url": "/api/2014/magic-items/potion-of-giant-strength-fire"
+  },
+  {
+    "index": "potion-of-giant-strength-cloud",
+    "name": "Potion of Cloud Giant Strength",
+    "equipment_category": {
+      "index": "potion",
+      "name": "Potion",
+      "url": "/api/2014/equipment-categories/potion"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Potion, very rare",
+      "When you drink this potion, your Strength score changes to 27 for 1 hour. The potion has no effect on you if your Strength is equal to or greater than that score.",
+      "This potion's transparent liquid has floating in it a sliver of fingernail from a cloud giant."
+    ],
+    "url": "/api/2014/magic-items/potion-of-giant-strength-cloud"
+  },
+  {
+    "index": "potion-of-giant-strength-storm",
+    "name": "Potion of Storm Giant Strength",
+    "equipment_category": {
+      "index": "potion",
+      "name": "Potion",
+      "url": "/api/2014/equipment-categories/potion"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Potion, legendary",
+      "When you drink this potion, your Strength score changes to 29 for 1 hour. The potion has no effect on you if your Strength is equal to or greater than that score.",
+      "This potion's transparent liquid has floating in it a sliver of fingernail from a storm giant."
+    ],
+    "url": "/api/2014/magic-items/potion-of-giant-strength-storm"
+  },
+  {
+    "index": "potion-of-growth",
+    "name": "Potion of Growth",
+    "equipment_category": {
+      "index": "potion",
+      "name": "Potion",
+      "url": "/api/2014/equipment-categories/potion"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Potion, uncommon",
+      "When you drink this potion, you gain the \"enlarge\" effect of the enlarge/reduce spell for 1d4 hours (no concentration required). The red in the potion's liquid continuously expands from a tiny bead to color the clear liquid around it and then contracts. Shaking the bottle fails to interrupt this process."
+    ],
+    "url": "/api/2014/magic-items/potion-of-growth"
+  }
+]

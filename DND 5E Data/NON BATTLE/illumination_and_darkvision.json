@@ -1,0 +1,64 @@
+[
+  {
+    "index": "goggles-of-night",
+    "name": "Goggles of Night",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, uncommon",
+      "While wearing these dark lenses, you have darkvision out to a range of 60 feet. If you already have darkvision, wearing the goggles increases its range by 60 feet."
+    ],
+    "url": "/api/2014/magic-items/goggles-of-night"
+  },
+  {
+    "index": "lantern-of-revealing",
+    "name": "Lantern of Revealing",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, uncommon",
+      "While lit, this hooded lantern burns for 6 hours on 1 pint of oil, shedding bright light in a 30-foot radius and dim light for an additional 30 feet. Invisible creatures and objects are visible as long as they are in the lantern's bright light. You can use an action to lower the hood, reducing the light to dim light in a 5 foot radius."
+    ],
+    "url": "/api/2014/magic-items/lantern-of-revealing"
+  },
+  {
+    "index": "robe-of-eyes",
+    "name": "Robe of Eyes",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, rare (requires attunement)",
+      "This robe is adorned with eyelike patterns. While you wear the robe, you gain the following benefits:",
+      "The robe lets you see in all directions, and you have advantage on Wisdom (Perception) checks that rely on sight.",
+      "You have darkvision out to a range of 120 feet.",
+      "You can see invisible creatures and objects, as well as see into the Ethereal Plane, out to a range of 120 feet.",
+      "The eyes on the robe can't be closed or averted. Although you can close or avert your own eyes, you are never considered to be doing so while wearing this robe.",
+      "A light spell cast on the robe or a daylight spell cast within 5 feet of the robe causes you to be blinded for 1 minute. At the end of each of your turns, you can make a Constitution saving throw (DC 11 for light or DC 15 for daylight), ending the blindness on a success."
+    ],
+    "url": "/api/2014/magic-items/robe-of-eyes"
+  }
+]

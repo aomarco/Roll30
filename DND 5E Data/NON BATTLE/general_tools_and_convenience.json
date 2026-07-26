@@ -1,0 +1,183 @@
+[
+  {
+    "index": "chime-of-opening",
+    "name": "Chime of Opening",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, rare",
+      "This hollow metal tube measures about 1 foot long and weighs 1 pound. You can strike it as an action, pointing it at an object within 120 feet of you that can be opened, such as a door, lid, or lock. The chime issues a clear tone, and one lock or latch on the object opens unless the sound can't reach the object. If no locks or latches remain, the object itself opens.",
+      "The chime can be used ten times. After the tenth time, it cracks and becomes useless."
+    ],
+    "image": "/api/images/magic-items/chime-of-opening.png",
+    "url": "/api/2014/magic-items/chime-of-opening"
+  },
+  {
+    "index": "efficient-quiver",
+    "name": "Efficient Quiver",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, uncommon",
+      "Each of the quiver's three compartments connects to an extradimensional space that allows the quiver to hold numerous items while never weighing more than 2 pounds. The shortest compartment can hold up to sixty arrows, bolts, or similar objects. The midsize compartment holds up to eighteen javelins or similar objects. The longest compartment holds up to six long objects, such as bows, quarterstaffs, or spears.",
+      "You can draw any item the quiver contains as if doing so from a regular quiver or scabbard."
+    ],
+    "image": "/api/images/magic-items/efficient-quiver.png",
+    "url": "/api/2014/magic-items/efficient-quiver"
+  },
+  {
+    "index": "immovable-rod",
+    "name": "Immovable Rod",
+    "equipment_category": {
+      "index": "rod",
+      "name": "Rod",
+      "url": "/api/2014/equipment-categories/rod"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Rod, uncommon",
+      "This flat iron rod has a button on one end. You can use an action to press the button, which causes the rod to become magically fixed in place. Until you or another creature uses an action to push the button again, the rod doesn't move, even if it is defying gravity. The rod can hold up to 8,000 pounds of weight. More weight causes the rod to deactivate and fall. A creature can use an action to make a DC 30 Strength check, moving the fixed rod up to 10 feet on a success."
+    ],
+    "url": "/api/2014/magic-items/immovable-rod"
+  },
+  {
+    "index": "robe-of-useful-items",
+    "name": "Robe of Useful Items",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, uncommon",
+      "This robe has cloth patches of various shapes and colors covering it. While wearing the robe, you can use an action to detach one of the patches, causing it to become the object or creature it represents. Once the last patch is removed, the robe becomes an ordinary garment.",
+      "The robe has two of each of the following patches:",
+      "Dagger",
+      "Bullseye lantern (filled and lit)",
+      "Steel mirror",
+      "10-foot pole",
+      "Hempen rope (50 feet, coiled)",
+      "Sack",
+      "In addition, the robe has 4d4 other patches. The GM chooses the patches or determines them randomly.",
+      "| d100 | Patch |",
+      "|---|---|",
+      "| 01-08 | Bag of 100 gp |",
+      "| 09-15 | Silver coffer (1 foot long, 6 inches wide and deep) worth 500 gp |",
+      "| 16-22 | Iron door (up to 10 feet wide and 10 feet high, barred on one side of your choice), which you can place in an opening you can reach; it conforms to fit the opening, attaching and hinging itself |",
+      "| 23-30 | 10 gems worth 100 gp each |",
+      "| 31-44 | Wooden ladder (24 feet long) 45-51 A riding horse with saddle bags |",
+      "| 52-59 | Pit (a cube 10 feet on a side), which you can place on the ground within 10 feet of you |",
+      "| 60-68 | 4 potions of healing |",
+      "| 69-75 | Rowboat (12 feet long) |",
+      "| 76-83 | Spell scroll containing one spell of 1st to 3rd level |",
+      "| 84-90 | 2 mastiffs |",
+      "| 91-96 | Window (2 feet by 4 feet, up to 2 feet deep), which you can place on a vertical surface you can reach |",
+      "| 97-100 | Portable ram |"
+    ],
+    "url": "/api/2014/magic-items/robe-of-useful-items"
+  },
+  {
+    "index": "rope-of-climbing",
+    "name": "Rope of Climbing",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, uncommon",
+      "This 60-foot length of silk rope weighs 3 pounds and can hold up to 3,000 pounds. If you hold one end of the rope and use an action to speak the command word, the rope animates. As a bonus action, you can command the other end to move toward a destination you choose. That end moves 10 feet on your turn when you first command it and 10 feet on each of your turns until reaching its destination, up to its maximum length away, or until you tell it to stop. You can also tell the rope to fasten itself securely to an object or to unfasten itself, to knot or unknot itself, or to coil itself for carrying.",
+      "If you tell the rope to knot, large knots appear at 1 foot intervals along the rope. While knotted, the rope shortens to a 50-foot length and grants advantage on checks made to climb it.",
+      "The rope has AC 20 and 20 hit points. It regains 1 hit point every 5 minutes as long as it has at least 1 hit point. If the rope drops to 0 hit points, it is destroyed."
+    ],
+    "url": "/api/2014/magic-items/rope-of-climbing"
+  },
+  {
+    "index": "sovereign-glue",
+    "name": "Sovereign Glue",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, legendary",
+      "This viscous, milky-white substance can form a permanent adhesive bond between any two objects. It must be stored in a jar or flask that has been coated inside with oil of slipperiness. When found, a container contains 1d6 + 1 ounces.",
+      "One ounce of the glue can cover a 1-foot square surface. The glue takes 1 minute to set. Once it has done so, the bond it creates can be broken only by the application of universal solvent or oil of etherealness, or with a wish spell."
+    ],
+    "url": "/api/2014/magic-items/sovereign-glue"
+  },
+  {
+    "index": "stone-of-good-luck-luckstone",
+    "name": "Stone of Good Luck (Luckstone)",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, uncommon (requires attunement)",
+      "While this polished agate is on your person, you gain a +1 bonus to ability checks and saving throws."
+    ],
+    "url": "/api/2014/magic-items/stone-of-good-luck-luckstone"
+  },
+  {
+    "index": "universal-solvent",
+    "name": "Universal Solvent",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, legendary",
+      "This tube holds milky liquid with a strong alcohol smell. You can use an action to pour the contents of the tube onto a surface within reach. The liquid instantly dissolves up to 1 square foot of adhesive it touches, including sovereign glue."
+    ],
+    "url": "/api/2014/magic-items/universal-solvent"
+  }
+]

@@ -1,0 +1,1141 @@
+BATTLE
+ ITEM FORMS
+  MELEE WEAPONS
+   Berserker Axe
+   Dagger of Venom
+   Dancing Sword
+   Defender
+   Dragon Slayer
+   Dwarven Thrower
+   Flame Tongue
+   Frost Brand
+   Giant Slayer
+   Hammer of Thunderbolts
+   Holy Avenger
+   Javelin of Lightning
+   Luck Blade
+   Mace of Disruption
+   Mace of Smiting
+   Mace of Terror
+   Nine Lives Stealer
+   Scimitar of Speed
+   Sun Blade
+   Sword of Life Stealing
+   Sword of Sharpness
+   Sword of Wounding
+   Trident of Fish Command
+   Vicious Weapon
+   Vorpal Sword
+   Weapon, +1, +2, or +3
+   Weapon, +1
+   Weapon, +2
+   Weapon, +3
+  RANGED AND THROWN WEAPONS
+   Dancing Sword
+   Dwarven Thrower
+   Javelin of Lightning
+   Oathbow
+  AMMUNITION
+   Ammunition, +1, +2, or +3
+   Ammunition, +1
+   Ammunition, +2
+   Ammunition, +3
+   Arrow of Slaying
+  ARMOR
+   Adamantine Armor
+   Armor, +1, +2, or +3
+   Armor, +1
+   Armor, +2
+   Armor, +3
+   Armor of Invulnerability
+   Armor of Resistance
+   Armor of Vulnerability
+   Demon Armor
+   Dragon Scale Mail
+   Black Dragon Scale Mail
+   Blue Dragon Scale Mail
+   Brass Dragon Scale Mail
+   Bronze Dragon Scale Mail
+   Copper Dragon Scale Mail
+   Gold Dragon Scale Mail
+   Green Dragon Scale Mail
+   Red Dragon Scale Mail
+   Silver Dragon Scale Mail
+   White Dragon Scale Mail
+   Dwarven Plate
+   Elven Chain
+   Glamoured Studded Leather Armor
+   Mithral Armor
+   Plate Armor of Etherealness
+  SHIELDS
+   Animated Shield
+   Arrow-Catching Shield
+   Shield of Missile Attraction
+   Spellguard Shield
+  OFFENSIVE WANDS STAVES AND RODS
+   Rod of Absorption
+   Rod of Alertness
+   Rod of Lordly Might
+   Staff of Charming
+   Staff of Fire
+   Staff of Frost
+   Staff of Healing
+   Staff of Power
+   Staff of Striking
+   Staff of Swarming Insects
+   Staff of the Magi
+   Staff of the Python
+   Staff of the Woodlands
+   Staff of Thunder and Lightning
+   Staff of Withering
+   Wand of Binding
+   Wand of Enemy Detection
+   Wand of Fear
+   Wand of Fireballs
+   Wand of Lightning Bolts
+   Wand of Magic Missiles
+   Wand of Paralysis
+   Wand of Polymorph
+   Wand of the War Mage, +1, +2, or +3
+   Wand of the War Mage, +1
+   Wand of the War Mage, +2
+   Wand of the War Mage, +3
+   Wand of Web
+   Wand of Wonder
+  COMBAT RINGS AND WEARABLES
+   Amulet of Health
+   Belt of Dwarvenkind
+   Belt of Giant Strength
+   Belt of Hill Giant Strength
+   Belt of Stone Giant Strength
+   Belt of Frost Giant Strength
+   Belt of Fire Giant Strength
+   Belt of Cloud Giant Strength
+   Belt of Storm Giant Strength
+   Boots of Speed
+   Bracers of Archery
+   Bracers of Defense
+   Brooch of Shielding
+   Circlet of Blasting
+   Cloak of Arachnida
+   Cloak of Displacement
+   Cloak of Protection
+   Gauntlets of Ogre Power
+   Gloves of Missile Snaring
+   Helm of Brilliance
+   Ioun Stone
+   Ioun Stone of Absorption
+   Ioun Stone of Agility
+   Ioun Stone of Awareness
+   Ioun Stone of Fortitude
+   Ioun Stone of Greater Absorption
+   Ioun Stone of Insight
+   Ioun Stone of Intellect
+   Ioun Stone of Leadership
+   Ioun Stone of Mastery
+   Ioun Stone of Protection
+   Ioun Stone of Regeneration
+   Ioun Stone of Reserve
+   Ioun Stone of Strength
+   Mantle of Spell Resistance
+   Necklace of Fireballs
+   Necklace of Prayer Beads
+   Periapt of Wound Closure
+   Ring of Djinni Summoning
+   Ring of Elemental Command
+   Ring of Air Elemental Command
+   Ring of Earth Elemental Command
+   Ring of Fire Elemental Command
+   Ring of Water Elemental Command
+   Ring of Evasion
+   Ring of Free Action
+   Ring of Invisibility
+   Ring of Protection
+   Ring of Regeneration
+   Ring of Resistance
+   Ring of Acid Resistance
+   Ring of Cold Resistance
+   Ring of Fire Resistance
+   Ring of Force Resistance
+   Ring of Lightning Resistance
+   Ring of Necrotic Resistance
+   Ring of Poison Resistance
+   Ring of Psychic Resistance
+   Ring of Radiant Resistance
+   Ring of Thunder Resistance
+   Ring of Shooting Stars
+   Ring of Spell Storing
+   Ring of Spell Turning
+   Ring of Telekinesis
+   Ring of the Ram
+   Robe of Scintillating Colors
+   Robe of Stars
+   Robe of the Archmagi
+   Scarab of Protection
+   Talisman of Pure Good
+   Talisman of the Sphere
+   Talisman of Ultimate Evil
+  COMBAT POTIONS OILS AND DUSTS
+   Bead of Force
+   Dust of Sneezing and Choking
+   Oil of Sharpness
+   Oil of Slipperiness
+   Potion of Diminution
+   Potion of Giant Strength
+   Potion of Hill Giant Strength
+   Potion of Frost Giant Strength
+   Potion of Stone Giant Strength
+   Potion of Fire Giant Strength
+   Potion of Cloud Giant Strength
+   Potion of Storm Giant Strength
+   Potion of Growth
+   Potion of Healing
+   Potion of Greater Healing
+   Potion of Superior Healing
+   Potion of Supreme Healing
+   Potion of Heroism
+   Potion of Invisibility
+   Potion of Resistance
+   Potion of Acid Resistance
+   Potion of Cold Resistance
+   Potion of Fire Resistance
+   Potion of Force Resistance
+   Potion of Lightning Resistance
+   Potion of Necrotic Resistance
+   Potion of Poison Resistance
+   Potion of Psychic Resistance
+   Potion of Radiant Resistance
+   Potion of Thunder Resistance
+   Potion of Speed
+  SPELL SCROLLS AND STORED SPELLS
+   Ioun Stone of Reserve
+   Ring of Spell Storing
+   Spell Scroll
+   Spell Scroll (Cantrip)
+   Spell Scroll (1st)
+   Spell Scroll (2nd)
+   Spell Scroll (3rd)
+   Spell Scroll (4th)
+   Spell Scroll (5th)
+   Spell Scroll (6th)
+   Spell Scroll (7th)
+   Spell Scroll (8th)
+   Spell Scroll (9th)
+ OFFENSE
+  ATTACK ACCURACY
+   Ammunition, +1, +2, or +3
+   Ammunition, +1
+   Ammunition, +2
+   Ammunition, +3
+   Berserker Axe
+   Bracers of Archery
+   Dagger of Venom
+   Defender
+   Dragon Slayer
+   Dwarven Thrower
+   Giant Slayer
+   Hammer of Thunderbolts
+   Holy Avenger
+   Luck Blade
+   Mace of Smiting
+   Nine Lives Stealer
+   Oathbow
+   Robe of the Archmagi
+   Scimitar of Speed
+   Sun Blade
+   Vorpal Sword
+   Wand of the War Mage, +1, +2, or +3
+   Wand of the War Mage, +1
+   Wand of the War Mage, +2
+   Wand of the War Mage, +3
+   Weapon, +1, +2, or +3
+   Weapon, +1
+   Weapon, +2
+   Weapon, +3
+  BONUS DAMAGE
+   Ammunition, +1, +2, or +3
+   Ammunition, +1
+   Ammunition, +2
+   Ammunition, +3
+   Arrow of Slaying
+   Berserker Axe
+   Bracers of Archery
+   Dagger of Venom
+   Defender
+   Dragon Slayer
+   Dwarven Thrower
+   Flame Tongue
+   Frost Brand
+   Giant Slayer
+   Hammer of Thunderbolts
+   Holy Avenger
+   Luck Blade
+   Mace of Disruption
+   Mace of Smiting
+   Nine Lives Stealer
+   Oathbow
+   Oil of Sharpness
+   Scimitar of Speed
+   Sun Blade
+   Sword of Life Stealing
+   Sword of Sharpness
+   Vicious Weapon
+   Vorpal Sword
+   Weapon, +1, +2, or +3
+   Weapon, +1
+   Weapon, +2
+   Weapon, +3
+  DIRECT DAMAGE
+   Ammunition, +1, +2, or +3
+   Ammunition, +1
+   Ammunition, +2
+   Ammunition, +3
+   Arrow of Slaying
+   Bead of Force
+   Berserker Axe
+   Circlet of Blasting
+   Dagger of Venom
+   Dancing Sword
+   Defender
+   Dragon Slayer
+   Dwarven Thrower
+   Whip Feather Token
+   Flame Tongue
+   Frost Brand
+   Gem of Brightness
+   Giant Slayer
+   Hammer of Thunderbolts
+   Helm of Brilliance
+   Holy Avenger
+   Horn of Blasting
+   Javelin of Lightning
+   Luck Blade
+   Mace of Disruption
+   Mace of Smiting
+   Mace of Terror
+   Necklace of Fireballs
+   Nine Lives Stealer
+   Oathbow
+   Ring of Shooting Stars
+   Ring of the Ram
+   Rod of Lordly Might
+   Scimitar of Speed
+   Sphere of Annihilation
+   Staff of Fire
+   Staff of Frost
+   Staff of Power
+   Staff of Striking
+   Staff of the Magi
+   Staff of Thunder and Lightning
+   Staff of Withering
+   Sun Blade
+   Sword of Life Stealing
+   Sword of Sharpness
+   Sword of Wounding
+   Talisman of Pure Good
+   Talisman of Ultimate Evil
+   Trident of Fish Command
+   Vicious Weapon
+   Vorpal Sword
+   Wand of Fireballs
+   Wand of Lightning Bolts
+   Wand of Magic Missiles
+   Wand of Wonder
+   Weapon, +1, +2, or +3
+   Weapon, +1
+   Weapon, +2
+   Weapon, +3
+  AREA DAMAGE
+   Bead of Force
+   Helm of Brilliance
+   Horn of Blasting
+   Instant Fortress
+   Javelin of Lightning
+   Necklace of Fireballs
+   Ring of Shooting Stars
+   Staff of Fire
+   Staff of Frost
+   Staff of Power
+   Staff of the Magi
+   Staff of Thunder and Lightning
+   Wand of Fireballs
+   Wand of Lightning Bolts
+   Wand of Wonder
+  ELEMENTAL DAMAGE
+   Bead of Force
+   Circlet of Blasting
+   Dagger of Venom
+   Whip Feather Token
+   Flame Tongue
+   Frost Brand
+   Helm of Brilliance
+   Holy Avenger
+   Horn of Blasting
+   Javelin of Lightning
+   Mace of Disruption
+   Necklace of Fireballs
+   Ring of Shooting Stars
+   Ring of the Ram
+   Rod of Lordly Might
+   Sphere of Annihilation
+   Staff of Fire
+   Staff of Frost
+   Staff of Power
+   Staff of Striking
+   Staff of the Magi
+   Staff of Thunder and Lightning
+   Staff of Withering
+   Sun Blade
+   Sword of Life Stealing
+   Sword of Wounding
+   Talisman of Pure Good
+   Talisman of Ultimate Evil
+   Wand of Wonder
+  CREATURE TYPE SPECIALISTS
+   Dragon Scale Mail
+   Black Dragon Scale Mail
+   Blue Dragon Scale Mail
+   Brass Dragon Scale Mail
+   Bronze Dragon Scale Mail
+   Copper Dragon Scale Mail
+   Gold Dragon Scale Mail
+   Green Dragon Scale Mail
+   Red Dragon Scale Mail
+   Silver Dragon Scale Mail
+   White Dragon Scale Mail
+   Dragon Slayer
+   Giant Slayer
+   Holy Avenger
+   Mace of Disruption
+   Mace of Smiting
+   Oathbow
+   Talisman of Pure Good
+   Talisman of Ultimate Evil
+  CRITICAL HITS AND EXECUTION
+   Nine Lives Stealer
+   Sword of Sharpness
+   Vicious Weapon
+   Vorpal Sword
+  POISON LIFE DRAIN AND WOUNDING
+   Dagger of Venom
+   Mace of Disruption
+   Nine Lives Stealer
+   Staff of Withering
+   Sword of Life Stealing
+   Sword of Wounding
+  EXTRA ATTACKS AND ACTION ECONOMY
+   Animated Shield
+   Dancing Sword
+   Whip Feather Token
+   Scimitar of Speed
+   Staff of the Python
+ DEFENSE AND RECOVERY
+  HEALING AND HIT POINT RECOVERY
+   Necklace of Prayer Beads
+   Potion of Healing
+   Potion of Greater Healing
+   Potion of Superior Healing
+   Potion of Supreme Healing
+   Staff of Healing
+  REGENERATION AND DEATH PREVENTION
+   Armor of Invulnerability
+   Ioun Stone of Regeneration
+   Nine Lives Stealer
+   Periapt of Wound Closure
+   Ring of Regeneration
+  ARMOR CLASS AND SAVING THROWS
+   Adamantine Armor
+   Animated Shield
+   Armor, +1, +2, or +3
+   Armor, +1
+   Armor, +2
+   Armor, +3
+   Armor of Invulnerability
+   Armor of Resistance
+   Armor of Vulnerability
+   Arrow-Catching Shield
+   Bracers of Defense
+   Cloak of Protection
+   Defender
+   Demon Armor
+   Dragon Scale Mail
+   Black Dragon Scale Mail
+   Blue Dragon Scale Mail
+   Brass Dragon Scale Mail
+   Bronze Dragon Scale Mail
+   Copper Dragon Scale Mail
+   Gold Dragon Scale Mail
+   Green Dragon Scale Mail
+   Red Dragon Scale Mail
+   Silver Dragon Scale Mail
+   White Dragon Scale Mail
+   Dwarven Plate
+   Elven Chain
+   Glamoured Studded Leather Armor
+   Ioun Stone
+   Ioun Stone of Protection
+   Luck Blade
+   Mithral Armor
+   Plate Armor of Etherealness
+   Ring of Protection
+   Robe of Stars
+   Robe of the Archmagi
+   Rod of Alertness
+   Shield of Missile Attraction
+   Spellguard Shield
+   Staff of Power
+   Staff of the Magi
+  DAMAGE RESISTANCE AND IMMUNITY
+   Armor of Invulnerability
+   Armor of Resistance
+   Armor of Vulnerability
+   Belt of Dwarvenkind
+   Brooch of Shielding
+   Cloak of Arachnida
+   Dragon Scale Mail
+   Black Dragon Scale Mail
+   Blue Dragon Scale Mail
+   Brass Dragon Scale Mail
+   Bronze Dragon Scale Mail
+   Copper Dragon Scale Mail
+   Gold Dragon Scale Mail
+   Green Dragon Scale Mail
+   Red Dragon Scale Mail
+   Silver Dragon Scale Mail
+   White Dragon Scale Mail
+   Frost Brand
+   Helm of Brilliance
+   Mantle of Spell Resistance
+   Potion of Resistance
+   Potion of Acid Resistance
+   Potion of Cold Resistance
+   Potion of Fire Resistance
+   Potion of Force Resistance
+   Potion of Lightning Resistance
+   Potion of Necrotic Resistance
+   Potion of Poison Resistance
+   Potion of Psychic Resistance
+   Potion of Radiant Resistance
+   Potion of Thunder Resistance
+   Ring of Elemental Command
+   Ring of Air Elemental Command
+   Ring of Earth Elemental Command
+   Ring of Fire Elemental Command
+   Ring of Water Elemental Command
+   Ring of Resistance
+   Ring of Acid Resistance
+   Ring of Cold Resistance
+   Ring of Fire Resistance
+   Ring of Force Resistance
+   Ring of Lightning Resistance
+   Ring of Necrotic Resistance
+   Ring of Poison Resistance
+   Ring of Psychic Resistance
+   Ring of Radiant Resistance
+   Ring of Thunder Resistance
+   Robe of the Archmagi
+   Scarab of Protection
+   Staff of Fire
+   Staff of Frost
+   Staff of Power
+   Staff of the Magi
+  SPELL DEFENSE ABSORPTION AND REFLECTION
+   Cube of Force
+   Ioun Stone of Absorption
+   Ioun Stone of Greater Absorption
+   Mantle of Spell Resistance
+   Ring of Spell Turning
+   Robe of the Archmagi
+   Rod of Absorption
+   Scarab of Protection
+   Spellguard Shield
+   Staff of Power
+   Staff of the Magi
+  PROJECTILE DEFENSE
+   Arrow-Catching Shield
+   Brooch of Shielding
+   Cloak of Displacement
+   Gloves of Missile Snaring
+   Shield of Missile Attraction
+  CONDITION IMMUNITY AND RECOVERY
+   Necklace of Prayer Beads
+   Oil of Slipperiness
+   Potion of Heroism
+   Ring of Free Action
+   Scarab of Protection
+   Staff of Healing
+  COMBAT STEALTH INVISIBILITY AND EVASION
+   Cloak of Arachnida
+   Cloak of Displacement
+   Eversmoking Bottle
+   Potion of Invisibility
+   Ring of Evasion
+   Ring of Invisibility
+   Robe of Scintillating Colors
+ CONTROL
+  BATTLEFIELD CONTROL AND RESTRAINT
+   Cube of Force
+   Iron Bands of Binding
+   Iron Flask
+   Mirror of Life Trapping
+   Ring of Telekinesis
+   Rope of Entanglement
+   Sphere of Annihilation
+   Staff of Frost
+   Staff of Swarming Insects
+   Talisman of the Sphere
+   Wand of Binding
+   Wand of Web
+  FORCED MOVEMENT AND KNOCKDOWN
+   Hammer of Thunderbolts
+   Horn of Blasting
+   Ring of Telekinesis
+   Ring of the Ram
+   Staff of Thunder and Lightning
+   Wind Fan
+  FEAR CHARM AND DOMINATION
+   Mace of Terror
+   Pipes of Haunting
+   Staff of Charming
+   Wand of Fear
+   Orb of Dragonkind
+  PARALYSIS BLINDING AND OTHER DEBUFFS
+   Dagger of Venom
+   Dust of Sneezing and Choking
+   Gem of Brightness
+   Robe of Scintillating Colors
+   Staff of Withering
+   Wand of Paralysis
+   Wand of Wonder
+  SUMMONING AND COMBAT ALLIES
+   Bag of Tricks
+   Gray Bag of Tricks
+   Rust Bag of Tricks
+   Tan Bag of Tricks
+   Bowl of Commanding Water Elementals
+   Brazier of Commanding Fire Elementals
+   Censer of Controlling Air Elementals
+   Efreeti Bottle
+   Elemental Gem
+   Air Elemental Gem
+   Earth Elemental Gem
+   Fire Elemental Gem
+   Water Elemental Gem
+   Bronze Griffon Figurine of Wondrous Power
+   Golden Lions Figurine of Wondrous Power
+   Ivory Goats Figurine of Wondrous Power
+   Marble Elephant Figurine of Wondrous Power
+   Obsidian Steed Figurine of Wondrous Power
+   Onyx Dog Figurine of Wondrous Power
+   Horn of Valhalla
+   Silver Horn of Valhalla
+   Brass Horn of Valhalla
+   Bronze Horn of Valhalla
+   Iron Horn of Valhalla
+   Iron Flask
+   Pipes of the Sewers
+   Ring of Djinni Summoning
+   Staff of the Python
+   Staff of the Woodlands
+   Stone of Controlling Earth Elementals
+  ELEMENTAL COMMAND AND NATURAL FORCES
+   Bowl of Commanding Water Elementals
+   Brazier of Commanding Fire Elementals
+   Censer of Controlling Air Elementals
+   Elemental Gem
+   Air Elemental Gem
+   Earth Elemental Gem
+   Fire Elemental Gem
+   Water Elemental Gem
+   Javelin of Lightning
+   Ring of Elemental Command
+   Ring of Air Elemental Command
+   Ring of Earth Elemental Command
+   Ring of Fire Elemental Command
+   Ring of Water Elemental Command
+   Ring of Shooting Stars
+   Staff of Fire
+   Staff of Frost
+   Staff of Thunder and Lightning
+   Stone of Controlling Earth Elementals
+   Wand of Fireballs
+   Wand of Lightning Bolts
+   Wind Fan
+ ENHANCEMENT AND TACTICS
+  COMBAT MOBILITY SPEED AND FLIGHT
+   Boots of Speed
+   Cloak of Arachnida
+   Dancing Sword
+   Potion of Speed
+   Ring of Evasion
+   Ring of Invisibility
+   Rod of Lordly Might
+   Scimitar of Speed
+   Staff of the Magi
+  INITIATIVE DETECTION AND AWARENESS
+   Ioun Stone of Awareness
+   Rod of Alertness
+   Wand of Enemy Detection
+  STRENGTH AND ABILITY ENHANCEMENT
+   Amulet of Health
+   Belt of Dwarvenkind
+   Belt of Giant Strength
+   Belt of Hill Giant Strength
+   Belt of Stone Giant Strength
+   Belt of Frost Giant Strength
+   Belt of Fire Giant Strength
+   Belt of Cloud Giant Strength
+   Belt of Storm Giant Strength
+   Gauntlets of Ogre Power
+   Ioun Stone of Agility
+   Ioun Stone of Fortitude
+   Ioun Stone of Insight
+   Ioun Stone of Intellect
+   Ioun Stone of Leadership
+   Ioun Stone of Mastery
+   Ioun Stone of Strength
+   Potion of Diminution
+   Potion of Giant Strength
+   Potion of Hill Giant Strength
+   Potion of Frost Giant Strength
+   Potion of Stone Giant Strength
+   Potion of Fire Giant Strength
+   Potion of Cloud Giant Strength
+   Potion of Storm Giant Strength
+   Potion of Growth
+  SPELL ATTACK AND SPELLCASTING ENHANCEMENT
+   Ioun Stone of Mastery
+   Ioun Stone of Reserve
+   Pearl of Power
+   Ring of Spell Storing
+   Robe of the Archmagi
+   Spell Scroll
+   Spell Scroll (Cantrip)
+   Spell Scroll (1st)
+   Spell Scroll (2nd)
+   Spell Scroll (3rd)
+   Spell Scroll (4th)
+   Spell Scroll (5th)
+   Spell Scroll (6th)
+   Spell Scroll (7th)
+   Spell Scroll (8th)
+   Spell Scroll (9th)
+   Staff of Power
+   Staff of the Magi
+   Wand of the War Mage, +1, +2, or +3
+   Wand of the War Mage, +1
+   Wand of the War Mage, +2
+   Wand of the War Mage, +3
+   Orb of Dragonkind
+  TRANSFORMATION AND SIZE CHANGE
+   Cloak of Arachnida
+   Potion of Diminution
+   Potion of Growth
+   Rod of Lordly Might
+   Staff of the Python
+   Wand of Polymorph
+  CURSED AND HIGH RISK COMBAT ITEMS
+   Armor of Vulnerability
+   Berserker Axe
+   Demon Armor
+   Efreeti Bottle
+   Sphere of Annihilation
+   Wand of Wonder
+  VERSATILE BATTLE MAGIC
+   Luck Blade
+   Necklace of Prayer Beads
+   Rod of Lordly Might
+   Staff of Power
+   Staff of the Magi
+   Wand of Wonder
+   Orb of Dragonkind
+NON BATTLE
+ STORAGE AND ITEM FORMS
+  EXTRADIMENSIONAL STORAGE
+   Bag of Holding
+   Handy Haversack
+   Portable Hole
+  EQUIPMENT STORAGE AND CARRYING
+   Bag of Holding
+   Efficient Quiver
+   Handy Haversack
+   Portable Hole
+  UTILITY POTIONS OILS AND DUSTS
+   Dust of Disappearance
+   Dust of Dryness
+   Oil of Etherealness
+   Philter of Love
+   Potion of Animal Friendship
+   Potion of Clairvoyance
+   Potion of Climbing
+   Potion of Flying
+   Potion of Gaseous Form
+   Potion of Mind Reading
+   Potion of Poison
+   Potion of Water Breathing
+   Restorative Ointment
+  UTILITY RINGS AND WEARABLES
+   Amulet of Proof against Detection and Location
+   Amulet of the Planes
+   Boots of Elvenkind
+   Boots of Levitation
+   Boots of Striding and Springing
+   Boots of the Winterlands
+   Cloak of Elvenkind
+   Cloak of the Bat
+   Cloak of the Manta Ray
+   Eyes of Charming
+   Eyes of Minute Seeing
+   Eyes of the Eagle
+   Gloves of Swimming and Climbing
+   Goggles of Night
+   Hat of Disguise
+   Headband of Intellect
+   Helm of Comprehending Languages
+   Helm of Telepathy
+   Helm of Teleportation
+   Horseshoes of a Zephyr
+   Horseshoes of Speed
+   Ioun Stone of Sustenance
+   Medallion of Thoughts
+   Necklace of Adaptation
+   Periapt of Health
+   Periapt of Proof against Poison
+   Ring of Animal Influence
+   Ring of Feather Falling
+   Ring of Jumping
+   Ring of Mind Shielding
+   Ring of Swimming
+   Ring of Three Wishes
+   Ring of Warmth
+   Ring of Water Walking
+   Ring of X-ray Vision
+   Robe of Eyes
+   Robe of Useful Items
+   Slippers of Spider Climbing
+   Stone of Good Luck (Luckstone)
+   Wings of Flying
+  UTILITY WANDS STAVES AND RODS
+   Immovable Rod
+   Rod of Rulership
+   Rod of Security
+   Wand of Magic Detection
+   Wand of Secrets
+  OBJECT CREATION AND DEPLOYMENT
+   Decanter of Endless Water
+   Feather Token
+   Anchor Feather Token
+   Bird Feather Token
+   Fan Feather Token
+   Swan Boat Feather Token
+   Tree Feather Token
+   Folding Boat
+   Marvelous Pigments
+   Robe of Useful Items
+  GENERAL TOOLS AND CONVENIENCE
+   Chime of Opening
+   Efficient Quiver
+   Immovable Rod
+   Robe of Useful Items
+   Rope of Climbing
+   Sovereign Glue
+   Stone of Good Luck (Luckstone)
+   Universal Solvent
+ TRAVEL
+  TRAVEL AND TRANSPORT
+   Amulet of the Planes
+   Apparatus of the Crab
+   Boots of Levitation
+   Boots of Striding and Springing
+   Broom of Flying
+   Cape of the Mountebank
+   Carpet of Flying
+   Carpet of Flying (3 ft. × 5 ft.)
+   Carpet of Flying (4 ft. × 6 ft.)
+   Carpet of Flying (5 ft. × 7 ft.)
+   Carpet of Flying (6 ft. × 9 ft.)
+   Cloak of the Bat
+   Cubic Gate
+   Folding Boat
+   Helm of Teleportation
+   Horseshoes of a Zephyr
+   Horseshoes of Speed
+   Oil of Etherealness
+   Potion of Climbing
+   Potion of Flying
+   Potion of Gaseous Form
+   Potion of Water Breathing
+   Ring of Feather Falling
+   Well of Many Worlds
+   Winged Boots
+   Wings of Flying
+  FLIGHT AND LEVITATION
+   Boots of Levitation
+   Broom of Flying
+   Carpet of Flying
+   Carpet of Flying (3 ft. × 5 ft.)
+   Carpet of Flying (4 ft. × 6 ft.)
+   Carpet of Flying (5 ft. × 7 ft.)
+   Carpet of Flying (6 ft. × 9 ft.)
+   Cloak of the Bat
+   Ebony Fly Figurine of Wondrous Power
+   Horseshoes of a Zephyr
+   Potion of Flying
+   Winged Boots
+   Wings of Flying
+  TELEPORTATION AND PLANAR TRAVEL
+   Amulet of the Planes
+   Cape of the Mountebank
+   Cubic Gate
+   Helm of Teleportation
+   Oil of Etherealness
+   Ring of Three Wishes
+   Well of Many Worlds
+  CLIMBING JUMPING AND OVERLAND MOBILITY
+   Boots of Striding and Springing
+   Gloves of Swimming and Climbing
+   Horseshoes of a Zephyr
+   Horseshoes of Speed
+   Potion of Climbing
+   Ring of Jumping
+   Rope of Climbing
+   Slippers of Spider Climbing
+  AQUATIC TRAVEL AND BREATHING
+   Apparatus of the Crab
+   Cloak of the Manta Ray
+   Folding Boat
+   Gloves of Swimming and Climbing
+   Necklace of Adaptation
+   Potion of Water Breathing
+   Ring of Swimming
+   Ring of Water Walking
+  VEHICLES MOUNTS AND CONVEYANCES
+   Apparatus of the Crab
+   Broom of Flying
+   Carpet of Flying
+   Carpet of Flying (3 ft. × 5 ft.)
+   Carpet of Flying (4 ft. × 6 ft.)
+   Carpet of Flying (5 ft. × 7 ft.)
+   Carpet of Flying (6 ft. × 9 ft.)
+   Swan Boat Feather Token
+   Ebony Fly Figurine of Wondrous Power
+   Folding Boat
+   Horseshoes of a Zephyr
+   Horseshoes of Speed
+  SHELTER STRUCTURES AND FORTIFICATIONS
+   Tree Feather Token
+   Folding Boat
+   Marvelous Pigments
+   Robe of Useful Items
+   Rod of Security
+ STEALTH AND INFORMATION
+  STEALTH AND CONCEALMENT
+   Amulet of Proof against Detection and Location
+   Boots of Elvenkind
+   Cloak of Elvenkind
+   Dust of Disappearance
+   Hat of Disguise
+  DISGUISE AND IDENTITY
+   Cloak of the Bat
+   Dust of Disappearance
+   Hat of Disguise
+   Potion of Gaseous Form
+  ILLUMINATION AND DARKVISION
+   Goggles of Night
+   Lantern of Revealing
+   Robe of Eyes
+  DETECTION REVELATION AND SECRET FINDING
+   Crystal Ball
+   Crystal Ball of Mind Reading
+   Crystal Ball of Telepathy
+   Crystal Ball of True Seeing
+   Eyes of Minute Seeing
+   Eyes of the Eagle
+   Serpentine Owl Figurine of Wondrous Power
+   Gem of Seeing
+   Lantern of Revealing
+   Potion of Clairvoyance
+   Ring of X-ray Vision
+   Robe of Eyes
+   Wand of Magic Detection
+   Wand of Secrets
+  SCRYING AND REMOTE VIEWING
+   Crystal Ball
+   Crystal Ball of Mind Reading
+   Crystal Ball of Telepathy
+   Crystal Ball of True Seeing
+   Potion of Clairvoyance
+  TELEPATHY MIND READING AND COMMUNICATION
+   Crystal Ball of Mind Reading
+   Crystal Ball of Telepathy
+   Silver Raven Figurine of Wondrous Power
+   Helm of Telepathy
+   Medallion of Thoughts
+   Potion of Mind Reading
+   Ring of Mind Shielding
+  LANGUAGES AND COMPREHENSION
+   Helm of Comprehending Languages
+  EXPLORATION PERCEPTION AND INVESTIGATION
+   Crystal Ball
+   Crystal Ball of Mind Reading
+   Crystal Ball of Telepathy
+   Crystal Ball of True Seeing
+   Eyes of Minute Seeing
+   Eyes of the Eagle
+   Serpentine Owl Figurine of Wondrous Power
+   Gem of Seeing
+   Goggles of Night
+   Lantern of Revealing
+   Ring of X-ray Vision
+   Robe of Eyes
+   Wand of Magic Detection
+   Wand of Secrets
+  ANTI DIVINATION PRIVACY AND MIND PROTECTION
+   Amulet of Proof against Detection and Location
+   Ring of Mind Shielding
+ SOCIAL AND SURVIVAL
+  SOCIAL INFLUENCE AND PERSUASION
+   Eyes of Charming
+   Helm of Telepathy
+   Medallion of Thoughts
+   Philter of Love
+   Potion of Animal Friendship
+   Ring of Animal Influence
+   Rod of Rulership
+  ANIMAL INFLUENCE AND HANDLING
+   Potion of Animal Friendship
+   Ring of Animal Influence
+  FOOD WATER AND SUSTENANCE
+   Decanter of Endless Water
+   Ioun Stone of Sustenance
+  ENVIRONMENTAL ADAPTATION AND SURVIVAL
+   Apparatus of the Crab
+   Boots of the Winterlands
+   Cloak of the Manta Ray
+   Necklace of Adaptation
+   Potion of Water Breathing
+   Ring of Feather Falling
+   Ring of Warmth
+   Ring of Water Walking
+  DISEASE POISON AND LONG TERM RECOVERY
+   Periapt of Health
+   Periapt of Proof against Poison
+   Restorative Ointment
+  LUCK FORTUNE AND PROBABILITY
+   Bag of Beans
+   Deck of Many Things
+   Ring of Three Wishes
+   Stone of Good Luck (Luckstone)
+  KNOWLEDGE AND MENTAL ENHANCEMENT
+   Crystal Ball
+   Crystal Ball of Mind Reading
+   Crystal Ball of Telepathy
+   Crystal Ball of True Seeing
+   Eyes of Minute Seeing
+   Headband of Intellect
+   Medallion of Thoughts
+   Tome of Clear Thought
+   Tome of Leadership and Influence
+   Tome of Understanding
+  FORM SIZE AND APPEARANCE UTILITY
+   Cloak of the Bat
+   Hat of Disguise
+   Oil of Etherealness
+   Potion of Gaseous Form
+ CREATION AND UTILITY MAGIC
+  CRAFTING CREATION AND MATERIAL MANIPULATION
+   Decanter of Endless Water
+   Dust of Dryness
+   Tree Feather Token
+   Manual of Golems
+   Manual of Clay Golems
+   Manual of Flesh Golems
+   Manual of Iron Golems
+   Manual of Stone Golems
+   Marvelous Pigments
+   Robe of Useful Items
+   Sovereign Glue
+   Universal Solvent
+  PERMANENT ABILITY IMPROVEMENT
+   Manual of Bodily Health
+   Manual of Gainful Exercise
+   Manual of Quickness of Action
+   Tome of Clear Thought
+   Tome of Leadership and Influence
+   Tome of Understanding
+  UTILITY SPELLCASTING AND SPELL RESOURCES
+   Amulet of the Planes
+   Candle of Invocation
+   Crystal Ball
+   Crystal Ball of Mind Reading
+   Crystal Ball of Telepathy
+   Crystal Ball of True Seeing
+   Helm of Teleportation
+   Ring of Three Wishes
+   Rod of Security
+   Well of Many Worlds
+  HELPERS COMPANIONS AND CONSTRUCTS
+   Feather Token
+   Anchor Feather Token
+   Bird Feather Token
+   Fan Feather Token
+   Swan Boat Feather Token
+   Tree Feather Token
+   Figurine of Wondrous Power
+   Ebony Fly Figurine of Wondrous Power
+   Serpentine Owl Figurine of Wondrous Power
+   Silver Raven Figurine of Wondrous Power
+   Manual of Golems
+   Manual of Clay Golems
+   Manual of Flesh Golems
+   Manual of Iron Golems
+   Manual of Stone Golems
+  ENVIRONMENTAL AND ELEMENTAL CONTROL
+   Decanter of Endless Water
+   Dust of Dryness
+   Fan Feather Token
+   Tree Feather Token
+  WEATHER AIR AND WATER MANIPULATION
+   Decanter of Endless Water
+   Dust of Dryness
+   Fan Feather Token
+  RITUAL RELIGIOUS AND ALIGNMENT MAGIC
+   Candle of Invocation
+   Manual of Golems
+   Manual of Clay Golems
+   Manual of Flesh Golems
+   Manual of Iron Golems
+   Manual of Stone Golems
+  RANDOM MAGIC WISHES AND REALITY ALTERATION
+   Bag of Beans
+   Deck of Many Things
+   Ring of Three Wishes
+   Well of Many Worlds
+ ACCESS, SAFETY, AND UNUSUAL MAGIC
+  LOCKS OPENING AND ENTRY
+   Chime of Opening
+   Immovable Rod
+   Robe of Useful Items
+   Sovereign Glue
+   Universal Solvent
+  RESTRAINT IMPRISONMENT AND SECURITY
+   Dimensional Shackles
+   Immovable Rod
+   Rod of Security
+   Sovereign Glue
+  TRAPS CONTAINMENT AND CAPTURE
+   Bag of Devouring
+   Dimensional Shackles
+   Sovereign Glue
+  ILLUSIONS ENTERTAINMENT AND TRICKERY
+   Deck of Illusions
+   Dust of Disappearance
+   Hat of Disguise
+   Marvelous Pigments
+   Robe of Useful Items
+  HAZARDOUS CURSED AND DECEPTIVE ITEMS
+   Bag of Beans
+   Bag of Devouring
+   Deck of Many Things
+   Potion of Poison
+   Sovereign Glue
