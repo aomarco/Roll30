@@ -30,6 +30,7 @@ Roll30 currently provides:
 - Pan and zoom over an infinite canvas that extends past the map image.
 - Drawable walls and half-walls that block movement (auto-routing around them) and ranged line of sight.
 - Lootable chests filled in Setup and opened with a bonus action in battle.
+- A ruler tool that measures distance in feet from the squares a drawn line crosses.
 - Grid-snapped tokens and collision prevention.
 - Simplified persistent character sheets.
 - Searchable, quantity-based character and token inventories.
@@ -47,9 +48,10 @@ Roll30 currently provides:
 - Armor and shields with fully derived Armor Class and a heavy-armor speed penalty.
 - Inventory-gated equipping (you can only equip what you own).
 - Character identity fields: alignment, languages, and background.
+- A status-condition engine: 15 SRD conditions that bias attack rolls, gate actions/movement, and show colored token badges.
 - Local browser persistence and GitHub Pages deployment.
 
-Roll30 is still a single-browser local application. It does not provide accounts, multiplayer synchronization, cloud saves, monsters, spells, conditions/status effects, class features, magic-item effects, in-combat skill/save checks, or a complete D&D rules engine. Only Fighter class derivation exists, though all nine SRD races (numeric traits only) are selectable.
+Roll30 is still a single-browser local application. It does not provide accounts, multiplayer synchronization, cloud saves, monsters, spells, class features, magic-item effects, in-combat skill/save checks, or a complete D&D rules engine. Only Fighter class derivation exists, though all nine SRD races (numeric traits only) are selectable. A backend condition engine exists (with token effects and badges), but nothing in combat *applies* conditions automatically yet — they are toggled manually in the inspector until spells/monsters can set them.
 
 ## Live Application and Repository
 
@@ -585,10 +587,10 @@ The cinematic displays both d20s, dims the rejected die, and emphasizes the sele
 ## Walls and Line of Sight
 
 Walls and half-walls are invisible geometry drawn over the map to match its art
-(`walls`, per-map, persisted; drawn via the `Spline` toggle — see Persistence and
-the walls "To Be Updated" entries). Each is a polyline of world-percentage
-points with a `type` of `full` or `half`. Visibility is toggleable
-(`wallsVisible`); hidden walls still function.
+(`walls`, per-map, persisted; drawn via the `Spline` toggle in the board control
+cluster). Each is a polyline of world-percentage points with a `type` of `full`
+or `half`. Visibility is toggleable (`wallsVisible`); hidden walls still
+function.
 
 - **Movement:** both full and half walls block movement. During a battle drag,
   if the straight path between origin and destination crosses any wall, the
@@ -628,6 +630,42 @@ distinct from tokens (gold-bordered box, `Package` icon).
   land on a chest's cell.
 
 Chests persist depleted across a battle (no auto-refill on restart).
+
+## Conditions and Status Effects
+
+Roll30 has a backend-first status-condition engine so future features (spells,
+monster abilities, feats) can apply a condition by id and have combat react
+automatically. `src/conditions.js` holds all **15 SRD conditions** (blinded,
+charmed, deafened, frightened, grappled, incapacitated, invisible, paralyzed,
+petrified, poisoned, prone, restrained, stunned, unconscious, exhaustion), each
+with structured flags (`selfAttack`, `vsMelee`, `vsRanged`, `incapacitated`,
+`immobile`, `autoCritMelee`), plus pure helpers: `conditionById`,
+`normalizeConditions`, `isIncapacitated`, `isImmobilized`,
+`attackerConditionModes`, `targetConditionModes`, and `targetAutoCrit`.
+
+Effects wired into combat:
+
+- **Attack rolls:** `attackRollMode` (`src/combatRules.js`) folds attacker and
+  target condition roll-modes into the existing advantage/disadvantage engine
+  (e.g. prone gives melee-vs-ranged asymmetry; restrained/blinded/stunned/
+  paralyzed/unconscious targets grant the attacker advantage; poisoned/
+  frightened attackers take disadvantage; invisible attackers gain advantage).
+  Sources cancel through the normal advantage/disadvantage rules.
+- **Auto-crit:** `resolveWeaponAttack` (`src/weapons.js`) takes an `autoCritical`
+  option so a melee hit against a paralyzed/unconscious target crits.
+- **Actions:** an incapacitated active token (stunned/paralyzed/unconscious/
+  petrified/incapacitated) has Attack, Bonus Action, Dash, and Swap disabled.
+- **Movement:** an immobilized token (grappled/restrained/etc.) has zero
+  movement.
+
+Tokens carry a `conditions: []` array (defaulted in `makeToken` and
+`migrateTokenData`, **cleared on battle start**). Visual indicators: colored
+abbreviation badges float above each affected token, and the token inspector has
+a Conditions section of toggle chips (each active chip takes the condition's
+color) for applying/clearing them manually. This is the reusable core for later
+systems — a spell that inflicts *Frightened* or *Restrained* will be a one-liner.
+Conditions are **not applied automatically by anything yet** (no spells/monsters);
+they are set by hand in the inspector for now.
 
 ## Ruler
 
@@ -694,8 +732,8 @@ Reduced-motion preferences shorten and suppress continuous motion.
 
 ## Range Bands and Highlights
 
-The range indicator is a single lightweight SVG (not per-cell squares — see the
-range-indicator "To Be Updated" entry): translucent bands whose outline is the
+The range indicator is a single lightweight SVG (not per-cell squares):
+translucent bands whose outline is the
 **true stair-stepped edge of the in-range cells** (one polygon per tier, built
 around the attacker's cell so it centers on the snapped token), with real grid
 lines drawn through them (an SVG grid `pattern` clipped to the region, aligned to
@@ -909,7 +947,7 @@ catalog with consumable ammunition (see the Ammunition section).
 
 ### Excluded
 
-- Net mechanics are intentionally excluded (no condition system for Restrained).
+- Net mechanics are intentionally excluded. The Restrained condition now exists, but Net still has no attack/escape wiring, so it remains unimported.
 - Full mounted Lance mechanics are intentionally excluded.
 
 ## Battle Completion and Restart
@@ -935,7 +973,7 @@ The winner is reported. A completed battle can be started again, which:
 - Walls (`walls`: polylines) and their visibility (`wallsVisible`).
 - Chests (`chests`: cell position + contents).
 - Tokens and positions.
-- Token stats, size, inventories, loadouts, armor, and shield.
+- Token stats, size, inventories, loadouts, armor, shield, and conditions.
 - Versioned battle state (including per-token ammunition spent).
 - Characters, inventories, loadouts, armor, shield, alignment, and languages.
 
@@ -974,6 +1012,7 @@ Legacy tokens:
 - Receive normalized quantity inventory.
 - Receive a safe loadout using the first owned weapon when no loadout field existed.
 - Receive `armor`/`shield` defaults, with equipment normalized to owned items and AC recomputed (any legacy manual AC is discarded).
+- Receive an empty `conditions: []` array.
 
 Legacy characters:
 
@@ -998,6 +1037,7 @@ Storage failures are surfaced in the UI. A failed image or state save must not s
 | `src/viewRules.js` | Pure map-camera math (pan/zoom clamp, zoom-to-cursor) |
 | `src/geometry.js` | Pure segment-intersection, wall line-of-sight, and ruler square-counting |
 | `src/pathfinding.js` | Pure A* grid routing (auto-route around walls) |
+| `src/conditions.js` | Pure SRD condition data + roll-mode/incapacitation/auto-crit helpers |
 | `src/weapons.js` | Weapon catalog, modifiers, dice, and attack resolution |
 | `src/items.js` | Generic catalog and quantity-based inventory helpers |
 | `src/persistenceRules.js` | Versioned token, character, and battle migration |
@@ -1023,13 +1063,41 @@ The mathematical pattern generator supports any positive level:
 
 All patterns exclude their origin. Exact tests preserve the user-supplied level 1 and level 2 coordinate sets.
 
-Weapon range currently uses scalable Diamond cells centered on the attacker, then assigns the weapon-specific color band.
+The pattern generators back area-of-effect templates for future spell work. The
+attack-range indicator no longer renders per-cell pattern elements: it is a
+single lightweight SVG with a stair-stepped polygon per range tier and a grid
+`pattern` drawn through it (see **Range Bands and Highlights**).
 
 ## Automated Test Coverage
 
-The current suite contains **50 tests** covering:
+The current suite contains **87 tests** (`node --test src/*.test.js`), spread
+across the pure logic modules:
+
+| Tests | File |
+| ---: | --- |
+| 20 | `src/combatRules.test.js` |
+| 14 | `src/weapons.test.js` |
+| 8 | `src/patterns.test.js` |
+| 7 | `src/conditions.test.js` |
+| 7 | `src/characterRules.test.js` |
+| 6 | `src/gear.test.js` |
+| 5 | `src/viewRules.test.js` |
+| 5 | `src/skills.test.js` |
+| 4 | `src/persistenceRules.test.js` |
+| 4 | `src/pathfinding.test.js` |
+| 4 | `src/geometry.test.js` |
+| 3 | `src/items.test.js` |
+
+They cover:
 
 - Character point buy (starting empty) and derived Fighter statistics.
+- Race/subrace ability bonuses, subrace stacking, and Small-race speed/size.
+- Skills, saving throws, and proficiency-bonus math.
+- The 15 conditions: normalization, incapacitated/immobilized detection, attacker/target roll-mode folding, and auto-crit.
+- Camera math: zoom clamp, zoom-to-cursor, pan, and map-scale clamp.
+- Wall segment-intersection, line-of-sight (full/half/clear), and the ruler's square-counting.
+- A* routing: straight path, detour around a wall, and unreachable → null.
+- The 183-item mundane-gear import (SRD fidelity, category derivation, filtering).
 - Safe no-battle movement helpers.
 - Movement spending and split movement.
 - Manual Dash.
@@ -1158,32 +1226,15 @@ A combat, inventory, or persistence change is complete only when:
 - No undo/redo history.
 - Only Fighter class derivation exists. All nine SRD races are selectable, but only their numeric traits (ability bonuses, speed, size, languages) apply — other racial traits are deferred to the future feature/effect engine.
 - Armor AC is simplified (base + capped Dex + shield); no per-item AC exceptions.
-- No spells, conditions/status effects, reactions, class features, or monsters.
+- No spells, reactions, class features, or monsters.
+- Conditions exist as a backend engine (effects + token badges) but are applied manually in the inspector; nothing in combat inflicts them automatically yet.
 - Skills and saving throws are display + data only (modifiers and proficiency toggles on the sheet); there is no in-combat check/save roller yet, and tokens do not carry proficiencies.
 - The Loading property is imported but not enforced (no per-turn shot limit).
 - Alignment, languages, and background are flavor only (no mechanical effect).
-- No Net (needs the Restrained condition).
+- No Net (the Restrained condition now exists, but Net's attack/escape flow is not wired).
 - No mounted Lance rules.
 - No magic-item effect engine (mundane armor/weapons/ammunition only).
 - Mundane gear (tools, packs, mounts, etc.) is imported for inventory/roleplay only; it has no mechanical effect (no encumbrance, tool proficiencies, or mount rules).
 - Physical thrown items exist only inside an active versioned battle.
 
 ## To Be Updated
-
-- **Conditions/status-effect engine (2026-07-25):** Added a backend-first conditions system so future features (spells, monster abilities, feats) can apply a condition by id and have combat react automatically. New `src/conditions.js` holds the 15 SRD conditions, each with structured flags (`selfAttack`, `vsMelee`, `vsRanged`, `incapacitated`, `immobile`, `autoCritMelee`) plus pure helpers: `normalizeConditions`, `isIncapacitated`, `isImmobilized`, `attackerConditionModes`, `targetConditionModes`, `targetAutoCrit`, and `conditionById`. Effects wired in: `attackRollMode` (`src/combatRules.js`) now folds attacker and target condition roll-modes into the existing advantage/disadvantage engine (prone melee-vs-ranged, restrained/blinded/etc. grant advantage, poisoned/frightened/invisible bias the attacker); `resolveWeaponAttack` (`src/weapons.js`) gains an `autoCritical` option for melee hits on paralyzed/unconscious targets; tokens carry a `conditions: []` array (defaulted in `makeToken` and `migrateTokenData`, cleared on battle start); the combat dock disables Attack/Bonus/Dash/Swap when the active token is incapacitated and zeroes movement when immobilized. Visual indicators: colored abbreviation badges float above each affected token, and the token inspector has a Conditions section of toggle chips (active chips take the condition's color). Tests in `src/conditions.test.js` cover normalization, incapacitated/immobilized detection, attacker/target roll-mode folding, and auto-crit (suite now 57). Verified by rendering badges + editor in headless Chrome; `npm run build` passes. Net remains excluded but its blocker (Restrained) now exists.
-- **Mundane equipment import (2026-07-25):** Imported the remaining 183 non-weapon/non-armor SRD equipment items (excluding the 4 already-imported ammunition types) into a new generated `src/gear.js` (`GEAR` array of `{ id, name, gearCategory, cost, weight, source }`, plus `gearById`). `src/items.js` maps them to `kind: "gear"` catalog entries with a human `typeLabel` (Gear/Tool/Pack/Mount·Vehicle/Holy Symbol/Arcane Focus/Druidic Focus/Kit), adds a "Gear" item type, exposes `GEAR_CLASSES` (the distinct labels) for the class filter, and extends `itemClass` so gear filters by its label. The three inventory `<small>` render sites (item picker + owned list in `src/CharactersPage.jsx`, quick-item row in `src/main.jsx`) gained a gear branch showing `typeLabel · cost`. Gear is inert — no persistence, encumbrance, tool, or mount mechanics; it reuses the existing generic inventory model with no migration needed. New `src/gear.test.js` (6 tests: count/fidelity against the SRD JSON, mount category derivation, `gearById` miss, gear-type filtering, and category narrowing); suite now 63. `npm test` and `npm run build` pass.
-- **Races + subraces (2026-07-25):** Replaced the hardcoded "Human +1 to all" derivation with a data-driven race system. New `src/races.js` holds the 9 SRD races and 4 subraces (`RACES`, `raceById`, `subraceById`, `raceAbilitySummary`) with numeric traits only — ability bonuses, base speed, size, and granted languages. `deriveCharacter` (`src/characterRules.js`) now adds race + subrace ability bonuses to the point-buy base and returns `baseSpeed` and `size` from the race; `newCharacter` seeds `race: "human"`, `subrace: null`. The character sheet's Race select is enabled (a Subrace select appears for races that have one), Size is a derived read-only display, the ability-score caption uses `raceAbilitySummary`, the speed caption names the race, and changing race unions-in its granted languages. Token creation in `add()` (`src/main.jsx`) now copies the derived race speed and size so a Small/slow race flows onto the board. `migrateCharacterData` backfills `race`/`subrace`, mapping a legacy `species` string to a race id (unknown → human). Tests added to `src/characterRules.test.js` (raceById/subraceById, race bonuses, subrace stacking, Small-race speed/size); suite now 67. Racial non-numeric traits remain deferred. `npm test` and `npm run build` pass.
-- **Skills + saving throws (2026-07-25):** Added a display/data layer for the 18 SRD skills and 6 saving throws. New `src/skills.js` exports `SKILLS` (id/name/governing ability), `SAVING_THROWS`, Fighter proficiency constants (`FIGHTER_SAVES` = STR/CON, `FIGHTER_SKILL_OPTIONS`, `FIGHTER_SKILL_COUNT` = 2), and pure `skillModifier`/`saveModifier` helpers (ability modifier + proficiency bonus, reusing `modifier`/`proficiencyBonus` from `src/weapons.js`). `newCharacter` seeds `saveProficiencies: ["str","con"]` and `skillProficiencies: []`; `migrateCharacterData` array-guards both. A new Skills & Saves panel on the sheet (below the derived grid) lists each save/skill with its live modifier and a proficiency toggle, shows `n / 2 chosen`, and flags going over the Fighter allotment without blocking. New `.proficiency-section` CSS in `src/movement.css` follows the anti-clipping rules (constrained `minmax(0,1fr)` tracks, `min-width: 0`, ellipsized names, fixed modifier column) and collapses to one column under 900px. Display + data only — no in-combat roller, and tokens do not carry proficiencies yet (deferred). New `src/skills.test.js` (5 tests: counts, proficiency add, save mirror, level scaling, unknown-id); suite now 72. Verified the panel in headless Chrome (no clipping). `npm test` and `npm run build` pass.
-- **Map pan/zoom + dark-gray default canvas (2026-07-25):** Turned the fixed board into a VTT camera. The board is now a fixed `.board` viewport wrapping a transformed `.board-world` content layer (`transform: translate(cam) scale(zoom)`); tokens, the map image, and move/attack cells live in the world, while the combat dock, turn order, move counter, error/retrieval toasts, and new zoom controls stay fixed in the viewport. New `src/viewRules.js` (`clampZoom` [0.35–3], `zoomToPoint` keeping the cursor's world point fixed, `panBy`, `DEFAULT_CAMERA`) with `src/viewRules.test.js` (4 tests). In `src/main.jsx`: `camera` state + `viewportRef`; drag-empty-space pans (guarded so tokens/HUD don't start a pan), wheel zooms toward the cursor, `+`/`−`/reset buttons; camera resets on map open. The cell-index helpers (`snap`, `cell`, `start`, attack-range extent) now divide the scaled board rect back to world-local pixels by the zoom, and the move-arrow is computed in world-local units — so combat math is unchanged under any camera. You can pan past the map image; the dark-gray canvas (`#26282c`) and battle grid tile infinitely via viewport-background CSS vars (`--cam-x/--cam-y/--cell`). Removed the white no-map canvas and the blocking "choose a map" gate: a blank board is a valid dark-gray canvas by default; map upload stays in Settings. Camera is view-only (not persisted); `noMap` field kept but inert (no migration). Suite now 76. Render-verified pan/zoom states in headless Chrome; `npm test` and `npm run build` pass.
-- **Infinite canvas + always-on grid overlay (2026-07-25):** Follow-up to the camera work. Token movement is now unbounded — removed the percentage clamp on free drag and the world-bounds clamp in battle `snap`, so tokens can move forever across the canvas (positions are still percentages of the world layer, which has `overflow: visible`). The grid is a new `.world-grid` overlay **inside** the world layer (spanning ±4000 cells from the origin, aligned so lines cross world (0,0)), sitting above the map image and below tokens — so it draws over **both** an uploaded map image and the blank dark-gray canvas, in every mode, and pans/zooms in lockstep. Replaced the earlier battle-only viewport-background grid (removed the `gridded` class). Render-verified over image + blank at zoom 1 and panned-out; `npm test`/`npm run build` pass.
-- **Grid alignment fix (2026-07-25):** The in-world `.world-grid` overlay (a giant `±4000-cell` transformed element) drew its lines half a cell off from the movement/attack cells — a browser background-tiling drift at very large offsets (confirmed in headless Chrome: origin-anchored grids align, the giant offset does not). Replaced it with three stacked camera layers over the fixed viewport: `.board-map` (transformed map image, z1) → `.board-grid` (z2) → `.board-world` (transformed tokens + cells, z3, `boardRef`). The grid is now a **viewport overlay** driven by the camera CSS vars (`background-size: var(--cell)`, `background-position: var(--cam-x) var(--cam-y)`), so its offsets stay pan-sized and precise while still tiling infinitely and sitting above the map but below tokens. Render-verified pixel-aligned with move/attack cells at zoom 1 and 1.6 with pan; `npm test`/`npm run build` pass.
-- **Send-to-last-green movement (2026-07-25):** Dropping a token on an out-of-range (red) square no longer snaps back to origin — it now travels as far along the traced path as movement allows and stops on the last reachable green square, spending that movement (occupied landing squares step back to the nearest free one behind). New pure helper `farthestReachableIndex(pathLength, allowanceFeet, isOccupied)` in `src/combatRules.js` drives the drop handler in `src/main.jsx`; 2 tests added (allowance cap + occupied step-back), suite now 78. `npm test`/`npm run build` pass.
-- **Tokens scale with the grid (2026-07-25):** Tokens were a fixed 48px, so they only matched a cell at the default grid size. They now size to `var(--grid-size)` (width/height, with the initials font and name-label offset scaled off the same var) in `src/movement.css`, so a token always fills exactly one cell and grows/shrinks with the grid-size setting (and pans/zooms with the world as before). Render-verified filling one cell at grid 48 and 72. `npm run build` passes.
-- **Resize & reposition the map image (2026-07-25):** The map image now has an independent transform (scale + offset) separate from the camera, so it can be sized and moved to line up with the grid. New `.map-inner` element (inside `.board-map`) carries `translate(mapView.x, mapView.y) scale(mapView.scale)` about its center; `mapView` (`{scale, x, y}`, default `{1,0,0}`) is persisted per map in the saved `data` and restored on load (camera still resets). An "Adjust map" `Move` toggle in the zoom-control cluster (only when a map is loaded) enters adjust mode: a bottom-left `.board-map-controls` cluster provides scale `−`/`＋`/reset, and dragging the board moves the map (a new map-drag `useEffect` mirroring the camera-pan one, screen delta ÷ zoom) instead of panning — grid/tokens unaffected. New `clampMapScale` (`[0.2, 5]`) + `DEFAULT_MAP_VIEW` in `src/viewRules.js` with a test (suite now 79). `npm test`/`npm run build` pass.
-- **Walls/chests foundation — geometry + pathfinding (2026-07-25):** First of four commits for walls, half-walls, and chests. Added two pure, tested modules with no UI yet. `src/geometry.js`: `segmentsIntersect` (proper 2D crossing), `segmentHitsWalls(walls, p1, p2)` → `{full, half}` (walls are `{id, type:"full"|"half", points}` polylines), and `lineOfSight(walls, from, to)` → `{blocked, disadvantage}` (full wall blocks, else a half wall gives disadvantage). `src/pathfinding.js`: `findPath(start, goal, {passable, maxCells})` — 8-directional A* (Chebyshev heuristic, bounded) that auto-routes around blocked edges, returning a cell path or null. Tests in `src/geometry.test.js` + `src/pathfinding.test.js` (crossing truth table, LoS full/half/clear, straight/detour/unreachable); suite now 86. `npm test`/`npm run build` pass.
-- **Walls: data, rendering, draw editor (2026-07-25):** Second walls commit — drawing & display (collision/LoS come next). `walls` (`[{id, type:"full"|"half", points:[{x,y}%]}]`) and `wallsVisible` are per-map state, persisted in the map `data` and restored on load. Walls render as an SVG overlay inside `.board-world` (`viewBox 0 0 100 100`, `preserveAspectRatio=none`, `vector-effect: non-scaling-stroke`): full walls solid, half walls dashed, plus a live draft preview to the cursor. A `Spline` toggle in the board control cluster enters wall mode; a `.board-wall-controls` cluster offers Full/Half type, undo point, finish (also Esc / right-click / double-click), a visibility eye, and clear-all. In wall mode a board click adds a polyline point at the cursor's world-percentage. No behavior yet — walls don't block movement or shots until the next commit. `npm test`/`npm run build` pass; wall rendering render-verified in headless Chrome.
-- **Walls: collision + line of sight (2026-07-25):** Third walls commit — wiring the geometry into gameplay (see the "Walls and Line of Sight" section). Movement: `routedPath` in `src/main.jsx` tests the straight drag path against walls (converted to world-local px) and, when blocked, reroutes with `findPath` (also avoiding occupied cells); the routed path flows through the existing `farthestReachableIndex` drop logic, so detours are capped by remaining movement. Ranged/thrown attacks: `attack()` computes `lineOfSight` — a full wall refuses the shot (message, no action spent) and `canAttackTarget` returns false so the target doesn't highlight; a half wall adds a `half-cover` disadvantage to `attackRollMode`. Melee is unaffected. Reuses `cellCenterPx`/`wallsInPx` helpers. `npm test` (86) / `npm run build` pass.
-- **Chests (2026-07-25):** Final walls/chests commit (see the "Chests" section). `chests` (`[{id, x, y, inventory}]`) are per-map, persisted. Setup: an "Add chest" button places a chest (draggable via the free-drag `kind:"chest"` branch); clicking one opens a fill panel (item catalog via `filterCatalog`) to add/step contents. Battle: `canLootChest` gates on adjacency + an available Bonus Action; `openChest` spends the Bonus Action and opens a loot panel whose "Take" moves one unit to the active token and decrements the chest (shared, depleting). Chests occupy a cell and are added to the movement occupancy checks (auto-route `passable` + drop landing). Rendered in `.board-world` at one `--grid-size` cell with a `Package` icon; render-verified. `npm test` (86) / `npm run build` pass.
-- **Range-indicator perf — vector diamonds with a grid pattern (2026-07-25):** The attack-range highlight used to render one animated DOM `<i>` per in-range cell (hundreds–thousands of nodes, heavy lag even at normal zoom). Replaced entirely with a single `.range-layer` SVG (~5 nodes) that draws the range as nested **diamond bands** (Manhattan distance: green normal, yellow long, red thrown-long) centered on the attacker's actual position, then runs a grid `pattern` (aligned to the board cells, clipped to the outer diamond) through the fills so it reads as squares, with crisp per-tier outlines on top. Constant node count regardless of weapon range or zoom; polygon coords are world pixels so it scales with the world transform; light opacity `range-pop` fade (disabled under reduced motion). `src/main.jsx` `attackMode` block + `.range-layer`/`.range-band`/`.range-edge` CSS in `src/movement.css`; `weaponRangeCells` is no longer used by the UI. **Follow-up:** the band outline is the actual **stair-stepped** cell boundary (a `staircase(radius)` polygon, `O(radius)` vertices in one node) rather than a smooth diamond, so the ladder edges match the real in-range squares. The `.range-layer` SVG is anchored to the token with the **same `left/top` percentage** the token uses and the staircase is built symmetric around that origin (grid pattern offset by half a cell), so it stays pixel-centered on the token at **any zoom/pan** — no measured-pixel vs percentage drift. `npm test` (86) / `npm run build` pass; render-verified centered at zoom 1, zoomed-in+panned, and zoomed-out+panned.
-- **Ruler tool (2026-07-25):** Added a simple measuring ruler (see the "Ruler" section). A `Ruler` toggle in the board control cluster lets you drag a dashed line on the board; a midpoint label shows the distance in feet. Distance = grid squares the line passes through × 5, via a new pure `cellsCrossed(p1, p2)` in `src/geometry.js` (4-connected grid DDA, tested). The line/label are percentage-anchored in the world layer so they pan/zoom with the board; `.ruler-layer`/`.ruler-line`/`.ruler-label` CSS in `src/movement.css`. View-only, not persisted. `npm test` (87) / `npm run build` pass; render-verified. **Fix:** the distance is computed from the board's untransformed layout size (`offsetWidth`/`offsetHeight`), not `getBoundingClientRect ÷ camera.zoom` — the latter read the pre-commit transform during a zoom re-render and made the displayed feet drift with zoom.
-- **Ranged nerf + no text-selection on the map (2026-07-25):** House-ruled all ranged weapons down to a battle-map scale (see the Supported Weapon Catalog note): Blowgun 25/50, Sling 30/60, Hand crossbow 40/80, Shortbow 40/80, Light crossbow 60/120, Heavy crossbow 80/160, Longbow 80/160 ft. The weapon fidelity test now skips the range check for `rangeType: "ranged"` weapons. Also disabled text selection on the map workspace (`.app { user-select: none }`, re-enabled on `input`/`textarea`) so dragging tokens/walls/ruler never selects labels and fights the drag. `npm test` (87) / `npm run build` pass.
