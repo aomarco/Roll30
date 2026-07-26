@@ -51,7 +51,7 @@ Roll30 currently provides:
 - A status-condition engine: 15 SRD conditions that bias attack rolls, gate actions/movement, and show colored token badges.
 - Local browser persistence and GitHub Pages deployment.
 
-Roll30 is still a single-browser local application. It does not provide accounts, multiplayer synchronization, cloud saves, monsters, spells, class features, magic-item effects, in-combat skill/save checks, or a complete D&D rules engine. Only Fighter class derivation exists, though all nine SRD races (numeric traits only) are selectable. A backend condition engine exists (with token effects and badges), but nothing in combat *applies* conditions automatically yet — they are toggled manually in the inspector until spells/monsters can set them.
+Roll30 is still a single-browser local application. It does not provide accounts, multiplayer synchronization, cloud saves, monsters, spells, class features, magic-item effects, in-combat skill/save checks, or a complete D&D rules engine. Two classes are selectable — **Fighter** and a basic **Wizard** (level-appropriate HP by hit die, class save proficiencies, and a placeholder spellcaster profile) — and all nine SRD races (numeric traits only) are selectable. A backend condition engine exists (with token effects and badges), but nothing in combat *applies* conditions automatically yet — they are toggled manually in the inspector until spells/monsters can set them. Wizard spellcasting is a **placeholder**: it derives a spell save DC / attack bonus and shows unlimited slots and spells, but there is no spell list or slot economy yet.
 
 ## Live Application and Repository
 
@@ -281,7 +281,8 @@ Each simplified sheet currently contains:
 
 Alignment, background, and languages are identity/flavor fields with no mechanical effect. Feats are intentionally omitted: the SRD contains only Grappler, which requires grappling/conditions rules that do not exist yet.
 
-Only one class is implemented (**Fighter**), but all **nine SRD races** are:
+Two classes are implemented (**Fighter** and a basic **Wizard**), and all **nine
+SRD races** are:
 Dwarf (Hill Dwarf), Elf (High Elf), Halfling (Lightfoot Halfling), Human,
 Dragonborn, Gnome (Rock Gnome), Half-Elf, Half-Orc, and Tiefling. `src/races.js`
 holds each race's ability bonuses, base speed, size, granted languages, and any
@@ -289,6 +290,25 @@ subraces (`raceById`, `subraceById`, `raceAbilitySummary`). Only the **numeric**
 traits are modeled — non-numeric racial traits (Darkvision, Dwarven Resilience,
 Breath Weapon, resistances, etc.) are deferred to the future feature/effect
 engine.
+
+### Classes
+
+`src/classes.js` holds the class catalog (`CLASSES`, `classById`). Each class is
+`{ id, name, hitDie, saveProficiencies, spellcasting }`. Two are implemented:
+
+- **Fighter** — `hitDie: 10`, saves STR/CON, not a caster.
+- **Wizard** — `hitDie: 6`, saves INT/WIS, and a **placeholder** spellcasting
+  profile `{ ability: "int", slots: "unlimited" }`.
+
+Characters store the class as its display name (`className: "Fighter"`), and
+`classById` matches on either the id or the name (falling back to Fighter), so
+no migration is needed. Switching class on the sheet resets the save and skill
+proficiencies to the new class's defaults. Wizard spellcasting is intentionally
+minimal: `deriveCharacter` computes a **spell save DC** (`8 + proficiency +
+INT modifier`) and **spell attack bonus** (`proficiency + INT modifier`) and
+reports unlimited slots/spells, shown on a Spellcasting card on the sheet. There
+is no spell list or slot economy yet — this is the scaffold for later spell and
+magic-item work.
 
 ### Point Buy
 
@@ -298,14 +318,14 @@ Point buy uses the standard 27-point structure for base values from 8 through 15
 
 Current character calculations are:
 
-- Level 1 Fighter HP: `10 + Constitution modifier`.
-- Later fixed-average Fighter levels: `6 + Constitution modifier` per additional level.
+- Level 1 HP: `class hit die + Constitution modifier` (Fighter 10, Wizard 6).
+- Later levels: `(hit die / 2 + 1) + Constitution modifier` per additional level (Fighter 6, Wizard 4).
 - Initiative: Dexterity modifier.
 - Speed: the race's base speed (25 or 30 ft), reduced by 10 when Strength is below equipped heavy armor's minimum.
 - AC: derived by `computeArmorClass` from equipped armor, Dexterity (category-capped), and shield; unarmoured is `10 + Dexterity modifier`.
 - Size: the race's size (Small for Halfling/Gnome, otherwise Medium).
 
-Race does not directly provide Fighter HP. A race can affect it indirectly through any Constitution bonus it grants. `deriveCharacter` returns `finalAbilities`, `hp`, `ac`, `initiative`, `baseSpeed`, `speed`, and `size`; token creation in `add()` copies the derived speed and size so race flows onto the board.
+Race does not directly provide HP. A race can affect it indirectly through any Constitution bonus it grants. `deriveCharacter` returns `finalAbilities`, `hp`, `ac`, `initiative`, `baseSpeed`, `speed`, `size`, `className`, and `spellcasting` (null for non-casters); token creation in `add()` copies the derived speed and size so race flows onto the board.
 
 ## Inventory System
 
@@ -1043,6 +1063,7 @@ Storage failures are surfaced in the UI. A failed image or state save must not s
 | `src/persistenceRules.js` | Versioned token, character, and battle migration |
 | `src/characterRules.js` | Point buy and simplified character derivation |
 | `src/races.js` | SRD race/subrace numeric traits (ability bonuses, speed, size, languages) |
+| `src/classes.js` | Class catalog (hit die, save proficiencies, spellcasting flag) |
 | `src/skills.js` | SRD skills, saving throws, Fighter proficiencies, and modifier helpers |
 | `src/gear.js` | Generated mundane SRD equipment catalog (inert gear) |
 | `src/CharactersPage.jsx` | Character workspace, inventory, and pre-equipped loadout UI |
@@ -1070,7 +1091,7 @@ single lightweight SVG with a stair-stepped polygon per range tier and a grid
 
 ## Automated Test Coverage
 
-The current suite contains **87 tests** (`node --test src/*.test.js`), spread
+The current suite contains **92 tests** (`node --test src/*.test.js`), spread
 across the pure logic modules:
 
 | Tests | File |
@@ -1081,6 +1102,7 @@ across the pure logic modules:
 | 7 | `src/conditions.test.js` |
 | 7 | `src/characterRules.test.js` |
 | 6 | `src/gear.test.js` |
+| 5 | `src/classes.test.js` |
 | 5 | `src/viewRules.test.js` |
 | 5 | `src/skills.test.js` |
 | 4 | `src/persistenceRules.test.js` |
@@ -1238,3 +1260,5 @@ A combat, inventory, or persistence change is complete only when:
 - Physical thrown items exist only inside an active versioned battle.
 
 ## To Be Updated
+
+- **Basic Wizard class + spellcasting scaffold (2026-07-26):** Added a class catalog `src/classes.js` (`CLASSES`, `classById`) with **Fighter** (d10, STR/CON saves) and a basic **Wizard** (d6, INT/WIS saves, placeholder `spellcasting: { ability: "int", slots: "unlimited" }`). `deriveCharacter` (`src/characterRules.js`) is now class-aware: HP uses the class hit die (`hitDie + CON` at level 1, `(hitDie/2+1) + CON` per later level — Fighter unchanged at 10/6), and casters get a derived `spellcasting` object with a **spell save DC** (`8 + proficiency + INT mod`) and **spell attack bonus** (`proficiency + INT mod`), unlimited slots/spells for now. It also returns `className`. The character sheet's Class dropdown is now enabled (Fighter/Wizard); switching class resets save/skill proficiencies to the class defaults, and a new **Spellcasting card** (`.spellcasting-card` CSS in `src/movement.css`, built to the anti-clipping spec, 4→2 col under 900px) shows DC / attack / ∞ slots / ∞ spells for casters. HP/saves captions and the rules note are class-aware. Characters store the class as its display name so no migration is needed; `classById` also matches by id and falls back to Fighter. New `src/classes.test.js` (5 tests: catalog, id/name resolution, caster flag, Wizard d6 HP, spellcasting DC/attack); suite now **92**. Render-verified the Wizard sheet (class select + derived grid + spellcasting card, no clipping) in headless Chrome. This is deliberately minimal — no spell list, no slot economy, no in-battle casting — the scaffold that later spells and magic items will build on. `npm test` / `npm run build` pass.

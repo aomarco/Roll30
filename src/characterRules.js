@@ -1,5 +1,7 @@
 import { computeArmorClass, effectiveSpeed } from "./combatRules.js";
 import { raceById, subraceById } from "./races.js";
+import { classById } from "./classes.js";
+import { proficiencyBonus } from "./weapons.js";
 
 export const ABILITIES = ["str", "dex", "con", "int", "wis", "cha"];
 
@@ -66,9 +68,26 @@ export function deriveCharacter(character) {
   const conModifier = modifier(finalAbilities.con);
   const dexModifier = modifier(finalAbilities.dex);
   const level = Math.max(1, Math.min(20, Number(character.level) || 1));
+  const cls = classById(character.className);
+  // First level = full hit die; later levels use the fixed average
+  // (hitDie / 2 + 1). Fighter d10 → 10 then 6/level; Wizard d6 → 6 then 4/level.
+  const perLevel = Math.floor(cls.hitDie / 2) + 1;
   const hp =
-    Math.max(1, 10 + conModifier) +
-    Math.max(0, level - 1) * Math.max(1, 6 + conModifier);
+    Math.max(1, cls.hitDie + conModifier) +
+    Math.max(0, level - 1) * Math.max(1, perLevel + conModifier);
+  const spellcasting = cls.spellcasting
+    ? {
+        ability: cls.spellcasting.ability,
+        slots: cls.spellcasting.slots,
+        saveDC:
+          8 +
+          proficiencyBonus(level) +
+          modifier(finalAbilities[cls.spellcasting.ability]),
+        attackBonus:
+          proficiencyBonus(level) +
+          modifier(finalAbilities[cls.spellcasting.ability]),
+      }
+    : null;
   return {
     finalAbilities,
     hp,
@@ -84,6 +103,8 @@ export function deriveCharacter(character) {
       strength: finalAbilities.str,
     }),
     size: race.size,
+    className: cls.name,
+    spellcasting,
   };
 }
 

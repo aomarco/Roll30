@@ -968,6 +968,60 @@
   color: #85878d;
   font-size: 9px;
 }
+.spellcasting-card {
+  display: grid;
+  gap: 12px;
+  padding-top: 16px;
+  border-top: 1px solid #3d3e43;
+}
+.spellcasting-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+.spellcasting-heading p {
+  margin: 0;
+  color: #b79be0;
+  font: 10px "DM Mono";
+  letter-spacing: 1px;
+}
+.spellcasting-heading span {
+  color: #8f9197;
+  font: 10px "DM Mono";
+}
+.spellcasting-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+.spellcasting-grid > div {
+  min-height: 92px;
+  min-width: 0;
+  padding: 13px;
+  border-radius: 9px;
+  background: #2f2b38;
+  display: grid;
+  align-content: space-between;
+}
+.spellcasting-grid span {
+  color: #999ca2;
+  font: 9px "DM Mono";
+  letter-spacing: 0.6px;
+}
+.spellcasting-grid strong {
+  color: #c9b0f2;
+  font: 600 21px "DM Mono";
+}
+.spellcasting-grid small {
+  color: #85878d;
+  font-size: 9px;
+}
+@media (max-width: 900px) {
+  .spellcasting-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
 .rules-note {
   padding: 12px !important;
   border-left: 2px solid #d88965;

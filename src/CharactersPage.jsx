@@ -14,6 +14,7 @@ import {
   pointsSpent,
 } from "./characterRules.js";
 import { RACES, raceAbilitySummary, raceById } from "./races.js";
+import { CLASSES, classById } from "./classes.js";
 import {
   FIGHTER_SKILL_COUNT,
   SAVING_THROWS,
@@ -101,6 +102,16 @@ export default function CharactersPage({ characters, setCharacters, onBack }) {
       ...new Set([...(selected.languages || []), ...race.languages]),
     ];
     update({ race: raceId, subrace: null, languages });
+  };
+  const activeClass = selected && classById(selected.className);
+  const changeClass = (classKey) => {
+    const cls = classById(classKey);
+    // Reset save/skill proficiencies to the new class's defaults on a switch.
+    update({
+      className: cls.name,
+      saveProficiencies: [...cls.saveProficiencies],
+      skillProficiencies: [],
+    });
   };
   const saveProficiencies = selected?.saveProficiencies || [];
   const skillProficiencies = selected?.skillProficiencies || [];
@@ -235,8 +246,15 @@ export default function CharactersPage({ characters, setCharacters, onBack }) {
               </label>
               <label>
                 Class
-                <select value={selected.className} disabled>
-                  <option>Fighter</option>
+                <select
+                  value={activeClass.name}
+                  onChange={(e) => changeClass(e.target.value)}
+                >
+                  {CLASSES.map((cls) => (
+                    <option key={cls.id} value={cls.name}>
+                      {cls.name}
+                    </option>
+                  ))}
                 </select>
               </label>
               <label>
@@ -386,7 +404,7 @@ export default function CharactersPage({ characters, setCharacters, onBack }) {
               <div>
                 <span>HIT POINTS</span>
                 <strong>{derived.hp}</strong>
-                <small>Fighter + Constitution</small>
+                <small>{activeClass.name} + Constitution</small>
               </div>
               <div>
                 <span>ARMOUR CLASS</span>
@@ -417,11 +435,49 @@ export default function CharactersPage({ characters, setCharacters, onBack }) {
                 </small>
               </div>
             </div>
+            {derived.spellcasting && (
+              <section className="spellcasting-card">
+                <div className="spellcasting-heading">
+                  <p>SPELLCASTING</p>
+                  <span>
+                    {ABILITY_NAMES[derived.spellcasting.ability]} caster
+                  </span>
+                </div>
+                <div className="spellcasting-grid">
+                  <div>
+                    <span>SPELL SAVE DC</span>
+                    <strong>{derived.spellcasting.saveDC}</strong>
+                  </div>
+                  <div>
+                    <span>SPELL ATTACK</span>
+                    <strong>
+                      {formatModifier(derived.spellcasting.attackBonus)}
+                    </strong>
+                  </div>
+                  <div>
+                    <span>SPELL SLOTS</span>
+                    <strong>∞</strong>
+                    <small>Unlimited (temporary)</small>
+                  </div>
+                  <div>
+                    <span>SPELLS KNOWN</span>
+                    <strong>∞</strong>
+                    <small>All (temporary)</small>
+                  </div>
+                </div>
+              </section>
+            )}
             <section className="proficiency-section">
               <div className="proficiency-block">
                 <div className="proficiency-heading">
                   <p>SAVING THROWS</p>
-                  <span>Fighter is proficient in Strength and Constitution.</span>
+                  <span>
+                    {activeClass.name} is proficient in{" "}
+                    {activeClass.saveProficiencies
+                      .map((ability) => ABILITY_NAMES[ability])
+                      .join(" and ")}
+                    .
+                  </span>
                 </div>
                 <div className="proficiency-grid">
                   {SAVING_THROWS.map((ability) => {
@@ -822,9 +878,8 @@ export default function CharactersPage({ characters, setCharacters, onBack }) {
               )}
             </section>
             <p className="rules-note">
-              HP uses the Fighter hit die and Constitution modifier. A race
-              affects HP only indirectly, through any Constitution bonus it
-              grants.
+              HP uses the class hit die and Constitution modifier. A race affects
+              HP only indirectly, through any Constitution bonus it grants.
             </p>
             <button
               className="remove"
