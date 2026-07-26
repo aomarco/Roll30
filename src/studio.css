@@ -300,6 +300,27 @@
   outline: 0;
 }
 
+/* Read-only stat tiles for tokens spawned from a character sheet. */
+.setup-stat-readonly {
+  min-width: 0;
+  display: grid;
+  gap: 6px;
+  padding: 6px 9px;
+  border: 1px solid #ffffff0e;
+  border-radius: 8px;
+  background: #1c1d21;
+}
+
+.setup-stat-readonly > span {
+  color: #86868c;
+  font-size: 10px;
+}
+
+.setup-stat-readonly > strong {
+  color: #cfccc7;
+  font: 12px "DM Mono";
+}
+
 .quick-inventory {
   margin-top: 4px;
   padding-top: 15px;

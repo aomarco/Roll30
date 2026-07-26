@@ -3100,7 +3100,11 @@ function App() {
                   <section className="setup-stat-editor">
                     <div className="setup-stat-heading">
                       <p>SETUP STATS</p>
-                      <span>Set this token's starting values.</span>
+                      <span>
+                        {selected.characterId
+                          ? "Derived from the character sheet — edit them there."
+                          : "Set this token's starting values."}
+                      </span>
                     </div>
                     <div className="setup-stat-grid">
                       {[
@@ -3111,26 +3115,46 @@ function App() {
                         ["dexterity", "Dexterity"],
                         ["level", "Level"],
                         ["initiativeBonus", "Initiative bonus"],
-                      ].map(([key, label]) => (
-                        <label key={key}>
-                          {label}
-                          <input
-                            type="number"
-                            value={selected[key] ?? (key === "level" ? 1 : 0)}
-                            min={
-                              key === "initiativeBonus"
-                                ? -20
-                                : key === "level"
-                                  ? 1
-                                  : 0
-                            }
-                            max={key === "level" ? 20 : undefined}
-                            onChange={(event) =>
-                              setSelectedStat(key, event.target.value)
-                            }
-                          />
-                        </label>
-                      ))}
+                      ].map(([key, label]) =>
+                        selected.characterId ? (
+                          <div className="setup-stat-readonly" key={key}>
+                            <span>{label}</span>
+                            <strong>
+                              {selected[key] ?? (key === "level" ? 1 : 0)}
+                            </strong>
+                          </div>
+                        ) : (
+                          <label key={key}>
+                            {label}
+                            <input
+                              type="number"
+                              value={selected[key] ?? (key === "level" ? 1 : 0)}
+                              min={
+                                key === "initiativeBonus"
+                                  ? -20
+                                  : key === "level"
+                                    ? 1
+                                    : 0
+                              }
+                              max={key === "level" ? 20 : undefined}
+                              onChange={(event) =>
+                                setSelectedStat(key, event.target.value)
+                              }
+                            />
+                          </label>
+                        ),
+                      )}
+                      {selected.characterId ? (
+                        <div className="setup-stat-readonly">
+                          <span>Creature size</span>
+                          <strong>
+                            {(() => {
+                              const s = selected.size || "medium";
+                              return s.charAt(0).toUpperCase() + s.slice(1);
+                            })()}
+                          </strong>
+                        </div>
+                      ) : (
                       <label>
                         Creature size
                         <select
@@ -3150,6 +3174,7 @@ function App() {
                           <option value="large">Large</option>
                         </select>
                       </label>
+                      )}
                     </div>
                     <div className="token-loadout-editor">
                       <div className="quick-inventory-heading">
