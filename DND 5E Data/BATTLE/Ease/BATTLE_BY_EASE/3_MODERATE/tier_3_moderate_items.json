@@ -1,0 +1,1059 @@
+[
+  {
+    "index": "animated-shield",
+    "name": "Animated Shield",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Armor (shield), very rare (requires attunement)",
+      "While holding this shield, you can speak its command word as a bonus action to cause it to animate. The shield leaps into the air and hovers in your space to protect you as if you were wielding it, leaving your hands free. The shield remains animated for 1 minute, until you use a bonus action to end this effect, or until you are incapacitated or die, at which point the shield falls to the ground or into your hand if you have one free."
+    ],
+    "image": "/api/images/magic-items/animated-shield.png",
+    "url": "/api/2014/magic-items/animated-shield"
+  },
+  {
+    "index": "armor-of-invulnerability",
+    "name": "Armor of Invulnerability",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Armor (plate), legendary (requires attunement)",
+      "You have resistance to nonmagical damage while you wear this armor. Additionally, you can use an action to make yourself immune to nonmagical damage for 10 minutes or until you are no longer wearing the armor. Once this special action is used, it can't be used again until the next dawn."
+    ],
+    "image": "/api/images/magic-items/armor-of-invulnerability.png",
+    "url": "/api/2014/magic-items/armor-of-invulnerability"
+  },
+  {
+    "index": "arrow-catching-shield",
+    "name": "Arrow-Catching Shield",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Armor (shield), rare (requires attunement)",
+      "You gain a +2 bonus to AC against ranged attacks while you wield this shield. This bonus is in addition to the shield's normal bonus to AC. In addition, whenever an attacker makes a ranged attack against a target within 5 feet of you, you can use your reaction to become the target of the attack instead."
+    ],
+    "image": "/api/images/magic-items/arrow-catching-shield.png",
+    "url": "/api/2014/magic-items/arrow-catching-shield"
+  },
+  {
+    "index": "arrow-of-slaying",
+    "name": "Arrow of Slaying",
+    "equipment_category": {
+      "index": "ammunition",
+      "name": "Ammunition",
+      "url": "/api/2014/equipment-categories/ammunition"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Weapon (arrow), very rare",
+      "An arrow of slaying is a magic weapon meant to slay a particular kind of creature. Some are more focused than others; for example, there are both arrows of dragon slaying and arrows of blue dragon slaying. If a creature belonging to the type, race, or group associated with an arrow of slaying takes damage from the arrow, the creature must make a DC 17 Constitution saving throw, taking an extra 6d10 piercing damage on a failed save, or half as much extra damage on a successful one.",
+      "Once an arrow of slaying deals its extra damage to a creature, it becomes a nonmagical arrow.",
+      "Other types of magic ammunition of this kind exist, such as bolts of slaying meant for a crossbow, though arrows are most common."
+    ],
+    "image": "/api/images/magic-items/arrow-of-slaying.png",
+    "url": "/api/2014/magic-items/arrow-of-slaying"
+  },
+  {
+    "index": "berserker-axe",
+    "name": "Berserker Axe",
+    "equipment_category": {
+      "index": "weapon",
+      "name": "Weapon",
+      "url": "/api/2014/equipment-categories/weapon"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Weapon (any axe), rare (requires attunement)",
+      "You gain a +1 bonus to Attack and Damage Rolls made with this Magic Weapon. In addition, while you are attuned to this weapon, your Hit Points maximum increases by 1 for each level you have attained.",
+      "***Curse.*** This axe is Cursed, and becoming attuned to it extends the curse to you. As long as you remain Cursed, you are unwilling to part with the axe, keeping it within reach at all times. You also have disadvantage on Attack rolls with Weapons other than this one, unless no foe is within 60 feet of you that you can see or hear.",
+      "Whenever a Hostile creature damages you while the axe is in your possession, you must succeed on a DC 15 Wisdom saving throw or go berserk. While berserk, you must use your action each round to Attack the creature nearest to you with the axe. If you can make extra attacks as part of the Attack action, you use those extra attacks, moving to Attack the next nearest creature after you fell your current target. If you have multiple possible Targets, you Attack one at random. You are berserk until you start Your Turn with no creatures within 60 feet of you that you can see or hear."
+    ],
+    "image": "/api/images/magic-items/berserker-axe.png",
+    "url": "/api/2014/magic-items/berserker-axe"
+  },
+  {
+    "index": "boots-of-speed",
+    "name": "Boots of Speed",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, rare (requires attunement)",
+      "While you wear these boots, you can use a bonus action and click the boots' heels together. If you do, the boots double your walking speed, and any creature that makes an opportunity attack against you has disadvantage on the attack roll. If you click your heels together again, you end the effect.",
+      "When the boots' property has been used for a total of 10 minutes, the magic ceases to function until you finish a long rest."
+    ],
+    "image": "/api/images/magic-items/boots-of-speed.png",
+    "url": "/api/2014/magic-items/boots-of-speed"
+  },
+  {
+    "index": "dagger-of-venom",
+    "name": "Dagger of Venom",
+    "equipment_category": {
+      "index": "weapon",
+      "name": "Weapon",
+      "url": "/api/2014/equipment-categories/weapon"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Weapon (dagger), rare",
+      "You gain a +1 bonus to attack and damage rolls made with this magic weapon.",
+      "You can use an action to cause thick, black poison to coat the blade. The poison remains for 1 minute or until an attack using this weapon hits a creature. That creature must succeed on a DC 15 Constitution saving throw or take 2d10 poison damage and become poisoned for 1 minute. The dagger can't be used this way again until the next dawn."
+    ],
+    "image": "/api/images/magic-items/dagger-of-venom.png",
+    "url": "/api/2014/magic-items/dagger-of-venom"
+  },
+  {
+    "index": "dancing-sword",
+    "name": "Dancing Sword",
+    "equipment_category": {
+      "index": "weapon",
+      "name": "Weapon",
+      "url": "/api/2014/equipment-categories/weapon"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Weapon (any sword), very rare (requires attunement)",
+      "You can use a bonus action to toss this magic sword into the air and speak the command word. When you do so, the sword begins to hover, flies up to 30 feet, and attacks one creature of your choice within 5 feet of it. The sword uses your attack roll and ability score modifier to damage rolls.",
+      "While the sword hovers, you can use a bonus action to cause it to fly up to 30 feet to another spot within 30 feet of you. As part of the same bonus action, you can cause the sword to attack one creature within 5 feet of it.",
+      "After the hovering sword attacks for the fourth time, it flies up to 30 feet and tries to return to your hand. If you have no hand free, it falls to the ground at your feet. If the sword has no unobstructed path to you, it moves as close to you as it can and then falls to the ground. It also ceases to hover if you grasp it or move more than 30 feet away from it."
+    ],
+    "image": "/api/images/magic-items/dancing-sword.png",
+    "url": "/api/2014/magic-items/dancing-sword"
+  },
+  {
+    "index": "defender",
+    "name": "Defender",
+    "equipment_category": {
+      "index": "weapon",
+      "name": "Weapon",
+      "url": "/api/2014/equipment-categories/weapon"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Weapon (any sword), legendary (requires attunement)",
+      "You gain a +3 bonus to attack and damage rolls made with this magic weapon.",
+      "The first time you attack with the sword on each of your turns, you can transfer some or all of the sword's bonus to your Armor Class, instead of using the bonus on any attacks that turn. For example, you could reduce the bonus to your attack and damage rolls to +1 and gain a +2 bonus to AC. The adjusted bonuses remain in effect until the start of your next turn, although you must hold the sword to gain a bonus to AC from it."
+    ],
+    "image": "/api/images/magic-items/defender.png",
+    "url": "/api/2014/magic-items/defender"
+  },
+  {
+    "index": "demon-armor",
+    "name": "Demon Armor",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Armor (plate), very rare (requires attunement)",
+      "While wearing this armor, you gain a +1 bonus to AC, and you can understand and speak Abyssal. In addition, the armor's clawed gauntlets turn unarmed strikes with your hands into magic weapons that deal slashing damage, with a +1 bonus to attack rolls and damage rolls and a damage die of 1d8.",
+      "***Curse.*** Once you don this cursed armor, you can't doff it unless you are targeted by the remove curse spell or similar magic. While wearing the armor, you have disadvantage on attack rolls against demons and on saving throws against their spells and special abilities."
+    ],
+    "image": "/api/images/magic-items/demon-armor.png",
+    "url": "/api/2014/magic-items/demon-armor"
+  },
+  {
+    "index": "dragon-scale-mail",
+    "name": "Dragon Scale Mail",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [
+      {
+        "index": "dragon-scale-mail-black",
+        "name": "Black Dragon Scale Mail",
+        "url": "/api/2014/magic-items/dragon-scale-mail-black"
+      },
+      {
+        "index": "dragon-scale-mail-blue",
+        "name": "Blue Dragon Scale Mail",
+        "url": "/api/2014/magic-items/dragon-scale-mail-blue"
+      },
+      {
+        "index": "dragon-scale-mail-brass",
+        "name": "Brass Dragon Scale Mail",
+        "url": "/api/2014/magic-items/dragon-scale-mail-brass"
+      },
+      {
+        "index": "dragon-scale-mail-bronze",
+        "name": "Bronze Dragon Scale Mail",
+        "url": "/api/2014/magic-items/dragon-scale-mail-bronze"
+      },
+      {
+        "index": "dragon-scale-mail-copper",
+        "name": "Copper Dragon Scale Mail",
+        "url": "/api/2014/magic-items/dragon-scale-mail-copper"
+      },
+      {
+        "index": "dragon-scale-mail-gold",
+        "name": "Gold Dragon Scale Mail",
+        "url": "/api/2014/magic-items/dragon-scale-mail-gold"
+      },
+      {
+        "index": "dragon-scale-mail-green",
+        "name": "Green Dragon Scale Mail",
+        "url": "/api/2014/magic-items/dragon-scale-mail-green"
+      },
+      {
+        "index": "dragon-scale-mail-red",
+        "name": "Red Dragon Scale Mail",
+        "url": "/api/2014/magic-items/dragon-scale-mail-red"
+      },
+      {
+        "index": "dragon-scale-mail-silver",
+        "name": "Silver Dragon Scale Mail",
+        "url": "/api/2014/magic-items/dragon-scale-mail-silver"
+      },
+      {
+        "index": "dragon-scale-mail-white",
+        "name": "White Dragon Scale Mail",
+        "url": "/api/2014/magic-items/dragon-scale-mail-white"
+      }
+    ],
+    "variant": false,
+    "desc": [
+      "Armor (scale mail), very rare (requires attunement)",
+      "Dragon scale mail is made of the scales of one kind of dragon. Sometimes dragons collect their cast-off scales and gift them to humanoids. Other times, hunters carefully skin and preserve the hide of a dead dragon. In either case, dragon scale mail is highly valued.",
+      "While wearing this armor, you gain a +1 bonus to AC, you have advantage on saving throws against the Frightful Presence and breath weapons of dragons, and you have resistance to one damage type that is determined by the kind of dragon that provided the scales (see the table).",
+      "Additionally, you can focus your senses as an action to magically discern the distance and direction to the closest dragon within 30 miles of you that is of the same type as the armor. This special action can't be used again until the next dawn.",
+      "| Dragon | Resistance |",
+      "|---|---|",
+      "| Black | Acid |",
+      "| Blue | Lightning |",
+      "| Brass | Fire |",
+      "| Bronze | Lightning |",
+      "| Copper | Acid |",
+      "| Gold | Fire |",
+      "| Green | Poison |",
+      "| Red | Fire |",
+      "| Silver | Cold |",
+      "| White | Cold |"
+    ],
+    "image": "/api/images/magic-items/dragon-scale-mail.png",
+    "url": "/api/2014/magic-items/dragon-scale-mail"
+  },
+  {
+    "index": "dragon-scale-mail-black",
+    "name": "Black Dragon Scale Mail",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Armor (scale mail), very rare (requires attunement)",
+      "Dragon scale mail is made of the scales of a black dragon. Sometimes dragons collect their cast-off scales and gift them to humanoids. Other times, hunters carefully skin and preserve the hide of a dead dragon. In either case, dragon scale mail is highly valued.",
+      "While wearing this armor, you gain a +1 bonus to AC, you have advantage on saving throws against the Frightful Presence and breath weapons of dragons, and you have resistance to acid damage.",
+      "Additionally, you can focus your senses as an action to magically discern the distance and direction to the closest black dragon within 30 miles of you. This special action can't be used again until the next dawn."
+    ],
+    "image": "/api/images/magic-items/dragon-scale-mail-black.png",
+    "url": "/api/2014/magic-items/dragon-scale-mail-black"
+  },
+  {
+    "index": "dragon-scale-mail-blue",
+    "name": "Blue Dragon Scale Mail",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Armor (scale mail), very rare (requires attunement)",
+      "Dragon scale mail is made of the scales of a blue dragon. Sometimes dragons collect their cast-off scales and gift them to humanoids. Other times, hunters carefully skin and preserve the hide of a dead dragon. In either case, dragon scale mail is highly valued.",
+      "While wearing this armor, you gain a +1 bonus to AC, you have advantage on saving throws against the Frightful Presence and breath weapons of dragons, and you have resistance to lightning damage.",
+      "Additionally, you can focus your senses as an action to magically discern the distance and direction to the closest blue dragon within 30 miles of you. This special action can't be used again until the next dawn."
+    ],
+    "image": "/api/images/magic-items/dragon-scale-mail-blue.png",
+    "url": "/api/2014/magic-items/dragon-scale-mail-blue"
+  },
+  {
+    "index": "dragon-scale-mail-brass",
+    "name": "Brass Dragon Scale Mail",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Armor (scale mail), very rare (requires attunement)",
+      "Dragon scale mail is made of the scales of a brass dragon. Sometimes dragons collect their cast-off scales and gift them to humanoids. Other times, hunters carefully skin and preserve the hide of a dead dragon. In either case, dragon scale mail is highly valued.",
+      "While wearing this armor, you gain a +1 bonus to AC, you have advantage on saving throws against the Frightful Presence and breath weapons of dragons, and you have resistance to fire damage.",
+      "Additionally, you can focus your senses as an action to magically discern the distance and direction to the closest brass dragon within 30 miles of you. This special action can't be used again until the next dawn."
+    ],
+    "image": "/api/images/magic-items/dragon-scale-mail-brass.png",
+    "url": "/api/2014/magic-items/dragon-scale-mail-brass"
+  },
+  {
+    "index": "dragon-scale-mail-bronze",
+    "name": "Bronze Dragon Scale Mail",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Armor (scale mail), very rare (requires attunement)",
+      "Dragon scale mail is made of the scales of a bronze dragon. Sometimes dragons collect their cast-off scales and gift them to humanoids. Other times, hunters carefully skin and preserve the hide of a dead dragon. In either case, dragon scale mail is highly valued.",
+      "While wearing this armor, you gain a +1 bonus to AC, you have advantage on saving throws against the Frightful Presence and breath weapons of dragons, and you have resistance to lightning damage.",
+      "Additionally, you can focus your senses as an action to magically discern the distance and direction to the closest bronze dragon within 30 miles of you. This special action can't be used again until the next dawn."
+    ],
+    "image": "/api/images/magic-items/dragon-scale-mail-bronze.png",
+    "url": "/api/2014/magic-items/dragon-scale-mail-bronze"
+  },
+  {
+    "index": "dragon-scale-mail-copper",
+    "name": "Copper Dragon Scale Mail",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Armor (scale mail), very rare (requires attunement)",
+      "Dragon scale mail is made of the scales of a copper dragon. Sometimes dragons collect their cast-off scales and gift them to humanoids. Other times, hunters carefully skin and preserve the hide of a dead dragon. In either case, dragon scale mail is highly valued.",
+      "While wearing this armor, you gain a +1 bonus to AC, you have advantage on saving throws against the Frightful Presence and breath weapons of dragons, and you have resistance to acid damage.",
+      "Additionally, you can focus your senses as an action to magically discern the distance and direction to the closest copper dragon within 30 miles of you. This special action can't be used again until the next dawn."
+    ],
+    "image": "/api/images/magic-items/dragon-scale-mail-copper.png",
+    "url": "/api/2014/magic-items/dragon-scale-mail-copper"
+  },
+  {
+    "index": "dragon-scale-mail-gold",
+    "name": "Gold Dragon Scale Mail",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Armor (scale mail), very rare (requires attunement)",
+      "Dragon scale mail is made of the scales of a gold dragon. Sometimes dragons collect their cast-off scales and gift them to humanoids. Other times, hunters carefully skin and preserve the hide of a dead dragon. In either case, dragon scale mail is highly valued.",
+      "While wearing this armor, you gain a +1 bonus to AC, you have advantage on saving throws against the Frightful Presence and breath weapons of dragons, and you have resistance to fire damage.",
+      "Additionally, you can focus your senses as an action to magically discern the distance and direction to the closest gold dragon within 30 miles of you. This special action can't be used again until the next dawn."
+    ],
+    "image": "/api/images/magic-items/dragon-scale-mail-gold.png",
+    "url": "/api/2014/magic-items/dragon-scale-mail-gold"
+  },
+  {
+    "index": "dragon-scale-mail-green",
+    "name": "Green Dragon Scale Mail",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Armor (scale mail), very rare (requires attunement)",
+      "Dragon scale mail is made of the scales of a green dragon. Sometimes dragons collect their cast-off scales and gift them to humanoids. Other times, hunters carefully skin and preserve the hide of a dead dragon. In either case, dragon scale mail is highly valued.",
+      "While wearing this armor, you gain a +1 bonus to AC, you have advantage on saving throws against the Frightful Presence and breath weapons of dragons, and you have resistance to poison damage.",
+      "Additionally, you can focus your senses as an action to magically discern the distance and direction to the closest green dragon within 30 miles of you. This special action can't be used again until the next dawn."
+    ],
+    "image": "/api/images/magic-items/dragon-scale-mail-green.png",
+    "url": "/api/2014/magic-items/dragon-scale-mail-green"
+  },
+  {
+    "index": "dragon-scale-mail-red",
+    "name": "Red Dragon Scale Mail",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Armor (scale mail), very rare (requires attunement)",
+      "Dragon scale mail is made of the scales of a red dragon. Sometimes dragons collect their cast-off scales and gift them to humanoids. Other times, hunters carefully skin and preserve the hide of a dead dragon. In either case, dragon scale mail is highly valued.",
+      "While wearing this armor, you gain a +1 bonus to AC, you have advantage on saving throws against the Frightful Presence and breath weapons of dragons, and you have resistance to fire damage.",
+      "Additionally, you can focus your senses as an action to magically discern the distance and direction to the closest red dragon within 30 miles of you. This special action can't be used again until the next dawn."
+    ],
+    "image": "/api/images/magic-items/dragon-scale-mail-red.png",
+    "url": "/api/2014/magic-items/dragon-scale-mail-red"
+  },
+  {
+    "index": "dragon-scale-mail-silver",
+    "name": "Silver Dragon Scale Mail",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Armor (scale mail), very rare (requires attunement)",
+      "Dragon scale mail is made of the scales of a silver dragon. Sometimes dragons collect their cast-off scales and gift them to humanoids. Other times, hunters carefully skin and preserve the hide of a dead dragon. In either case, dragon scale mail is highly valued.",
+      "While wearing this armor, you gain a +1 bonus to AC, you have advantage on saving throws against the Frightful Presence and breath weapons of dragons, and you have resistance to cold damage.",
+      "Additionally, you can focus your senses as an action to magically discern the distance and direction to the closest silver dragon within 30 miles of you. This special action can't be used again until the next dawn."
+    ],
+    "image": "/api/images/magic-items/dragon-scale-mail-silver.png",
+    "url": "/api/2014/magic-items/dragon-scale-mail-silver"
+  },
+  {
+    "index": "dragon-scale-mail-white",
+    "name": "White Dragon Scale Mail",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Armor (scale mail), very rare (requires attunement)",
+      "Dragon scale mail is made of the scales of a white dragon. Sometimes dragons collect their cast-off scales and gift them to humanoids. Other times, hunters carefully skin and preserve the hide of a dead dragon. In either case, dragon scale mail is highly valued.",
+      "While wearing this armor, you gain a +1 bonus to AC, you have advantage on saving throws against the Frightful Presence and breath weapons of dragons, and you have resistance to cold damage.",
+      "Additionally, you can focus your senses as an action to magically discern the distance and direction to the closest white dragon within 30 miles of you. This special action can't be used again until the next dawn."
+    ],
+    "image": "/api/images/magic-items/dragon-scale-mail-white.png",
+    "url": "/api/2014/magic-items/dragon-scale-mail-white"
+  },
+  {
+    "index": "dragon-slayer",
+    "name": "Dragon Slayer",
+    "equipment_category": {
+      "index": "weapon",
+      "name": "Weapon",
+      "url": "/api/2014/equipment-categories/weapon"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Weapon (any sword), rare",
+      "You gain a +1 bonus to attack and damage rolls made with this magic weapon.",
+      "When you hit a dragon with this weapon, the dragon takes an extra 3d6 damage of the weapon's type. For the purpose of this weapon, \"dragon\" refers to any creature with the dragon type, including dragon turtles and wyverns."
+    ],
+    "image": "/api/images/magic-items/dragon-slayer.png",
+    "url": "/api/2014/magic-items/dragon-slayer"
+  },
+  {
+    "index": "dwarven-plate",
+    "name": "Dwarven Plate",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Armor (plate), very rare",
+      "While wearing this armor, you gain a +2 bonus to AC. In addition, if an effect moves you against your will along the ground, you can use your reaction to reduce the distance you are moved by up to 10 feet."
+    ],
+    "image": "/api/images/magic-items/dwarven-plate.png",
+    "url": "/api/2014/magic-items/dwarven-plate"
+  },
+  {
+    "index": "dwarven-thrower",
+    "name": "Dwarven Thrower",
+    "equipment_category": {
+      "index": "weapon",
+      "name": "Weapon",
+      "url": "/api/2014/equipment-categories/weapon"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Weapon (warhammer), very rare (requires attunement by a dwarf)",
+      "You gain a +3 bonus to attack and damage rolls made with this magic weapon. It has the thrown property with a normal range of 20 feet and a long range of 60 feet. When you hit with a ranged attack using this weapon, it deals an extra 1d8 damage or, if the target is a giant, 2d8 damage. Immediately after the attack, the weapon flies back to your hand."
+    ],
+    "image": "/api/images/magic-items/dwarven-thrower.png",
+    "url": "/api/2014/magic-items/dwarven-thrower"
+  },
+  {
+    "index": "giant-slayer",
+    "name": "Giant Slayer",
+    "equipment_category": {
+      "index": "weapon",
+      "name": "Weapon",
+      "url": "/api/2014/equipment-categories/weapon"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Weapon (any axe or sword), rare",
+      "You gain a +1 bonus to attack and damage rolls made with this magic weapon.",
+      "When you hit a giant with it, the giant takes an extra 2d6 damage of the weapon's type and must succeed on a DC 15 Strength saving throw or fall prone. For the purpose of this weapon, \"giant\" refers to any creature with the giant type, including ettins and trolls."
+    ],
+    "url": "/api/2014/magic-items/giant-slayer"
+  },
+  {
+    "index": "gloves-of-missile-snaring",
+    "name": "Gloves of Missile Snaring",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, uncommon (requires attunement)",
+      "These gloves seem to almost meld into your hands when you don them. When a ranged weapon attack hits you while you're wearing them, you can use your reaction to reduce the damage by 1d10 + your Dexterity modifier, provided that you have a free hand. If you reduce the damage to 0, you can catch the missile if it is small enough for you to hold in that hand."
+    ],
+    "url": "/api/2014/magic-items/gloves-of-missile-snaring"
+  },
+  {
+    "index": "ioun-stone-of-regeneration",
+    "name": "Ioun Stone of Regeneration",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, legendary (requires attunement)",
+      "An Ioun stone is named after Ioun, a god of knowledge and prophecy revered on some worlds. Many types of Ioun stone exist, each type a distinct combination of shape and color.",
+      "When you use an action to toss one of these stones into the air, the stone orbits your head at a distance of 1d3 feet and confers a benefit to you. Thereafter, another creature must use an action to grasp or net the stone to separate it from you, either by making a successful attack roll against AC 24 or a successful DC 24 Dexterity (Acrobatics) check. You can use an action to seize and stow the stone, ending its effect.",
+      "A stone has AC 24, 10 hit points, and resistance to all damage. It is considered to be an object that is being worn while it orbits your head.",
+      "***Regeneration.*** You regain 15 hit points at the end of each hour this pearly white spindle orbits your head, provided that you have at least 1 hit point."
+    ],
+    "url": "/api/2014/magic-items/ioun-stone-of-regeneration"
+  },
+  {
+    "index": "iron-bands-of-binding",
+    "name": "Iron Bands of Binding",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, rare",
+      "This rusty iron sphere measures 3 inches in diameter and weighs 1 pound. You can use an action to speak the command word and throw the sphere at a Huge or smaller creature you can see within 60 feet of you. As the sphere moves through the air, it opens into a tangle of metal bands.",
+      "Make a ranged attack roll with an attack bonus equal to your Dexterity modifier plus your proficiency bonus. On a hit, the target is restrained until you take a bonus action to speak the command word again to release it. Doing so, or missing with the attack, causes the bands to contract and become a sphere once more.",
+      "A creature, including the one restrained, can use an action to make a DC 20 Strength check to break the iron bands. On a success, the item is destroyed, and the restrained creature is freed. If the check fails, any further attempts made by that creature automatically fail until 24 hours have elapsed.",
+      "Once the bands are used, they can't be used again until the next dawn."
+    ],
+    "url": "/api/2014/magic-items/iron-bands-of-binding"
+  },
+  {
+    "index": "mace-of-disruption",
+    "name": "Mace of Disruption",
+    "equipment_category": {
+      "index": "weapon",
+      "name": "Weapon",
+      "url": "/api/2014/equipment-categories/weapon"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Weapon (mace), rare (requires attunement)",
+      "When you hit a fiend or an undead with this magic weapon, that creature takes an extra 2d6 radiant damage. If the target has 25 hit points or fewer after taking this damage, it must succeed on a DC 15 Wisdom saving throw or be destroyed. On a successful save, the creature becomes frightened of you until the end of your next turn.",
+      "While you hold this weapon, it sheds bright light in a 20-foot radius and dim light for an additional 20 feet."
+    ],
+    "url": "/api/2014/magic-items/mace-of-disruption"
+  },
+  {
+    "index": "mace-of-smiting",
+    "name": "Mace of Smiting",
+    "equipment_category": {
+      "index": "weapon",
+      "name": "Weapon",
+      "url": "/api/2014/equipment-categories/weapon"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Weapon (mace), rare",
+      "You gain a +1 bonus to attack and damage rolls made with this magic weapon. The bonus increases to +3 when you use the mace to attack a construct.",
+      "When you roll a 20 on an attack roll made with this weapon, the target takes an extra 2d6 bludgeoning damage, or 4d6 bludgeoning damage if it's a construct. If a construct has 25 hit points or fewer after taking this damage, it is destroyed."
+    ],
+    "url": "/api/2014/magic-items/mace-of-smiting"
+  },
+  {
+    "index": "nine-lives-stealer",
+    "name": "Nine Lives Stealer",
+    "equipment_category": {
+      "index": "weapon",
+      "name": "Weapon",
+      "url": "/api/2014/equipment-categories/weapon"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Weapon (any sword), very rare (requires attunement)",
+      "You gain a +2 bonus to attack and damage rolls made with this magic weapon.",
+      "The sword has 1d8 + 1 charges. If you score a critical hit against a creature that has fewer than 100 hit points, it must succeed on a DC 15 Constitution saving throw or be slain instantly as the sword tears its life force from its body (a construct or an undead is immune). The sword loses 1 charge if the creature is slain. When the sword has no charges remaining, it loses this property."
+    ],
+    "url": "/api/2014/magic-items/nine-lives-stealer"
+  },
+  {
+    "index": "oathbow",
+    "name": "Oathbow",
+    "equipment_category": {
+      "index": "weapon",
+      "name": "Weapon",
+      "url": "/api/2014/equipment-categories/weapon"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Weapon (longbow), very rare (requires attunement)",
+      "When you nock an arrow on this bow, it whispers in Elvish, \"Swift defeat to my enemies.\" When you use this weapon to make a ranged attack, you can, as a command phrase, say, \"Swift death to you who have wronged me.\" The target of your attack becomes your sworn enemy until it dies or until dawn seven days later. You can have only one such sworn enemy at a time. When your sworn enemy dies, you can choose a new one after the next dawn.",
+      "When you make a ranged attack roll with this weapon against your sworn enemy, you have advantage on the roll. In addition, your target gains no benefit from cover, other than total cover, and you suffer no disadvantage due to long range. If the attack hits, your sworn enemy takes an extra 3d6 piercing damage.",
+      "While your sworn enemy lives, you have disadvantage on attack rolls with all other weapons."
+    ],
+    "url": "/api/2014/magic-items/oathbow"
+  },
+  {
+    "index": "periapt-of-wound-closure",
+    "name": "Periapt of Wound Closure",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, uncommon (requires attunement)",
+      "While you wear this pendant, you stabilize whenever you are dying at the start of your turn. In addition, whenever you roll a Hit Die to regain hit points, double the number of hit points it restores."
+    ],
+    "url": "/api/2014/magic-items/periapt-of-wound-closure"
+  },
+  {
+    "index": "potion-of-speed",
+    "name": "Potion of Speed",
+    "equipment_category": {
+      "index": "potion",
+      "name": "Potion",
+      "url": "/api/2014/equipment-categories/potion"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Potion, very rare",
+      "When you drink this potion, you gain the effect of the haste spell for 1 minute (no concentration required). The potion's yellow fluid is streaked with black and swirls on its own."
+    ],
+    "url": "/api/2014/magic-items/potion-of-speed"
+  },
+  {
+    "index": "ring-of-evasion",
+    "name": "Ring of Evasion",
+    "equipment_category": {
+      "index": "ring",
+      "name": "Ring",
+      "url": "/api/2014/equipment-categories/ring"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Ring, rare (requires attunement)",
+      "This ring has 3 charges, and it regains 1d3 expended charges daily at dawn. When you fail a Dexterity saving throw while wearing it, you can use your reaction to expend 1 of its charges to succeed on that saving throw instead."
+    ],
+    "url": "/api/2014/magic-items/ring-of-evasion"
+  },
+  {
+    "index": "ring-of-regeneration",
+    "name": "Ring of Regeneration",
+    "equipment_category": {
+      "index": "ring",
+      "name": "Ring",
+      "url": "/api/2014/equipment-categories/ring"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Ring, very rare (requires attunement)",
+      "While wearing this ring, you regain 1d6 hit points every 10 minutes, provided that you have at least 1 hit point. If you lose a body part, the ring causes the missing part to regrow and return to full functionality after 1d6 + 1 days if you have at least 1 hit point the whole time."
+    ],
+    "url": "/api/2014/magic-items/ring-of-regeneration"
+  },
+  {
+    "index": "ring-of-the-ram",
+    "name": "Ring of the Ram",
+    "equipment_category": {
+      "index": "ring",
+      "name": "Ring",
+      "url": "/api/2014/equipment-categories/ring"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Ring, rare (requires attunement)",
+      "This ring has 3 charges, and it regains 1d3 expended charges daily at dawn. While wearing the ring, you can use an action to expend 1 to 3 of its charges to attack one creature you can see within 60 feet of you. The ring produces a spectral ram's head and makes its attack roll with a +7 bonus. On a hit, for each charge you spend, the target takes 2d10 force damage and is pushed 5 feet away from you.",
+      "Alternatively, you can expend 1 to 3 of the ring's charges as an action to try to break an object you can see within 60 feet of you that isn't being worn or carried. The ring makes a Strength check with a +5 bonus for each charge you spend."
+    ],
+    "url": "/api/2014/magic-items/ring-of-the-ram"
+  },
+  {
+    "index": "rope-of-entanglement",
+    "name": "Rope of Entanglement",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, rare",
+      "This rope is 30 feet long and weighs 3 pounds. If you hold one end of the rope and use an action to speak its command word, the other end darts forward to entangle a creature you can see within 20 feet of you. The target must succeed on a DC 15 Dexterity saving throw or become restrained.",
+      "You can release the creature by using a bonus action to speak a second command word. A target restrained by the rope can use an action to make a DC 15 Strength or Dexterity check (target's choice). On a success, the creature is no longer restrained by the rope.",
+      "The rope has AC 20 and 20 hit points. It regains 1 hit point every 5 minutes as long as it has at least 1 hit point. If the rope drops to 0 hit points, it is destroyed."
+    ],
+    "url": "/api/2014/magic-items/rope-of-entanglement"
+  },
+  {
+    "index": "scimitar-of-speed",
+    "name": "Scimitar of Speed",
+    "equipment_category": {
+      "index": "weapon",
+      "name": "Weapon",
+      "url": "/api/2014/equipment-categories/weapon"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Weapon (scimitar), very rare (requires attunement)",
+      "You gain a +2 bonus to attack and damage rolls made with this magic weapon. In addition, you can make one attack with it as a bonus action on each of your turns."
+    ],
+    "url": "/api/2014/magic-items/scimitar-of-speed"
+  },
+  {
+    "index": "shield-of-missile-attraction",
+    "name": "Shield of Missile Attraction",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Armor (shield), rare (requires attunement)",
+      "While holding this shield, you have resistance to damage from ranged weapon attacks.",
+      "***Curse.*** This shield is cursed. Attuning to it curses you until you are targeted by the remove curse spell or similar magic. Removing the shield fails to end the curse on you. Whenever a ranged weapon attack is made against a target within 10 feet of you, the curse causes you to become the target instead."
+    ],
+    "url": "/api/2014/magic-items/shield-of-missile-attraction"
+  },
+  {
+    "index": "staff-of-striking",
+    "name": "Staff of Striking",
+    "equipment_category": {
+      "index": "staff",
+      "name": "Staff",
+      "url": "/api/2014/equipment-categories/staff"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Staff, very rare (requires attunement)",
+      "This staff can be wielded as a magic quarterstaff that grants a +3 bonus to attack and damage rolls made with it.",
+      "The staff has 10 charges. When you hit with a melee attack using it, you can expend up to 3 of its charges. For each charge you expend, the target takes an extra 1d6 force damage. The staff regains 1d6 + 4 expended charges daily at dawn. If you expend the last charge, roll a d20. On a 1, the staff becomes a nonmagical quarterstaff."
+    ],
+    "url": "/api/2014/magic-items/staff-of-striking"
+  },
+  {
+    "index": "staff-of-withering",
+    "name": "Staff of Withering",
+    "equipment_category": {
+      "index": "staff",
+      "name": "Staff",
+      "url": "/api/2014/equipment-categories/staff"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Staff, rare (requires attunement by a cleric, druid, or warlock)",
+      "This staff has 3 charges and regains 1d3 expended charges daily at dawn.",
+      "The staff can be wielded as a magic quarterstaff. On a hit, it deals damage as a normal quarterstaff, and you can expend 1 charge to deal an extra 2d10 necrotic damage to the target. In addition, the target must succeed on a DC 15 Constitution saving throw or have disadvantage for 1 hour on any ability check or saving throw that uses Strength or Constitution."
+    ],
+    "url": "/api/2014/magic-items/staff-of-withering"
+  },
+  {
+    "index": "sun-blade",
+    "name": "Sun Blade",
+    "equipment_category": {
+      "index": "weapon",
+      "name": "Weapon",
+      "url": "/api/2014/equipment-categories/weapon"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Weapon (longsword), rare (requires attunement)",
+      "This item appears to be a longsword hilt. While grasping the hilt, you can use a bonus action to cause a blade of pure radiance to spring into existence, or make the blade disappear. While the blade exists, this magic longsword has the finesse property. If you are proficient with shortswords or longswords, you are proficient with the sun blade.",
+      "You gain a +2 bonus to attack and damage rolls made with this weapon, which deals radiant damage instead of slashing damage. When you hit an undead with it, that target takes an extra 1d8 radiant damage.",
+      "The sword's luminous blade emits bright light in a 15-foot radius and dim light for an additional 15 feet. The light is sunlight. While the blade persists, you can use an action to expand or reduce its radius of bright and dim light by 5 feet each, to a maximum of 30 feet each or a minimum of 10 feet each."
+    ],
+    "url": "/api/2014/magic-items/sun-blade"
+  },
+  {
+    "index": "sword-of-life-stealing",
+    "name": "Sword of Life Stealing",
+    "equipment_category": {
+      "index": "weapon",
+      "name": "Weapon",
+      "url": "/api/2014/equipment-categories/weapon"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Weapon (any sword), rare (requires attunement)",
+      "When you attack a creature with this magic weapon and roll a 20 on the attack roll, that target takes an extra 3d6 necrotic damage, provided that the target isn't a construct or an undead. You gain temporary hit points equal to the extra damage dealt."
+    ],
+    "url": "/api/2014/magic-items/sword-of-life-stealing"
+  },
+  {
+    "index": "sword-of-sharpness",
+    "name": "Sword of Sharpness",
+    "equipment_category": {
+      "index": "weapon",
+      "name": "Weapon",
+      "url": "/api/2014/equipment-categories/weapon"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Weapon (any sword that deals slashing damage), very rare (requires attunement)",
+      "When you attack an object with this magic sword and hit, maximize your weapon damage dice against the target.",
+      "When you attack a creature with this weapon and roll a 20 on the attack roll, that target takes an extra 4d6 slashing damage. Then roll another d20. If you roll a 20, you lop off one of the target's limbs, with the effect of such loss determined by the GM. If the creature has no limb to sever, you lop off a portion of its body instead.",
+      "In addition, you can speak the sword's command word to cause the blade to shed bright light in a 10 foot radius and dim light for an additional 10 feet. Speaking the command word again or sheathing the sword puts out the light."
+    ],
+    "url": "/api/2014/magic-items/sword-of-sharpness"
+  },
+  {
+    "index": "sword-of-wounding",
+    "name": "Sword of Wounding",
+    "equipment_category": {
+      "index": "weapon",
+      "name": "Weapon",
+      "url": "/api/2014/equipment-categories/weapon"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Weapon (any sword), rare (requires attunement)",
+      "Hit points lost to this weapon's damage can be regained only through a short or long rest, rather than by regeneration, magic, or any other means.",
+      "Once per turn, when you hit a creature with an attack using this magic weapon, you can wound the target. At the start of each of the wounded creature's turns, it takes 1d4 necrotic damage for each time you've wounded it, and it can then make a DC 15 Constitution saving throw, ending the effect of all such wounds on itself on a success. Alternatively, the wounded creature, or a creature within 5 feet of it, can use an action to make a DC 15 Wisdom (Medicine) check, ending the effect of such wounds on it on a success."
+    ],
+    "url": "/api/2014/magic-items/sword-of-wounding"
+  },
+  {
+    "index": "vorpal-sword",
+    "name": "Vorpal Sword",
+    "equipment_category": {
+      "index": "weapon",
+      "name": "Weapon",
+      "url": "/api/2014/equipment-categories/weapon"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Weapon (any sword that deals slashing damage), legendary (requires attunement)",
+      "You gain a +3 bonus to attack and damage rolls made with this magic weapon. In addition, the weapon ignores resistance to slashing damage.",
+      "When you attack a creature that has at least one head with this weapon and roll a 20 on the attack roll, you cut off one of the creature's heads. The creature dies if it can't survive without the lost head. A creature is immune to this effect if it is immune to slashing damage, doesn't have or need a head, has legendary actions, or the GM decides that the creature is too big for its head to be cut off with this weapon. Such a creature instead takes an extra 6d8 slashing damage from the hit."
+    ],
+    "url": "/api/2014/magic-items/vorpal-sword"
+  },
+  {
+    "index": "wand-of-enemy-detection",
+    "name": "Wand of Enemy Detection",
+    "equipment_category": {
+      "index": "wand",
+      "name": "Wand",
+      "url": "/api/2014/equipment-categories/wand"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wand, rare (requires attunement)",
+      "This wand has 7 charges. While holding it, you can use an action and expend 1 charge to speak its command word. For the next minute, you know the direction of the nearest creature hostile to you within 60 feet, but not its distance from you. The wand can sense the presence of hostile creatures that are ethereal, invisible, disguised, or hidden, as well as those in plain sight. The effect ends if you stop holding the wand.",
+      "The wand regains 1d6 + 1 expended charges daily at dawn. If you expend the wand's last charge, roll a d20. On a 1, the wand crumbles into ashes and is destroyed."
+    ],
+    "url": "/api/2014/magic-items/wand-of-enemy-detection"
+  }
+]

@@ -1,0 +1,409 @@
+[
+  {
+    "index": "ammunition",
+    "name": "Ammunition, +1, +2, or +3",
+    "equipment_category": {
+      "index": "ammunition",
+      "name": "Ammunition",
+      "url": "/api/2014/equipment-categories/ammunition"
+    },
+    "rarity": {
+      "name": "Varies"
+    },
+    "variants": [
+      {
+        "index": "ammunition-1",
+        "name": "Ammunition, +1",
+        "url": "/api/2014/magic-items/ammunition-1"
+      },
+      {
+        "index": "ammunition-2",
+        "name": "Ammunition, +2",
+        "url": "/api/2014/magic-items/ammunition-2"
+      },
+      {
+        "index": "ammunition-3",
+        "name": "Ammunition, +3",
+        "url": "/api/2014/magic-items/ammunition-3"
+      }
+    ],
+    "variant": false,
+    "desc": [
+      "Weapon (any ammunition), uncommon (+1), rare (+2), or very rare (+3)",
+      "You have a bonus to attack and damage rolls made with this piece of magic ammunition. The bonus is determined by the rarity of the ammunition. Once it hits a target, the ammunition is no longer magical."
+    ],
+    "image": "/api/images/magic-items/ammunition.png",
+    "url": "/api/2014/magic-items/ammunition"
+  },
+  {
+    "index": "ammunition-1",
+    "name": "Ammunition, +1",
+    "equipment_category": {
+      "index": "ammunition",
+      "name": "Ammunition",
+      "url": "/api/2014/equipment-categories/ammunition"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Weapon (any ammunition), uncommon",
+      "You have a +1 bonus to attack and damage rolls made with this piece of magic ammunition. Once it hits a target, the ammunition is no longer magical."
+    ],
+    "image": "/api/images/magic-items/ammunition.png",
+    "url": "/api/2014/magic-items/ammunition-1"
+  },
+  {
+    "index": "ammunition-2",
+    "name": "Ammunition, +2",
+    "equipment_category": {
+      "index": "ammunition",
+      "name": "Ammunition",
+      "url": "/api/2014/equipment-categories/ammunition"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Weapon (any ammunition), rare",
+      "You have a +2 bonus to attack and damage rolls made with this piece of magic ammunition. Once it hits a target, the ammunition is no longer magical."
+    ],
+    "image": "/api/images/magic-items/ammunition.png",
+    "url": "/api/2014/magic-items/ammunition-2"
+  },
+  {
+    "index": "ammunition-3",
+    "name": "Ammunition, +3",
+    "equipment_category": {
+      "index": "ammunition",
+      "name": "Ammunition",
+      "url": "/api/2014/equipment-categories/ammunition"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Weapon (any ammunition), very rare",
+      "You have a +3 bonus to attack and damage rolls made with this piece of magic ammunition. Once it hits a target, the ammunition is no longer magical."
+    ],
+    "image": "/api/images/magic-items/ammunition.png",
+    "url": "/api/2014/magic-items/ammunition-3"
+  },
+  {
+    "index": "armor",
+    "name": "Armor, +1, +2, or +3",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Varies"
+    },
+    "variants": [
+      {
+        "index": "armor-1",
+        "name": "Armor, +1",
+        "url": "/api/2014/magic-items/armor-1"
+      },
+      {
+        "index": "armor-2",
+        "name": "Armor, +2",
+        "url": "/api/2014/magic-items/armor-2"
+      },
+      {
+        "index": "armor-3",
+        "name": "Armor, +3",
+        "url": "/api/2014/magic-items/armor-3"
+      }
+    ],
+    "variant": false,
+    "desc": [
+      "Armor (light, medium, or heavy), rare (+1), very rare (+2), or legendary (+3)",
+      "You have a bonus to AC while wearing this armor. The bonus is determined by its rarity."
+    ],
+    "image": "/api/images/magic-items/armor.png",
+    "url": "/api/2014/magic-items/armor"
+  },
+  {
+    "index": "armor-1",
+    "name": "Armor, +1",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Armor (light, medium, or heavy), rare",
+      "You have a +1 bonus to AC while wearing this armor."
+    ],
+    "image": "/api/images/magic-items/armor.png",
+    "url": "/api/2014/magic-items/armor-1"
+  },
+  {
+    "index": "armor-2",
+    "name": "Armor, +2",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Armor (light, medium, or heavy), very rare",
+      "You have a +2 bonus to AC while wearing this armor."
+    ],
+    "image": "/api/images/magic-items/armor-2.png",
+    "url": "/api/2014/magic-items/armor-2"
+  },
+  {
+    "index": "armor-3",
+    "name": "Armor, +3",
+    "equipment_category": {
+      "index": "armor",
+      "name": "Armor",
+      "url": "/api/2014/equipment-categories/armor"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Armor (light, medium, or heavy), legendary",
+      "You have a +3 bonus to AC while wearing this armor."
+    ],
+    "image": "/api/images/magic-items/armor-3.png",
+    "url": "/api/2014/magic-items/armor-3"
+  },
+  {
+    "index": "bracers-of-archery",
+    "name": "Bracers of Archery",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, uncommon (requires attunement)",
+      "While wearing these bracers, you have proficiency with the longbow and shortbow, and you gain a +2 bonus to damage rolls on ranged attacks made with such weapons."
+    ],
+    "image": "/api/images/magic-items/bracers-of-archery.png",
+    "url": "/api/2014/magic-items/bracers-of-archery"
+  },
+  {
+    "index": "bracers-of-defense",
+    "name": "Bracers of Defense",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondous item, rare (requires attunement)",
+      "While wearing these bracers, you gain a +2 bonus to AC if you are wearing no armor and using no shield."
+    ],
+    "image": "/api/images/magic-items/bracers-of-defense.png",
+    "url": "/api/2014/magic-items/bracers-of-defense"
+  },
+  {
+    "index": "cloak-of-protection",
+    "name": "Cloak of Protection",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Wondrous item, uncommon (requires attunement)",
+      "You gain a +1 bonus to AC and saving throws while you wear this cloak."
+    ],
+    "image": "/api/images/magic-items/cloak-of-protection.png",
+    "url": "/api/2014/magic-items/cloak-of-protection"
+  },
+  {
+    "index": "ioun-stone-of-mastery",
+    "name": "Ioun Stone of Mastery",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Legendary"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, legendary (requires attunement)",
+      "An Ioun stone is named after Ioun, a god of knowledge and prophecy revered on some worlds. Many types of Ioun stone exist, each type a distinct combination of shape and color.",
+      "When you use an action to toss one of these stones into the air, the stone orbits your head at a distance of 1d3 feet and confers a benefit to you. Thereafter, another creature must use an action to grasp or net the stone to separate it from you, either by making a successful attack roll against AC 24 or a successful DC 24 Dexterity (Acrobatics) check. You can use an action to seize and stow the stone, ending its effect.",
+      "A stone has AC 24, 10 hit points, and resistance to all damage. It is considered to be an object that is being worn while it orbits your head.",
+      "***Mastery.*** Your proficiency bonus increases by 1 while this pale green prism orbits your head."
+    ],
+    "url": "/api/2014/magic-items/ioun-stone-of-mastery"
+  },
+  {
+    "index": "ioun-stone-of-protection",
+    "name": "Ioun Stone of Protection",
+    "equipment_category": {
+      "index": "wondrous-items",
+      "name": "Wondrous Items",
+      "url": "/api/2014/equipment-categories/wondrous-items"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Wondrous item, rare (requires attunement)",
+      "An Ioun stone is named after Ioun, a god of knowledge and prophecy revered on some worlds. Many types of Ioun stone exist, each type a distinct combination of shape and color.",
+      "When you use an action to toss one of these stones into the air, the stone orbits your head at a distance of 1d3 feet and confers a benefit to you. Thereafter, another creature must use an action to grasp or net the stone to separate it from you, either by making a successful attack roll against AC 24 or a successful DC 24 Dexterity (Acrobatics) check. You can use an action to seize and stow the stone, ending its effect.",
+      "A stone has AC 24, 10 hit points, and resistance to all damage. It is considered to be an object that is being worn while it orbits your head.",
+      "***Protection.*** You gain a +1 bonus to AC while this dusty rose prism orbits your head."
+    ],
+    "url": "/api/2014/magic-items/ioun-stone-of-protection"
+  },
+  {
+    "index": "ring-of-protection",
+    "name": "Ring of Protection",
+    "equipment_category": {
+      "index": "ring",
+      "name": "Ring",
+      "url": "/api/2014/equipment-categories/ring"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": false,
+    "desc": [
+      "Ring, rare (requires attunement)",
+      "You gain a +1 bonus to AC and saving throws while wearing this ring."
+    ],
+    "url": "/api/2014/magic-items/ring-of-protection"
+  },
+  {
+    "index": "weapon",
+    "name": "Weapon, +1, +2, or +3",
+    "equipment_category": {
+      "index": "weapon",
+      "name": "Weapon",
+      "url": "/api/2014/equipment-categories/weapon"
+    },
+    "rarity": {
+      "name": "Varies"
+    },
+    "variants": [
+      {
+        "index": "weapon-1",
+        "name": "Weapon, +1",
+        "url": "/api/2014/magic-items/weapon-1"
+      },
+      {
+        "index": "weapon-2",
+        "name": "Weapon, +2",
+        "url": "/api/2014/magic-items/weapon-2"
+      },
+      {
+        "index": "weapon-3",
+        "name": "Weapon, +3",
+        "url": "/api/2014/magic-items/weapon-3"
+      }
+    ],
+    "variant": false,
+    "desc": [
+      "Weapon (any), uncommon (+1), rare (+2), or very rare (+3)",
+      "You have a bonus to attack and damage rolls made with this magic weapon. The bonus is determined by the weapon's rarity."
+    ],
+    "url": "/api/2014/magic-items/weapon"
+  },
+  {
+    "index": "weapon-1",
+    "name": "Weapon, +1",
+    "equipment_category": {
+      "index": "weapon",
+      "name": "Weapon",
+      "url": "/api/2014/equipment-categories/weapon"
+    },
+    "rarity": {
+      "name": "Uncommon"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Weapon (any), uncommon",
+      "You have a +1 bonus to attack and damage rolls made with this magic weapon."
+    ],
+    "url": "/api/2014/magic-items/weapon-1"
+  },
+  {
+    "index": "weapon-2",
+    "name": "Weapon, +2",
+    "equipment_category": {
+      "index": "weapon",
+      "name": "Weapon",
+      "url": "/api/2014/equipment-categories/weapon"
+    },
+    "rarity": {
+      "name": "Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Weapon (any), rare",
+      "You have a +2 bonus to attack and damage rolls made with this magic weapon."
+    ],
+    "url": "/api/2014/magic-items/weapon-2"
+  },
+  {
+    "index": "weapon-3",
+    "name": "Weapon, +3",
+    "equipment_category": {
+      "index": "weapon",
+      "name": "Weapon",
+      "url": "/api/2014/equipment-categories/weapon"
+    },
+    "rarity": {
+      "name": "Very Rare"
+    },
+    "variants": [],
+    "variant": true,
+    "desc": [
+      "Weapon (any), very rare",
+      "You have a +3 bonus to attack and damage rolls made with this magic weapon."
+    ],
+    "url": "/api/2014/magic-items/weapon-3"
+  }
+]

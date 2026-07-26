@@ -34,6 +34,7 @@ import "./studio.css";
 import "./readability.css";
 import CharactersPage from "./CharactersPage.jsx";
 import { deriveCharacter } from "./characterRules.js";
+import { weaponMagicBonuses } from "./magicBonuses.js";
 import {
   DEFAULT_CAMERA,
   DEFAULT_MAP_VIEW,
@@ -1134,6 +1135,8 @@ function App() {
           level: character.level,
           inventory: normalizeInventory(character.inventory),
           loadout: normalizeLoadout(character.inventory, character.loadout),
+          enchantments: { ...(character.enchantments || {}) },
+          worn: [...(character.worn || [])],
           armor: character.armor || null,
           shield: !!character.shield,
           size: derived.size,
@@ -1311,6 +1314,7 @@ function App() {
       : attackWeapon.rangeType === "ranged"
         ? "ranged"
         : "melee";
+    const magicBonuses = weaponMagicBonuses(active, attackWeapon);
     const result = resolveWeaponAttack(
       active,
       target,
@@ -1320,6 +1324,8 @@ function App() {
         rollMode: rollDetails.mode,
         damageModifier: attackKind === "bonus" ? "off-hand" : "normal",
         autoCritical: targetAutoCrit(target.conditions, rangeTypeForCrit),
+        attackBonus: magicBonuses.attack,
+        damageBonus: magicBonuses.damage,
       },
     );
     const reducedMotion = window.matchMedia(

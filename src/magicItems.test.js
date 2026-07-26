@@ -37,13 +37,15 @@ test("magicItemById returns null for unknown ids", () => {
   assert.equal(magicItemById("nope"), null);
 });
 
-test("filterCatalog magic-item type returns only inert magic items", () => {
+test("filterCatalog magic-item type includes the inert NON BATTLE set", () => {
   const results = filterCatalog("", "magic-item");
-  assert.equal(results.length, MAGIC_ITEMS.length);
   assert.ok(results.every((item) => item.kind === "magic-item"));
-  // Inert: no combat fields that the attack/AC engines read.
+  // Every inert NON BATTLE item is present, alongside functional worn accessories.
+  const inert = results.filter((item) => !item.worn);
+  assert.equal(inert.length, MAGIC_ITEMS.length);
+  // Inert entries carry no combat fields that the attack/AC engines read.
   assert.ok(
-    results.every(
+    inert.every(
       (item) =>
         item.damageDice === undefined &&
         item.acBase === undefined &&

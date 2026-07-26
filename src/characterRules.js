@@ -2,6 +2,7 @@ import { computeArmorClass, effectiveSpeed } from "./combatRules.js";
 import { raceById, subraceById } from "./races.js";
 import { classById } from "./classes.js";
 import { proficiencyBonus } from "./weapons.js";
+import { armorClassMagicBonus } from "./magicBonuses.js";
 
 export const ABILITIES = ["str", "dex", "con", "int", "wis", "cha"];
 
@@ -95,6 +96,7 @@ export function deriveCharacter(character) {
       armor: character.armor,
       shield: character.shield,
       dexterity: finalAbilities.dex,
+      acBonus: armorClassMagicBonus(character),
     }),
     initiative: dexModifier,
     baseSpeed: race.speed,
@@ -125,6 +127,9 @@ export function newCharacter() {
     skillProficiencies: [],
     inventory: [],
     loadout: { mainHand: null, offHand: null },
+    // Per-item "+X" enchantments keyed by item id, and worn magic accessories.
+    enchantments: {},
+    worn: [],
     armor: null,
     shield: false,
     abilities: { str: 8, dex: 8, con: 8, int: 8, wis: 8, cha: 8 },

@@ -151,7 +151,7 @@ export function normalizeLoadout(inventory, loadout) {
  * Unarmored is 10 + Dex. Light adds full Dex, Medium caps Dex at its bonus,
  * Heavy ignores Dex. A shield adds a flat +2.
  */
-export function computeArmorClass({ armor, shield, dexterity } = {}) {
+export function computeArmorClass({ armor, shield, dexterity, acBonus = 0 } = {}) {
   const dexMod = modifier(dexterity ?? 10);
   const body = armorById(armor);
   let base;
@@ -163,7 +163,7 @@ export function computeArmorClass({ armor, shield, dexterity } = {}) {
   } else {
     base = body.acBase;
   }
-  return base + (shield ? 2 : 0);
+  return base + (shield ? 2 : 0) + (Math.max(0, Number(acBonus) || 0));
 }
 
 /**

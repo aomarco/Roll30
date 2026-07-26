@@ -1,6 +1,7 @@
 import { AMMUNITION, ARMOR, WEAPONS } from "./weapons.js";
 import { GEAR } from "./gear.js";
 import { MAGIC_ITEMS } from "./magicItems.js";
+import { WORN_MAGIC_ITEMS } from "./magicBonuses.js";
 
 /** Human-readable label for a gear category id. */
 const GEAR_CATEGORY_LABELS = {
@@ -88,12 +89,30 @@ const MAGIC_ITEM_ITEMS = MAGIC_ITEMS.map((item) => ({
     .toLowerCase(),
 }));
 
+// Tier 1 functional magic items: worn accessories that grant flat combat
+// bonuses (unlike the inert MAGIC_ITEMS above). Carried in the catalog so they
+// can be bought/added like any other item; their bonuses live in magicBonuses.
+const WORN_MAGIC_ITEM_ITEMS = WORN_MAGIC_ITEMS.map((item) => ({
+  id: item.id,
+  name: item.name,
+  rarity: item.rarity,
+  itemCategory: item.itemCategory,
+  kind: "magic-item",
+  typeLabel: "Magic Item",
+  category: item.rarity,
+  worn: true,
+  searchText: [item.name, "magic item", item.rarity, item.itemCategory]
+    .join(" ")
+    .toLowerCase(),
+}));
+
 export const ITEM_CATALOG = [
   ...WEAPON_ITEMS,
   ...AMMUNITION_ITEMS,
   ...ARMOR_ITEMS,
   ...GEAR_ITEMS,
   ...MAGIC_ITEM_ITEMS,
+  ...WORN_MAGIC_ITEM_ITEMS,
 ];
 
 export const ITEM_TYPES = [
@@ -172,7 +191,11 @@ export const MAGIC_ITEM_CLASSES = [
   "Legendary",
   "Artifact",
   "Varies",
-].filter((rarity) => MAGIC_ITEM_ITEMS.some((item) => item.rarity === rarity));
+].filter((rarity) =>
+  [...MAGIC_ITEM_ITEMS, ...WORN_MAGIC_ITEM_ITEMS].some(
+    (item) => item.rarity === rarity,
+  ),
+);
 export const WEAPON_PROPERTIES = [
   ...new Set(WEAPONS.flatMap((weapon) => weapon.properties || [])),
 ].sort();

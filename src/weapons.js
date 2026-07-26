@@ -642,7 +642,11 @@ export function resolveWeaponAttack(
   const selectedRollIndex = attackRolls.indexOf(naturalRoll);
   const abilityModifier = weaponModifier(attacker, selectedWeapon);
   const proficiency = proficiencyBonus(attacker.level);
-  const bonus = abilityModifier + proficiency;
+  // Flat magic-item bonuses (e.g. a +1 weapon, Bracers of Archery). Attack adds
+  // into the to-hit total; damage is applied to a hit below.
+  const itemAttackBonus = Math.max(0, Number(options.attackBonus) || 0);
+  const itemDamageBonus = Math.max(0, Number(options.damageBonus) || 0);
+  const bonus = abilityModifier + proficiency + itemAttackBonus;
   const attackTotal = naturalRoll + bonus;
   const naturalCrit = naturalRoll === 20;
   const hit = naturalCrit || (naturalRoll !== 1 && attackTotal >= target.ac);
@@ -665,11 +669,15 @@ export function resolveWeaponAttack(
       ? Math.min(0, abilityModifier)
       : abilityModifier;
   const damageModifier = hit ? ordinaryModifier : 0;
+  const damageItemBonus = hit ? itemDamageBonus : 0;
   const damage = {
     ...damageRoll,
     diceTotal: damageRoll.total,
     modifier: damageModifier,
-    total: hit ? Math.max(0, damageRoll.total + damageModifier) : 0,
+    itemBonus: damageItemBonus,
+    total: hit
+      ? Math.max(0, damageRoll.total + damageModifier + damageItemBonus)
+      : 0,
   };
   return {
     naturalRoll,
@@ -678,6 +686,7 @@ export function resolveWeaponAttack(
     rollMode,
     abilityModifier,
     proficiency,
+    itemAttackBonus,
     bonus,
     attackTotal,
     critical,

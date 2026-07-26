@@ -882,14 +882,88 @@
   border: 1px solid #ffffff10;
   border-radius: 11px;
   background: linear-gradient(145deg, #303137, #28292e);
-  display: grid;
-  grid-template-columns: 34px minmax(0, 1fr) auto 28px;
+  display: flex;
   align-items: center;
   gap: 9px;
   transition:
     transform 0.2s var(--motion-swish),
     border-color 0.2s,
     box-shadow 0.2s;
+}
+
+.inventory-item > .inventory-item-icon {
+  flex: 0 0 auto;
+}
+
+.inventory-item > div:nth-child(2) {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.enchant-stepper {
+  display: grid;
+  grid-template-columns: 24px 30px 24px;
+  align-items: center;
+  gap: 1px;
+  padding: 2px;
+  border: 1px solid #df8a5e33;
+  border-radius: 9px;
+  background: #1d1e22;
+  flex: 0 0 auto;
+}
+
+.enchant-stepper button {
+  width: 24px;
+  height: 24px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: #aaa8a5;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+
+.enchant-stepper button:hover:not(:disabled) {
+  background: #df8a5e22;
+  color: #ffc09b;
+}
+
+.enchant-stepper button:disabled {
+  opacity: 0.25;
+  cursor: not-allowed;
+}
+
+.enchant-stepper > strong {
+  text-align: center;
+  color: #ffc09b;
+  font: 11px "DM Mono";
+}
+
+.worn-toggle {
+  flex: 0 0 auto;
+  padding: 6px 12px;
+  border: 1px solid #ffffff18;
+  border-radius: 9px;
+  background: #1d1e22;
+  color: #aaa8a5;
+  font: 11px "DM Mono";
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    color 0.15s,
+    border-color 0.15s;
+}
+
+.worn-toggle:hover {
+  border-color: #df8a5e55;
+  color: #ffc09b;
+}
+
+.worn-toggle.is-worn {
+  background: #df8a5e22;
+  border-color: #df8a5e77;
+  color: #ffc09b;
 }
 
 .quantity-stepper {

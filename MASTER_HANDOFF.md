@@ -366,12 +366,38 @@ and `magicItems.js` is generated from that folder — not hand-typed. Each
 catalog they become `kind: "magic-item"` items with `typeLabel: "Magic Item"`,
 filtered by **rarity** (`MAGIC_ITEM_CLASSES`), subtitled `rarity · category`.
 
-Magic items are **completely inert** — they carry none of the combat fields the
-engines read (no `damageDice`, `acBase`, `rangeFeet`, etc.), so they do nothing
-in battle. They can be searched, filtered, added to any character or token
-inventory, and placed in chests, and that is all. The **249 BATTLE** magic items
-are intentionally *not* imported (they would need the effect engine that does not
-exist yet).
+The NON BATTLE magic items are **completely inert** — they carry none of the
+combat fields the engines read (no `damageDice`, `acBase`, `rangeFeet`, etc.), so
+they do nothing in battle. They can be searched, filtered, added to any character
+or token inventory, and placed in chests, and that is all.
+
+### Tier 1 magic items (flat combat bonuses)
+
+The **249 BATTLE** magic items are being ported in ease-of-implementation order
+(see `DND 5E Data/BATTLE/Ease/BATTLE_BY_EASE/` and its `MAGIC_ITEM_EASE_GUIDE.txt`
+— Tier 1 Trivial → Tier 4 Hard/Dynamic). **Tier 1** is implemented: flat numeric
+bonuses that ride on systems that already exist, via `src/magicBonuses.js` (pure,
+tested):
+
+- **Enchantments** — a per-item `+X` (1–3) applied to a base weapon, armor, or
+  shield the character owns. Stored on the character/token as
+  `enchantments: { [itemId]: plus }`. A weapon's `+X` adds to **both** attack and
+  damage; armor/shield `+X` adds to **AC**. Set with the orange `+`/`−` stepper on
+  each weapon/armor row in the inventory list. (Limitation: the bonus is keyed by
+  item id, so two copies of the *same* base item share it. Ammunition `+X` is not
+  wired yet — ammo is consumed and has no per-instance identity.)
+- **Worn accessories** — six distinct functional magic items (`WORN_MAGIC_ITEMS`):
+  Bracers of Archery (+2 ranged damage), Bracers of Defense (+2 AC while unarmored
+  and shieldless), Cloak of Protection (+1 AC & saves), Ring of Protection (+1 AC
+  & saves), Ioun Stone of Mastery (+1 attack), Ioun Stone of Protection (+1 AC).
+  They live in the catalog as `kind: "magic-item"` with `worn: true`, and a token
+  activates them with the **Wear/Worn** toggle in the inventory list. Stored as
+  `worn: [itemId]` (no attunement cap yet — that is a Tier 3 feature).
+
+Engine wiring: `resolveWeaponAttack` accepts `options.attackBonus`/`damageBonus`
+(from `weaponMagicBonuses`); `computeArmorClass` accepts `acBonus` (from
+`armorClassMagicBonus`, folded into derived AC in `deriveCharacter`). Save bonuses
+(`saveMagicBonus`) are computed but unused until saving throws exist (Tier 3).
 
 On the character sheet the **Add Item** button sits directly above the inventory list. The Add Item catalog is rendered at document level (a portal) with a high stacking layer so character-sheet content cannot overlap or clip it. It closes through its close button, the backdrop, or Escape.
 
@@ -1110,7 +1136,7 @@ single lightweight SVG with a stair-stepped polygon per range tier and a grid
 
 ## Automated Test Coverage
 
-The current suite contains **97 tests** (`node --test src/*.test.js`), spread
+The current suite contains **106 tests** (`node --test src/*.test.js`), spread
 across the pure logic modules:
 
 | Tests | File |
@@ -1275,11 +1301,12 @@ A combat, inventory, or persistence change is complete only when:
 - Alignment, languages, and background are flavor only (no mechanical effect).
 - No Net (the Restrained condition now exists, but Net's attack/escape flow is not wired).
 - No mounted Lance rules.
-- No magic-item effect engine. The 113 NON BATTLE magic items are imported as **inert** inventory (flavor/roleplay only); the 249 BATTLE magic items are not imported because they would need the effect engine.
+- Partial magic-item effect engine. The 113 NON BATTLE magic items are **inert** inventory. Of the 249 BATTLE items, **Tier 1** (flat +X weapon/armor/AC bonuses and six worn accessories) is implemented via `src/magicBonuses.js`; Tiers 2–4 still need their subsystems (damage riders/resistance/healing, saves/charges/creature-type, spells/summons/AoE).
 - Mundane gear (tools, packs, mounts, etc.) is imported for inventory/roleplay only; it has no mechanical effect (no encumbrance, tool proficiencies, or mount rules).
 - Physical thrown items exist only inside an active versioned battle.
 
 ## To Be Updated
 
+- **Tier 1 BATTLE magic items — flat combat bonuses (2026-07-26):** Implemented the first ease tier of the 249 BATTLE magic items (the classifier's `DND 5E Data/BATTLE/Ease/BATTLE_BY_EASE/1_TRIVIAL/`). New pure, tested `src/magicBonuses.js` holds two mechanics: **per-item enchantments** (`enchantments: { [itemId]: plus }`, 1–3, on a base weapon/armor/shield — weapon `+X` adds to attack **and** damage, armor/shield `+X` adds to AC) and **worn accessories** (`WORN_MAGIC_ITEMS`: Bracers of Archery +2 ranged damage, Bracers of Defense +2 AC when unarmored/shieldless, Cloak & Ring of Protection +1 AC/saves, Ioun Stone of Mastery +1 attack, Ioun Stone of Protection +1 AC; activated per-token via `worn: [itemId]`, no attunement cap yet). Engine: `resolveWeaponAttack` gained `options.attackBonus`/`damageBonus` (reported as `itemAttackBonus` and `damage.itemBonus`); `computeArmorClass` gained `acBonus`, folded into `deriveCharacter`'s AC through `armorClassMagicBonus`. `newCharacter()` seeds `enchantments: {}` and `worn: []`; the battle `add()` copies both onto the token, and `attack()` passes `weaponMagicBonuses(active, weapon)` into resolution. The six accessories are registered in `src/items.js` (`WORN_MAGIC_ITEM_ITEMS`, `kind: "magic-item"`, `worn: true`) so they can be bought/added like any item, and `MAGIC_ITEM_CLASSES` now considers them. UI (`src/CharactersPage.jsx`): each weapon/armor inventory row shows an orange `+`/`−` **enchant stepper**; worn-eligible magic items show a **Wear/Worn** toggle; the name shows `Longsword +2`; removing an item clears its enchant/worn state. `.inventory-item` switched from grid to flex to hold the variable control (`.enchant-stepper`, `.worn-toggle` in `src/studio.css`). Save bonuses (`saveMagicBonus`) are computed but unused until saving throws exist. **Deferred:** Ammunition `+X` (consumed, no per-instance identity). New `src/magicBonuses.test.js` (9 tests); `magicItems.test.js` catalog test updated to count inert vs worn; suite now **106**. Render-verified the enchant stepper + Wear/Worn toggle against the freshly built CSS. `npm test` / `npm run build` pass.
 - **Inert NON BATTLE magic items in the item adder (2026-07-26):** Imported the **113 NON BATTLE magic items** as inert catalog entries (they do nothing in battle — they just sit in inventory), mirroring the mundane-gear import. New generated `src/magicItems.js` (`MAGIC_ITEMS` = `{ id, name, rarity, itemCategory, source }`, plus `magicItemById`) is produced from `DND 5E Data/NON BATTLE/` (the classifier's output). `src/items.js` maps them to `kind: "magic-item"` catalog entries with `typeLabel: "Magic Item"` and `category: rarity`, adds a "Magic Items" item type, exposes `MAGIC_ITEM_CLASSES` (rarities present, ascending) for the class filter, and extends `itemClass` to filter magic items by rarity. Subtitle render branches added at all three inventory sites (item picker + owned list in `src/CharactersPage.jsx`, quick-item row in `src/main.jsx`) showing `rarity · category`; the character-sheet class-filter dropdown gained the magic-item→`MAGIC_ITEM_CLASSES` case. The token quick-inventory and chest-fill pickers pick up the new type automatically (they map `ITEM_TYPES` / call `filterCatalog`). Magic items carry **no** combat fields (`damageDice`/`acBase`/`rangeFeet` all undefined), so nothing in the attack/AC engines reads them. The 249 BATTLE magic items are intentionally not imported (they need the effect engine). New `src/magicItems.test.js` (5 tests: exact NON BATTLE match/count 113, known-item fields, `magicItemById` miss, magic-item type filter + inertness, rarity class filter); suite now **97**. Reuses the already-render-verified `.item-picker-option`/owned-list structures (only subtitle text differs). `npm test` / `npm run build` pass.
 - **Basic Wizard class + spellcasting scaffold (2026-07-26):** Added a class catalog `src/classes.js` (`CLASSES`, `classById`) with **Fighter** (d10, STR/CON saves) and a basic **Wizard** (d6, INT/WIS saves, placeholder `spellcasting: { ability: "int", slots: "unlimited" }`). `deriveCharacter` (`src/characterRules.js`) is now class-aware: HP uses the class hit die (`hitDie + CON` at level 1, `(hitDie/2+1) + CON` per later level — Fighter unchanged at 10/6), and casters get a derived `spellcasting` object with a **spell save DC** (`8 + proficiency + INT mod`) and **spell attack bonus** (`proficiency + INT mod`), unlimited slots/spells for now. It also returns `className`. The character sheet's Class dropdown is now enabled (Fighter/Wizard); switching class resets save/skill proficiencies to the class defaults, and a new **Spellcasting card** (`.spellcasting-card` CSS in `src/movement.css`, built to the anti-clipping spec, 4→2 col under 900px) shows DC / attack / ∞ slots / ∞ spells for casters. HP/saves captions and the rules note are class-aware. Characters store the class as its display name so no migration is needed; `classById` also matches by id and falls back to Fighter. New `src/classes.test.js` (5 tests: catalog, id/name resolution, caster flag, Wizard d6 HP, spellcasting DC/attack); suite now **92**. Render-verified the Wizard sheet (class select + derived grid + spellcasting card, no clipping) in headless Chrome. This is deliberately minimal — no spell list, no slot economy, no in-battle casting — the scaffold that later spells and magic items will build on. `npm test` / `npm run build` pass.

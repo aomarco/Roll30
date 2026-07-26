@@ -1,0 +1,284 @@
+MAGIC ITEM EASE GUIDE
+
+CLASSIFICATION RULE
+
+Every existing BATTLE record is assigned to exactly one Ease tier. The single most-demanding effect decides the tier. Easier secondary effects never lower an item, and ambiguous cases are assigned to the harder plausible tier.
+
+Ease measures reuse of Roll30's current combat engine, not an item's D&D rarity or power. A simple attunement label does not automatically raise an item because the supplied Tier 2 examples include attuned items; a tier increase occurs when active behavior requires a missing limit, recharge, reaction, spell, creature, area, transformation, or other subsystem.
+
+TIER DEFINITIONS
+
+TIER 1 - TRIVIAL - 18 ITEMS
+A constant is added to a formula Roll30 already has: weapon attack, weapon damage, Armor Class, saving-throw storage, ability-check storage, or proficiency.
+
+TIER 2 - EASY - 66 ITEMS
+The item needs one small, self-contained mechanic such as an unconditional damage rider, ability-score override, simple healing, static damage mitigation, or a self-buff that reuses advantage, disadvantage, or an existing condition.
+
+TIER 3 - MODERATE - 48 ITEMS
+The item needs a bounded subsystem or unavailable target data, including charges, recharge, reactions, extra attacks, conditional creature-type effects, target saving throws, forced movement, or persistent state.
+
+TIER 4 - HARD / DYNAMIC - 117 ITEMS
+The item depends on a major missing engine or combines several major mechanics: spellcasting, summoning, dynamic areas, spell absorption or reflection, transformation, autonomous entities, or toolbox-style behavior.
+
+PER-ITEM REASONS
+
+TIER 1 - TRIVIAL - 18 ITEMS
+
+Ammunition, +1, +2, or +3 - It adds a constant bonus to existing attack and damage formulas.
+Ammunition, +1 - It adds a constant bonus to existing attack and damage formulas.
+Ammunition, +2 - It adds a constant bonus to existing attack and damage formulas.
+Ammunition, +3 - It adds a constant bonus to existing attack and damage formulas.
+Armor, +1, +2, or +3 - It adds a constant bonus to the existing Armor Class formula.
+Armor, +1 - It adds a constant bonus to the existing Armor Class formula.
+Armor, +2 - It adds a constant bonus to the existing Armor Class formula.
+Armor, +3 - It adds a constant bonus to the existing Armor Class formula.
+Bracers of Archery - Its defining combat bonus is a constant addition to existing ranged-weapon damage.
+Bracers of Defense - It adds a constant Armor Class bonus when its equipment condition is met.
+Cloak of Protection - It adds constant bonuses to Armor Class and stored saving-throw formulas.
+Ioun Stone of Mastery - It adds one constant to the proficiency value already used by weapon attacks.
+Ioun Stone of Protection - It adds a constant bonus to the existing Armor Class formula.
+Ring of Protection - It adds constant bonuses to Armor Class and stored saving-throw formulas.
+Weapon, +1, +2, or +3 - It adds a constant bonus to existing attack and damage formulas.
+Weapon, +1 - It adds a constant bonus to existing attack and damage formulas.
+Weapon, +2 - It adds a constant bonus to existing attack and damage formulas.
+Weapon, +3 - It adds a constant bonus to existing attack and damage formulas.
+
+TIER 2 - EASY - 66 ITEMS
+
+Adamantine Armor - It reuses the existing natural-20 critical system and converts an incoming critical hit into a normal hit.
+Amulet of Health - It sets Constitution to a fixed value and only needs ability override and derived-stat recalculation.
+Armor of Resistance - It adds one static named damage resistance to the damage-application step.
+Armor of Vulnerability - Its static resistance and vulnerability can be handled by one localized damage-modifier mechanic.
+Belt of Dwarvenkind - It combines a bounded ability increase with static resistance and existing roll-mode benefits.
+Belt of Giant Strength - It sets Strength to a fixed value and needs only ability override and derived-stat recalculation.
+Belt of Hill Giant Strength - It sets Strength to a fixed value and needs only ability override and derived-stat recalculation.
+Belt of Stone Giant Strength - It sets Strength to a fixed value and needs only ability override and derived-stat recalculation.
+Belt of Frost Giant Strength - It sets Strength to a fixed value and needs only ability override and derived-stat recalculation.
+Belt of Fire Giant Strength - It sets Strength to a fixed value and needs only ability override and derived-stat recalculation.
+Belt of Cloud Giant Strength - It sets Strength to a fixed value and needs only ability override and derived-stat recalculation.
+Belt of Storm Giant Strength - It sets Strength to a fixed value and needs only ability override and derived-stat recalculation.
+Cloak of Displacement - It applies disadvantage to attacks against the wearer using Roll30's existing roll mode.
+Elven Chain - It needs a small armor eligibility exception plus a constant Armor Class bonus.
+Flame Tongue - It adds unconditional extra damage dice to ordinary weapon hits.
+Frost Brand - Its main combat behavior is an unconditional damage rider plus one static damage resistance.
+Gauntlets of Ogre Power - It sets Strength to a fixed value and needs only ability override and derived-stat recalculation.
+Glamoured Studded Leather Armor - Its combat effect is a constant Armor Class bonus; its appearance toggle is a small self-contained state.
+Ioun Stone of Agility - It applies one bounded ability-score increase and recomputes derived values.
+Ioun Stone of Awareness - It adds one small self-buff preventing surprise without target saves or dynamic targeting.
+Ioun Stone of Fortitude - It applies one bounded ability-score increase and recomputes derived values.
+Ioun Stone of Insight - It applies one bounded ability-score increase and recomputes derived values.
+Ioun Stone of Intellect - It applies one bounded ability-score increase and recomputes derived values.
+Ioun Stone of Leadership - It applies one bounded ability-score increase and recomputes derived values.
+Ioun Stone of Strength - It applies one bounded ability-score increase and recomputes derived values.
+Mithral Armor - It removes armor-based Strength and disadvantage restrictions using existing roll-mode behavior.
+Oil of Sharpness - It applies a timed constant attack-and-damage bonus to one existing weapon formula.
+Potion of Giant Strength - It temporarily sets Strength and needs one ability override with derived-stat recalculation.
+Potion of Hill Giant Strength - It temporarily sets Strength and needs one ability override with derived-stat recalculation.
+Potion of Frost Giant Strength - It temporarily sets Strength and needs one ability override with derived-stat recalculation.
+Potion of Stone Giant Strength - It temporarily sets Strength and needs one ability override with derived-stat recalculation.
+Potion of Fire Giant Strength - It temporarily sets Strength and needs one ability override with derived-stat recalculation.
+Potion of Cloud Giant Strength - It temporarily sets Strength and needs one ability override with derived-stat recalculation.
+Potion of Storm Giant Strength - It temporarily sets Strength and needs one ability override with derived-stat recalculation.
+Potion of Healing - It needs one simple item-use action that restores hit points.
+Potion of Healing - It needs one simple item-use action that restores hit points.
+Potion of Greater Healing - It needs one simple item-use action that restores hit points.
+Potion of Superior Healing - It needs one simple item-use action that restores hit points.
+Potion of Supreme Healing - It needs one simple item-use action that restores hit points.
+Potion of Heroism - It needs bounded temporary hit points and a simple attack-and-save roll bonus.
+Potion of Invisibility - It applies a self-only existing visibility condition without a target save or area resolution.
+Potion of Resistance - It adds one temporary named damage resistance to the damage-application step.
+Potion of Acid Resistance - It adds one temporary named damage resistance to the damage-application step.
+Potion of Cold Resistance - It adds one temporary named damage resistance to the damage-application step.
+Potion of Fire Resistance - It adds one temporary named damage resistance to the damage-application step.
+Potion of Force Resistance - It adds one temporary named damage resistance to the damage-application step.
+Potion of Lightning Resistance - It adds one temporary named damage resistance to the damage-application step.
+Potion of Necrotic Resistance - It adds one temporary named damage resistance to the damage-application step.
+Potion of Poison Resistance - It adds one temporary named damage resistance to the damage-application step.
+Potion of Psychic Resistance - It adds one temporary named damage resistance to the damage-application step.
+Potion of Radiant Resistance - It adds one temporary named damage resistance to the damage-application step.
+Potion of Thunder Resistance - It adds one temporary named damage resistance to the damage-application step.
+Ring of Free Action - It reuses existing movement and condition handling to prevent a bounded set of restrictions.
+Ring of Invisibility - It applies a self-only visibility state without target saves, areas, or autonomous entities.
+Ring of Resistance - It adds one static named damage resistance to the damage-application step.
+Ring of Acid Resistance - It adds one static named damage resistance to the damage-application step.
+Ring of Cold Resistance - It adds one static named damage resistance to the damage-application step.
+Ring of Fire Resistance - It adds one static named damage resistance to the damage-application step.
+Ring of Force Resistance - It adds one static named damage resistance to the damage-application step.
+Ring of Lightning Resistance - It adds one static named damage resistance to the damage-application step.
+Ring of Necrotic Resistance - It adds one static named damage resistance to the damage-application step.
+Ring of Poison Resistance - It adds one static named damage resistance to the damage-application step.
+Ring of Psychic Resistance - It adds one static named damage resistance to the damage-application step.
+Ring of Radiant Resistance - It adds one static named damage resistance to the damage-application step.
+Ring of Thunder Resistance - It adds one static named damage resistance to the damage-application step.
+Vicious Weapon - It reuses the existing natural-20 check and adds a fixed amount of damage.
+
+TIER 3 - MODERATE - 48 ITEMS
+
+Animated Shield - It changes hand and action economy by animating independently after a bonus action.
+Armor of Invulnerability - Its once-per-rest immunity mode needs limited-use state and reset handling beyond static resistance.
+Arrow-Catching Shield - Its reaction redirects another creature's ranged attack and changes target and Armor Class resolution.
+Arrow of Slaying - Its effect requires creature-type data and a target saving throw before applying conditional damage.
+Berserker Axe - Its curse requires a target event, a saving throw, forced behavior, and persistent rage state.
+Boots of Speed - It uses bonus-action activation, limited accumulated duration, movement changes, attack modifiers, and exhaustion.
+Dagger of Venom - It has a limited-use activation followed by a target saving throw, poison damage, and a condition.
+Dancing Sword - It creates repeated bonus-action attacks from a separately positioned weapon and tracks a limited attack sequence.
+Defender - It dynamically reallocates its attack bonus into Armor Class each turn based on the user's choice.
+Demon Armor - It combines armor, altered natural attacks, a curse, creature-type checks, and saving-throw-driven behavior.
+Dragon Scale Mail - It combines resistance with dragon-specific sensing and saving-throw benefits requiring creature and effect data.
+Black Dragon Scale Mail - It combines resistance with dragon-specific sensing and saving-throw benefits requiring creature and effect data.
+Blue Dragon Scale Mail - It combines resistance with dragon-specific sensing and saving-throw benefits requiring creature and effect data.
+Brass Dragon Scale Mail - It combines resistance with dragon-specific sensing and saving-throw benefits requiring creature and effect data.
+Bronze Dragon Scale Mail - It combines resistance with dragon-specific sensing and saving-throw benefits requiring creature and effect data.
+Copper Dragon Scale Mail - It combines resistance with dragon-specific sensing and saving-throw benefits requiring creature and effect data.
+Gold Dragon Scale Mail - It combines resistance with dragon-specific sensing and saving-throw benefits requiring creature and effect data.
+Green Dragon Scale Mail - It combines resistance with dragon-specific sensing and saving-throw benefits requiring creature and effect data.
+Red Dragon Scale Mail - It combines resistance with dragon-specific sensing and saving-throw benefits requiring creature and effect data.
+Silver Dragon Scale Mail - It combines resistance with dragon-specific sensing and saving-throw benefits requiring creature and effect data.
+White Dragon Scale Mail - It combines resistance with dragon-specific sensing and saving-throw benefits requiring creature and effect data.
+Dragon Slayer - Its extra damage depends on dragon creature-type data that Roll30 does not have.
+Dwarven Plate - Its forced-movement reduction requires reaction handling and grid movement interception.
+Dwarven Thrower - It needs returning-weapon behavior and creature-type checks for its conditional giant damage.
+Giant Slayer - Its damage and knockdown depend on creature-type or size data and a target saving throw.
+Gloves of Missile Snaring - It requires a reaction that intercepts ranged damage, reduces it, and may create a return projectile.
+Ioun Stone of Regeneration - It needs timed healing, missing-body-part state, and long-duration regeneration tracking.
+Iron Bands of Binding - It makes a target save, applies restraint, tracks escape attempts, and manages the bands as a damageable object.
+Mace of Disruption - It requires creature-type data, conditional damage, a target save, destruction, and frightened-state handling.
+Mace of Smiting - Its enhanced critical and destruction effects depend on construct creature-type data.
+Nine Lives Stealer - It tracks limited charges and uses a target saving throw for a conditional execution effect.
+Oathbow - It tracks a chosen enemy and applies range, advantage, disadvantage, and conditional damage rules.
+Periapt of Wound Closure - It requires dying-state stabilization, timed wound handling, and interaction with rest-based healing dice.
+Potion of Speed - It changes action economy, speed, Armor Class, saving throws, and applies a delayed lethargy state.
+Ring of Evasion - It spends charges after failed Dexterity saves, requiring save resolution, choice timing, and recharge.
+Ring of Regeneration - It requires recurring timed healing and long-duration missing-body-part regeneration.
+Ring of the Ram - It spends charges on a target attack with forced movement, knockdown, and size-dependent saves.
+Rope of Entanglement - It requires a target saving throw, restraint, repeated escape checks, and damageable-object state.
+Scimitar of Speed - It adds a bonus-action weapon attack and therefore changes Roll30's attack action economy.
+Shield of Missile Attraction - Its curse redirects ranged attacks across targets while also applying conditional damage resistance.
+Staff of Striking - It spends variable charges on hit, adds scalable damage dice, and needs daily recharge state.
+Staff of Withering - It spends charges on hit and uses a target saving throw to apply a lasting combat debuff.
+Sun Blade - Its conditional damage requires undead creature-type data, alongside stateful blade activation.
+Sword of Life Stealing - Its critical effect grants temporary hit points and excludes creature types Roll30 cannot identify.
+Sword of Sharpness - Its critical effect requires target anatomy, limb-loss state, and exceptional natural-20 handling.
+Sword of Wounding - It creates persistent wounds, repeated saves, healing suppression, and changing maximum hit points.
+Vorpal Sword - Its natural-20 effect requires anatomy, creature traits, conditional decapitation, and fallback damage.
+Wand of Enemy Detection - It uses charges and continuously searches for hostile creatures through range and obstruction rules.
+
+TIER 4 - HARD / DYNAMIC - 117 ITEMS
+
+Bag of Tricks - It creates creatures that need stat blocks, placement, turns, and independent combat behavior.
+Gray Bag of Tricks - It creates creatures that need stat blocks, placement, turns, and independent combat behavior.
+Rust Bag of Tricks - It creates creatures that need stat blocks, placement, turns, and independent combat behavior.
+Tan Bag of Tricks - It creates creatures that need stat blocks, placement, turns, and independent combat behavior.
+Bead of Force - It combines radius damage, a target save, forced containment, movement, and timed area state.
+Bowl of Commanding Water Elementals - It summons and controls an elemental creature, requiring creature and turn systems.
+Brazier of Commanding Fire Elementals - It summons and controls an elemental creature, requiring creature and turn systems.
+Brooch of Shielding - Its signature protection includes immunity to a specific spell, which requires spell identification and resolution.
+Censer of Controlling Air Elementals - It summons and controls an elemental creature, requiring creature and turn systems.
+Circlet of Blasting - It directly casts a spell attack, requiring the missing spell engine.
+Cloak of Arachnida - It combines movement changes and poison resistance with an area control spell.
+Cube of Force - Its charged barriers have many spell, creature, object, and area interaction modes.
+Dust of Sneezing and Choking - It applies a multi-target area effect with saving throws, incapacitation, and repeated suffocation state.
+Efreeti Bottle - It releases an autonomous creature with branching behavior and powerful spell-like outcomes.
+Elemental Gem - It summons an elemental creature with its own statistics and turns.
+Air Elemental Gem - It summons an elemental creature with its own statistics and turns.
+Earth Elemental Gem - It summons an elemental creature with its own statistics and turns.
+Fire Elemental Gem - It summons an elemental creature with its own statistics and turns.
+Water Elemental Gem - It summons an elemental creature with its own statistics and turns.
+Eversmoking Bottle - It creates an expanding persistent area that changes visibility and reacts dynamically to wind.
+Whip Feather Token - It creates an independently attacking magical object that needs placement, attack behavior, and persistent turns.
+Bronze Griffon Figurine of Wondrous Power - It creates a creature or mount with independent statistics, duration, and behavior.
+Golden Lions Figurine of Wondrous Power - It creates a creature or mount with independent statistics, duration, and behavior.
+Ivory Goats Figurine of Wondrous Power - It creates a creature or mount with independent statistics, duration, and behavior.
+Marble Elephant Figurine of Wondrous Power - It creates a creature or mount with independent statistics, duration, and behavior.
+Obsidian Steed Figurine of Wondrous Power - It creates a creature or mount with independent statistics, duration, and behavior.
+Onyx Dog Figurine of Wondrous Power - It creates a creature or mount with independent statistics, duration, and behavior.
+Gem of Brightness - Its charges can create rays and a cone affecting multiple targets with saving throws and blindness.
+Hammer of Thunderbolts - It combines prerequisite equipment, ability changes, charges, area effects, saving throws, and target conditions.
+Helm of Brilliance - It stores several spell effects and charges, including area spells, saving throws, and destructive edge cases.
+Holy Avenger - It combines creature-type damage with a dynamic allied aura protecting against spells and magical effects.
+Horn of Blasting - It resolves cone targeting, multi-target damage, saving throws, object damage, and a destruction risk.
+Horn of Valhalla - It summons multiple autonomous warriors with their own statistics and turns.
+Silver Horn of Valhalla - It summons multiple autonomous warriors with their own statistics and turns.
+Brass Horn of Valhalla - It summons multiple autonomous warriors with their own statistics and turns.
+Bronze Horn of Valhalla - It summons multiple autonomous warriors with their own statistics and turns.
+Iron Horn of Valhalla - It summons multiple autonomous warriors with their own statistics and turns.
+Instant Fortress - It deploys a structure with its own statistics and resolves area damage and saving throws around it.
+Ioun Stone - The umbrella record bundles many distinct variants, including spell absorption and stored spells.
+Ioun Stone of Absorption - It absorbs or stores spells, requiring spell interception, spell levels, and spell execution.
+Ioun Stone of Greater Absorption - It absorbs or stores spells, requiring spell interception, spell levels, and spell execution.
+Ioun Stone of Reserve - It absorbs or stores spells, requiring spell interception, spell levels, and spell execution.
+Iron Flask - It captures, releases, and controls extraplanar creatures, requiring saving throws, creature storage, and autonomous turns.
+Javelin of Lightning - It requires line targeting, multiple targets, damage resolution, and saving throws.
+Luck Blade - It is a multi-function weapon with rerolls, saving-throw bonuses, charges, and wish spellcasting.
+Mace of Terror - Its charge creates a multi-target radius condition with saving throws and repeated condition logic.
+Mantle of Spell Resistance - Its defining mechanic is spell resistance, which requires a functioning spell-resolution system.
+Mirror of Life Trapping - It dynamically traps multiple creatures in extradimensional cells and manages release, copies, and persistent state.
+Necklace of Fireballs - It casts scalable area fire effects with multi-target saving throws.
+Necklace of Prayer Beads - It stores multiple spell effects and charge-like bead state, requiring spellcasting and effect systems.
+Oil of Slipperiness - It reproduces spell effects that include area placement, target saves, conditions, and timed freedom of movement.
+Pearl of Power - It restores a spell slot, and Roll30 has no spell-slot or spellcasting engine.
+Pipes of Haunting - It uses charges to impose a saving-throw-based condition on multiple creatures in an area.
+Pipes of the Sewers - It summons and controls creature swarms with their own statistics and combat behavior.
+Plate Armor of Etherealness - It activates an ethereal-state spell effect that changes movement, targeting, and world interaction.
+Potion of Diminution - It changes size and derived combat statistics, requiring a transformation and size system.
+Potion of Growth - It changes size and derived combat statistics, requiring a transformation and size system.
+Ring of Djinni Summoning - It summons and commands an autonomous spellcasting creature.
+Ring of Elemental Command - It is a charged elemental toolbox that casts several spells and changes behavior after a creature-specific event.
+Ring of Air Elemental Command - It is a charged elemental toolbox that casts several spells and changes behavior after a creature-specific event.
+Ring of Earth Elemental Command - It is a charged elemental toolbox that casts several spells and changes behavior after a creature-specific event.
+Ring of Fire Elemental Command - It is a charged elemental toolbox that casts several spells and changes behavior after a creature-specific event.
+Ring of Water Elemental Command - It is a charged elemental toolbox that casts several spells and changes behavior after a creature-specific event.
+Ring of Shooting Stars - It uses charges for several spell effects, including multi-target and area damage.
+Ring of Spell Storing - It requires spell casting, spell levels, stored spell metadata, and later spell execution.
+Ring of Spell Turning - It reflects spells and therefore needs spell targeting, spell resolution, and reaction-like interception.
+Ring of Telekinesis - It continuously reproduces a spell that moves creatures and objects through contested checks.
+Robe of Scintillating Colors - It combines charges, a dynamic radius, target saving throws, incapacitation, and attack modifiers.
+Robe of Stars - It casts spells and grants planar movement, requiring spell and ethereal-state systems.
+Robe of the Archmagi - Its primary bonuses depend on spell attacks, spell saves, and spell resistance, all absent from Roll30.
+Rod of Absorption - It absorbs spells and converts spell energy, requiring spell interception and spell-slot systems.
+Rod of Alertness - Its spellcasting and protective aura require spell effects, area handling, and several coordinated systems.
+Rod of Lordly Might - It is a large toolbox of weapon forms, transformation, healing, paralysis, fear, navigation, and target saves.
+Scarab of Protection - It intercepts hostile spell and undead effects with limited charges and automatic save replacement.
+Spell Scroll - The record represents spell casting, and Roll30 has no spell engine.
+Spell Scroll (Cantrip) - The record represents spell casting, and Roll30 has no spell engine.
+Spell Scroll (1st) - The record represents spell casting, and Roll30 has no spell engine.
+Spell Scroll (2nd) - The record represents spell casting, and Roll30 has no spell engine.
+Spell Scroll (3rd) - The record represents spell casting, and Roll30 has no spell engine.
+Spell Scroll (4th) - The record represents spell casting, and Roll30 has no spell engine.
+Spell Scroll (5th) - The record represents spell casting, and Roll30 has no spell engine.
+Spell Scroll (6th) - The record represents spell casting, and Roll30 has no spell engine.
+Spell Scroll (7th) - The record represents spell casting, and Roll30 has no spell engine.
+Spell Scroll (8th) - The record represents spell casting, and Roll30 has no spell engine.
+Spell Scroll (9th) - The record represents spell casting, and Roll30 has no spell engine.
+Spellguard Shield - It changes attacks and saves specifically against spells and magical effects, requiring spell-aware combat resolution.
+Sphere of Annihilation - It requires a movable map entity, contested control, contact resolution, saves, and destruction rules.
+Staff of Charming - The staff casts spells, summons creatures, or bundles spell-driven effects that need the missing spell engine.
+Staff of Fire - The staff casts spells, summons creatures, or bundles spell-driven effects that need the missing spell engine.
+Staff of Frost - The staff casts spells, summons creatures, or bundles spell-driven effects that need the missing spell engine.
+Staff of Healing - The staff casts spells, summons creatures, or bundles spell-driven effects that need the missing spell engine.
+Staff of Power - It is a multi-function spellcasting toolbox with charges, defenses, several spells, and major dynamic effects.
+Staff of Swarming Insects - The staff casts spells, summons creatures, or bundles spell-driven effects that need the missing spell engine.
+Staff of the Magi - It is a multi-function spellcasting toolbox with charges, defenses, several spells, and major dynamic effects.
+Staff of the Python - It transforms into an autonomous creature with its own statistics and behavior.
+Staff of the Woodlands - The staff casts spells, summons creatures, or bundles spell-driven effects that need the missing spell engine.
+Staff of Thunder and Lightning - It bundles several effects including line or area damage, saving throws, conditions, and limited-use state.
+Stone of Controlling Earth Elementals - It summons and controls an elemental creature with its own statistics and turns.
+Talisman of Pure Good - It depends on major alignment, spell, planar-fissure, or Sphere of Annihilation systems.
+Talisman of the Sphere - It depends on major alignment, spell, planar-fissure, or Sphere of Annihilation systems.
+Talisman of Ultimate Evil - It depends on major alignment, spell, planar-fissure, or Sphere of Annihilation systems.
+Trident of Fish Command - It spends charges to cast creature-control spells that require creature typing and spell resolution.
+Wand of Binding - The wand casts spells or reproduces spell effects, requiring the missing spell engine.
+Wand of Fear - The wand casts spells or reproduces spell effects, requiring the missing spell engine.
+Wand of Fireballs - The wand casts spells or reproduces spell effects, requiring the missing spell engine.
+Wand of Lightning Bolts - The wand casts spells or reproduces spell effects, requiring the missing spell engine.
+Wand of Magic Missiles - The wand casts spells or reproduces spell effects, requiring the missing spell engine.
+Wand of Paralysis - The wand casts spells or reproduces spell effects, requiring the missing spell engine.
+Wand of Polymorph - The wand casts spells or reproduces spell effects, requiring the missing spell engine.
+Wand of the War Mage, +1, +2, or +3 - Its bonus applies to spell attacks, which cannot function until Roll30 has a spell engine.
+Wand of the War Mage, +1 - Its bonus applies to spell attacks, which cannot function until Roll30 has a spell engine.
+Wand of the War Mage, +2 - Its bonus applies to spell attacks, which cannot function until Roll30 has a spell engine.
+Wand of the War Mage, +3 - Its bonus applies to spell attacks, which cannot function until Roll30 has a spell engine.
+Wand of Web - The wand casts spells or reproduces spell effects, requiring the missing spell engine.
+Wand of Wonder - The wand casts spells or reproduces spell effects, requiring the missing spell engine.
+Wind Fan - It casts a line-based spell with forced movement and repeated saving throws.
+Orb of Dragonkind - It is a charged multi-function artifact with spells, creature control, sensing, random properties, and severe drawbacks.

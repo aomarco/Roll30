@@ -1,0 +1,258 @@
+BATTLE_BY_EASE
+ 1_TRIVIAL
+  tier_1_trivial_items.json
+   Ammunition, +1, +2, or +3
+   Ammunition, +1
+   Ammunition, +2
+   Ammunition, +3
+   Armor, +1, +2, or +3
+   Armor, +1
+   Armor, +2
+   Armor, +3
+   Bracers of Archery
+   Bracers of Defense
+   Cloak of Protection
+   Ioun Stone of Mastery
+   Ioun Stone of Protection
+   Ring of Protection
+   Weapon, +1, +2, or +3
+   Weapon, +1
+   Weapon, +2
+   Weapon, +3
+ 2_EASY
+  tier_2_easy_items.json
+   Adamantine Armor
+   Amulet of Health
+   Armor of Resistance
+   Armor of Vulnerability
+   Belt of Dwarvenkind
+   Belt of Giant Strength
+   Belt of Hill Giant Strength
+   Belt of Stone Giant Strength
+   Belt of Frost Giant Strength
+   Belt of Fire Giant Strength
+   Belt of Cloud Giant Strength
+   Belt of Storm Giant Strength
+   Cloak of Displacement
+   Elven Chain
+   Flame Tongue
+   Frost Brand
+   Gauntlets of Ogre Power
+   Glamoured Studded Leather Armor
+   Ioun Stone of Agility
+   Ioun Stone of Awareness
+   Ioun Stone of Fortitude
+   Ioun Stone of Insight
+   Ioun Stone of Intellect
+   Ioun Stone of Leadership
+   Ioun Stone of Strength
+   Mithral Armor
+   Oil of Sharpness
+   Potion of Giant Strength
+   Potion of Hill Giant Strength
+   Potion of Frost Giant Strength
+   Potion of Stone Giant Strength
+   Potion of Fire Giant Strength
+   Potion of Cloud Giant Strength
+   Potion of Storm Giant Strength
+   Potion of Healing
+   Potion of Healing
+   Potion of Greater Healing
+   Potion of Superior Healing
+   Potion of Supreme Healing
+   Potion of Heroism
+   Potion of Invisibility
+   Potion of Resistance
+   Potion of Acid Resistance
+   Potion of Cold Resistance
+   Potion of Fire Resistance
+   Potion of Force Resistance
+   Potion of Lightning Resistance
+   Potion of Necrotic Resistance
+   Potion of Poison Resistance
+   Potion of Psychic Resistance
+   Potion of Radiant Resistance
+   Potion of Thunder Resistance
+   Ring of Free Action
+   Ring of Invisibility
+   Ring of Resistance
+   Ring of Acid Resistance
+   Ring of Cold Resistance
+   Ring of Fire Resistance
+   Ring of Force Resistance
+   Ring of Lightning Resistance
+   Ring of Necrotic Resistance
+   Ring of Poison Resistance
+   Ring of Psychic Resistance
+   Ring of Radiant Resistance
+   Ring of Thunder Resistance
+   Vicious Weapon
+ 3_MODERATE
+  tier_3_moderate_items.json
+   Animated Shield
+   Armor of Invulnerability
+   Arrow-Catching Shield
+   Arrow of Slaying
+   Berserker Axe
+   Boots of Speed
+   Dagger of Venom
+   Dancing Sword
+   Defender
+   Demon Armor
+   Dragon Scale Mail
+   Black Dragon Scale Mail
+   Blue Dragon Scale Mail
+   Brass Dragon Scale Mail
+   Bronze Dragon Scale Mail
+   Copper Dragon Scale Mail
+   Gold Dragon Scale Mail
+   Green Dragon Scale Mail
+   Red Dragon Scale Mail
+   Silver Dragon Scale Mail
+   White Dragon Scale Mail
+   Dragon Slayer
+   Dwarven Plate
+   Dwarven Thrower
+   Giant Slayer
+   Gloves of Missile Snaring
+   Ioun Stone of Regeneration
+   Iron Bands of Binding
+   Mace of Disruption
+   Mace of Smiting
+   Nine Lives Stealer
+   Oathbow
+   Periapt of Wound Closure
+   Potion of Speed
+   Ring of Evasion
+   Ring of Regeneration
+   Ring of the Ram
+   Rope of Entanglement
+   Scimitar of Speed
+   Shield of Missile Attraction
+   Staff of Striking
+   Staff of Withering
+   Sun Blade
+   Sword of Life Stealing
+   Sword of Sharpness
+   Sword of Wounding
+   Vorpal Sword
+   Wand of Enemy Detection
+ 4_HARD_DYNAMIC
+  tier_4_hard_dynamic_items.json
+   Bag of Tricks
+   Gray Bag of Tricks
+   Rust Bag of Tricks
+   Tan Bag of Tricks
+   Bead of Force
+   Bowl of Commanding Water Elementals
+   Brazier of Commanding Fire Elementals
+   Brooch of Shielding
+   Censer of Controlling Air Elementals
+   Circlet of Blasting
+   Cloak of Arachnida
+   Cube of Force
+   Dust of Sneezing and Choking
+   Efreeti Bottle
+   Elemental Gem
+   Air Elemental Gem
+   Earth Elemental Gem
+   Fire Elemental Gem
+   Water Elemental Gem
+   Eversmoking Bottle
+   Whip Feather Token
+   Bronze Griffon Figurine of Wondrous Power
+   Golden Lions Figurine of Wondrous Power
+   Ivory Goats Figurine of Wondrous Power
+   Marble Elephant Figurine of Wondrous Power
+   Obsidian Steed Figurine of Wondrous Power
+   Onyx Dog Figurine of Wondrous Power
+   Gem of Brightness
+   Hammer of Thunderbolts
+   Helm of Brilliance
+   Holy Avenger
+   Horn of Blasting
+   Horn of Valhalla
+   Silver Horn of Valhalla
+   Brass Horn of Valhalla
+   Bronze Horn of Valhalla
+   Iron Horn of Valhalla
+   Instant Fortress
+   Ioun Stone
+   Ioun Stone of Absorption
+   Ioun Stone of Greater Absorption
+   Ioun Stone of Reserve
+   Iron Flask
+   Javelin of Lightning
+   Luck Blade
+   Mace of Terror
+   Mantle of Spell Resistance
+   Mirror of Life Trapping
+   Necklace of Fireballs
+   Necklace of Prayer Beads
+   Oil of Slipperiness
+   Pearl of Power
+   Pipes of Haunting
+   Pipes of the Sewers
+   Plate Armor of Etherealness
+   Potion of Diminution
+   Potion of Growth
+   Ring of Djinni Summoning
+   Ring of Elemental Command
+   Ring of Air Elemental Command
+   Ring of Earth Elemental Command
+   Ring of Fire Elemental Command
+   Ring of Water Elemental Command
+   Ring of Shooting Stars
+   Ring of Spell Storing
+   Ring of Spell Turning
+   Ring of Telekinesis
+   Robe of Scintillating Colors
+   Robe of Stars
+   Robe of the Archmagi
+   Rod of Absorption
+   Rod of Alertness
+   Rod of Lordly Might
+   Scarab of Protection
+   Spell Scroll
+   Spell Scroll (Cantrip)
+   Spell Scroll (1st)
+   Spell Scroll (2nd)
+   Spell Scroll (3rd)
+   Spell Scroll (4th)
+   Spell Scroll (5th)
+   Spell Scroll (6th)
+   Spell Scroll (7th)
+   Spell Scroll (8th)
+   Spell Scroll (9th)
+   Spellguard Shield
+   Sphere of Annihilation
+   Staff of Charming
+   Staff of Fire
+   Staff of Frost
+   Staff of Healing
+   Staff of Power
+   Staff of Swarming Insects
+   Staff of the Magi
+   Staff of the Python
+   Staff of the Woodlands
+   Staff of Thunder and Lightning
+   Stone of Controlling Earth Elementals
+   Talisman of Pure Good
+   Talisman of the Sphere
+   Talisman of Ultimate Evil
+   Trident of Fish Command
+   Wand of Binding
+   Wand of Fear
+   Wand of Fireballs
+   Wand of Lightning Bolts
+   Wand of Magic Missiles
+   Wand of Paralysis
+   Wand of Polymorph
+   Wand of the War Mage, +1, +2, or +3
+   Wand of the War Mage, +1
+   Wand of the War Mage, +2
+   Wand of the War Mage, +3
+   Wand of Web
+   Wand of Wonder
+   Wind Fan
+   Orb of Dragonkind

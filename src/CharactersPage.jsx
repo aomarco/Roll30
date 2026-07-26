@@ -58,6 +58,7 @@ import {
   normalizeLoadout,
 } from "./combatRules.js";
 import { armorById, weaponById } from "./weapons.js";
+import { isWornMagicItem } from "./magicBonuses.js";
 
 export default function CharactersPage({ characters, setCharacters, onBack }) {
   const [itemPickerOpen, setItemPickerOpen] = useState(false);
@@ -174,11 +175,31 @@ export default function CharactersPage({ characters, setCharacters, onBack }) {
   };
   const removeItem = (itemId) => {
     const nextInventory = removeInventoryItem(inventory, itemId);
+    const nextEnchantments = { ...(selected?.enchantments || {}) };
+    delete nextEnchantments[itemId];
     update({
       inventory: nextInventory,
       loadout: normalizeLoadout(nextInventory, loadout),
+      enchantments: nextEnchantments,
+      worn: (selected?.worn || []).filter((id) => id !== itemId),
       ...normalizeEquipment(nextInventory, selected),
     });
+  };
+  const setEnchantment = (itemId, plus) => {
+    if (!selected) return;
+    const next = { ...(selected.enchantments || {}) };
+    const value = Math.max(0, Math.min(3, plus));
+    if (value === 0) delete next[itemId];
+    else next[itemId] = value;
+    update({ enchantments: next });
+  };
+  const toggleWorn = (itemId) => {
+    if (!selected) return;
+    const current = Array.isArray(selected.worn) ? selected.worn : [];
+    const next = current.includes(itemId)
+      ? current.filter((id) => id !== itemId)
+      : [...current, itemId];
+    update({ worn: next });
   };
   const setLoadout = (patch) => {
     const candidate = { ...loadout, ...patch };
@@ -825,13 +846,22 @@ export default function CharactersPage({ characters, setCharacters, onBack }) {
                         (candidate) => candidate.id === entry.itemId,
                       );
                       if (!item) return null;
+                      const enchantable =
+                        item.kind === "weapon" || item.kind === "armor";
+                      const wearable =
+                        item.kind === "magic-item" && isWornMagicItem(item.id);
+                      const plus = selected?.enchantments?.[item.id] || 0;
+                      const isWorn = (selected?.worn || []).includes(item.id);
                       return (
                         <article className="inventory-item" key={item.id}>
                           <span className="inventory-item-icon">
                             <Backpack size={17} />
                           </span>
                           <div>
-                            <strong>{item.name}</strong>
+                            <strong>
+                              {item.name}
+                              {enchantable && plus > 0 ? ` +${plus}` : ""}
+                            </strong>
                             <small>
                               {item.kind === "ammunition"
                                 ? `Ammunition · bundle of ${item.bundle}`
@@ -844,6 +874,42 @@ export default function CharactersPage({ characters, setCharacters, onBack }) {
                                       : `${item.damageDice} ${item.damageType.toLowerCase()} · ${item.rangeFeet} ft`}
                             </small>
                           </div>
+                          {enchantable && (
+                            <div
+                              className="enchant-stepper"
+                              title="Magic bonus applied to this item"
+                            >
+                              <button
+                                onClick={() => setEnchantment(item.id, plus - 1)}
+                                disabled={plus <= 0}
+                                aria-label={`Lower magic bonus on ${item.name}`}
+                              >
+                                <Minus size={12} />
+                              </button>
+                              <strong>+{plus}</strong>
+                              <button
+                                onClick={() => setEnchantment(item.id, plus + 1)}
+                                disabled={plus >= 3}
+                                aria-label={`Raise magic bonus on ${item.name}`}
+                              >
+                                <Plus size={12} />
+                              </button>
+                            </div>
+                          )}
+                          {wearable && (
+                            <button
+                              className={`worn-toggle${isWorn ? " is-worn" : ""}`}
+                              onClick={() => toggleWorn(item.id)}
+                              aria-pressed={isWorn}
+                              title={
+                                isWorn
+                                  ? "Worn — bonus active"
+                                  : "Not worn — click to wear"
+                              }
+                            >
+                              {isWorn ? "Worn" : "Wear"}
+                            </button>
+                          )}
                           <div className="quantity-stepper">
                             <button
                               onClick={() => changeItemQuantity(item.id, -1)}
