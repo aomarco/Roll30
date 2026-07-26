@@ -354,13 +354,14 @@
 }
 
 .item-filter-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  flex-wrap: wrap;
   gap: 7px;
   margin-top: 7px;
 }
 
 .item-filter-row select {
+  flex: 1 1 130px;
   min-width: 0;
 }
 
@@ -703,8 +704,8 @@
 .item-picker {
   position: relative;
   z-index: 10001;
-  width: min(440px, calc(100vw - 44px));
-  max-height: min(470px, 70vh);
+  width: min(460px, calc(100vw - 44px));
+  max-height: min(560px, 82vh);
   padding: 10px;
   border: 1px solid #e18b6138;
   border-radius: 14px;
@@ -714,7 +715,8 @@
     inset 0 1px #ffffff0e;
   backdrop-filter: blur(14px);
   display: grid;
-  grid-template-rows: auto auto minmax(0, 1fr);
+  /* title, search+type, filter row, then the scrollable results take the rest */
+  grid-template-rows: auto auto auto minmax(0, 1fr);
   overflow: hidden;
   animation: weapon-menu-arrive 260ms var(--motion-swish) both;
 }

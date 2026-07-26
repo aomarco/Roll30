@@ -39,10 +39,13 @@ const toggleInArray = (list, value) =>
     : [...list, value];
 import {
   ARMOR_CLASSES,
+  DAMAGE_TYPES,
   GEAR_CLASSES,
   ITEM_CATALOG,
   ITEM_TYPES,
   MAGIC_ITEM_CLASSES,
+  RANGE_BANDS,
+  SORT_OPTIONS,
   WEAPON_CLASSES,
   WEAPON_PROPERTIES,
   bundleSize,
@@ -66,6 +69,9 @@ export default function CharactersPage({ characters, setCharacters, onBack }) {
   const [itemType, setItemType] = useState("all");
   const [itemClassFilter, setItemClassFilter] = useState("all");
   const [itemProperty, setItemProperty] = useState("all");
+  const [itemDamageType, setItemDamageType] = useState("all");
+  const [itemRange, setItemRange] = useState("all");
+  const [itemSort, setItemSort] = useState("name");
   const [inventoryQuery, setInventoryQuery] = useState("");
   useEffect(() => {
     if (!itemPickerOpen) return undefined;
@@ -141,7 +147,11 @@ export default function CharactersPage({ characters, setCharacters, onBack }) {
   const catalogResults = filterCatalog(itemQuery, itemType, {
     category: itemClassFilter,
     property: itemProperty,
+    damageType: itemDamageType,
+    range: itemRange,
+    sort: itemSort,
   });
+  const weaponFiltersActive = itemType === "weapon" || itemType === "all";
   // Class options adapt to the selected type; properties apply to weapons.
   const classOptions =
     itemType === "armor"
@@ -153,7 +163,6 @@ export default function CharactersPage({ characters, setCharacters, onBack }) {
           : itemType === "ammunition"
             ? []
             : WEAPON_CLASSES;
-  const propertyEnabled = itemType === "weapon" || itemType === "all";
   const visibleInventory = inventory.filter((entry) => {
     const item = ITEM_CATALOG.find(
       (candidate) => candidate.id === entry.itemId,
@@ -742,6 +751,8 @@ export default function CharactersPage({ characters, setCharacters, onBack }) {
                               setItemType(event.target.value);
                               setItemClassFilter("all");
                               setItemProperty("all");
+                              setItemDamageType("all");
+                              setItemRange("all");
                             }}
                             aria-label="Filter item type"
                           >
@@ -753,35 +764,84 @@ export default function CharactersPage({ characters, setCharacters, onBack }) {
                           </select>
                         </div>
                         <div className="item-filter-row">
-                          <select
-                            value={itemClassFilter}
-                            onChange={(event) =>
-                              setItemClassFilter(event.target.value)
-                            }
-                            disabled={!classOptions.length}
-                            aria-label="Filter class"
-                          >
-                            <option value="all">
-                              {itemType === "armor" ? "All classes" : "All types"}
-                            </option>
-                            {classOptions.map((option) => (
-                              <option key={option} value={option}>
-                                {option}
+                          {!!classOptions.length && (
+                            <select
+                              value={itemClassFilter}
+                              onChange={(event) =>
+                                setItemClassFilter(event.target.value)
+                              }
+                              aria-label="Filter class"
+                            >
+                              <option value="all">
+                                {itemType === "armor"
+                                  ? "All classes"
+                                  : itemType === "magic-item"
+                                    ? "All rarities"
+                                    : itemType === "gear"
+                                      ? "All gear"
+                                      : "All types"}
                               </option>
-                            ))}
-                          </select>
+                              {classOptions.map((option) => (
+                                <option key={option} value={option}>
+                                  {option}
+                                </option>
+                              ))}
+                            </select>
+                          )}
+                          {weaponFiltersActive && (
+                            <>
+                              <select
+                                value={itemRange}
+                                onChange={(event) =>
+                                  setItemRange(event.target.value)
+                                }
+                                aria-label="Filter reach"
+                              >
+                                <option value="all">Any reach</option>
+                                {RANGE_BANDS.map((band) => (
+                                  <option key={band.id} value={band.id}>
+                                    {band.label}
+                                  </option>
+                                ))}
+                              </select>
+                              <select
+                                value={itemDamageType}
+                                onChange={(event) =>
+                                  setItemDamageType(event.target.value)
+                                }
+                                aria-label="Filter damage type"
+                              >
+                                <option value="all">Any damage</option>
+                                {DAMAGE_TYPES.map((dt) => (
+                                  <option key={dt} value={dt}>
+                                    {dt}
+                                  </option>
+                                ))}
+                              </select>
+                              <select
+                                value={itemProperty}
+                                onChange={(event) =>
+                                  setItemProperty(event.target.value)
+                                }
+                                aria-label="Filter property"
+                              >
+                                <option value="all">Any property</option>
+                                {WEAPON_PROPERTIES.map((property) => (
+                                  <option key={property} value={property}>
+                                    {property}
+                                  </option>
+                                ))}
+                              </select>
+                            </>
+                          )}
                           <select
-                            value={itemProperty}
-                            onChange={(event) =>
-                              setItemProperty(event.target.value)
-                            }
-                            disabled={!propertyEnabled}
-                            aria-label="Filter property"
+                            value={itemSort}
+                            onChange={(event) => setItemSort(event.target.value)}
+                            aria-label="Sort results"
                           >
-                            <option value="all">Any property</option>
-                            {WEAPON_PROPERTIES.map((property) => (
-                              <option key={property} value={property}>
-                                {property}
+                            {SORT_OPTIONS.map((option) => (
+                              <option key={option.id} value={option.id}>
+                                {option.label}
                               </option>
                             ))}
                           </select>

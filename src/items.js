@@ -199,6 +199,38 @@ export const MAGIC_ITEM_CLASSES = [
 export const WEAPON_PROPERTIES = [
   ...new Set(WEAPONS.flatMap((weapon) => weapon.properties || [])),
 ].sort();
+// Distinct weapon damage types, for the damage-type filter.
+export const DAMAGE_TYPES = [
+  ...new Set(WEAPONS.map((weapon) => weapon.damageType).filter(Boolean)),
+].sort();
+// Reach bands a weapon can be filtered by.
+export const RANGE_BANDS = [
+  { id: "melee", label: "Melee" },
+  { id: "ranged", label: "Ranged" },
+  { id: "thrown", label: "Thrown" },
+];
+export const SORT_OPTIONS = [
+  { id: "name", label: "Name (A–Z)" },
+  { id: "cost-asc", label: "Cost (low→high)" },
+  { id: "cost-desc", label: "Cost (high→low)" },
+];
+
+/** A single currency unit in copper pieces, for cost comparisons. */
+const COIN_IN_CP = { cp: 1, sp: 10, ep: 50, gp: 100, pp: 1000 };
+const costInCopper = (item) =>
+  item?.cost
+    ? (Number(item.cost.quantity) || 0) * (COIN_IN_CP[item.cost.unit] || 0)
+    : -1; // items without a listed cost (e.g. magic items) sort last/first cleanly
+
+/** How a weapon can be reached with: melee, ranged, or thrown. */
+const weaponRangeBand = (item) =>
+  item.kind !== "weapon"
+    ? null
+    : (item.properties || []).includes("Thrown")
+      ? "thrown"
+      : item.rangeType === "ranged"
+        ? "ranged"
+        : "melee";
 
 /** The class/category a catalog item belongs to, for filtering. */
 const itemClass = (item) =>
@@ -214,13 +246,31 @@ const itemClass = (item) =>
 
 export function filterCatalog(query = "", type = "all", filters = {}) {
   const needle = query.trim().toLowerCase();
-  const { category = "all", property = "all" } = filters;
-  return ITEM_CATALOG.filter((item) => {
+  const {
+    category = "all",
+    property = "all",
+    damageType = "all",
+    range = "all",
+    sort = "name",
+  } = filters;
+  const results = ITEM_CATALOG.filter((item) => {
     if (type !== "all" && item.kind !== type) return false;
     if (needle && !item.searchText.includes(needle)) return false;
     if (category !== "all" && itemClass(item) !== category) return false;
     if (property !== "all" && !(item.properties || []).includes(property))
       return false;
+    if (damageType !== "all" && item.damageType !== damageType) return false;
+    if (range !== "all" && weaponRangeBand(item) !== range) return false;
     return true;
   });
+  if (sort === "cost-asc" || sort === "cost-desc") {
+    const dir = sort === "cost-asc" ? 1 : -1;
+    results.sort((a, b) => {
+      const diff = costInCopper(a) - costInCopper(b);
+      return diff !== 0 ? diff * dir : a.name.localeCompare(b.name);
+    });
+  } else if (sort === "name") {
+    results.sort((a, b) => a.name.localeCompare(b.name));
+  }
+  return results;
 }
