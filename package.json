@@ -1,20 +1,57 @@
 {
-  "name": "roll30-tabletop",
+  "name": "roll30-ui-redesign-test",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
-    "test": "node --test src/*.test.js",
-    "preview": "vite preview"
+    "build": "vite build --base=/Roll30/",
+    "build:preview": "vite build --base=/Roll30-Nightforge/",
+    "preview": "vite preview",
+    "test": "node --test \"src/**/*.test.js\"",
+    "verify:phase1": "node scripts/verify-phase1.mjs",
+    "verify:phase2": "node scripts/verify-phase2.mjs",
+    "test:phase2:render": "node scripts/phase2-render-smoke.mjs",
+    "verify:phase3": "node scripts/verify-phase3.mjs",
+    "test:phase3:render": "node scripts/phase3-render-smoke.mjs",
+    "verify:phase4": "node scripts/verify-phase4.mjs",
+    "test:phase4:render": "node scripts/phase4-render-smoke.mjs",
+    "verify:phase5": "node scripts/verify-phase5.mjs",
+    "test:phase5:render": "node scripts/phase5-render-smoke.mjs",
+    "verify:phase6": "node scripts/verify-phase6.mjs",
+    "test:phase6:render": "node scripts/phase6-render-smoke.mjs",
+    "verify:phase7": "node scripts/verify-phase7.mjs",
+    "test:phase7:render": "node scripts/phase7-render-smoke.mjs",
+    "verify:phase8": "node scripts/verify-phase8.mjs",
+    "test:phase8:render": "node scripts/phase8-render-smoke.mjs",
+    "verify:phase9": "node scripts/verify-phase9.mjs",
+    "test:phase9:render": "node scripts/phase9-render-smoke.mjs",
+    "verify:phase10": "node scripts/verify-phase10.mjs",
+    "test:phase10:render": "node scripts/phase10-render-smoke.mjs",
+    "test:phase11": "node --test src/phase11.test.js",
+    "test:phase11:render": "node scripts/phase11-render-smoke.mjs",
+    "test:phase11:browser": "playwright test",
+    "verify:phase11": "node scripts/verify-phase11.mjs",
+    "verify:phase12": "node scripts/verify-phase12.mjs",
+    "acceptance:phase12": "node scripts/phase12-live-acceptance.mjs",
+    "verify:dependencies": "npm audit --audit-level=high",
+    "verify": "npm test && npm run test:phase2:render && npm run test:phase3:render && npm run test:phase4:render && npm run test:phase5:render && npm run test:phase6:render && npm run test:phase7:render && npm run test:phase8:render && npm run test:phase9:render && npm run test:phase10:render && npm run test:phase11:render && npm run verify:phase1 && npm run verify:phase2 && npm run verify:phase3 && npm run verify:phase4 && npm run verify:phase5 && npm run verify:phase6 && npm run verify:phase7 && npm run verify:phase8 && npm run verify:phase9 && npm run verify:phase10 && npm run test:phase11:browser && npm run verify:phase11 && npm run verify:phase12 && npm run verify:dependencies && npm run build"
   },
   "dependencies": {
-    "@vitejs/plugin-react": "latest",
-    "vite": "latest",
-    "react": "latest",
-    "react-dom": "latest",
-    "lucide-react": "latest"
+    "@vitejs/plugin-react": "6.0.4",
+    "lucide-react": "1.27.0",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "vite": "8.1.5"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@playwright/test": "1.62.1"
+  },
+  "optionalDependencies": {
+    "@emnapi/core": "1.11.3",
+    "@emnapi/runtime": "1.11.3"
+  },
+  "overrides": {
+    "nanoid": "3.3.18"
+  }
 }
