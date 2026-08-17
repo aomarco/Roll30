@@ -1,0 +1,1620 @@
+.nf-state-disabled[disabled] {
+  cursor: not-allowed;
+  opacity: .42;
+}
+
+/* Phase 10 conditional encounter states. Permanent Nightforge composition stays frozen. */
+.nf-state-bonus-command-group {
+  display: grid;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.nf-state-bonus-command-group > .label {
+  margin-bottom: 0;
+}
+
+.nf-state-table-chest-eligible {
+  box-shadow: 0 0 0 2px rgba(224, 176, 85, 0.5), 0 0 24px rgba(224, 176, 85, 0.32);
+}
+
+.nf-state-table-chest-eligible::after {
+  content: "OPEN";
+  position: absolute;
+  left: 50%;
+  bottom: -18px;
+  transform: translateX(-50%);
+  color: var(--brass);
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-shadow: 0 1px 4px #000;
+}
+
+.nf-state-table-chest-empty {
+  opacity: 0.72;
+}
+
+.nf-state-loot-list {
+  display: grid;
+  gap: 8px;
+}
+
+.nf-state-loot-list .btn {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  text-align: left;
+}
+
+.nf-state-loot-list .btn > span {
+  display: grid;
+  min-width: 0;
+}
+
+.nf-state-loot-list .btn small {
+  overflow: hidden;
+  color: var(--muted);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.nf-state-loot-list .btn em {
+  color: var(--brass);
+  font-style: normal;
+}
+
+.nf-state-loot-empty {
+  min-height: 190px;
+}
+
+.nf-state-battle-item {
+  position: absolute;
+  z-index: 14;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 24px;
+  padding: 4px 7px;
+  border: 1px solid rgba(224, 176, 85, 0.62);
+  border-radius: 999px;
+  background: rgba(18, 18, 24, 0.92);
+  color: var(--brass);
+  font: 700 8px/1 var(--sans);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 5px 16px rgba(0, 0, 0, 0.42);
+}
+
+.nf-state-battle-item:disabled {
+  cursor: default;
+}
+
+.nf-state-battle-item-ground {
+  border-style: solid;
+}
+
+.nf-state-battle-item-embedded {
+  margin: -24px 0 0 25px;
+  border-color: rgba(242, 97, 122, 0.66);
+  color: var(--foe);
+}
+
+.nf-state-battle-item-eligible {
+  cursor: pointer;
+  box-shadow: 0 0 0 2px rgba(71, 216, 162, 0.42), 0 0 22px rgba(71, 216, 162, 0.3);
+}
+
+.nf-state-battle-item-eligible:focus-visible {
+  outline: 2px solid var(--jade);
+  outline-offset: 3px;
+}
+
+.nf-state-table-embedded-count {
+  position: absolute;
+  right: -7px;
+  bottom: 2px;
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  min-width: 20px;
+  height: 17px;
+  padding: 0 4px;
+  border: 1px solid rgba(242, 97, 122, 0.72);
+  border-radius: 999px;
+  background: rgba(37, 12, 20, 0.94);
+  color: var(--foe);
+  font: 800 9px/1 var(--sans);
+}
+
+.nf-state-embedded-inspector .btn {
+  justify-content: flex-start;
+  margin-top: 7px;
+}
+
+.nf-state-battle-inventory .nf-state-table-chest-owned {
+  max-height: 184px;
+  overflow: auto;
+}
+
+.nf-state-battle-complete {
+  position: fixed;
+  z-index: 44;
+  left: 50%;
+  bottom: 28px;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 16px;
+  width: min(720px, calc(100vw - 72px));
+  padding: 15px 17px;
+  transform: translateX(-50%);
+}
+
+.nf-state-battle-complete-icon {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  border: 1px solid rgba(224, 176, 85, 0.48);
+  border-radius: 50%;
+  background: rgba(224, 176, 85, 0.12);
+  color: var(--brass);
+}
+
+.nf-state-battle-complete h2 {
+  margin: 2px 0 3px;
+  color: var(--text);
+  font-size: 17px;
+}
+
+.nf-state-battle-complete p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.nf-state-battle-complete-root .nf-state-table-targetable,
+.nf-state-battle-complete-root .nf-state-table-chest-eligible,
+.nf-state-battle-complete-root .nf-state-battle-item-eligible {
+  box-shadow: none;
+}
+
+.nf-state-retrieval-cinematic {
+  width: min(520px, calc(100vw - 44px));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nf-state-table-chest-eligible,
+  .nf-state-battle-item-eligible,
+  .nf-state-battle-complete,
+  .nf-state-retrieval-cinematic {
+    animation: none !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Phase 11 hardening: the same Nightforge composition at constrained layouts. */
+.nf-state-screen-root h1,
+.nf-state-screen-root h2,
+.nf-state-screen-root h3,
+.nf-state-screen-root strong,
+.nf-state-scene-root h1,
+.nf-state-scene-root h2,
+.nf-state-table-root h2,
+.nf-state-table-root strong {
+  overflow-wrap: anywhere;
+}
+
+.nf-state-screen-root .loot-meta,
+.nf-state-screen-root .ledger-meta,
+.nf-state-table-root .cast-meta,
+.nf-state-table-root .hud-scene,
+.nf-state-table-root .track-name {
+  min-width: 0;
+}
+
+.nf-state-screen-root .loot-meta strong,
+.nf-state-screen-root .loot-meta small,
+.nf-state-screen-root .ledger-meta strong,
+.nf-state-screen-root .ledger-meta small,
+.nf-state-table-root .hud-scene strong {
+  white-space: normal;
+}
+
+.nf-state-table-root .track-order {
+  scrollbar-width: thin;
+}
+
+.nf-state-table-root .dock-body {
+  overflow-anchor: none;
+}
+
+.nf-state-table-root .hud-tl {
+  max-width: calc(50vw - 128px);
+  overflow: hidden;
+}
+
+.nf-state-table-root .hud-tl .hud-scene {
+  overflow: hidden;
+}
+
+.nf-state-table-root .hud-tl .hud-scene > * {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 1080px) {
+  .nf-state-responsive-shell .deck {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 10px;
+  }
+
+  .nf-state-responsive-shell .deck-nav {
+    justify-self: center;
+  }
+
+  .nf-state-screen-root .measure {
+    padding-right: 24px;
+    padding-left: 24px;
+  }
+
+  .nf-state-scene-root .rig {
+    padding: 20px 22px;
+  }
+
+}
+
+@media (max-width: 900px) {
+  .nf-state-screen-root .masthead {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .nf-state-screen-root .masthead-acts,
+  .nf-state-screen-root .stage-foot,
+  .nf-state-screen-root .sheet-head,
+  .nf-state-screen-root .sheet-head > .row,
+  .nf-state-screen-root .loot-acts {
+    flex-wrap: wrap;
+  }
+
+  .nf-state-screen-root .codex-head {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .nf-state-table-root .track {
+    top: 70px;
+    bottom: auto;
+    width: calc(100vw - 24px);
+    max-width: none;
+    overflow-x: auto;
+  }
+
+  .nf-state-table-root .dock {
+    top: 148px;
+    bottom: 12px;
+    width: min(250px, calc(50vw - 18px));
+  }
+
+  .nf-state-table-root .dock-left { left: 12px; }
+  .nf-state-table-root .dock-right { right: 12px; }
+  .nf-state-table-root .hud-tl { left: 10px; max-width: min(230px, 34vw); }
+  .nf-state-table-root .hud-tr { right: 10px; }
+}
+
+@media (max-width: 720px) {
+  .nf-state-responsive-shell .deck {
+    gap: 6px;
+    padding: 0 8px;
+  }
+
+  .nf-state-responsive-shell .brand {
+    padding-right: 4px;
+  }
+
+  .nf-state-responsive-shell .brand-type {
+    display: none;
+  }
+
+  .nf-state-responsive-shell .deck-tab {
+    gap: 5px;
+    padding: 0 9px;
+  }
+
+  .nf-state-responsive-shell .deck-tail .btn {
+    padding: 0 10px;
+  }
+
+  .nf-state-screen-root .measure {
+    padding: 24px 16px 64px;
+  }
+
+  .nf-state-screen-root .masthead h1 {
+    font-size: 34px;
+  }
+
+  .nf-state-screen-root .masthead-acts > .btn,
+  .nf-state-screen-root .stage-foot > .btn {
+    flex: 1 1 170px;
+  }
+
+  .nf-state-screen-root .stage-body,
+  .nf-state-screen-root .codex,
+  .nf-state-screen-root .sheet {
+    padding-right: 20px;
+    padding-left: 20px;
+  }
+
+  .nf-state-screen-root .picks,
+  .nf-state-screen-root .identity {
+    grid-template-columns: 1fr;
+  }
+
+  .nf-state-screen-root .identity .span-all {
+    grid-column: auto;
+  }
+
+  .nf-state-screen-root .chapters {
+    display: flex;
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .nf-state-screen-root .chapter {
+    flex: none;
+  }
+
+  .nf-state-scene-root .rig {
+    min-height: 280px;
+    padding: 14px;
+  }
+
+  .nf-state-scene-root .rig-bar,
+  .nf-state-scene-root .rig-tools,
+  .nf-state-scene-root .tune-title {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .nf-state-scene-root .tuner {
+    padding-right: 20px;
+    padding-left: 20px;
+  }
+
+  .nf-state-table-root .hud-tc {
+    top: 64px;
+  }
+
+  .nf-state-table-root .track {
+    top: 110px;
+  }
+
+  .nf-state-table-root .dock {
+    top: 190px;
+    width: min(238px, calc(50vw - 16px));
+  }
+
+  .nf-state-table-root .phase button {
+    padding: 0 10px;
+  }
+
+  .nf-state-battle-complete {
+    bottom: 12px;
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .nf-state-battle-complete .btn {
+    grid-column: 1 / -1;
+  }
+}
+
+.nf-state-busy button[disabled] {
+  cursor: wait;
+  opacity: .55;
+}
+
+.nf-state-artwork-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.nf-state-notice {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin: -16px 0 24px;
+  padding: 12px 16px;
+  border: 1px solid var(--foe-edge);
+  border-radius: var(--r-md);
+  color: var(--ink-2);
+  background: var(--foe-tint);
+}
+
+.nf-state-notice strong {
+  flex: none;
+  color: var(--ink);
+}
+
+.nf-state-notice span {
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.nf-state-recovery {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin: -16px 0 24px;
+  padding: 12px 16px;
+  border: 1px solid var(--jade-edge);
+  border-radius: var(--r-md);
+  color: var(--ink-2);
+  background: var(--jade-tint);
+}
+
+.nf-state-recovery strong {
+  flex: none;
+  color: var(--ink);
+}
+
+.nf-state-recovery span {
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.nf-state-inline-error {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 12px 14px;
+  border: 1px solid var(--foe-edge);
+  border-radius: var(--r-md);
+  color: var(--ink-2);
+  background: var(--foe-tint);
+}
+
+.nf-state-inline-error strong {
+  color: var(--ink);
+}
+
+.nf-state-inline-error span {
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.nf-state-empty-stage .stage-body {
+  max-width: 680px;
+}
+
+.nf-state-drawer-form {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  flex-direction: column;
+}
+
+.nf-state-heroes-empty {
+  min-height: 270px;
+}
+
+.nf-state-heroes-empty-body {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  min-height: 270px;
+  padding: 36px;
+}
+
+.nf-state-heroes-empty-body > div {
+  flex: 1;
+}
+
+.nf-state-heroes-empty-body h2 {
+  margin: 6px 0 8px;
+  font-family: var(--serif);
+  font-size: 28px;
+}
+
+.nf-state-hero-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-top: 20px;
+}
+
+.nf-state-hero-panel {
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: rgba(7, 16, 18, .42);
+}
+
+.nf-state-hero-panel > .note {
+  margin: 10px 0 14px;
+}
+
+.nf-state-hero-checks {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.nf-state-hero-checks .toggle-chip,
+.nf-state-hero-skills .toggle-chip {
+  justify-content: space-between;
+}
+
+.nf-state-hero-skills {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.nf-state-hero-skills small {
+  margin-left: 4px;
+  color: var(--ink-3);
+  font-family: var(--mono);
+  font-size: 9px;
+}
+
+.nf-state-hero-spellcasting .quad {
+  margin: 12px 0;
+}
+
+.nf-state-hero-spellcasting .note {
+  margin-bottom: 0;
+}
+
+@media (max-width: 1080px) {
+  .nf-state-hero-checks { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .nf-state-hero-skills { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 720px) {
+  .nf-state-heroes-empty-body { align-items: flex-start; flex-direction: column; }
+  .nf-state-hero-checks,
+  .nf-state-hero-skills { grid-template-columns: 1fr; }
+}
+
+.nf-state-loot-button {
+  cursor: pointer;
+}
+
+.nf-state-loot-button:focus-within {
+  border-color: var(--jade);
+}
+
+.nf-state-gear-continuation {
+  display: grid;
+  gap: 14px;
+  margin-top: 22px;
+}
+
+.nf-state-gear-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 16px;
+}
+
+.nf-state-gear-bonuses {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.nf-state-gear-bonuses > span {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  padding: 12px;
+  color: var(--ink-3);
+  font-size: 11px;
+  background: rgba(255,255,255,.025);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+}
+
+.nf-state-gear-bonuses strong {
+  color: var(--ink);
+  font-size: 16px;
+}
+
+.nf-state-gear-drawer {
+  width: min(620px, calc(100vw - 24px));
+}
+
+.nf-state-catalog-filters {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.nf-state-catalog-results {
+  min-height: 120px;
+}
+
+.nf-state-catalog-results .loot {
+  padding: 10px;
+}
+
+.nf-state-catalog-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 116px;
+  padding: 24px;
+  color: var(--ink-3);
+  text-align: center;
+  border: 1px dashed var(--line-2);
+  border-radius: var(--r-md);
+}
+
+.nf-state-catalog-empty strong {
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 18px;
+}
+
+.nf-state-item-hero {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--line);
+}
+
+.nf-state-item-hero > div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.nf-state-equipment-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 12px;
+}
+
+@media (max-width: 760px) {
+  .nf-state-gear-fields { grid-template-columns: 1fr; }
+  .nf-state-gear-bonuses { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .nf-state-catalog-filters { grid-template-columns: 1fr; }
+  .nf-state-equipment-actions { grid-template-columns: 1fr; }
+}
+
+.nf-state-table-map {
+  touch-action: none;
+  cursor: grab;
+}
+
+.nf-state-table-map:active {
+  cursor: grabbing;
+}
+
+.nf-state-table-world {
+  position: absolute;
+  inset: 0;
+  transform-origin: 0 0;
+  will-change: transform;
+}
+
+.nf-state-table-plane {
+  position: absolute;
+  inset: 0;
+}
+
+.nf-state-table-artwork {
+  position: absolute;
+  inset: 0;
+  transform-origin: center;
+  will-change: transform;
+}
+
+.nf-state-table-artwork img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  user-select: none;
+  pointer-events: none;
+}
+
+.nf-state-table-infinite-grid {
+  inset: -4000px;
+  background-size: var(--nf-grid-size) var(--nf-grid-size);
+  pointer-events: none;
+}
+
+.nf-state-table-infinite-grid::after {
+  background-size: var(--nf-grid-major) var(--nf-grid-major);
+}
+
+.nf-state-table-geometry {
+  position: absolute;
+  z-index: 4;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.nf-state-table-wall {
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,.7));
+}
+
+.nf-state-table-wall-full {
+  stroke: var(--foe);
+}
+
+.nf-state-table-wall-half {
+  stroke: var(--brass);
+  stroke-dasharray: 7 5;
+}
+
+.nf-state-table-wall-draft {
+  opacity: .72;
+}
+
+.nf-state-table-ruler-line {
+  stroke: var(--brass-hi);
+  stroke-width: 2;
+  stroke-dasharray: 6 5;
+  filter: drop-shadow(0 0 5px var(--brass-glow));
+}
+
+.nf-state-table-ruler-label {
+  position: absolute;
+  z-index: 7;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.nf-state-table-tools-trigger {
+  font: inherit;
+  cursor: pointer;
+}
+
+.nf-state-table-tools-trigger:hover {
+  border-color: var(--brass);
+  color: var(--brass-hi);
+}
+
+.nf-state-table-tools-drawer {
+  width: min(500px, calc(100vw - 24px));
+}
+
+.nf-state-table-tools-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.nf-state-table-tools-wide {
+  grid-column: 1 / -1;
+}
+
+.nf-state-table-tool-status {
+  position: absolute;
+  z-index: 19;
+  left: 50%;
+  top: 74px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  transform: translateX(-50%);
+  padding: 6px 7px 6px 9px;
+  border-radius: var(--r-full);
+}
+
+.nf-state-table-error {
+  position: absolute;
+  z-index: 24;
+  left: 50%;
+  bottom: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  width: min(420px, calc(100vw - 40px));
+  padding: 11px 14px;
+  transform: translateX(-50%);
+  color: var(--foe);
+  font-size: 11px;
+  border: 1px solid rgba(242,97,122,.32);
+  border-radius: var(--r-md);
+}
+
+.nf-state-table-error span {
+  color: var(--ink-2);
+}
+
+.nf-state-table-position {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.nf-state-table-position > span {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 11px 12px;
+  color: var(--ink-4);
+  font-size: 10px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: rgba(0,0,0,.24);
+}
+
+.nf-state-table-position strong {
+  color: var(--ink);
+}
+
+.nf-state-table-tool-artwork {
+  cursor: move;
+}
+
+.nf-state-table-tool-wall-full {
+  cursor: crosshair;
+}
+
+.nf-state-table-tool-wall-half {
+  cursor: crosshair;
+}
+
+.nf-state-table-tool-ruler {
+  cursor: crosshair;
+}
+
+.nf-state-table-chest {
+  position: absolute;
+  z-index: 5;
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  color: var(--brass-hi);
+  background: linear-gradient(145deg, rgba(126,82,33,.96), rgba(52,31,16,.98));
+  border: 1px solid rgba(224,176,85,.55);
+  border-radius: 9px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.2), 0 8px 20px -6px rgba(0,0,0,.8);
+  transform: translate(-50%, -50%);
+  transition: transform var(--bounce), box-shadow var(--ease), filter var(--ease);
+}
+
+.nf-state-table-chest:hover {
+  z-index: 7;
+  transform: translate(-50%, -50%) scale(1.06);
+}
+
+.nf-state-table-chest.on {
+  z-index: 8;
+  box-shadow: 0 0 0 3px rgba(224,176,85,.24), 0 0 22px rgba(224,176,85,.28), 0 8px 20px -6px rgba(0,0,0,.8);
+}
+
+.nf-state-table-chest.blocked {
+  filter: saturate(1.5) drop-shadow(0 0 8px var(--foe));
+}
+
+.nf-state-table-map .piece.blocked {
+  filter: saturate(1.5) drop-shadow(0 0 8px var(--foe));
+}
+
+.nf-state-table-chest-count {
+  position: absolute;
+  right: -7px;
+  bottom: -7px;
+  display: grid;
+  place-items: center;
+  min-width: 19px;
+  height: 19px;
+  padding: 0 4px;
+  color: var(--void);
+  font-size: 9px;
+  background: var(--brass);
+  border: 2px solid var(--void-2);
+  border-radius: var(--r-full);
+}
+
+.nf-state-table-chest-sigil {
+  color: var(--brass-hi);
+  background: linear-gradient(145deg, rgba(126,82,33,.9), rgba(52,31,16,.95));
+  border: 1px solid rgba(224,176,85,.38);
+}
+
+.nf-state-table-snapshot-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 7px;
+}
+
+.nf-state-table-snapshot-grid > span {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 5px;
+  padding: 10px 8px;
+  text-align: center;
+  background: rgba(0,0,0,.22);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+}
+
+.nf-state-table-snapshot-grid small {
+  overflow: hidden;
+  color: var(--ink-4);
+  font-size: 8.5px;
+  letter-spacing: .08em;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.nf-state-table-snapshot-grid strong {
+  overflow: hidden;
+  color: var(--ink);
+  font-size: 14px;
+  text-overflow: ellipsis;
+  text-transform: capitalize;
+}
+
+.nf-state-table-setup-gear > .sheet {
+  padding: 0;
+  background: none;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.nf-state-table-setup-gear .sheet-head {
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 10px;
+  padding-bottom: 12px;
+  margin-bottom: 14px;
+}
+
+.nf-state-table-setup-gear .sheet-head h3 {
+  font-size: 18px;
+}
+
+.nf-state-table-setup-gear .sheet-head > .row {
+  width: 100%;
+  align-items: stretch;
+  flex-direction: column;
+}
+
+.nf-state-table-setup-gear .loot {
+  align-items: flex-start;
+  flex-wrap: wrap;
+  padding: 9px;
+}
+
+.nf-state-table-setup-gear .loot-acts {
+  width: 100%;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+.nf-state-table-setup-gear .nf-state-gear-fields {
+  grid-template-columns: 1fr;
+}
+
+.nf-state-table-setup-gear .nf-state-gear-bonuses {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.nf-state-table-chest-owned {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.nf-state-table-chest-owned > span {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 9px 10px;
+  font-size: 12px;
+  background: rgba(0,0,0,.2);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+}
+
+.nf-state-table-chest-owned em {
+  color: var(--brass);
+  font-style: normal;
+}
+
+.nf-state-table-chest-drawer {
+  width: min(660px, calc(100vw - 24px));
+}
+
+.nf-state-table-chest-catalog {
+  padding-bottom: 12px;
+}
+
+.nf-state-table-chest-catalog .loot {
+  min-height: 62px;
+}
+
+.nf-state-table-movement-route {
+  position: absolute;
+  z-index: 6;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.nf-state-table-movement-reachable {
+  stroke: var(--jade);
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 0 5px rgba(71, 216, 162, .78));
+}
+
+.nf-state-table-movement-over {
+  stroke: var(--foe);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 6 5;
+  opacity: .92;
+  filter: drop-shadow(0 0 4px rgba(242, 97, 122, .72));
+}
+
+.nf-state-table-movement-start {
+  fill: #fff;
+  stroke: rgba(3, 6, 7, .88);
+  stroke-width: 2;
+  filter: drop-shadow(0 0 5px rgba(255, 255, 255, .9));
+}
+
+.nf-state-table-movement-stop {
+  fill: var(--jade);
+  stroke: rgba(3, 6, 7, .88);
+  stroke-width: 2;
+  filter: drop-shadow(0 0 6px rgba(71, 216, 162, .9));
+}
+
+.nf-state-table-movement-label {
+  position: absolute;
+  z-index: 9;
+  transform: translate(-50%, calc(-100% - 14px));
+  color: var(--jade);
+  border-color: var(--jade-edge);
+  background: rgba(3, 9, 10, .9);
+  pointer-events: none;
+}
+
+.nf-state-table-movement-label-over {
+  color: var(--foe);
+  border-color: var(--foe-edge);
+}
+
+.nf-state-table-map .piece.nf-state-table-arriving .piece-disc {
+  transform: scale(1.14);
+  filter: brightness(1.18);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.42),
+    inset 0 -3px 10px rgba(0,0,0,.4),
+    0 0 0 3px var(--jade),
+    0 0 24px rgba(71, 216, 162, .68),
+    0 12px 30px -6px rgba(0,0,0,.8);
+}
+
+.nf-state-command-pip {
+  appearance: none;
+  font: inherit;
+  cursor: pointer;
+  transition: color var(--ease), background var(--ease), border-color var(--ease), transform var(--ease);
+}
+
+.nf-state-command-pip:hover:not([disabled]),
+.nf-state-command-pip:focus-visible {
+  color: var(--brass-hi);
+  background: var(--brass-tint);
+  border-color: var(--brass);
+  transform: translateY(-1px);
+  outline: none;
+}
+
+.nf-state-command-pip.spent {
+  color: var(--ink-3);
+  background: rgba(255, 255, 255, .025);
+  border-color: var(--line);
+}
+
+.nf-state-command-pip[disabled] {
+  cursor: not-allowed;
+  opacity: .42;
+}
+
+.nf-state-combat-drawer {
+  width: min(520px, calc(100vw - 24px));
+}
+
+.nf-state-combat-resource-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.nf-state-combat-resource-grid > span {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 6px;
+  padding: 11px 12px;
+  background: rgba(0, 0, 0, .22);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+}
+
+.nf-state-combat-resource-grid small {
+  color: var(--ink-4);
+  font-size: 9px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.nf-state-combat-resource-grid strong {
+  overflow: hidden;
+  color: var(--ink);
+  font-size: 13px;
+  text-overflow: ellipsis;
+  text-transform: capitalize;
+  white-space: nowrap;
+}
+
+.nf-state-command-reason {
+  min-width: 0;
+  margin-left: auto;
+  overflow: hidden;
+  color: var(--ink-4);
+  font-size: 10px;
+  font-weight: 500;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.nf-state-combat-swap-draft {
+  padding: 14px;
+  background: rgba(0, 0, 0, .18);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+}
+
+.nf-state-combat-attack-draft {
+  padding: 14px;
+  background: rgba(0, 0, 0, .18);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+}
+
+.nf-state-combat-weapon-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.nf-state-combat-weapon-copy {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+  text-align: left;
+}
+
+.nf-state-combat-weapon-copy strong,
+.nf-state-combat-weapon-copy small {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.nf-state-combat-weapon-copy small {
+  color: var(--ink-4);
+  font-size: 9px;
+  font-weight: 500;
+}
+
+.nf-state-table-attack-range {
+  position: absolute;
+  z-index: 3;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.nf-state-table-attack-grid-line {
+  stroke: rgba(236, 242, 237, .16);
+  stroke-width: 1;
+}
+
+.nf-state-table-attack-band {
+  stroke-width: 2;
+  stroke-linejoin: round;
+}
+
+.nf-state-table-attack-green {
+  stroke: var(--jade);
+}
+
+.nf-state-table-attack-yellow {
+  stroke: var(--brass);
+}
+
+.nf-state-table-attack-red {
+  stroke: var(--foe);
+  stroke-dasharray: 6 4;
+}
+
+.nf-state-table-attack-mode {
+  cursor: crosshair;
+}
+
+.nf-state-table-map .piece.nf-state-table-targetable {
+  z-index: 8;
+  cursor: crosshair;
+}
+
+.nf-state-table-map .piece.nf-state-table-targetable .piece-disc {
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.42),
+    inset 0 -3px 10px rgba(0,0,0,.4),
+    0 0 0 3px var(--jade),
+    0 0 22px rgba(71,216,162,.55),
+    0 12px 30px -6px rgba(0,0,0,.8);
+}
+
+.nf-state-table-attack-status {
+  max-width: min(760px, calc(100vw - 80px));
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.nf-state-table-range-key {
+  background: rgba(3, 9, 10, .78);
+}
+
+.nf-state-table-range-key-green {
+  color: var(--jade);
+  border-color: var(--jade-edge);
+}
+
+.nf-state-table-range-key-yellow {
+  color: var(--brass-hi);
+  border-color: var(--brass-edge);
+}
+
+.nf-state-table-range-key-red {
+  color: var(--foe);
+  border-color: var(--foe-edge);
+}
+
+.nf-state-table-condition-badges {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 13px);
+  display: flex;
+  max-width: 132px;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 3px;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.nf-state-table-condition-badges i {
+  display: grid;
+  place-items: center;
+  min-width: 22px;
+  height: 17px;
+  padding: 0 4px;
+  color: #fff;
+  font-family: var(--mono);
+  font-size: 7px;
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: .04em;
+  background: var(--nf-condition);
+  border: 1px solid rgba(255,255,255,.3);
+  border-radius: var(--r-full);
+  box-shadow: 0 3px 9px rgba(0,0,0,.52);
+}
+
+.nf-state-condition-chip.on {
+  color: #fff;
+  background: color-mix(in srgb, var(--nf-condition) 72%, var(--deep));
+  border-color: var(--nf-condition);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--nf-condition) 32%, transparent);
+}
+
+.nf-state-table-map .piece.nf-state-table-hit .piece-disc {
+  transform: scale(1.13) rotate(-4deg);
+  filter: brightness(1.28) saturate(1.2);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.42),
+    inset 0 -3px 10px rgba(0,0,0,.4),
+    0 0 0 3px var(--foe),
+    0 0 28px rgba(242,97,122,.7),
+    0 12px 30px -6px rgba(0,0,0,.8);
+}
+
+.nf-state-table-map .piece.nf-state-table-critical .piece-disc {
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.42),
+    inset 0 -3px 10px rgba(0,0,0,.4),
+    0 0 0 3px var(--brass-hi),
+    0 0 34px var(--brass-glow),
+    0 12px 30px -6px rgba(0,0,0,.8);
+}
+
+.nf-state-table-damage-float {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 42px);
+  transform: translateX(-50%);
+  color: var(--foe);
+  font-family: var(--serif);
+  font-size: 21px;
+  font-weight: 700;
+  text-shadow: 0 2px 8px rgba(0,0,0,.9), 0 0 14px rgba(242,97,122,.65);
+  white-space: nowrap;
+  pointer-events: none;
+  animation: rise var(--bounce) both;
+}
+
+.nf-state-cinematic-veil {
+  position: fixed;
+  z-index: 100;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(6, 15, 17, .36), rgba(2, 5, 6, .88));
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+
+.nf-state-cinematic {
+  position: fixed;
+  z-index: 101;
+  left: 50%;
+  top: 50%;
+  display: flex;
+  width: min(620px, calc(100vw - 36px));
+  max-height: calc(100vh - 36px);
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  padding: 30px;
+  transform: translate(-50%, -50%);
+  overflow-y: auto;
+  color: var(--ink);
+  text-align: center;
+  background: linear-gradient(180deg, rgba(18,31,33,.98), rgba(5,12,14,.98));
+  border: 1px solid var(--line-2);
+  border-radius: var(--r-xl);
+  box-shadow: var(--lift-4), inset 0 1px 0 rgba(255,255,255,.05);
+  animation: fade var(--ease) both;
+}
+
+.nf-state-cinematic-heading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+}
+
+.nf-state-cinematic-heading h2 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--serif);
+  font-size: clamp(23px, 4vw, 34px);
+  font-weight: 600;
+}
+
+.nf-state-cinematic-heading p {
+  color: var(--ink-3);
+  font-size: 11px;
+  text-transform: capitalize;
+}
+
+.nf-state-cinematic-dice {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+}
+
+.nf-state-cinematic-die {
+  display: grid;
+  place-items: center;
+  width: 82px;
+  height: 82px;
+  color: var(--brass-hi);
+  font-family: var(--mono);
+  font-size: 30px;
+  font-weight: 700;
+  background: radial-gradient(circle at 35% 25%, rgba(224,176,85,.18), rgba(0,0,0,.36));
+  border: 1px solid var(--brass-edge);
+  border-radius: 24px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.08), 0 14px 30px -16px rgba(0,0,0,.9);
+  transition: transform var(--bounce), opacity var(--ease), filter var(--ease), border-color var(--ease);
+}
+
+.nf-state-cinematic-die small {
+  margin-top: -22px;
+  color: var(--ink-4);
+  font-size: 8px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+.nf-state-cinematic-spin .nf-state-cinematic-die {
+  transform: rotate(12deg) scale(.94);
+  filter: blur(1px);
+  animation: pulse-ring .42s ease-in-out infinite;
+}
+
+.nf-state-cinematic-die.rejected {
+  opacity: .3;
+  filter: grayscale(.8);
+  transform: scale(.9);
+}
+
+.nf-state-cinematic-die.selected {
+  border-color: var(--jade);
+  box-shadow: 0 0 0 2px var(--jade-edge), 0 0 25px rgba(71,216,162,.24);
+}
+
+.nf-state-cinematic-readout {
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.nf-state-cinematic-readout p {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 39px;
+  padding: 9px 11px;
+  color: var(--ink-3);
+  font-size: 11px;
+  background: rgba(0,0,0,.2);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+}
+
+.nf-state-cinematic-readout p:only-child {
+  grid-column: 1 / -1;
+}
+
+.nf-state-cinematic-verdict {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  gap: 5px;
+  padding: 14px 18px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+}
+
+.nf-state-cinematic-verdict strong {
+  font-family: var(--serif);
+  font-size: 25px;
+}
+
+.nf-state-cinematic-verdict span {
+  color: var(--ink-3);
+  font-size: 11px;
+}
+
+.nf-state-cinematic-verdict-hit {
+  color: var(--jade);
+  background: var(--jade-tint);
+  border-color: var(--jade-edge);
+}
+
+.nf-state-cinematic-verdict-critical {
+  color: var(--brass-hi);
+  background: var(--brass-tint);
+  border-color: var(--brass-edge);
+}
+
+.nf-state-cinematic-verdict-miss {
+  color: var(--ink-3);
+  background: rgba(255,255,255,.025);
+}
+
+.nf-state-cinematic-damage {
+  display: grid;
+  place-items: center;
+  min-width: 150px;
+  padding: 13px 24px;
+  background: var(--foe-tint);
+  border: 1px solid var(--foe-edge);
+  border-radius: var(--r-md);
+}
+
+.nf-state-cinematic-damage strong {
+  color: var(--foe);
+  font-size: 38px;
+  line-height: 1;
+}
+
+.nf-state-cinematic-damage small {
+  margin-top: 7px;
+  color: var(--ink-3);
+  font-family: var(--mono);
+  font-size: 9px;
+}
+
+.nf-state-cinematic-impact-copy {
+  color: var(--ink-2);
+  font-family: var(--mono);
+  font-size: 12px;
+}
+
+.nf-state-cinematic-sources {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+}
+
+.nf-state-combat-locked .track,
+.nf-state-combat-locked .dock,
+.nf-state-combat-locked .hud {
+  pointer-events: none;
+}
+
+@media (max-width: 720px) {
+  .nf-state-table-tools-grid { grid-template-columns: 1fr; }
+  .nf-state-table-tools-wide { grid-column: auto; }
+  .nf-state-table-snapshot-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .nf-state-combat-resource-grid { grid-template-columns: 1fr; }
+  .nf-state-cinematic { padding: 22px 16px; }
+  .nf-state-cinematic-readout { grid-template-columns: 1fr; }
+  .nf-state-cinematic-readout p { grid-column: auto; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nf-state-cinematic,
+  .nf-state-cinematic-die,
+  .nf-state-table-damage-float,
+  .nf-state-table-map .piece.nf-state-table-hit .piece-disc {
+    animation: none;
+    transition-duration: .01ms;
+  }
+}
